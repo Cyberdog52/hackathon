@@ -1,0 +1,6 @@
+
+allprojects {
+    wrapper {
+        gradleVersion = '7.2'
+    }
+}
