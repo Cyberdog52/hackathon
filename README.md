@@ -5,8 +5,9 @@
 
 If your setup already has some of the required tools installed, please adjust accordingly.
 1. Install Node 12.14.0 from here https://nodejs.org/en/blog/release/v12.14.0/
-2. Run `npm install -g @angular/cli@12.2.4`
-3. Verify your versions with `ng version`:  
+2. Run `npm install -g npm@7.22.0`
+3. Run `npm install -g @angular/cli@12.2.4`
+4. Verify your versions with `ng version`:  
    Angular CLI: **12.2.4**  
    Node: **12.14.0**  
    Package Manager: **npm 7.22.0**  
