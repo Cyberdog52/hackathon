@@ -58,7 +58,7 @@ is not working at the time of this writing. Here is how you can test the Insight
 1. Install Postman from https://www.postman.com/downloads/
 2. On the top-left corner in Postman click **Import** and select **Link**
 3. Enter https://insight.zuehlke.com/swagger/docs/v1 in the link and press **Continue**
-   ![postman.png](doc/postman-import.png)
+   ![postman-import.png](doc/postman-import.png)
 4. On the next screen, you can verify the collection name (WebApi), format (Swagger 2.0) and Import as (API). Click **
    Import**. This may take a while.
 5. You will see the new collection 'WebApi' under collections
