@@ -6,7 +6,7 @@ plugins {
 
 group = 'ch.zuehlke.fullstack'
 version = '1.0.0'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 bootJar {
     into('static') {
