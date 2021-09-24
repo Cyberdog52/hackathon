@@ -68,14 +68,32 @@ is not working at the time of this writing. Here is how you can test the Insight
 
 ## Other API ideas
 
+- RapidApi: Overview of a large collection of APIs
+    - https://rapidapi.com/hub
+
 - Weather
+    - https://rapidapi.com/blog/access-global-weather-data-with-these-weather-apis/
 
 - Google Maps
+    - https://developers.google.com/maps/documentation/javascript/get-api-key
+
+- Reddit
+    - https://www.reddit.com/dev/api/
 
 - Twitter
+    - https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api
 
 - Youtube
+    - https://developers.google.com/youtube/v3
 
-- RapidApi
+- LinkedIn
+    - https://developer.linkedin.com/
 
-- Tmdb
+- Tmdb The Movie Database
+    - https://developers.themoviedb.org/3/getting-started/introduction
+
+- Microsoft Teams
+    - https://docs.microsoft.com/en-us/graph/api/resources/teams-api-overview?view=graph-rest-1.0
+
+- Microsoft Outlook
+    - https://docs.microsoft.com/en-us/outlook/rest/get-started
