@@ -3,6 +3,9 @@
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-* {
+body {
   font-family: 'Quicksand', "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
 }
