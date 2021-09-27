@@ -14,11 +14,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
-public class EmployeeClient {
+public class InsightClient {
     private final String searchPath = "/api/v1/employees/search";
     private final RestTemplate restTemplate;
     
-    public EmployeeClient(RestTemplateFactory factory) {
+    public InsightClient(RestTemplateFactory factory) {
         this.restTemplate = factory.getInsightRestTemplate();
     }
 

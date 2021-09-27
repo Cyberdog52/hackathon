@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.fullstack.hackathon.model.UserInfo;
-import ch.zuehlke.fullstack.hackathon.service.EmployeeClient;
+import ch.zuehlke.fullstack.hackathon.service.InsightClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,18 +16,18 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final EmployeeClient employeeClient;
+    private final InsightClient insightClient;
 
     @Autowired
-    public UserController(EmployeeClient employeeClient) {
-        this.employeeClient = employeeClient;
+    public UserController(InsightClient insightClient) {
+        this.insightClient = insightClient;
     }
     
     @GetMapping("/search")
     public ResponseEntity<UserInfo> getExample(@RequestParam String term) {
         UserInfo result;
         try {
-            List<UserInfo> response = this.employeeClient.getEmployees(term);
+            List<UserInfo> response = this.insightClient.getEmployees(term);
             if(response != null && response.size() > 0) {
                 result = response.get(0);
                 return new ResponseEntity<>(result, HttpStatus.OK);
