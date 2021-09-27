@@ -42,7 +42,6 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_SITE_DEPLOYMENT_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          output_location: ${GITHUB_REF##*/}
           action: 'upload'
           skip_app_build: true
           app_location: 'frontend/dist/frontend'
