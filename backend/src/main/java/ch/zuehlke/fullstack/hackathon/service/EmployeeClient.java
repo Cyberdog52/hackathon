@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.fullstack.hackathon.RestTemplateFactory;
 import ch.zuehlke.fullstack.hackathon.model.UserInfo;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +15,10 @@ import java.util.List;
 @Service
 public class EmployeeClient {
     private final String searchPath = "/api/v1/employees/search";
-    private final String baseUrl = "https://insight.zuehlke.com";
     private final RestTemplate restTemplate;
-    private final String API_USER = "foo";
-    private final String API_PASSWORD = "bar";
-
-    public EmployeeClient(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder
-                .rootUri(baseUrl)
-                .basicAuthentication(API_USER, API_PASSWORD)
-                .build();
+    
+    public EmployeeClient(RestTemplateFactory factory) {
+        this.restTemplate = factory.getInsightRestTemplate();
     }
 
     public List<UserInfo> getEmployees(String searchTerm) {
