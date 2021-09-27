@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.domain;
+package ch.zuehlke.fullstack.hackathon.model;
 
 public class Moves {
     public Move UP = Move.UP;

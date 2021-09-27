@@ -1,6 +1,10 @@
-package ch.zuehlke.fullstack.hackathon.domain;
+package ch.zuehlke.fullstack.hackathon.controller;
 
 
+import ch.zuehlke.fullstack.hackathon.model.FieldObjects;
+import ch.zuehlke.fullstack.hackathon.model.Move;
+import ch.zuehlke.fullstack.hackathon.model.Moves;
+import ch.zuehlke.fullstack.hackathon.model.Surroundings;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Value;

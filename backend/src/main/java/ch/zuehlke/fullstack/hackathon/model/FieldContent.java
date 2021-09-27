@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.domain;
+package ch.zuehlke.fullstack.hackathon.model;
 
 public enum FieldContent {
     EMPTY,
