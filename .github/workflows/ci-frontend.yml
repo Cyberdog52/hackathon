@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
         
       - name: Build Frontend
-        run: npm build
+        run: npm run-script build
         working-directory: frontend
         
       - name: Deploy Web App to Azure
