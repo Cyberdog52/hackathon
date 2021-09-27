@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -22,10 +23,11 @@ public class EmployeeClient {
     }
 
     public List<UserInfo> getEmployees(String searchTerm) {
-        String searchResourceUrl = searchPath + "?term=" +
-                URLEncoder.encode(searchTerm, StandardCharsets.UTF_8);
+        String uriPath = UriComponentsBuilder.fromPath(searchPath).queryParam("term", 
+                URLEncoder.encode(searchTerm, StandardCharsets.UTF_8))
+                .toUriString();
         ResponseEntity<List<UserInfo>> response
-                = restTemplate.exchange(searchResourceUrl, HttpMethod.GET, null,
+                = restTemplate.exchange(uriPath, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {
                 });
 
