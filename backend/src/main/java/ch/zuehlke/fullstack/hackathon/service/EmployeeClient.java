@@ -1,6 +1,6 @@
-package ch.zuehlke.fullstack.hackathon.integration;
+package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.fullstack.hackathon.domain.UserInfo;
+import ch.zuehlke.fullstack.hackathon.model.UserInfo;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;

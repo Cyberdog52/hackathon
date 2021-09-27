@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.domain;
+package ch.zuehlke.fullstack.hackathon.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

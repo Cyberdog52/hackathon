@@ -1,7 +1,7 @@
-package ch.zuehlke.fullstack.hackathon.presentation;
+package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.fullstack.hackathon.domain.UserInfo;
-import ch.zuehlke.fullstack.hackathon.integration.EmployeeClient;
+import ch.zuehlke.fullstack.hackathon.model.UserInfo;
+import ch.zuehlke.fullstack.hackathon.service.EmployeeClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserResource {
+public class UserController {
 
     private final EmployeeClient employeeClient;
 
     @Autowired
-    public UserResource(EmployeeClient employeeClient) {
+    public UserController(EmployeeClient employeeClient) {
         this.employeeClient = employeeClient;
     }
     
