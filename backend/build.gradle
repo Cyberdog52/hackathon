@@ -8,13 +8,6 @@ group = 'ch.zuehlke.fullstack'
 version = '1.0.0'
 sourceCompatibility = '11'
 
-bootJar {
-    into('static') {
-        from('../frontend/dist/frontend/')
-    }
-}
-bootJar.dependsOn ":frontend:npm_run_dist"
-
 repositories {
     mavenCentral()
 }
