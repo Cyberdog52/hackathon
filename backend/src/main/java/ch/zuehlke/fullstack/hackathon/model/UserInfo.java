@@ -25,27 +25,27 @@ public class UserInfo {
         this.jobTitle = jobTitle;
     }
 
-    @JsonProperty
+    @JsonProperty("firstName")
     public String getFirstName() {
         return firstName;
     }
 
-    @JsonProperty
+    @JsonProperty("lastName")
     public String getLastName() {
         return lastName;
     }
 
-    @JsonProperty
+    @JsonProperty("id")
     public String getId() {
         return id;
     }
 
-    @JsonProperty
+    @JsonProperty("pictureId")
     public long getPictureId() {
         return pictureId;
     }
 
-    @JsonProperty
+    @JsonProperty("jobTitle")
     public String getJobTitle() {
         return jobTitle;
     }
