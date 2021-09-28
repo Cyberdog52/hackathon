@@ -22,13 +22,13 @@ public class UserController {
     public UserController(InsightClient insightClient) {
         this.insightClient = insightClient;
     }
-    
+
     @GetMapping("/search")
-    public ResponseEntity<UserInfo> getExample(@RequestParam String term) {
+    public ResponseEntity<UserInfo> getUserInfo(@RequestParam String term) {
         UserInfo result;
         try {
             List<UserInfo> response = this.insightClient.getEmployees(term);
-            if(response != null && response.size() > 0) {
+            if (response != null && response.size() > 0) {
                 result = response.get(0);
                 return new ResponseEntity<>(result, HttpStatus.OK);
             } else {
