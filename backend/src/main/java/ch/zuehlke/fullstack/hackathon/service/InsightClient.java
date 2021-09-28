@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.fullstack.hackathon.model.Skill;
+import ch.zuehlke.fullstack.hackathon.model.TrainingResponse;
 import ch.zuehlke.fullstack.hackathon.model.UserInfo;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ public class InsightClient {
     private final String EMPLOYEES = "/api/v1/employees";
     private final String SEARCH = "/search";
     private final String SKILLS = "/{userId}/skills";
+    private final String TRAININGS = "/api/v1/training/employees/{userId}";
     private final RestTemplate restTemplate;
 
     public InsightClient(RestTemplateFactory factory) {
@@ -44,6 +46,19 @@ public class InsightClient {
                 .buildAndExpand(URLEncoder.encode(userId, StandardCharsets.UTF_8))
                 .toUriString();
         ResponseEntity<List<Skill>> response
+                = restTemplate.exchange(uriPath, HttpMethod.GET, null,
+                new ParameterizedTypeReference<>() {
+                });
+
+        assert (response.getStatusCode()).is2xxSuccessful();
+        return response.getBody();
+    }
+    
+    public List<TrainingResponse> getTrainings(String userId) {
+        String uriPath = UriComponentsBuilder.fromPath(TRAININGS)
+                .buildAndExpand(URLEncoder.encode(userId, StandardCharsets.UTF_8))
+                .toUriString();
+        ResponseEntity<List<TrainingResponse>> response
                 = restTemplate.exchange(uriPath, HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {
                 });

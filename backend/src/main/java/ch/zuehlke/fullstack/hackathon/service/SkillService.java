@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.fullstack.hackathon.model.Skill;
+import ch.zuehlke.fullstack.hackathon.model.TrainingResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
