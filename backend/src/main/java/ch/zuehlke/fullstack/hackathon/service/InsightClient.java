@@ -13,7 +13,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-@Service
+@Component
 public class InsightClient {
     private final String searchPath = "/api/v1/employees/search";
     private final RestTemplate restTemplate;
