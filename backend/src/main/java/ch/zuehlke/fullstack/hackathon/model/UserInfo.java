@@ -9,14 +9,14 @@ public class UserInfo {
     private final String firstName;
     private final String lastName;
     private final String id;
-    private final String pictureId;
+    private final long pictureId;
     private final String jobTitle;
 
     @JsonCreator
     public UserInfo(@JsonProperty("FirstName") String firstName,
                     @JsonProperty("LastName") String lastName,
                     @JsonProperty("Code") String id,
-                    @JsonProperty("PictureId") String pictureId,
+                    @JsonProperty("PictureId") long pictureId,
                     @JsonProperty("Title") String jobTitle) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,7 +41,7 @@ public class UserInfo {
     }
 
     @JsonProperty
-    public String getPictureId() {
+    public long getPictureId() {
         return pictureId;
     }
 
