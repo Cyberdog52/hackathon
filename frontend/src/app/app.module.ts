@@ -8,11 +8,19 @@ import { LobbyComponent } from "./lobby/lobby.component";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatCardModule } from "@angular/material/card";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HeaderComponent } from "./header/header.component";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { GameCardComponent } from "./game-card/game-card.component";
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   declarations: [
     AppComponent,
     LobbyComponent,
+    HeaderComponent,
+    GameCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,7 +28,11 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     HttpClientModule,
     BrowserAnimationsModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

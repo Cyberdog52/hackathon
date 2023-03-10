@@ -11,13 +11,8 @@ import java.util.List;
 public class GameService {
 
     // Improve: Instead of storing this in-memory, store it in a database
-    private final List<Game> games;
-
-    public GameService() {
-        // Mock the first game already show something in the frontend
-        games = new ArrayList<>();
-        createGame();
-    }
+    private final List<Game> games = new ArrayList<>();
+    private static int counter = 0;
 
     public List<Game> getGames() {
         return games;
@@ -25,8 +20,13 @@ public class GameService {
 
     public Game createGame() {
         // Improve: Find a better way to create game ids
-        Game game = new Game(new GameId(games.size()));
+        counter += 1;
+        Game game = new Game(new GameId(counter));
         games.add(game);
         return game;
+    }
+
+    public void deleteGame(int gameId) {
+        games.removeIf(game -> game.getGameId().id() == gameId);
     }
 }

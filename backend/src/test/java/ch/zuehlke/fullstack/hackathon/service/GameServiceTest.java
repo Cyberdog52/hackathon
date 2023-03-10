@@ -19,18 +19,27 @@ class GameServiceTest {
     }
 
     @Test
-    void getGames_returnsMockedGame() {
+    void getGames_returnsEmptyList() {
         List<Game> games = gameService.getGames();
 
-        assertThat(games).hasSize(1);
-        assertThat(games.get(0).getGameId()).isEqualTo(new GameId(0));
+        assertThat(games).hasSize(0);
     }
 
     @Test
-    void createGame() {
+    void createGame_addsNewGameToList() {
         Game createdGame = gameService.createGame();
 
         assertThat(createdGame.getGameId()).isEqualTo(new GameId(1));
-        assertThat(gameService.getGames()).hasSize(2);
+        assertThat(gameService.getGames()).hasSize(1);
+    }
+
+    @Test
+    void deleteGame_successfully() {
+        Game game = gameService.createGame();
+        assertThat(gameService.getGames()).hasSize(1);
+
+        gameService.deleteGame(game.getGameId().id());
+
+        assertThat(gameService.getGames()).hasSize(0);
     }
 }

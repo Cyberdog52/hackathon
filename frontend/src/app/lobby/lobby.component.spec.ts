@@ -1,5 +1,6 @@
 import { LobbyComponent } from "./lobby.component";
 import { LobbyService } from "../../services/lobby.service";
+import { of } from "rxjs";
 
 describe("LobbyComponent", () => {
   let component: LobbyComponent;
@@ -11,6 +12,8 @@ describe("LobbyComponent", () => {
   });
 
   it("should init successfully", () => {
+    lobbyServiceSpy.getGames.and.returnValue(of([]));
+    
     component.ngOnInit();
 
     expect(lobbyServiceSpy.getGames).toHaveBeenCalledWith();
