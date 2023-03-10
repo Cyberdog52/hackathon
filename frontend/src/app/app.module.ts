@@ -3,13 +3,13 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ExampleComponent} from './example-component/example.component';
 import {HttpClientModule} from "@angular/common/http";
+import {LobbyComponent} from './lobby/lobby.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ExampleComponent
+    LobbyComponent,
   ],
   imports: [
     BrowserModule,
