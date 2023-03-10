@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GameService {
@@ -28,5 +29,11 @@ public class GameService {
 
     public void deleteGame(int gameId) {
         games.removeIf(game -> game.getGameId().id() == gameId);
+    }
+
+    public Optional<Game> getGame(int gameId) {
+        return games.stream()
+                .filter(game -> game.getGameId().id() == gameId)
+                .findFirst();
     }
 }

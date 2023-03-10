@@ -1,5 +1,6 @@
 package ch.zuehlke.challenge.bot.io;
 
+import ch.zuehlke.challenge.bot.domain.BotName;
 import ch.zuehlke.challenge.bot.domain.ConnectivitySetup;
 import ch.zuehlke.challenge.bot.domain.GameId;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +14,17 @@ public class CommandLineService {
 
     private final IOUtil<URI> uriIOUtil;
     private final IOUtil<GameId> gameIdIOUtil;
+    private final IOUtil<BotName> botNameIOUtil;
 
     public ConnectivitySetup setup() {
+        BotName name = requestName();
         URI uri = requestUri();
         GameId gameId = requestGameId();
-        return new ConnectivitySetup(uri, gameId);
+        return new ConnectivitySetup(name, uri, gameId);
+    }
+
+    private BotName requestName() {
+        return botNameIOUtil.requestInput("Please enter your name: ", BotName::new);
     }
 
     private URI requestUri() {
@@ -25,6 +32,6 @@ public class CommandLineService {
     }
 
     private GameId requestGameId() {
-        return gameIdIOUtil.requestInput("Please enter the game id: ", GameId::fromString);
+        return gameIdIOUtil.requestInput("Please enter the game ID: ", GameId::fromString);
     }
 }

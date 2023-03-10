@@ -1,6 +1,8 @@
 package ch.zuehlke.challenge.bot;
 
+import ch.zuehlke.challenge.bot.domain.ConnectivitySetup;
 import ch.zuehlke.challenge.bot.io.CommandLineService;
+import ch.zuehlke.challenge.bot.io.GameConnector;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,7 @@ public class BotApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        commandLineService.setup();
+        ConnectivitySetup setup = commandLineService.setup();
+        GameConnector.connect(setup);
     }
 }

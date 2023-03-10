@@ -1,5 +1,6 @@
 package ch.zuehlke.challenge.bot.io;
 
+import ch.zuehlke.challenge.bot.domain.BotName;
 import ch.zuehlke.challenge.bot.domain.ConnectivitySetup;
 import ch.zuehlke.challenge.bot.domain.GameId;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,17 +18,21 @@ class CommandLineServiceTest {
     private CommandLineService commandLineService;
     private IOUtil<URI> uriIOUtil;
     private IOUtil<GameId> gameIdIOUtil;
+    private IOUtil<BotName> botNameIOUtil;
 
     @BeforeEach
     void setUp() {
         uriIOUtil = mock(IOUtil.class);
         gameIdIOUtil = mock(IOUtil.class);
+        botNameIOUtil = mock(IOUtil.class);
 
-        commandLineService = new CommandLineService(uriIOUtil, gameIdIOUtil);
+        commandLineService = new CommandLineService(uriIOUtil, gameIdIOUtil, botNameIOUtil);
     }
 
     @Test
     void setup_withValidInput_shouldReturnConnectivitySetup() {
+        BotName name = new BotName("name");
+        when(botNameIOUtil.requestInput(anyString(), any())).thenReturn(name);
         URI uri = URI.create("http://localhost:8080");
         when(uriIOUtil.requestInput(anyString(), any())).thenReturn(uri);
         GameId gameId = new GameId(1);
@@ -36,8 +41,10 @@ class CommandLineServiceTest {
         ConnectivitySetup setup = commandLineService.setup();
 
         assertThat(setup).isNotNull();
+        assertThat(setup.name()).isEqualTo(name);
         assertThat(setup.uri()).isEqualTo(uri);
         assertThat(setup.gameId()).isEqualTo(gameId);
+        verify(botNameIOUtil, times(1)).requestInput(anyString(), any());
         verify(uriIOUtil, times(1)).requestInput(anyString(), any());
         verify(gameIdIOUtil, times(1)).requestInput(anyString(), any());
     }
