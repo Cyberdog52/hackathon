@@ -1,4 +1,5 @@
 rootProject.name = 'Hackathon'
 include 'backend'
 include 'frontend'
+include 'bot'
 
