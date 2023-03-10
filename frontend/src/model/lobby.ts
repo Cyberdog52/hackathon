@@ -1,12 +1,20 @@
 export interface Game {
-  id: number;
+  gameId: GameId;
   players: Player[];
   state: GameState;
 }
 
 export interface Player {
-  playerId: number;
+  playerId: PlayerId;
   name: string;
+}
+
+export interface GameId {
+  id: number;
+}
+
+export interface  PlayerId {
+  id: number;
 }
 
 export enum GameState {

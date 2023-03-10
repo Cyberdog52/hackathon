@@ -5,6 +5,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
 import { LobbyComponent } from "./lobby/lobby.component";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MatCardModule } from "@angular/material/card";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { LobbyComponent } from "./lobby/lobby.component";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatGridListModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

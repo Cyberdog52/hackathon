@@ -17,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LobbyController {
 
+    // Improve: Make endpoints secure
+
     // Improve: Create ExceptionInterceptor for custom exceptions in the backend
 
     private final GameService gameService;
