@@ -31,7 +31,8 @@ private repository.
        ![runconfig-springboot.png](doc/runconfig-springboot.png)
    2. Or by executing `./gradlew bootRun`
 
-You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui.html`.
+You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
+![swagger.png](doc/swagger.png)
 
 ### Start frontend
 
