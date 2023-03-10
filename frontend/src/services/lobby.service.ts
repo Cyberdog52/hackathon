@@ -1,10 +1,10 @@
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {Game} from "../model/lobby";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Game } from "../model/lobby";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class LobbyService {
 
@@ -14,7 +14,7 @@ export class LobbyService {
   }
 
   public getGames(): Observable<Game[]>  {
-    let url = `${this.backendUrl}/games`;
+    const url = `${this.backendUrl}/games`;
     return this.httpClient.get<Game[]>(url);
   }
 }

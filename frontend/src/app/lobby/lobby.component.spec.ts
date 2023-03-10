@@ -1,16 +1,16 @@
-import {LobbyComponent} from './lobby.component';
-import {LobbyService} from "../../services/lobby.service";
+import { LobbyComponent } from "./lobby.component";
+import { LobbyService } from "../../services/lobby.service";
 
-describe('LobbyComponent', () => {
+describe("LobbyComponent", () => {
   let component: LobbyComponent;
   let lobbyServiceSpy: jasmine.SpyObj<LobbyService>;
 
   beforeEach(async () => {
-    lobbyServiceSpy = jasmine.createSpyObj('LobbyService', ['getGames']);
+    lobbyServiceSpy = jasmine.createSpyObj("LobbyService", ["getGames"]);
     component = new LobbyComponent(lobbyServiceSpy);
   });
 
-  it('should init successfully', () => {
+  it("should init successfully", () => {
     component.ngOnInit();
 
     expect(lobbyServiceSpy.getGames).toHaveBeenCalledWith();
