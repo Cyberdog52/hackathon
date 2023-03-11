@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/bot" />
+            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/frontend" />
           </set>
         </option>

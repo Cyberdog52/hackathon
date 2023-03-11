@@ -23,8 +23,8 @@ describe("LobbyService", () => {
     });
   }));
 
-  it("should create a gamesuccessfully", waitForAsync( () => {
-    const gameId = { id: 123 } as GameId;
+  it("should create a gamesuccessfully", waitForAsync(() => {
+    const gameId = { value: 123 } as GameId;
     httpClientSpy.post.and.returnValue(of(gameId));
 
     service.createGame().subscribe((result) => {

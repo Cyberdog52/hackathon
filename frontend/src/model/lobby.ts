@@ -10,11 +10,11 @@ export interface Player {
 }
 
 export interface GameId {
-  id: number;
+  value: number;
 }
 
-export interface  PlayerId {
-  id: number;
+export interface PlayerId {
+  value: number;
 }
 
 export enum GameState {

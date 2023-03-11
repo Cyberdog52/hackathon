@@ -13,7 +13,7 @@ describe("GameCardComponent", () => {
   });
 
   it("should successfully delete a game", () => {
-    const gameId = { id: 123 } as GameId;
+    const gameId = { value: 123 } as GameId;
     component.game = {
       gameId: gameId,
     } as Game;

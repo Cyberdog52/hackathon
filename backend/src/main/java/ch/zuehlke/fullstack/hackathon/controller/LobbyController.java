@@ -1,11 +1,14 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.fullstack.hackathon.model.*;
+import ch.zuehlke.common.*;
+import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,6 +65,12 @@ public class LobbyController {
     public ResponseEntity<Void> deleteGame(@PathVariable int gameId) {
         gameService.deleteGame(gameId);
         return ResponseEntity.ok().build();
+    }
+
+    @MessageMapping("/update")
+    @SendTo("/topic/messages")
+    public GameUpdate send(GameUpdate gameUpdate) {
+        return gameUpdate;
     }
 
 

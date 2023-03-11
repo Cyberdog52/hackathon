@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.common.GameId;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.GameId;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,12 +28,12 @@ public class GameService {
     }
 
     public void deleteGame(int gameId) {
-        games.removeIf(game -> game.getGameId().id() == gameId);
+        games.removeIf(game -> game.getGameId().value() == gameId);
     }
 
     public Optional<Game> getGame(int gameId) {
         return games.stream()
-                .filter(game -> game.getGameId().id() == gameId)
+                .filter(game -> game.getGameId().value() == gameId)
                 .findFirst();
     }
 }

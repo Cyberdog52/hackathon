@@ -13,7 +13,7 @@ export class LobbyService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getGames(): Observable<Game[]>  {
+  public getGames(): Observable<Game[]> {
     const url = `${this.backendUrl}/games`;
     return this.httpClient.get<Game[]>(url);
   }
@@ -24,7 +24,7 @@ export class LobbyService {
   }
 
   deleteGame(gameId: GameId): Observable<void> {
-    const url = `${this.backendUrl}/game/${gameId.id}`;
+    const url = `${this.backendUrl}/game/${gameId.value}`;
     return this.httpClient.delete<void>(url);
   }
 }

@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'ch.zuehlke.common'
+version = '1.0.0'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Implementation packages
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    // Test packages
+    testCompileOnly 'org.assertj:assertj-core:3.11.1'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.common.GameId;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.GameId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,7 @@ class GameServiceTest {
         Game game = gameService.createGame();
         assertThat(gameService.getGames()).hasSize(1);
 
-        gameService.deleteGame(game.getGameId().id());
+        gameService.deleteGame(game.getGameId().value());
 
         assertThat(gameService.getGames()).hasSize(0);
     }

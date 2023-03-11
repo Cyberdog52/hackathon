@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-import lombok.Builder;
+import ch.zuehlke.common.GameId;
+import ch.zuehlke.common.Player;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

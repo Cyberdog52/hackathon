@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common;
 
 public record Player(PlayerId playerId, String name) {
 }
