@@ -18,10 +18,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     // Test packages
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.assertj:assertj-core:3.11.1'
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
 }
 
 test {

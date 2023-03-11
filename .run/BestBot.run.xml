@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="BotApplication 8082" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
-    <envs>
-      <env name="SERVER_PORT" value="8082" />
-    </envs>
+  <configuration default="false" name="BestBot" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="bestbot" />
     <module name="Hackathon.bot.main" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
     <option name="SPRING_BOOT_MAIN_CLASS" value="ch.zuehlke.challenge.bot.BotApplication" />
     <method v="2">
       <option name="Make" enabled="true" />
