@@ -48,6 +48,7 @@ class GameServiceTest {
 
     @Test
     void deleteGame_nonExistingGame_returnsFalse() {
+        gameService.createGame();
         assertThat(gameService.getGames()).hasSize(1);
 
         boolean success = gameService.deleteGame(666);
