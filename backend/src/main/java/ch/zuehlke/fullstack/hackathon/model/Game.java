@@ -13,6 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 public class Game {
+
+    public static final int MAX_PLAYERS = 2;
+
     private final GameId gameId;
     private final List<Player> players = new ArrayList<>();
 
@@ -20,8 +23,12 @@ public class Game {
 
     private GameState state = new GameState();
 
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
+        if (players.size() >= MAX_PLAYERS) {
+            return false;
+        }
         players.add(player);
+        return true;
     }
 
     public void startGame() {

@@ -1,12 +1,18 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.GameId;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerId;
+import ch.zuehlke.common.PlayerName;
+import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
+import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class GameService {
@@ -27,13 +33,29 @@ public class GameService {
         return game;
     }
 
-    public void deleteGame(int gameId) {
-        games.removeIf(game -> game.getGameId().value() == gameId);
+
+    public boolean deleteGame(int gameId) {
+        return games.removeIf(game -> game.getGameId().value() == gameId);
     }
 
     public Optional<Game> getGame(int gameId) {
         return games.stream()
                 .filter(game -> game.getGameId().value() == gameId)
                 .findFirst();
+    }
+
+    public JoinResult join(int gameId, PlayerName name) {
+        Optional<Game> game = getGame(gameId);
+        if (game.isEmpty()) {
+            return new JoinResult(null, JoinResultType.GAME_NOT_FOUND);
+        }
+        Player newPlayer = new Player(new PlayerId(UUID.randomUUID().toString()), name);
+
+        boolean success = game.get().addPlayer(newPlayer);
+        if (!success) {
+            return new JoinResult(null, JoinResultType.GAME_FULL);
+        }
+
+        return new JoinResult(newPlayer.id(), JoinResultType.SUCCESS);
     }
 }

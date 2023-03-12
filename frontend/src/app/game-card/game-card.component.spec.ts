@@ -15,7 +15,7 @@ describe("GameCardComponent", () => {
   it("should successfully delete a game", () => {
     const gameId = { value: 123 } as GameId;
     component.game = {
-      gameId: gameId,
+      id: gameId,
     } as GameDto;
     lobbyServiceSpy.deleteGame.and.returnValue(EMPTY);
 

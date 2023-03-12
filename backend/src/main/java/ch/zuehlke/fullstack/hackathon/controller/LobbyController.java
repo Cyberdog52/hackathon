@@ -14,8 +14,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/lobby")
@@ -52,25 +50,32 @@ public class LobbyController {
     @Operation(summary = "Joins a game",
             description = "Joins a game and returns the socket url")
     @ApiResponse(responseCode = "200", description = "Successfully joined the game")
+    @ApiResponse(responseCode = "400", description = "Game is already full")
     @ApiResponse(responseCode = "404", description = "The game does not exist")
     @PostMapping("/game/{gameId}/join")
     public ResponseEntity<JoinResponse> join(@PathVariable int gameId, @RequestBody JoinRequest joinRequest) {
-        Optional<Game> game = gameService.getGame(gameId);
-        if (game.isEmpty()) {
+        JoinResult joinResult = gameService.join(gameId, joinRequest.name());
+
+        if (joinResult.resultType() == JoinResult.JoinResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();
         }
-        Player newPlayer = new Player(new PlayerId(UUID.randomUUID().toString()), joinRequest.name());
-        // improve: check if already full
-        game.get().addPlayer(newPlayer);
-        return ResponseEntity.ok(new JoinResponse(newPlayer.id()));
+        if (joinResult.resultType() == JoinResult.JoinResultType.GAME_FULL) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
     }
 
     @Operation(summary = "Deletes a game",
             description = "Deletes a game")
     @ApiResponse(responseCode = "200", description = "Successfully deleted the game")
+    @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be deleted")
     @DeleteMapping("/game/{gameId}")
     public ResponseEntity<Void> deleteGame(@PathVariable int gameId) {
-        gameService.deleteGame(gameId);
+        boolean success = gameService.deleteGame(gameId);
+        if (!success) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok().build();
     }
 
