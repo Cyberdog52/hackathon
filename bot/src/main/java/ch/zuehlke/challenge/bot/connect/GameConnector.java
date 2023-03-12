@@ -1,6 +1,9 @@
 package ch.zuehlke.challenge.bot.connect;
 
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
+import ch.zuehlke.common.JoinRequest;
+import ch.zuehlke.common.JoinResponse;
+import ch.zuehlke.common.PlayerName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -23,11 +26,11 @@ public class GameConnector {
     @EventListener(ApplicationReadyEvent.class)
     public void join() {
         log.info("Joining game...");
-        SignUpRequest signUpRequest = new SignUpRequest(applicationProperties.getName());
-        ResponseEntity<SignUpResponse> signUpResponse = hackathonRestTemplateClient
+        JoinRequest signUpRequest = new JoinRequest(new PlayerName(applicationProperties.getName()));
+        ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendJoinUrl(),
                         signUpRequest,
-                        SignUpResponse.class,
+                        JoinResponse.class,
                         applicationProperties.getGameId()
                 );
         log.info(format("Received response: {0}", signUpResponse));

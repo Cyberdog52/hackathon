@@ -2,17 +2,20 @@ package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.model.Game;
+import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/lobby")
@@ -29,9 +32,12 @@ public class LobbyController {
             description = "Returns all games, whether they are in progress or not")
     @ApiResponse(responseCode = "200", description = "Successfully returned the list of games")
     @GetMapping("/games")
-    public ResponseEntity<List<Game>> getGames() {
+    public ResponseEntity<List<GameDto>> getGames() {
         List<Game> games = gameService.getGames();
-        return ResponseEntity.ok(games);
+        List<GameDto> gameDtos = games.stream()
+                .map(GameMapper::map)
+                .toList();
+        return ResponseEntity.ok(gameDtos);
     }
 
     @Operation(summary = "Creates a new game",
@@ -53,9 +59,10 @@ public class LobbyController {
         if (game.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Player newPlayer = new Player(new PlayerId(), joinRequest.name());
+        Player newPlayer = new Player(new PlayerId(UUID.randomUUID().toString()), joinRequest.name());
+        // improve: check if already full
         game.get().addPlayer(newPlayer);
-        return ResponseEntity.ok(new JoinResponse("socketUrl", newPlayer.playerId().value()));
+        return ResponseEntity.ok(new JoinResponse(newPlayer.id()));
     }
 
     @Operation(summary = "Deletes a game",
@@ -67,10 +74,10 @@ public class LobbyController {
         return ResponseEntity.ok().build();
     }
 
-    @MessageMapping("/update")
-    @SendTo("/topic/messages")
-    public GameUpdate send(GameUpdate gameUpdate) {
-        return gameUpdate;
+    @MessageMapping("/update/{id}")
+    @SendTo("/topic/game/{id}")
+    public GameUpdate send(@DestinationVariable Integer gameId) {
+        return new GameUpdate(new GameId(gameId));
     }
 
 

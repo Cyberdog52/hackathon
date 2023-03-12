@@ -1,4 +1,4 @@
 package ch.zuehlke.common;
 
-public record Player(PlayerId playerId, String name) {
+public record Player(PlayerId id, PlayerName name) {
 }

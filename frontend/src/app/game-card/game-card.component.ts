@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Game } from "../../model/lobby";
+import { GameDto } from "../../model/lobby";
 import { LobbyService } from "../../services/lobby.service";
 
 @Component({
@@ -9,17 +9,17 @@ import { LobbyService } from "../../services/lobby.service";
 })
 export class GameCardComponent {
 
-  @Input() game!: Game;
+  @Input() game!: GameDto;
 
 
   constructor(private lobbyService: LobbyService) {
   }
 
   deleteGame(): void {
-    this.lobbyService.deleteGame(this.game.gameId).subscribe({
+    this.lobbyService.deleteGame(this.game.id).subscribe({
       next: () => {
         // Improve: Do something with the gameId
-        console.log("Deleted game with id: ", this.game.gameId);
+        console.log("Deleted game with id: ", this.game.id);
       },
       error: (error) => {
         // Improve: Do something with the error

@@ -1,7 +1,7 @@
 import { GameCardComponent } from "./game-card.component";
 import { LobbyService } from "../../services/lobby.service";
 import { EMPTY } from "rxjs";
-import { Game, GameId } from "../../model/lobby";
+import { GameDto, GameId } from "../../model/lobby";
 
 describe("GameCardComponent", () => {
   let component: GameCardComponent;
@@ -16,7 +16,7 @@ describe("GameCardComponent", () => {
     const gameId = { value: 123 } as GameId;
     component.game = {
       gameId: gameId,
-    } as Game;
+    } as GameDto;
     lobbyServiceSpy.deleteGame.and.returnValue(EMPTY);
 
     component.deleteGame();

@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Game, GameId } from "../model/lobby";
+import { GameDto, GameId } from "../model/lobby";
 
 @Injectable({
   providedIn: "root"
@@ -13,9 +13,9 @@ export class LobbyService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getGames(): Observable<Game[]> {
+  public getGames(): Observable<GameDto[]> {
     const url = `${this.backendUrl}/games`;
-    return this.httpClient.get<Game[]>(url);
+    return this.httpClient.get<GameDto[]>(url);
   }
 
   createGame(): Observable<GameId> {

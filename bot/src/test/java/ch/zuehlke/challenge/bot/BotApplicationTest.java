@@ -8,9 +8,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Disabled("Backend calls need to be mocked") // Improve: enable it
 public class BotApplicationTest {
-
-    @Disabled("Backend calls need to be mocked") // Improve: enable it
+    
     @Test
     public void contextLoads() {
     }

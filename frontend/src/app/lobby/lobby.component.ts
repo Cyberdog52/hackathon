@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LobbyService } from "../../services/lobby.service";
 import { Observable, repeat } from "rxjs";
-import { Game } from "../../model/lobby";
+import { GameDto } from "../../model/lobby";
 
 @Component({
   selector: "app-lobby",
@@ -10,7 +10,7 @@ import { Game } from "../../model/lobby";
 })
 export class LobbyComponent implements OnInit {
 
-  games$: Observable<Game[]> | undefined;
+  games$: Observable<GameDto[]> | undefined;
 
   constructor(private lobbyService: LobbyService) {
   }

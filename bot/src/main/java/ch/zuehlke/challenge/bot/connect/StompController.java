@@ -48,12 +48,11 @@ public class StompController implements StompSessionHandler {
     }
 
     private void subscribe(Integer gameId) {
-        // TODO: Check subscriptions if already exist and is subscribed.
-        log.info("Subscribing to gameId: {}", gameId);
-        this.subscription = stompSession.subscribe("/topic/messages", this);
+        log.info("Subscribing to id: {}", gameId);
+        this.subscription = stompSession.subscribe("/topic/game/" + gameId, this);
 
         // test out sending a message, TODO: remove in the future
-        stompSession.send("/topic/messages", new GameUpdate(new GameId(1)));
+        stompSession.send("/topic/game/" + gameId, new GameUpdate(new GameId(gameId)));
     }
 
     @Override

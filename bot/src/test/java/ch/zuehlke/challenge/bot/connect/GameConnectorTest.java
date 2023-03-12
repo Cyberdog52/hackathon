@@ -1,6 +1,10 @@
 package ch.zuehlke.challenge.bot.connect;
 
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
+import ch.zuehlke.common.JoinRequest;
+import ch.zuehlke.common.JoinResponse;
+import ch.zuehlke.common.PlayerId;
+import ch.zuehlke.common.PlayerName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +32,13 @@ class GameConnectorTest {
         when(applicationPropertiesMock.getName()).thenReturn("name");
         when(applicationPropertiesMock.getBackendJoinUrl()).thenReturn("/game/{gameId}/join");
 
-        ResponseEntity<SignUpResponse> response = ResponseEntity.ok(new SignUpResponse("socketUrl"));
-        when(restTemplateMock.postForEntity(any(), any(), eq(SignUpResponse.class), anyInt())).thenReturn(response);
+        ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(new PlayerId("id")));
+        when(restTemplateMock.postForEntity(any(), any(), eq(JoinResponse.class), anyInt())).thenReturn(response);
 
         gameConnector.join();
 
-        SignUpRequest expectedRequest = new SignUpRequest("name");
-        verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/join", expectedRequest, SignUpResponse.class, 1);
+        JoinRequest expectedRequest = new JoinRequest(new PlayerName("name"));
+        verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/join", expectedRequest, JoinResponse.class, 1);
     }
 
 }
