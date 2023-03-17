@@ -15,11 +15,12 @@ import java.util.List;
 public class Game {
 
     public static final int MAX_PLAYERS = 2;
+    public static final int MIN_PLAYERS = 2;
 
     private final GameId gameId;
     private final List<Player> players = new ArrayList<>();
 
-    private GameStatus status = GameStatus.WAITING_FOR_PLAYERS;
+    private GameStatus status = GameStatus.NOT_STARTED;
 
     private GameState state = new GameState();
 
@@ -31,8 +32,16 @@ public class Game {
         return true;
     }
 
+    public boolean canStartGame() {
+        return players.size() >= MIN_PLAYERS &&
+                players.size() == MAX_PLAYERS &&
+                status == GameStatus.NOT_STARTED;
+    }
+
     public void startGame() {
-        status = GameStatus.IN_PROGRESS;
+        if (canStartGame()) {
+            status = GameStatus.IN_PROGRESS;
+        }
     }
 
     public void finishGame() {

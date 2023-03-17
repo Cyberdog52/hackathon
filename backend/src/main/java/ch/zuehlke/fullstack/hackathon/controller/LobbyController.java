@@ -1,16 +1,17 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.GameDto;
+import ch.zuehlke.common.GameId;
+import ch.zuehlke.common.JoinRequest;
+import ch.zuehlke.common.JoinResponse;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
+import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class LobbyController {
     // Improve: Create ExceptionInterceptor for custom exceptions in the backend
 
     private final GameService gameService;
+
+    private final NotificationService notificationService;
 
     @Operation(summary = "Returns the list of games",
             description = "Returns all games, whether they are in progress or not")
@@ -62,7 +65,7 @@ public class LobbyController {
         if (joinResult.resultType() == JoinResult.JoinResultType.GAME_FULL) {
             return ResponseEntity.badRequest().build();
         }
-
+        notificationService.notifyGameUpdate(new GameId(gameId));
         return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
     }
 
@@ -79,10 +82,22 @@ public class LobbyController {
         return ResponseEntity.ok().build();
     }
 
-    @MessageMapping("/update/{id}")
-    @SendTo("/topic/game/{id}")
-    public GameUpdate send(@DestinationVariable Integer gameId) {
-        return new GameUpdate(new GameId(gameId));
+    @Operation(summary = "Starts a game",
+            description = "Starts a game")
+    @ApiResponse(responseCode = "200", description = "Successfully started the game")
+    @ApiResponse(responseCode = "400", description = "Not enough players to start the game")
+    @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be started")
+    @PostMapping("/game/{gameId}/start")
+    public ResponseEntity<Void> startGame(@PathVariable int gameId) {
+        StartResult result = gameService.startGame(gameId);
+        if (result.resultType() == StartResult.StartResultType.GAME_NOT_FOUND) {
+            return ResponseEntity.notFound().build();
+        }
+        if (result.resultType() == StartResult.StartResultType.NOT_ENOUGH_PLAYERS) {
+            return ResponseEntity.badRequest().build();
+        }
+        notificationService.notifyGameUpdate(new GameId(gameId));
+        return ResponseEntity.ok().build();
     }
 
 

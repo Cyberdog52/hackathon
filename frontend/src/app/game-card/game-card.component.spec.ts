@@ -8,7 +8,7 @@ describe("GameCardComponent", () => {
   let lobbyServiceSpy: jasmine.SpyObj<LobbyService>;
 
   beforeEach(async () => {
-    lobbyServiceSpy = jasmine.createSpyObj("LobbyService", ["deleteGame"]);
+    lobbyServiceSpy = jasmine.createSpyObj("LobbyService", ["deleteGame", "startGame"]);
     component = new GameCardComponent(lobbyServiceSpy);
   });
 
@@ -22,5 +22,17 @@ describe("GameCardComponent", () => {
     component.deleteGame();
 
     expect(lobbyServiceSpy.deleteGame).toHaveBeenCalledWith(gameId);
+  });
+
+  it("should successfully start a game", () => {
+    const gameId = { value: 123 } as GameId;
+    component.game = {
+      id: gameId,
+    } as GameDto;
+    lobbyServiceSpy.startGame.and.returnValue(EMPTY);
+
+    component.startGame();
+
+    expect(lobbyServiceSpy.startGame).toHaveBeenCalledWith(gameId);
   });
 });

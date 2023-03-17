@@ -20,7 +20,7 @@ class GameMapperTest {
 
         assertThat(gameDto.id()).isEqualTo(gameId);
         assertThat(gameDto.players()).isEqualTo(game.getPlayers());
-        assertEquals(GameStatus.WAITING_FOR_PLAYERS, gameDto.status());
+        assertEquals(GameStatus.NOT_STARTED, gameDto.status());
         assertEquals(new GameState(), gameDto.state());
     }
 

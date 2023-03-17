@@ -3,12 +3,26 @@
     <mat-card-title>Game: {{game.id.value}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <h3>Players: {{game.players.length}}/2</h3>
+    <h3>
+      Players: {{game.players.length}}/{{MAX_PLAYERS}}</h3>
     <mat-chip-set>
       <mat-chip *ngFor="let player of game.players">{{player.name.value}}</mat-chip>
     </mat-chip-set>
+    <p *ngIf="game.players.length === 0">Waiting for players...</p>
+    <p *ngIf="game.status === GameStatus.IN_PROGRESS">Game is in progress</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button (click)="deleteGame()">Delete</button>
+    <button mat-raised-button
+            (click)="startGame()"
+            [disabled]="game.players.length < MIN_PLAYERS || game.status !== GameStatus.NOT_STARTED">
+      <mat-icon>play_circle_outline</mat-icon>
+      Start
+    </button>
+    <button mat-raised-button
+            (click)="deleteGame()"
+            [disabled]="game.players.length > 0 || game.status === GameStatus.FINISHED">
+      <mat-icon>delete_outline</mat-icon>
+      Delete
+    </button>
   </mat-card-actions>
 </mat-card>

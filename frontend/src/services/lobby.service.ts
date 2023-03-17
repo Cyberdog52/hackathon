@@ -27,4 +27,9 @@ export class LobbyService {
     const url = `${this.backendUrl}/game/${gameId.value}`;
     return this.httpClient.delete<void>(url);
   }
+
+  startGame(gameId: GameId): Observable<void> {
+    const url = `${this.backendUrl}/game/${gameId.value}/start`;
+    return this.httpClient.post<void>(url, {});
+  }
 }

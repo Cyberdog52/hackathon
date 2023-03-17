@@ -6,6 +6,7 @@ import ch.zuehlke.common.PlayerId;
 import ch.zuehlke.common.PlayerName;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
+import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,21 @@ public class GameService {
         }
 
         return new JoinResult(newPlayer.id(), JoinResultType.SUCCESS);
+    }
+
+    public StartResult startGame(int gameId) {
+        Optional<Game> optionalGame = getGame(gameId);
+        if (optionalGame.isEmpty()) {
+            return new StartResult(StartResult.StartResultType.GAME_NOT_FOUND);
+        }
+
+        Game game = optionalGame.get();
+        if (!game.canStartGame()) {
+            return new StartResult(StartResult.StartResultType.NOT_ENOUGH_PLAYERS);
+        }
+
+        game.startGame();
+
+        return new StartResult(StartResult.StartResultType.SUCCESS);
     }
 }

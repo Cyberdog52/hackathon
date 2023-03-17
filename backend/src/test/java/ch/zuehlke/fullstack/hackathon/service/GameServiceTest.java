@@ -1,8 +1,10 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.GameId;
+import ch.zuehlke.common.GameStatus;
 import ch.zuehlke.common.PlayerName;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
+import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,5 +87,35 @@ class GameServiceTest {
 
         assertThat(joinResult.resultType()).isEqualTo(JoinResult.JoinResultType.GAME_NOT_FOUND);
         assertThat(joinResult.playerId()).isNull();
+    }
+
+    @Test
+    void startGame_withZeroPlayers_notEnoughPlayers() {
+        Game game = gameService.createGame();
+
+        StartResult startResult = gameService.startGame(game.getGameId().value());
+
+        assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.NOT_ENOUGH_PLAYERS);
+        assertThat(game.getStatus()).isEqualTo(GameStatus.NOT_STARTED);
+    }
+
+    @Test
+    void startGame_nonExistingGame_gameIsNotFound() {
+        StartResult startResult = gameService.startGame(666);
+
+        assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.GAME_NOT_FOUND);
+    }
+
+    @Test
+    void startGame_gameIsFull_successfully() {
+        Game game = gameService.createGame();
+        gameService.join(game.getGameId().value(), new PlayerName("name1"));
+        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+
+
+        StartResult startResult = gameService.startGame(game.getGameId().value());
+
+        assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.SUCCESS);
+        assertThat(game.getStatus()).isEqualTo(GameStatus.IN_PROGRESS);
     }
 }

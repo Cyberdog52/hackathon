@@ -27,7 +27,7 @@ export interface GameState {
 }
 
 export enum GameStatus {
-  WAITING_FOR_PLAYERS = "WAITING_FOR_PLAYERS",
+  NOT_STARTED = "NOT_STARTED",
   IN_PROGRESS = "IN_PROGRESS",
   FINISHED = "FINISHED",
   DELETED = "DELETED"

@@ -1,6 +1,6 @@
 import { LobbyService } from "./lobby.service";
 import { HttpClient } from "@angular/common/http";
-import { of } from "rxjs";
+import { EMPTY, of } from "rxjs";
 import { GameId } from "../model/lobby";
 import { waitForAsync } from "@angular/core/testing";
 
@@ -10,7 +10,7 @@ describe("LobbyService", () => {
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
 
   beforeEach(async () => {
-    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get", "post"]);
+    httpClientSpy = jasmine.createSpyObj("HttpClient", ["get", "post", "delete"]);
     service = new LobbyService(httpClientSpy);
   });
 
@@ -23,13 +23,33 @@ describe("LobbyService", () => {
     });
   }));
 
-  it("should create a gamesuccessfully", waitForAsync(() => {
+  it("should create a game successfully", waitForAsync(() => {
     const gameId = { value: 123 } as GameId;
     httpClientSpy.post.and.returnValue(of(gameId));
 
     service.createGame().subscribe((result) => {
       expect(httpClientSpy.post).toHaveBeenCalledWith("api/lobby/game", {});
       expect(result).toBe(gameId);
+    });
+  }));
+
+  it("should delete a game successfully", waitForAsync(() => {
+    const gameId = { value: 123 } as GameId;
+    httpClientSpy.delete.and.returnValue(EMPTY);
+
+    service.deleteGame(gameId).subscribe((result) => {
+      expect(httpClientSpy.delete).toHaveBeenCalledWith(`api/lobby/game/${gameId.value}`, {});
+      expect(result).toBeUndefined();
+    });
+  }));
+
+  it("should start a game successfully", waitForAsync(() => {
+    const gameId = { value: 123 } as GameId;
+    httpClientSpy.post.and.returnValue(EMPTY);
+
+    service.startGame(gameId).subscribe((result) => {
+      expect(httpClientSpy.post).toHaveBeenCalledWith(`api/lobby/game/${gameId.value}/start`, {});
+      expect(result).toBeUndefined();
     });
   }));
 });

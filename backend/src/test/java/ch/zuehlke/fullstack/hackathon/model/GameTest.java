@@ -20,8 +20,10 @@ class GameTest {
     }
 
     @Test
-    void startGame_successfully() {
+    void startGame_withTwoPlayers_successfully() {
         Game game = new Game(new GameId(1));
+        game.addPlayer(new Player(new PlayerId("id1"), new PlayerName("name1")));
+        game.addPlayer(new Player(new PlayerId("id2"), new PlayerName("name2")));
 
         game.startGame();
 
@@ -44,5 +46,35 @@ class GameTest {
         game.deleteGame();
 
         assertEquals(GameStatus.DELETED, game.getStatus());
+    }
+
+    @Test
+    void canStartGame_withZeroPlayers_false() {
+        Game game = new Game(new GameId(1));
+
+        boolean canStart = game.canStartGame();
+
+        assertThat(canStart).isFalse();
+    }
+
+    @Test
+    void canStartGame_withOnePlayer_false() {
+        Game game = new Game(new GameId(1));
+        game.addPlayer(new Player(new PlayerId("id"), new PlayerName("name")));
+
+        boolean canStart = game.canStartGame();
+
+        assertThat(canStart).isFalse();
+    }
+
+    @Test
+    void canStartGame_withTwoPlayers_true() {
+        Game game = new Game(new GameId(1));
+        game.addPlayer(new Player(new PlayerId("id1"), new PlayerName("name1")));
+        game.addPlayer(new Player(new PlayerId("id2"), new PlayerName("name2")));
+
+        boolean canStart = game.canStartGame();
+
+        assertThat(canStart).isTrue();
     }
 }

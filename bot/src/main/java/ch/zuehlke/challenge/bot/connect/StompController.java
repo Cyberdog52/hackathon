@@ -1,7 +1,6 @@
 package ch.zuehlke.challenge.bot.connect;
 
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
-import ch.zuehlke.common.GameId;
 import ch.zuehlke.common.GameUpdate;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +49,6 @@ public class StompController implements StompSessionHandler {
     private void subscribe(Integer gameId) {
         log.info("Subscribing to id: {}", gameId);
         this.subscription = stompSession.subscribe("/topic/game/" + gameId, this);
-
-        // test out sending a message, TODO: remove in the future
-        stompSession.send("/topic/game/" + gameId, new GameUpdate(new GameId(gameId)));
     }
 
     @Override

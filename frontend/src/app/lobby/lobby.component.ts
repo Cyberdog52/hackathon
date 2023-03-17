@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { LobbyService } from "../../services/lobby.service";
-import { Observable, repeat } from "rxjs";
+import { Observable, repeat, retry } from "rxjs";
 import { GameDto } from "../../model/lobby";
 
 @Component({
@@ -21,7 +21,10 @@ export class LobbyComponent implements OnInit {
 
   private pollGamesRegularly(): void {
     this.games$ = this.lobbyService.getGames()
-      .pipe(repeat({ count: Infinity, delay: 1000 })); // repeat every second
+      .pipe(
+        repeat({ count: Infinity, delay: 1000 }), // repeat every second
+        retry({ count: Infinity, delay: 1000 }), // when it fails, retry forever
+      );
   }
 
   createGame(): void {

@@ -27,6 +27,7 @@ public class GameConnector {
     public void join() {
         log.info("Joining game...");
         JoinRequest signUpRequest = new JoinRequest(new PlayerName(applicationProperties.getName()));
+        // Improve: Handle exceptions
         ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendJoinUrl(),
                         signUpRequest,
