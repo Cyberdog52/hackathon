@@ -2,6 +2,7 @@ package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
+import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult.StartResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
@@ -146,6 +147,58 @@ class LobbyControllerTest {
         when(gameServiceMock.startGame(anyInt())).thenReturn(new StartResult(StartResultType.NOT_ENOUGH_PLAYERS));
 
         ResponseEntity<Void> response = lobbyController.startGame(666);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
+        assertThat(response.getBody()).isNull();
+        verify(notificationServiceMock, never()).notifyGameUpdate(any());
+    }
+
+    @Test
+    void play_successfully() {
+        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        GameId gameId = new GameId(42);
+        when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.SUCCESS));
+
+        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(response.getBody()).isNull();
+        verify(notificationServiceMock, times(1)).notifyGameUpdate(gameId);
+    }
+
+    @Test
+    void play_whenGameIsNotFound_returns404() {
+        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        GameId gameId = new GameId(42);
+        when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.GAME_NOT_FOUND));
+
+        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(404));
+        assertThat(response.getBody()).isNull();
+        verify(notificationServiceMock, never()).notifyGameUpdate(any());
+    }
+
+    @Test
+    void play_whenPlayerIsNotPartOfTheGame_returns400() {
+        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        GameId gameId = new GameId(42);
+        when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.PLAYER_NOT_PART_OF_GAME));
+
+        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
+        assertThat(response.getBody()).isNull();
+        verify(notificationServiceMock, never()).notifyGameUpdate(any());
+    }
+
+    @Test
+    void play_whenActionIsInvalid_returns400() {
+        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        GameId gameId = new GameId(42);
+        when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.INVALID_ACTION));
+
+        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();

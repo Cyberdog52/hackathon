@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
+import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
@@ -74,10 +75,10 @@ public class LobbyController {
     @PostMapping("/game/{gameId}/play")
     public ResponseEntity<Void> play(@PathVariable int gameId, @RequestBody Move move) {
         PlayResult playResult = gameService.play(move, new GameId(gameId));
-        if (playResult.resultType() == PlayResult.PlayResultType.GAME_NOT_FOUND) {
+        if (playResult.resultType() == PlayResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();
         }
-        if (playResult.resultType() == PlayResult.PlayResultType.PLAYER_NOT_FOUND || playResult.resultType() == PlayResult.PlayResultType.INVALID_ACTION) {
+        if (playResult.resultType() == PlayResultType.PLAYER_NOT_PART_OF_GAME || playResult.resultType() == PlayResultType.INVALID_ACTION) {
             return ResponseEntity.badRequest().build();
         }
         notificationService.notifyGameUpdate(new GameId(gameId));

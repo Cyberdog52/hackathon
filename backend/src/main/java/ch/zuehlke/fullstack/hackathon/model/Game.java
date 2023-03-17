@@ -61,14 +61,14 @@ public class Game {
         status = GameStatus.DELETED;
     }
 
-    public boolean canPlayMove(Move move) {
+    public boolean isMoveAllowed(Move move) {
         return status == GameStatus.IN_PROGRESS &&
                 state.currentRequests().stream()
                         .anyMatch(request -> request.playerId().equals(move.playerId()) && request.requestId().equals(move.requestId()));
     }
 
     public void playMove(Move move) {
-        if (!canPlayMove(move)) {
+        if (!isMoveAllowed(move)) {
             return;
         }
 

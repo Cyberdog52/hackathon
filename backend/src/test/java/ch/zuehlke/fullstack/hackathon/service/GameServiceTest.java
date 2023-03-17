@@ -1,9 +1,8 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.GameId;
-import ch.zuehlke.common.GameStatus;
-import ch.zuehlke.common.PlayerName;
+import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
+import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.junit.jupiter.api.BeforeEach;
@@ -117,5 +116,73 @@ class GameServiceTest {
 
         assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.SUCCESS);
         assertThat(game.getStatus()).isEqualTo(GameStatus.IN_PROGRESS);
+    }
+
+    @Test
+    void playGame_playerOnePlays_successfully() {
+        Game game = gameService.createGame();
+        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
+        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+        PlayerId playerId1 = joinResult1.playerId();
+        gameService.startGame(game.getGameId().value());
+        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
+
+        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
+        PlayResult playResult = gameService.play(move, game.getGameId());
+
+        assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.SUCCESS);
+    }
+
+    @Test
+    void playGame_playerOnePlaysTwice_returnsInvalidAction() {
+        Game game = gameService.createGame();
+        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
+        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+        PlayerId playerId1 = joinResult1.playerId();
+        gameService.startGame(game.getGameId().value());
+        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
+
+        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
+        gameService.play(move, game.getGameId());
+        PlayResult playResult = gameService.play(move, game.getGameId());
+
+        assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.INVALID_ACTION);
+    }
+
+    @Test
+    void playGame_withNonExistingGameId_returnsGameNotFound() {
+        Game game = gameService.createGame();
+        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
+        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+        PlayerId playerId1 = joinResult1.playerId();
+        gameService.startGame(game.getGameId().value());
+        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
+
+        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
+        PlayResult playResult = gameService.play(move, new GameId(666));
+
+        assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.GAME_NOT_FOUND);
+    }
+
+    @Test
+    void playGame_withInvalidRequestId_returnsInvalidAction() {
+        Game game = gameService.createGame();
+        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
+        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+        PlayerId playerId1 = joinResult1.playerId();
+        gameService.startGame(game.getGameId().value());
+
+        Move move = new Move(playerId1, new RequestId(), GameAction.ROCK);
+        PlayResult playResult = gameService.play(move, game.getGameId());
+
+        assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.INVALID_ACTION);
+    }
+
+    private RequestId getRequestIdForPlayer(PlayerId playerId, Game game) {
+        return game.getState().currentRequests().stream()
+                .filter(request -> request.playerId().equals(playerId))
+                .findFirst()
+                .map(PlayRequest::requestId)
+                .orElse(new RequestId());
     }
 }
