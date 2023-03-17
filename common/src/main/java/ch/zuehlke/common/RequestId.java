@@ -2,9 +2,9 @@ package ch.zuehlke.common;
 
 import java.util.UUID;
 
-public record PlayerId(String value) {
+public record RequestId(String value) {
 
-    public PlayerId() {
+    public RequestId() {
         this(UUID.randomUUID().toString());
     }
 }

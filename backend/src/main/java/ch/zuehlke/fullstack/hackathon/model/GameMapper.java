@@ -10,6 +10,7 @@ public class GameMapper {
                 .players(game.getPlayers())
                 .status(game.getStatus())
                 .state(game.getState())
+                .winner(game.getWinner().orElse(null))
                 .build();
     }
 }

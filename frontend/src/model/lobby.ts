@@ -3,6 +3,7 @@ export interface GameDto {
   players: Player[];
   status: GameStatus;
   state: GameState;
+  winner?: PlayerId;
 }
 
 export interface Player {
@@ -19,11 +20,33 @@ export interface GameId {
 }
 
 export interface PlayerId {
-  value: number;
+  value: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GameState {
+  currentRequests: PlayRequest[];
+  rounds: Round[];
+}
+
+export interface PlayRequest {
+  player: PlayerId;
+  requestId: RequestId;
+  possibleActions: GameAction[];
+}
+
+export interface RequestId {
+  value: string;
+}
+
+export interface Round {
+  moves: Move[];
+  winner?: PlayerId;
+}
+
+export interface Move {
+  playerId: PlayerId;
+  requestId: RequestId;
+  action: GameAction;
 }
 
 export enum GameStatus {
@@ -31,4 +54,10 @@ export enum GameStatus {
   IN_PROGRESS = "IN_PROGRESS",
   FINISHED = "FINISHED",
   DELETED = "DELETED"
+}
+
+export enum GameAction {
+  ROCK = "ROCK",
+  PAPER = "PAPER",
+  SCISSORS = "SCISSORS"
 }

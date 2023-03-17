@@ -1,9 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.GameDto;
-import ch.zuehlke.common.GameId;
-import ch.zuehlke.common.JoinRequest;
-import ch.zuehlke.common.JoinResponse;
+import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
@@ -67,6 +64,24 @@ public class LobbyController {
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
         return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
+    }
+
+    @Operation(summary = "Plays a move",
+            description = "Plays a move")
+    @ApiResponse(responseCode = "200", description = "Successfully played the move")
+    @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
+    @ApiResponse(responseCode = "404", description = "Game was not found")
+    @PostMapping("/game/{gameId}/play")
+    public ResponseEntity<Void> play(@PathVariable int gameId, @RequestBody Move move) {
+        PlayResult playResult = gameService.play(move, new GameId(gameId));
+        if (playResult.resultType() == PlayResult.PlayResultType.GAME_NOT_FOUND) {
+            return ResponseEntity.notFound().build();
+        }
+        if (playResult.resultType() == PlayResult.PlayResultType.PLAYER_NOT_FOUND || playResult.resultType() == PlayResult.PlayResultType.INVALID_ACTION) {
+            return ResponseEntity.badRequest().build();
+        }
+        notificationService.notifyGameUpdate(new GameId(gameId));
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Deletes a game",

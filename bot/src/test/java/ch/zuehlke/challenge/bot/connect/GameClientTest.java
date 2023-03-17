@@ -12,9 +12,9 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.mockito.Mockito.*;
 
-class GameConnectorTest {
+class GameClientTest {
 
-    private GameConnector gameConnector;
+    private GameClient gameClient;
 
     private RestTemplate restTemplateMock;
     private ApplicationProperties applicationPropertiesMock;
@@ -23,7 +23,7 @@ class GameConnectorTest {
     void setUp() {
         restTemplateMock = mock(RestTemplate.class);
         applicationPropertiesMock = mock(ApplicationProperties.class);
-        gameConnector = new GameConnector(restTemplateMock, applicationPropertiesMock);
+        gameClient = new GameClient(restTemplateMock, applicationPropertiesMock);
     }
 
     @Test
@@ -32,10 +32,10 @@ class GameConnectorTest {
         when(applicationPropertiesMock.getName()).thenReturn("name");
         when(applicationPropertiesMock.getBackendJoinUrl()).thenReturn("/game/{gameId}/join");
 
-        ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(new PlayerId("id")));
+        ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(new PlayerId()));
         when(restTemplateMock.postForEntity(any(), any(), eq(JoinResponse.class), anyInt())).thenReturn(response);
 
-        gameConnector.join();
+        gameClient.join();
 
         JoinRequest expectedRequest = new JoinRequest(new PlayerName("name"));
         verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/join", expectedRequest, JoinResponse.class, 1);

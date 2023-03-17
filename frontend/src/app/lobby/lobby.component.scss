@@ -1,5 +1,10 @@
 mat-grid-list {
   padding: 16px 16px 16px 16px;
+  height: 100%;
+}
+
+mat-grid-tile-header {
+  margin-bottom: 16px !important;
 }
 
 mat-grid-tile {
@@ -7,7 +12,7 @@ mat-grid-tile {
 }
 
 button {
-  margin: 8px 8px 8px 8px;
+  margin: 16px 16px 16px 16px;
 }
 
 app-game-card {

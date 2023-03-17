@@ -55,7 +55,7 @@ class LobbyControllerTest {
 
     @Test
     void join_successfully() {
-        JoinResult joinResult = new JoinResult(new PlayerId("id"), JoinResultType.SUCCESS);
+        JoinResult joinResult = new JoinResult(new PlayerId(), JoinResultType.SUCCESS);
         when(gameServiceMock.join(anyInt(), any())).thenReturn(joinResult);
 
         PlayerName playerName = new PlayerName("name");

@@ -1,11 +1,10 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.GameId;
-import ch.zuehlke.common.Player;
-import ch.zuehlke.common.PlayerId;
-import ch.zuehlke.common.PlayerName;
+import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
+import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
+import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class GameService {
@@ -50,7 +48,7 @@ public class GameService {
         if (game.isEmpty()) {
             return new JoinResult(null, JoinResultType.GAME_NOT_FOUND);
         }
-        Player newPlayer = new Player(new PlayerId(UUID.randomUUID().toString()), name);
+        Player newPlayer = new Player(new PlayerId(), name);
 
         boolean success = game.get().addPlayer(newPlayer);
         if (!success) {
@@ -74,5 +72,21 @@ public class GameService {
         game.startGame();
 
         return new StartResult(StartResult.StartResultType.SUCCESS);
+    }
+
+    public PlayResult play(Move move, GameId gameId) {
+        Optional<Game> optionalGame = getGame(gameId.value());
+        if (optionalGame.isEmpty()) {
+            return new PlayResult(PlayResultType.GAME_NOT_FOUND);
+        }
+
+        Game game = optionalGame.get();
+        if (!game.canPlayMove(move)) {
+            return new PlayResult(PlayResultType.INVALID_ACTION);
+        }
+
+        game.playMove(move);
+
+        return new PlayResult(PlayResultType.SUCCESS);
     }
 }

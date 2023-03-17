@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { GameDto, GameStatus } from "../../model/lobby";
+import { GameAction, GameDto, GameStatus, PlayerId } from "../../model/lobby";
 import { LobbyService } from "../../services/lobby.service";
 
 @Component({
@@ -14,6 +14,7 @@ export class GameCardComponent {
   MAX_PLAYERS = 2;
   MIN_PLAYERS = 2;
   GameStatus = GameStatus;
+  GameAction = GameAction;
 
   constructor(private lobbyService: LobbyService) {
   }
@@ -42,5 +43,9 @@ export class GameCardComponent {
         console.log("Something went wrong during start of game: ", error);
       }
     });
+  }
+
+  getPlayerName(key: PlayerId): string | undefined {
+    return this.game.players.find(player => player.id.value === key.value)?.name.value;
   }
 }

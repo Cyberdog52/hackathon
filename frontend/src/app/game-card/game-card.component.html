@@ -9,7 +9,16 @@
       <mat-chip *ngFor="let player of game.players">{{player.name.value}}</mat-chip>
     </mat-chip-set>
     <p *ngIf="game.players.length === 0">Waiting for players...</p>
+    <mat-list *ngFor="let round of game.state.rounds">
+      <mat-list-item *ngFor="let move of round.moves">
+        {{ getPlayerName(move.playerId) }} played {{ move.action }}
+      </mat-list-item>
+    </mat-list>
     <p *ngIf="game.status === GameStatus.IN_PROGRESS">Game is in progress</p>
+    <div *ngIf="game.status === GameStatus.FINISHED">
+      <p *ngIf="!game.winner">Game is a draw</p>
+      <p *ngIf="game.winner">{{ getPlayerName(game.winner) }} has won</p>
+    </div>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button
@@ -20,7 +29,7 @@
     </button>
     <button mat-raised-button
             (click)="deleteGame()"
-            [disabled]="game.players.length > 0 || game.status === GameStatus.FINISHED">
+            [disabled]="game.players.length > 0 && game.status !== GameStatus.FINISHED">
       <mat-icon>delete_outline</mat-icon>
       Delete
     </button>

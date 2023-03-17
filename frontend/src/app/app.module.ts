@@ -14,6 +14,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { GameCardComponent } from "./game-card/game-card.component";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatListModule } from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MatChipsModule } from "@angular/material/chips";
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

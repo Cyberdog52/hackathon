@@ -1,5 +1,6 @@
 package ch.zuehlke.challenge.bot.connect;
 
+import ch.zuehlke.challenge.bot.brain.GameService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.GameUpdate;
 import jakarta.annotation.PreDestroy;
@@ -31,6 +32,8 @@ public class StompController implements StompSessionHandler {
 
     private StompSession.Subscription subscription;
 
+    private final GameService gameService;
+
     @EventListener(value = ApplicationReadyEvent.class)
     public void connect() {
         WebSocketClient client = new StandardWebSocketClient();
@@ -59,11 +62,12 @@ public class StompController implements StompSessionHandler {
 
     @Override
     public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
-        log.error("Got an exception while handling a frame.\n" +
-                "Command: {}\n" +
-                "Headers: {}\n" +
-                "Payload: {}\n" +
-                "{}", command, headers, payload, exception);
+        log.error("""
+                Got an exception while handling a frame.
+                Command: {}
+                Headers: {}
+                Payload: {}
+                {}""", command, headers, payload, exception);
     }
 
     @Override
@@ -84,8 +88,8 @@ public class StompController implements StompSessionHandler {
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         log.info("Got a new message {}", payload);
-        GameUpdate stompMessage = (GameUpdate) payload;
-        // TODO: Consume the message, handle possible ClassCastExceptions or different payload classes.
+        GameUpdate gameUpdate = (GameUpdate) payload;
+        gameService.onGameUpdate(gameUpdate);
     }
 
     @PreDestroy
