@@ -1,8 +1,11 @@
-package ch.zuehlke.challenge.bot.brain;
+package ch.zuehlke.challenge.bot.service;
 
-import ch.zuehlke.challenge.bot.connect.GameClient;
+import ch.zuehlke.challenge.bot.brain.Brain;
+import ch.zuehlke.challenge.bot.client.GameClient;
 import ch.zuehlke.common.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -11,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.lang.System.exit;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,9 +21,13 @@ public class GameService {
 
     private final Brain brain;
 
+    @Getter
+    @Setter
     private PlayerId playerId;
 
     private final GameClient gameClient;
+
+    private final ShutDownService shutDownService;
 
     // Improve: find a better way to keep track of already processed requests
     private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
@@ -42,7 +47,7 @@ public class GameService {
         }
         if (gameDto.status() == GameStatus.FINISHED || gameDto.status() == GameStatus.DELETED) {
             log.info("Game is finished, shutting down...");
-            exit(0);
+            shutDownService.shutDown();
         }
 
         gameDto.state().currentRequests().stream()

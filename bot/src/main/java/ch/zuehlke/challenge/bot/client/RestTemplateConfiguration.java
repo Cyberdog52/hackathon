@@ -1,4 +1,4 @@
-package ch.zuehlke.challenge.bot.connect;
+package ch.zuehlke.challenge.bot.client;
 
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Configuration
-public class HackathonRestTemplateClient {
+public class RestTemplateConfiguration {
 
     private final ApplicationProperties applicationProperties;
 

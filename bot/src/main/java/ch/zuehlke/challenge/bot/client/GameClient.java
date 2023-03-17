@@ -1,5 +1,6 @@
-package ch.zuehlke.challenge.bot.connect;
+package ch.zuehlke.challenge.bot.client;
 
+import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.*;
 import lombok.RequiredArgsConstructor;
@@ -7,9 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import static java.lang.System.exit;
-import static java.text.MessageFormat.format;
 
 @Slf4j
 @Service
@@ -20,10 +18,13 @@ public class GameClient {
 
     private final ApplicationProperties applicationProperties;
 
+    private final ShutDownService shutDownService;
+
 
     public PlayerId join() {
-        log.info("Joining game...");
         JoinRequest signUpRequest = new JoinRequest(new PlayerName(applicationProperties.getName()));
+        log.info("Joining game with request {}", signUpRequest);
+
         // Improve: Handle exceptions
         ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendJoinUrl(),
@@ -31,22 +32,21 @@ public class GameClient {
                         JoinResponse.class,
                         applicationProperties.getGameId()
                 );
-        log.info(format("Received response: {0}", signUpResponse));
+        log.info("Received response: {}", signUpResponse);
         if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
-            log.info("Successfully joined game!");
             PlayerId playerId = signUpResponse.getBody().playerId();
-            log.info(format("PlayerId: {0}", playerId));
+            log.info("Joined game with PlayerId: {}", playerId);
             return playerId;
         } else {
-            log.error("Could not join game! Will shutdown now...");
-            exit(0);
+            log.error("Could not join game. Will shutdown now...");
+            shutDownService.shutDown();
             // Needed to return something even though exit(0) is called
             return null;
         }
     }
 
     public void play(Move move) {
-        log.info("Playing move {}...", move);
+        log.info("Playing move: {}", move);
 
         // Improve: Handle exceptions
         ResponseEntity<Void> response = hackathonRestTemplateClient
@@ -55,12 +55,12 @@ public class GameClient {
                         Void.class,
                         applicationProperties.getGameId()
                 );
-        log.info(format("Received response: {0}", response));
+        log.info("Received response: {}", response);
         if (response.getStatusCode().is2xxSuccessful()) {
             log.info("Successfully played a move!");
         } else {
             log.error("Could not play game! Will shutdown now...");
-            exit(0);
+            shutDownService.shutDown();
         }
     }
 }

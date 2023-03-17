@@ -1,6 +1,6 @@
-package ch.zuehlke.challenge.bot.connect;
+package ch.zuehlke.challenge.bot.client;
 
-import ch.zuehlke.challenge.bot.brain.GameService;
+import ch.zuehlke.challenge.bot.service.GameService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.GameUpdate;
 import jakarta.annotation.PreDestroy;
@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 @Controller
 @RequiredArgsConstructor
 // Adapted from tutorial at https://blog.dkwr.de/development/spring/spring-stomp-client/
-public class StompController implements StompSessionHandler {
+public class StompClient implements StompSessionHandler {
 
     private final ApplicationProperties applicationProperties;
 
