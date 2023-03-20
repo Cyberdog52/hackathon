@@ -41,9 +41,7 @@ public class StompClient implements StompSessionHandler {
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         try {
             String socketUrl = applicationProperties.getWebSocketUri();
-            stompSession = stompClient
-                    .connect(socketUrl, this) // Improve: Don't use deprecated method
-                    .get();
+            stompSession = stompClient.connectAsync(socketUrl, this).get();
         } catch (Exception e) {
             log.error("Connection failed.", e); // Improve: error handling.
         }
