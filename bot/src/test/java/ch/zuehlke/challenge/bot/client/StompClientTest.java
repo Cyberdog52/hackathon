@@ -16,6 +16,8 @@ class StompClientTest {
 
     private GameService gameServiceMock;
 
+    // Improve: Write more tests, probably split up StompClient to make it easier to test
+
     @BeforeEach
     void setUp() {
         applicationPropertiesMock = mock(ApplicationProperties.class);
