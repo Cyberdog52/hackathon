@@ -1,10 +1,10 @@
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {ExampleDto} from "../../model/example/ExampleDto";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { ExampleDto } from "../../model/example/ExampleDto";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ExampleService {
 
@@ -14,7 +14,7 @@ export class ExampleService {
   }
 
   public getExample(): Observable<ExampleDto>  {
-    let url = `${this.backendUrl}`;
+    const url = `${this.backendUrl}`;
     return this.httpClient.get<ExampleDto>(url);
   }
 }
