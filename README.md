@@ -1,5 +1,7 @@
 # Java Fullstack Hackathon 2023
 
+## Topic: Zühlke Coding Challenge
+
 ---
 
 ## Setup
@@ -22,26 +24,48 @@ If your setup already has some of the required tools installed, please adjust ac
 During the hackathon your team can decide to use a custom branch on this GitHub repository or to fork it to your own
 private repository.
 
-## Run
+## Overview / How to run
 
 ### Start backend
 
 1. Start the backend either by
-   1. By selecting the "Backend" run configuration and running it
+    1. By selecting the "Backend" run configuration and running it
        ![runconfig-springboot.png](doc/runconfig-springboot.png)
-   2. Or by executing `./gradlew bootRun`
+    2. Or by executing `./gradlew bootRun`
 
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
 ![swagger.png](doc/swagger.png)
 
 ### Start frontend
 
-1. By selecting the "Frontend" and running it
-   ![runconfig-npm.png](doc/runconfig-npm.png)
-2. Or by executing `cd frontend` followed by `npm start`
-
-You should now be able to open `http://localhost:4200` to access the frontend.
+1. Start the frontend either by
+    1. By selecting the "Frontend" and running it
+       ![runconfig-npm.png](doc/runconfig-npm.png)
+    2. Or by executing `cd frontend` followed by `npm start` \
+2. You should now be able to open `http://localhost:4200` in your favorite browser to access the frontend.
+3. Create a new game by clicking the button "Create new game"
 
 Now you should see the following screen:
-![setup-complete-with-example-component.png](doc/setup-complete-with-example-component.png)
+![setup-complete-with-example-component.png](doc/setup-complete-frontend.png)
+
+### Start bots
+
+This module contains the logic of how bots should connect to the backend game server and play "Rock, Paper, Scissors".
+By using different Spring Profiles, you can switch between different implementations of the bots "brain".
+
+1. Start "BestBot" using the run configuration "BestBot". It uses port 8081.
+   ![runconfig-bestbot.png](doc/runconfig-bestbot.png)
+2. Start "SimpleBot" using the run configuration "SimpleBot". It uses port 8082.
+   ![runconfig-simplebot.png](doc/runconfig-simplebot.png)
+3. Both consoles of the bots should now be waiting for the game to start and have a console output similar to this:
+   ![console-bestbot.png](doc/console-bestbot.png)
+3. The game you created in the frontend should now be ready to be started (button not greyed out anymore).
+4. Start the game by clicking the button "Start" and wait for the bots to play their game.
+5. The game should be finished, as can be seen in the frontend:
+   ![game-finished.png](doc/game-finished.png)
+   The bots will have automatically shut down after the game has finished.
+
+### common module
+
+This module is used to share code between the backend and the bots. It mainly consists of domain logic and DTOs.
 
