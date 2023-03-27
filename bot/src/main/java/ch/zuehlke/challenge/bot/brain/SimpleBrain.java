@@ -4,6 +4,9 @@ import ch.zuehlke.common.GameAction;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @Component
@@ -12,7 +15,9 @@ public class SimpleBrain implements Brain {
 
     public GameAction decide(Set<GameAction> possibleActions) {
         think();
-        return GameAction.ROCK;
+        List<GameAction> list = new ArrayList<>(possibleActions);
+        int randIdx = new Random().nextInt(list.size());
+        return list.get(randIdx);
     }
 
     private static void think() {

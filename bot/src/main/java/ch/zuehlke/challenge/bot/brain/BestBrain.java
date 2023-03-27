@@ -4,8 +4,12 @@ import ch.zuehlke.common.GameAction;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import static java.util.Collections.shuffle;
 
 @Component
 @Profile("bestbot")
@@ -13,10 +17,10 @@ public class BestBrain implements Brain {
 
     public GameAction decide(Set<GameAction> possibleActions) {
         thinkForALongTime();
-        return possibleActions.stream()
-                .skip(new Random().nextInt(possibleActions.size()))
-                .findFirst()
-                .orElse(GameAction.PAPER);
+
+        List<GameAction> list = new ArrayList<>(possibleActions);
+        int randIdx = new Random().nextInt(list.size());
+        return list.get(randIdx);
     }
 
     private static void thinkForALongTime() {

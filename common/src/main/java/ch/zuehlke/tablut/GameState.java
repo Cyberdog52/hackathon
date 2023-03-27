@@ -1,5 +1,10 @@
 package ch.zuehlke.tablut;
 
+import ch.zuehlke.common.GameAction;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;

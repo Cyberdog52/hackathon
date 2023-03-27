@@ -4,6 +4,7 @@ import ch.zuehlke.challenge.bot.client.GameClient;
 import ch.zuehlke.challenge.bot.service.GameService;
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.common.*;
+import ch.zuehlke.tablut.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,12 +47,12 @@ class GameServiceTest {
         PlayerId playerId = new PlayerId();
         GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
         gameService.setPlayerId(playerId);
         gameService.onGameUpdate(gameUpdate);
 
-        verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
+        verify(brainMock, times(1)).decide(Set.of(new GameAction(new Coordinates(0,0),new Coordinates(0,0))));
         verify(gameClientMock, times(1)).play(any());
     }
 
@@ -60,7 +61,7 @@ class GameServiceTest {
         PlayerId playerId = new PlayerId();
         GameState state = new GameState(Set.of(), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.NOT_STARTED, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
         gameService.setPlayerId(playerId);
         gameService.onGameUpdate(gameUpdate);
@@ -74,7 +75,7 @@ class GameServiceTest {
         PlayerId playerId = new PlayerId();
         GameState state = new GameState(Set.of(), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.FINISHED, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
         gameService.setPlayerId(playerId);
         gameService.onGameUpdate(gameUpdate);
@@ -89,13 +90,13 @@ class GameServiceTest {
         PlayerId playerId = new PlayerId();
         GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
         gameService.setPlayerId(playerId);
         gameService.onGameUpdate(gameUpdate);
         gameService.onGameUpdate(gameUpdate); // call twice
 
-        verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
+        verify(brainMock, times(1)).decide(Set.of(new GameAction(new Coordinates(0,0),new Coordinates(0,0))));
         verify(gameClientMock, times(1)).play(any());
     }
 
@@ -104,7 +105,7 @@ class GameServiceTest {
         PlayerId playerId = new PlayerId();
         GameState state = new GameState(Set.of(new PlayRequest(new PlayerId())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
         gameService.setPlayerId(playerId);
         gameService.onGameUpdate(gameUpdate);

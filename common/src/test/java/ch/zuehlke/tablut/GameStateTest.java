@@ -1,5 +1,6 @@
 package ch.zuehlke.tablut;
 
+import ch.zuehlke.common.GameAction;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
