@@ -36,13 +36,27 @@ public class MatchController {
     }
 
     @Operation(summary = "Create a new match",
-            description = "Creates a new game and returns the game id")
+            description = "Creates a new match and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new match")
     @PostMapping("/match")
-    public String  createMatch() {
+    public String createMatch() {
         return this.matchService.createMatch()
                 .getId()
                 .toString();
+    }
+
+    @Operation(summary = "Get a match",
+            description = "Get the information for a match")
+    @ApiResponse(responseCode = "200", description = "Successfully created a new match")
+    @PostMapping("/match/{matchId}")
+    public ResponseEntity<MatchLobby> getMatch(@PathVariable final String matchId) {
+        try {
+            return ResponseEntity.ok(this.findLobby(matchId));
+        } catch (MatchStartException e) {
+            log.warn("Cloud not find match lobby with the id ({})", matchId);
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @Operation(summary = "Join a match",
