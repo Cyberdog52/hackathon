@@ -14,12 +14,13 @@ class PlayingEventMapper implements EventMapper<PlayingEvent> {
   providedIn: "root"
 })
 export class GameEventService {
-  private readonly wsUrl = "ws://localhost:8080/spectate/"
+  private readonly wsUrl = "ws://localhost:8080/update"
   private subject: ReplaySubject<PlayingEvent> = new ReplaySubject<PlayingEvent>();
 
   public listenToGameEvents(gameId: string): Observable<PlayingEvent> {
     const websocketClient = new WebsocketClient<PlayingEvent, GameAction>(
-      `${this.wsUrl}/${gameId}`,
+      this.wsUrl,
+      `/topic/game/${gameId}/spectate`,
       new PlayingEventMapper()
     );
 
