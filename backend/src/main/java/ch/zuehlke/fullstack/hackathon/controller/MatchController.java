@@ -39,8 +39,10 @@ public class MatchController {
             description = "Creates a new game and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new match")
     @PostMapping("/match")
-    public MatchLobby createMatch() {
-        return this.matchService.createMatch();
+    public String  createMatch() {
+        return this.matchService.createMatch()
+                .getId()
+                .toString();
     }
 
     @Operation(summary = "Join a match",

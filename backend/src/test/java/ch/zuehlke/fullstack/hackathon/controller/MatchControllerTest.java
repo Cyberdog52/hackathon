@@ -7,7 +7,6 @@ import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatusCode;
@@ -44,8 +43,8 @@ class MatchControllerTest {
 
     @Test
     void itShouldNotStartMatches_whenTheyAreEmpty() {
-        final var matchLobby = this.matchController.createMatch().getId();
-        final var response = this.matchController.startMatch(matchLobby.toString());
+        final var matchId = this.matchController.createMatch();
+        final var response = this.matchController.startMatch(matchId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
     }
 
@@ -54,8 +53,8 @@ class MatchControllerTest {
         final var player0Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
                 .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
-        final var matchId = this.matchController.createMatch().getId();
-        final var response = this.matchController.join(matchId.toString(), new JoinRequest(player0Id.toString()));
+        final var matchId = this.matchController.createMatch();
+        final var response = this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
     }
 
@@ -64,27 +63,27 @@ class MatchControllerTest {
         final var player0Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
                 .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
-        final var matchId = this.matchController.createMatch().getId();
-        final var response = this.matchController.join(matchId.toString(), new JoinRequest(player0Id.toString()));
+        final var matchId = this.matchController.createMatch();
+        final var response = this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        final var response1 = this.matchController.join(matchId.toString(), new JoinRequest(player0Id.toString()));
+        final var response1 = this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
     }
 
     @Test
-    void itShouldStartMatches_whenThereAreTwoPlayers() throws Exception {
+    void itShouldStartMatches_whenThereAreTwoPlayers() {
         final var player0Id = UUID.randomUUID();
         final var player1Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
                 .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
         when(this.playerService.find(player1Id))
                 .thenReturn(Optional.of(new Player(player1Id, "Bob", "\uD83D\uDD25", Collections.emptyList())));
-        final var matchId = this.matchController.createMatch().getId();
-        this.matchController.join(matchId.toString(), new JoinRequest(player0Id.toString()));
-        this.matchController.join(matchId.toString(), new JoinRequest(player1Id.toString()));
-        final var response = this.matchController.startMatch(matchId.toString());
+        final var matchId = this.matchController.createMatch();
+        this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
+        this.matchController.join(matchId, new JoinRequest(player1Id.toString()));
+        final var response = this.matchController.startMatch(matchId);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        assertThat(response.getBody().getId()).isEqualTo(matchId);
+        assertThat(response.getBody().getId()).hasToString(matchId);
     }
 
 }
