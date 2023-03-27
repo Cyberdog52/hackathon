@@ -68,12 +68,10 @@ public class Game {
     }
 
     public void playMove(Move move) {
-        if (!isMoveAllowed(move)) {
-            return;
-        }
-
         state.currentRequests().removeIf(request -> request.playerId().equals(move.playerId()));
         currentMoves.add(move);
+
+        move.action().execute(players.stream().filter(player -> !player.id().equals(move.playerId())).findFirst().get().board());
 
         if (state.currentRequests().isEmpty()) {
             finishRound();
@@ -84,8 +82,11 @@ public class Game {
         Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
         state.rounds().add(currentRound);
 
-        // Improve: Do multiple rounds
-        finishGame();
+        if (getWinner().isPresent()) {
+            finishGame();
+        } else {
+            startRound();
+        }
     }
 
     public Optional<PlayerId> getWinner() {
@@ -93,6 +94,6 @@ public class Game {
             return Optional.empty();
         }
         // Improve: Handle multiple rounds
-        return Optional.ofNullable(state.rounds().get(0).winner());
+        return Optional.empty();
     }
 }

@@ -1,4 +1,4 @@
 package ch.zuehlke.common;
 
-public record JoinResponse(PlayerId playerId) {
+public record JoinResponse(PlayerId playerId, PlayerToken playerToken) {
 }
