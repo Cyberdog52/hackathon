@@ -1,3 +1,41 @@
-h1 {
-  margin-bottom: 0;
+.header-toolbar {
+  background-color: rgb(141, 96, 151);
+  color: white;
+  height: 60px;
+}
+
+.header-toolbar__left,
+.header-toolbar__right {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.header-toolbar__title {
+  font-size: 20px;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-toolbar__left img,
+.header-toolbar__right img {
+  height: 100%;
+  width: auto;
+}
+
+.mat-toolbar-row {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+a {
+  color: white;
+  text-decoration:none;
 }

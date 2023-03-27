@@ -1,8 +1,0 @@
-<button mat-raised-button (click)="createGame()">Create new game</button>
-<mat-grid-list cols="4" rowHeight="350">
-  <mat-grid-tile *ngFor="let game of games$ | async">
-    <app-game-card [game]="game"></app-game-card>
-  </mat-grid-tile>
-</mat-grid-list>
-<h2>Debug game variable:</h2>
-<p>{{games$ | async | json }}</p>
