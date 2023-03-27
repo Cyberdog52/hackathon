@@ -1,16 +1,19 @@
 package ch.zuehlke.common;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Player {
 
-    private final String id;
-    private final String token;
-    private final String playerName;
-
-    public Player() {
-        this("No Name provided");
-    }
+    private String id;
+    private String token;
+    private String playerName;
 
     public Player(String playerName) {
         id = UUID.randomUUID().toString();
@@ -18,15 +21,4 @@ public class Player {
         this.playerName = playerName;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
 }

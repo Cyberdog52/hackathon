@@ -18,9 +18,12 @@ import java.util.Optional;
 @Service
 public class GameService {
 
+    private Map<String, Player> playersById = new HashMap<>();
+
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
     private static int counter = 0;
+
 
     public List<Game> getGames() {
         return games;
@@ -44,7 +47,6 @@ public class GameService {
                 .filter(game -> game.getGameId().value() == gameId)
                 .findFirst();
     }
-
     /*public JoinResult join(int gameId, PlayerName name) {
         Optional<Game> game = getGame(gameId);
         if (game.isEmpty()) {
@@ -59,6 +61,7 @@ public class GameService {
 
         return new JoinResult(newPlayer.id(), JoinResultType.SUCCESS);
     }*/
+
 
     public StartResult startGame(int gameId) {
         Optional<Game> optionalGame = getGame(gameId);
@@ -91,8 +94,6 @@ public class GameService {
 
         return new PlayResult(PlayResultType.SUCCESS);
     }
-
-    private Map<String, Player> playersById = new HashMap<>();
 
     public ResponseEntity<RegisterResponse> register(String playerName) {
         Player player = new Player(playerName);
