@@ -37,6 +37,14 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+
+    compileOnly 'org.springframework.statemachine:spring-statemachine-starter'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.statemachine:spring-statemachine-bom:3.2.0"
+    }
 }
 
 test {
