@@ -1,26 +1,49 @@
-package ch.zuehlke.tablut;
+package ch.zuehlke.common;
 
-import ch.zuehlke.common.GameAction;
+import ch.zuehlke.tablut.Board;
+import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.tablut.Field;
+import ch.zuehlke.tablut.NormalFieldState;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class GameState {
+public class GameState2 {
 
     private Board board;
 
     private List<GameAction> actionHistory;
 
-    public GameState() {
+    private Set<PlayRequest> currentRequests;
+    private List<Round> rounds;
+
+    public GameState2() {
         this.board = Board.createInitialBoard();
         this.actionHistory = new ArrayList<>();
+        this.currentRequests = new HashSet<>();
+        this.rounds = new ArrayList<>();
     }
 
-    public GameState(Board board, List<GameAction> actionHistory) {
-        this.board = board;
-        this.actionHistory = actionHistory;
+    public GameState2(Set<PlayRequest> currentRequests, List<Round> rounds) {
+        this.board = Board.createInitialBoard();
+        this.actionHistory = new ArrayList<>();
+        this.currentRequests = currentRequests;
+        this.rounds = rounds;
     }
+
+    public Set<PlayRequest> currentRequests() {
+        return currentRequests;
+    }
+
+    public List<Round> rounds() {
+        return rounds;
+    }
+
+    //    public GameState(Board board, List<GameAction> actionHistory) {
+//        this.board = board;
+//        this.actionHistory = actionHistory;
+//    }
 
     public Set<GameAction> getPossibleActions() {
         if (actionHistory.size() % 2 == 0) {

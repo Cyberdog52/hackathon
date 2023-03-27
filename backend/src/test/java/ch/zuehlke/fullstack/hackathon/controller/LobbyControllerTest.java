@@ -7,6 +7,7 @@ import ch.zuehlke.fullstack.hackathon.controller.StartResult.StartResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
+import ch.zuehlke.tablut.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatusCode;
@@ -155,7 +156,7 @@ class LobbyControllerTest {
 
     @Test
     void play_successfully() {
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.SUCCESS));
 
@@ -168,7 +169,7 @@ class LobbyControllerTest {
 
     @Test
     void play_whenGameIsNotFound_returns404() {
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.GAME_NOT_FOUND));
 
@@ -181,7 +182,7 @@ class LobbyControllerTest {
 
     @Test
     void play_whenPlayerIsNotPartOfTheGame_returns400() {
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.PLAYER_NOT_PART_OF_GAME));
 
@@ -194,7 +195,7 @@ class LobbyControllerTest {
 
     @Test
     void play_whenActionIsInvalid_returns400() {
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.INVALID_ACTION));
 

@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.*;
+import ch.zuehlke.tablut.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -88,7 +89,7 @@ class GameTest {
         Game game = new Game(new GameId(1));
         game.finishGame();
 
-        boolean canPlayMove = game.isMoveAllowed(new Move(new PlayerId(), new RequestId(), GameAction.ROCK));
+        boolean canPlayMove = game.isMoveAllowed(new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(canPlayMove).isFalse();
     }
@@ -102,7 +103,7 @@ class GameTest {
         game.startGame();
         RequestId requestId = getRequestId(game, playerId);
 
-        boolean canPlayMove = game.isMoveAllowed(new Move(playerId, requestId, GameAction.ROCK));
+        boolean canPlayMove = game.isMoveAllowed(new Move(playerId, requestId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(canPlayMove).isTrue();
     }
@@ -115,7 +116,7 @@ class GameTest {
         game.addPlayer(new Player(new PlayerId(), new PlayerName("name2")));
         game.startGame();
 
-        boolean canPlayMove = game.isMoveAllowed(new Move(playerId, new RequestId(), GameAction.ROCK));
+        boolean canPlayMove = game.isMoveAllowed(new Move(playerId, new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(canPlayMove).isFalse();
     }
@@ -129,7 +130,7 @@ class GameTest {
         game.startGame();
         RequestId requestId = getRequestId(game, playerId);
 
-        boolean canPlayMove = game.isMoveAllowed(new Move(new PlayerId(), requestId, GameAction.ROCK));
+        boolean canPlayMove = game.isMoveAllowed(new Move(new PlayerId(), requestId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(canPlayMove).isFalse();
     }
@@ -144,7 +145,7 @@ class GameTest {
         game.startGame();
         RequestId requestId1 = getRequestId(game, playerId1);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
+        game.playMove(new Move(playerId1, requestId1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(game.getState().currentRequests()).hasSize(1);
         assertThat(game.getState().currentRequests()).noneMatch(request -> request.playerId().equals(playerId1));
@@ -165,8 +166,8 @@ class GameTest {
         RequestId requestId1 = getRequestId(game, playerId1);
         RequestId requestId2 = getRequestId(game, playerId2);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
-        game.playMove(new Move(playerId2, requestId2, GameAction.ROCK));
+        game.playMove(new Move(playerId1, requestId1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
+        game.playMove(new Move(playerId2, requestId2, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(game.getState().currentRequests()).hasSize(0);
         assertThat(game.getCurrentMoves()).hasSize(2);
@@ -187,8 +188,8 @@ class GameTest {
         RequestId requestId1 = getRequestId(game, playerId1);
         RequestId requestId2 = getRequestId(game, playerId2);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
-        game.playMove(new Move(playerId2, requestId2, GameAction.SCISSORS));
+        game.playMove(new Move(playerId1, requestId1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
+        game.playMove(new Move(playerId2, requestId2, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0))));
 
         assertThat(game.getState().currentRequests()).hasSize(0);
         assertThat(game.getCurrentMoves()).hasSize(2);

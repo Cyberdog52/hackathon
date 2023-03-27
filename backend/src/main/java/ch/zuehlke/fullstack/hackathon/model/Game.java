@@ -21,6 +21,7 @@ public class Game {
     private GameStatus status = GameStatus.NOT_STARTED;
 
     private final GameState state = new GameState();
+    private final GameState2 state2 = new GameState2();
 
     // moves is not exposed to the GameDto to avoid cheating
     private List<Move> currentMoves;
@@ -50,7 +51,7 @@ public class Game {
 
     private void startRound() {
         currentMoves = new ArrayList<>();
-        players.forEach(player -> state.currentRequests().add(new PlayRequest(player.id())));
+        players.forEach(player -> state.currentRequests().add(new PlayRequest(player.id(), state2.getPossibleActions())));
     }
 
     public void finishGame() {

@@ -6,7 +6,7 @@ import java.util.Set;
 
 public record PlayRequest(PlayerId playerId, RequestId requestId, Set<GameAction> possibleActions) {
 
-    public PlayRequest(PlayerId playerId) {
-        this(playerId, new RequestId(), Set.of(new GameAction(new Coordinates(0,0),new Coordinates(0,0))));
+    public PlayRequest(PlayerId playerId, Set<GameAction> possibleActions) {
+        this(playerId, new RequestId(), possibleActions);
     }
 }
