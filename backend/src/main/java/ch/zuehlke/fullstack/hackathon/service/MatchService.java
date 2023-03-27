@@ -1,44 +1,63 @@
-//package ch.zuehlke.fullstack.hackathon.service;
-//
-//import ch.zuehlke.common.*;
-//import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
-//import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
-//import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
-//import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
-//import ch.zuehlke.fullstack.hackathon.controller.StartResult;
-//import ch.zuehlke.fullstack.hackathon.model.Match;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//
-//@Service
-//public class GameService {
-//
-//    // Improve: Instead of storing this in-memory, store it in a database
-//    private final List<Match> games = new ArrayList<>();
-//    private static int counter = 0;
-//
-//    public List<Match> getGames() {
-//        return games;
-//    }
-//
-//    public Match createGame() {
-//        // Improve: Find a better way to create game ids
-//        counter += 1;
-//        Match game = new Match(new GameId(counter));
-//        games.add(game);
-//        return game;
-//    }
-//
-//
-//    public boolean deleteGame(int gameId) {
-//        return games.removeIf(game -> game.getGameId().value() == gameId);
-//    }
-//
+package ch.zuehlke.fullstack.hackathon.service;
+
+import ch.zuehlke.fullstack.hackathon.model.Match;
+import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
+import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Slf4j
+@Service
+public class MatchService {
+
+    // Improve: Instead of storing this in-memory, store it in a database
+    private final List<Match> matches = new ArrayList<>();
+    private final List<MatchLobby> lobbies = new ArrayList<>();
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public MatchLobby createMatch() {
+        final var lobby = new MatchLobby(UUID.randomUUID());
+        this.lobbies.add(lobby);
+        return lobby;
+    }
+
+    public Match startMatch(final MatchLobby lobby) throws MatchStartException {
+        final Match match;
+        try {
+            match = Match.fromLobby(lobby);
+            this.matches.add(match);
+            return match;
+        } catch (MatchStartException e) {
+            log.error("Unable to start match", e);
+            throw e;
+        }
+    }
+
+
+    public boolean deleteMatch(final UUID matchId) {
+        return matches.removeIf(match -> match.getId() == matchId);
+    }
+
+    public List<MatchLobby> getWaitingMatches() {
+        return this.lobbies;
+    }
+
+    public Optional<MatchLobby> getLobby(final UUID matchId) {
+        return this.lobbies.stream()
+                .filter(item -> item.getId().equals(matchId))
+                .findFirst();
+    }
+
 //    public Optional<Match> getGame(int gameId) {
-//        return games.stream()
+//        return matches.stream()
 //                .filter(game -> game.getGameId().value() == gameId)
 //                .findFirst();
 //    }
@@ -89,4 +108,4 @@
 //
 //        return new PlayResult(PlayResultType.SUCCESS);
 //    }
-//}
+}
