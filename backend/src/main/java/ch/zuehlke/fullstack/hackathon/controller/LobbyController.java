@@ -55,7 +55,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "404", description = "The game does not exist")
     @PostMapping("/game/{gameId}/join")
     public ResponseEntity<JoinResponse> join(@PathVariable int gameId, @RequestBody JoinRequest joinRequest) {
-        JoinResult joinResult = gameService.join(gameId, joinRequest.name());
+        /*JoinResult joinResult = new JoinResult()//gameService.join(gameId, joinRequest.name());
 
         if (joinResult.resultType() == JoinResult.JoinResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();
@@ -64,7 +64,8 @@ public class LobbyController {
             return ResponseEntity.badRequest().build();
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
-        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
+        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));*/
+        return ResponseEntity.badRequest().build();
     }
 
     @Operation(summary = "Plays a move",
@@ -116,5 +117,14 @@ public class LobbyController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Register a bot",
+            description = "Register a bot and returns an identifier token")
+    @ApiResponse(responseCode = "200", description = "Successfully registered")
+    @ApiResponse(responseCode = "400", description = "Player is already registered")
+    @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be started")
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> register(@RequestBody String name) {
+        return gameService.register(name);
+    }
 
 }

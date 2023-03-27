@@ -32,13 +32,13 @@ class GameClientTest {
     void join_successfully() {
         when(applicationPropertiesMock.getGameId()).thenReturn(1);
         when(applicationPropertiesMock.getName()).thenReturn("name");
-        when(applicationPropertiesMock.getBackendJoinUrl()).thenReturn("/game/{gameId}/join");
+        when(applicationPropertiesMock.getBackendRegisterUrl()).thenReturn("/game/{gameId}/join");
 
         PlayerId expectedPlayerId = new PlayerId();
         ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(expectedPlayerId));
         when(restTemplateMock.postForEntity(any(), any(), eq(JoinResponse.class), anyInt())).thenReturn(response);
 
-        PlayerId actualPlayerId = gameClient.join();
+        PlayerId actualPlayerId = gameClient.register();
 
         assertThat(actualPlayerId).isEqualTo(expectedPlayerId);
         JoinRequest expectedRequest = new JoinRequest(new PlayerName("name"));

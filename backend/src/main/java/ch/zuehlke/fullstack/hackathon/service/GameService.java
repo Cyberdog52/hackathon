@@ -1,16 +1,18 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.*;
-import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
-import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
+import ch.zuehlke.common.Player;
 import ch.zuehlke.fullstack.hackathon.model.Game;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,12 +45,12 @@ public class GameService {
                 .findFirst();
     }
 
-    public JoinResult join(int gameId, PlayerName name) {
+    /*public JoinResult join(int gameId, PlayerName name) {
         Optional<Game> game = getGame(gameId);
         if (game.isEmpty()) {
             return new JoinResult(null, JoinResultType.GAME_NOT_FOUND);
         }
-        Player newPlayer = new Player(new PlayerId(), name);
+        Bot newPlayer = new Bot(name);
 
         boolean success = game.get().addPlayer(newPlayer);
         if (!success) {
@@ -56,7 +58,7 @@ public class GameService {
         }
 
         return new JoinResult(newPlayer.id(), JoinResultType.SUCCESS);
-    }
+    }*/
 
     public StartResult startGame(int gameId) {
         Optional<Game> optionalGame = getGame(gameId);
@@ -88,5 +90,15 @@ public class GameService {
         game.playMove(move);
 
         return new PlayResult(PlayResultType.SUCCESS);
+    }
+
+    private Map<String, Player> playersById = new HashMap<>();
+
+    public ResponseEntity<RegisterResponse> register(String playerName) {
+        Player player = new Player(playerName);
+        RegisterResponse response = new RegisterResponse(player);
+        playersById.put(player.id(), player);
+        return ResponseEntity.ok(response);
+
     }
 }

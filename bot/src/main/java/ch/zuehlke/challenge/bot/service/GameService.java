@@ -35,7 +35,7 @@ public class GameService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void joinGame() {
-        this.playerId = gameClient.join();
+        this.playerId = gameClient.register();
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {

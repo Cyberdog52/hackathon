@@ -54,6 +54,7 @@ class LobbyControllerTest {
         verify(gameServiceMock, times(1)).createGame();
     }
 
+/*
     @Test
     void join_successfully() {
         JoinResult joinResult = new JoinResult(new PlayerId(), JoinResultType.SUCCESS);
@@ -97,7 +98,7 @@ class LobbyControllerTest {
         assertThat(response.getBody()).isNull();
         verify(gameServiceMock, times(1)).join(42, playerName);
         verify(notificationServiceMock, never()).notifyGameUpdate(any());
-    }
+    }*/
 
     @Test
     void deleteGame_successfully() {

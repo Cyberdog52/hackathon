@@ -50,7 +50,7 @@ public class Game {
 
     private void startRound() {
         currentMoves = new ArrayList<>();
-        players.forEach(player -> state.currentRequests().add(new PlayRequest(player.id())));
+        //players.forEach(player -> state.currentRequests().add(new PlayRequest(player.id())));
     }
 
     public void finishGame() {

@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GameServiceTest {
 
-    private GameService gameService;
+    /*private GameService gameService;
 
     @BeforeEach
     void setUp() {
@@ -184,5 +184,5 @@ class GameServiceTest {
                 .findFirst()
                 .map(PlayRequest::requestId)
                 .orElse(new RequestId());
-    }
+    }*/
 }

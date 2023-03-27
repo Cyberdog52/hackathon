@@ -34,11 +34,11 @@ class GameServiceTest {
     @Test
     void joinGame_callGameClient_successfully() {
         PlayerId expectedPlayerId = new PlayerId();
-        when(gameClientMock.join()).thenReturn(expectedPlayerId);
+        when(gameClientMock.register()).thenReturn(expectedPlayerId);
         gameService.joinGame();
 
         assertThat(gameService.getPlayerId()).isEqualTo(expectedPlayerId);
-        verify(gameClientMock, times(1)).join();
+        verify(gameClientMock, times(1)).register();
     }
 
     @Test

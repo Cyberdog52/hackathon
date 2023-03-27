@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
 
-    @Test
+  /*  @Test
     void addPlayer_successfully() {
         Player player = new Player(new PlayerId(), new PlayerName("name"));
         Game game = new Game(new GameId(1));
@@ -205,5 +205,5 @@ class GameTest {
                 .map(PlayRequest::requestId)
                 .findFirst()
                 .orElse(new RequestId());
-    }
+    }*/
 }

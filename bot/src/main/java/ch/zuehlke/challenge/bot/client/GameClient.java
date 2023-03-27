@@ -20,21 +20,20 @@ public class GameClient {
 
     private final ShutDownService shutDownService;
 
-
-    public PlayerId join() {
-        JoinRequest signUpRequest = new JoinRequest(new PlayerName(applicationProperties.getName()));
-        log.info("Joining game with request {}", signUpRequest);
+    public PlayerId register() {
+        RegisterRequest registerRequest = new RegisterRequest(applicationProperties.getName());
+        log.info("Joining game with request {}", registerRequest);
+        log.info(applicationProperties.getBackendRegisterUrl());
 
         // Improve: Handle exceptions
-        ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
-                .postForEntity(applicationProperties.getBackendJoinUrl(),
-                        signUpRequest,
-                        JoinResponse.class,
-                        applicationProperties.getGameId()
+        ResponseEntity<RegisterResponse> signUpResponse = hackathonRestTemplateClient
+                .postForEntity(applicationProperties.getBackendRegisterUrl(),
+                        registerRequest.name(),
+                        RegisterResponse.class
                 );
         log.info("Received response: {}", signUpResponse);
         if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
-            PlayerId playerId = signUpResponse.getBody().playerId();
+            PlayerId playerId = new PlayerId(signUpResponse.getBody().uuid());
             log.info("Joined game with PlayerId: {}", playerId);
             return playerId;
         } else {
