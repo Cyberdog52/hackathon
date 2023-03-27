@@ -18,4 +18,11 @@ public class RegisterResponse {
     public String uuid() {
         return player.getId();
     }
+
+    @Override
+    public String toString() {
+        return "RegisterResponse{" +
+                "player=" + player +
+                '}';
+    }
 }

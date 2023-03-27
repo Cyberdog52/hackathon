@@ -23,7 +23,7 @@ public class GameService {
 
     @Getter
     @Setter
-    private PlayerId playerId;
+    private Player player;
 
     private final GameClient gameClient;
 
@@ -34,8 +34,8 @@ public class GameService {
 
 
     @EventListener(ApplicationReadyEvent.class)
-    public void joinGame() {
-        this.playerId = gameClient.register();
+    public void registerPlayer() {
+        this.player = gameClient.register();
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {
@@ -52,7 +52,7 @@ public class GameService {
 
         gameDto.state().currentRequests().stream()
                 .filter(request -> !alreadyProcessedRequestIds.contains(request.requestId()))
-                .filter(request -> request.playerId().equals(playerId))
+                .filter(request -> request.playerId().equals(player))
                 .forEach(this::processRequest);
     }
 

@@ -20,22 +20,22 @@ public class GameClient {
 
     private final ShutDownService shutDownService;
 
-    public PlayerId register() {
+    public Player register() {
         var registerRequest = new RegisterRequest(applicationProperties.getName());
         log.info("Joining game with request {}", registerRequest);
         log.info(applicationProperties.getBackendRegisterUrl());
 
         // Improve: Handle exceptions
-        ResponseEntity<RegisterResponse> signUpResponse = hackathonRestTemplateClient
+        var response = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendRegisterUrl(),
                         registerRequest,
                         RegisterResponse.class
                 );
-        log.info("Received response: {}", signUpResponse);
-        if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
-            PlayerId playerId = new PlayerId(signUpResponse.getBody().uuid());
-            log.info("Joined game with PlayerId: {}", playerId);
-            return playerId;
+        log.info("Received response: {}", response);
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            var player = response.getBody().getPlayer();
+            log.info("Joined game with Player: {}", player);
+            return player;
         } else {
             log.error("Could not join game. Will shutdown now...");
             shutDownService.shutDown();

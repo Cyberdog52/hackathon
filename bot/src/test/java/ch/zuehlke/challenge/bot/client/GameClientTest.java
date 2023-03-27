@@ -29,20 +29,19 @@ class GameClientTest {
     }
 
     @Test
-    void join_successfully() {
+    void register_successfully() {
         when(applicationPropertiesMock.getGameId()).thenReturn(1);
-        when(applicationPropertiesMock.getName()).thenReturn("name");
-        when(applicationPropertiesMock.getBackendRegisterUrl()).thenReturn("/game/{gameId}/join");
+        when(applicationPropertiesMock.getName()).thenReturn("Player1234");
+        when(applicationPropertiesMock.getBackendRegisterUrl()).thenReturn("/api/lobby/register");
 
-        PlayerId expectedPlayerId = new PlayerId();
-        ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(expectedPlayerId));
-        when(restTemplateMock.postForEntity(any(), any(), eq(JoinResponse.class), anyInt())).thenReturn(response);
+        var expectedPlayer = new Player("Player1234");
+        var response = ResponseEntity.ok(new RegisterResponse(expectedPlayer));
+        when(restTemplateMock.postForEntity(eq(applicationPropertiesMock.getBackendRegisterUrl()), any(), eq(RegisterResponse.class))).thenReturn(response);
 
-        PlayerId actualPlayerId = gameClient.register();
+        var player = gameClient.register();
 
-        assertThat(actualPlayerId).isEqualTo(expectedPlayerId);
-        JoinRequest expectedRequest = new JoinRequest(new PlayerName("name"));
-        verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/join", expectedRequest, JoinResponse.class, 1);
+        assertThat(player.getPlayerName()).isEqualTo(expectedPlayer.getPlayerName());
+        verify(restTemplateMock, times(1)).postForEntity(eq("/api/lobby/register"), any(), eq(RegisterResponse.class));
     }
 
     @Test

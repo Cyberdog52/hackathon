@@ -21,4 +21,12 @@ public class Player {
         this.playerName = playerName;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id='" + id + '\'' +
+                ", token='" + token + '\'' +
+                ", playerName='" + playerName + '\'' +
+                '}';
+    }
 }
