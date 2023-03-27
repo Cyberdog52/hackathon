@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-board',
@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent {
-  board: number[][] = [
+  @Input() board!: number[][];
+  board2: number[][] = [
     [0, 0, 0, 1, 1, 1, 0, 0, 0],
     [0, 0, 0, 0, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 2, 0, 0, 0, 0],

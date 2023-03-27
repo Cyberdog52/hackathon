@@ -1,10 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {
-  GameAction,
-  GameDto,
-  GameStatus,
-  PlayerId,
-} from '../../model/lobby';
+import { GameAction, GameDto, GameStatus, PlayerId } from '../../model/lobby';
 import { LobbyService } from '../../services/lobby.service';
 
 @Component({
@@ -53,11 +48,18 @@ export class GameCardComponent {
   }
 
   getMoveNotation(action: GameAction) {
-    return (
-      String.fromCharCode(97 + action.from.x) +
-      action.from.y +
-      String.fromCharCode(97 + action.to.x) +
-      action.to.y
-    );
+    if (action.from.x === action.to.x) {
+      return (
+        String.fromCharCode(97 + action.from.x) +
+        (action.from.y + 1) +
+        (action.to.y + 1)
+      );
+    } else {
+      return (
+        String.fromCharCode(97 + action.from.x) +
+        (action.from.y + 1) +
+        String.fromCharCode(97 + action.to.x)
+      );
+    }
   }
 }

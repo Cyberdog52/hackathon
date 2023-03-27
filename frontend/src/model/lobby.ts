@@ -25,7 +25,8 @@ export interface PlayerId {
 
 export interface GameState {
   currentRequests: PlayRequest[];
-  rounds: Round[];
+  moves: Move[];
+  board: number[][];
 }
 
 export interface PlayRequest {
@@ -38,11 +39,6 @@ export interface RequestId {
   value: string;
 }
 
-export interface Round {
-  moves: Move[];
-  winner?: PlayerId;
-}
-
 export interface Move {
   playerId: PlayerId;
   requestId: RequestId;
@@ -50,10 +46,10 @@ export interface Move {
 }
 
 export enum GameStatus {
-  NOT_STARTED = "NOT_STARTED",
-  IN_PROGRESS = "IN_PROGRESS",
-  FINISHED = "FINISHED",
-  DELETED = "DELETED"
+  NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  FINISHED = 'FINISHED',
+  DELETED = 'DELETED',
 }
 
 export interface GameAction {
@@ -62,6 +58,6 @@ export interface GameAction {
 }
 
 export interface Position {
-  x:number,
-  y:number
+  x: number;
+  y: number;
 }

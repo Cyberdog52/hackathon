@@ -5,3 +5,29 @@ mat-card {
 button {
   margin: 4px;
 }
+
+/*does not work for some reason*/
+mat-grid-tile-content {
+  display: block;
+  width: 100%;
+}
+
+.board {
+  width: 60%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.board div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+p:nth-child(odd) {
+  background-color: #000;
+  color: #fff;
+}
