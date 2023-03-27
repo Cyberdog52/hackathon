@@ -17,9 +17,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class LobbyControllerTest {
+class LobbyControllerzTest {
 
-    private LobbyController lobbyController;
+    private LobbyControllerz lobbyControllerz;
     private GameService gameServiceMock;
 
     private NotificationService notificationServiceMock;
@@ -28,14 +28,14 @@ class LobbyControllerTest {
     void setUp() {
         gameServiceMock = mock(GameService.class);
         notificationServiceMock = mock(NotificationService.class);
-        lobbyController = new LobbyController(gameServiceMock, notificationServiceMock);
+        lobbyControllerz = new LobbyControllerz(gameServiceMock, notificationServiceMock);
     }
 
     @Test
     void getGames_emptyList_successfully() {
         when(gameServiceMock.getGames()).thenReturn(List.of());
 
-        ResponseEntity<List<GameDto>> response = lobbyController.getGames();
+        ResponseEntity<List<GameDto>> response = lobbyControllerz.getGames();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(List.of());
@@ -47,7 +47,7 @@ class LobbyControllerTest {
         GameId gameId = new GameId(42);
         when(gameServiceMock.createGame()).thenReturn(new Game(gameId));
 
-        ResponseEntity<GameId> response = lobbyController.createGame();
+        ResponseEntity<GameId> response = lobbyControllerz.createGame();
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(gameId);
@@ -61,7 +61,7 @@ class LobbyControllerTest {
 
         PlayerName playerName = new PlayerName("name");
         JoinRequest joinRequest = new JoinRequest(playerName);
-        ResponseEntity<JoinResponse> response = lobbyController.join(42, joinRequest);
+        ResponseEntity<JoinResponse> response = lobbyControllerz.join(42, joinRequest);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(new JoinResponse(joinResult.playerId()));
@@ -76,7 +76,7 @@ class LobbyControllerTest {
 
         PlayerName playerName = new PlayerName("name");
         JoinRequest joinRequest = new JoinRequest(playerName);
-        ResponseEntity<JoinResponse> response = lobbyController.join(42, joinRequest);
+        ResponseEntity<JoinResponse> response = lobbyControllerz.join(42, joinRequest);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();
@@ -91,7 +91,7 @@ class LobbyControllerTest {
 
         PlayerName playerName = new PlayerName("name");
         JoinRequest joinRequest = new JoinRequest(playerName);
-        ResponseEntity<JoinResponse> response = lobbyController.join(42, joinRequest);
+        ResponseEntity<JoinResponse> response = lobbyControllerz.join(42, joinRequest);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(404));
         assertThat(response.getBody()).isNull();
@@ -103,7 +103,7 @@ class LobbyControllerTest {
     void deleteGame_successfully() {
         when(gameServiceMock.deleteGame(anyInt())).thenReturn(true);
 
-        ResponseEntity<Void> response = lobbyController.deleteGame(42);
+        ResponseEntity<Void> response = lobbyControllerz.deleteGame(42);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isNull();
@@ -113,7 +113,7 @@ class LobbyControllerTest {
     void deleteGame_whenGameDidNotExist_returns404() {
         when(gameServiceMock.deleteGame(anyInt())).thenReturn(false);
 
-        ResponseEntity<Void> response = lobbyController.deleteGame(666);
+        ResponseEntity<Void> response = lobbyControllerz.deleteGame(666);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(404));
         assertThat(response.getBody()).isNull();
@@ -123,7 +123,7 @@ class LobbyControllerTest {
     void startGame_successfully() {
         when(gameServiceMock.startGame(anyInt())).thenReturn(new StartResult(StartResultType.SUCCESS));
 
-        ResponseEntity<Void> response = lobbyController.startGame(42);
+        ResponseEntity<Void> response = lobbyControllerz.startGame(42);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isNull();
@@ -134,7 +134,7 @@ class LobbyControllerTest {
     void startGame_whenGameIsNotFound_returns404() {
         when(gameServiceMock.startGame(anyInt())).thenReturn(new StartResult(StartResultType.GAME_NOT_FOUND));
 
-        ResponseEntity<Void> response = lobbyController.startGame(666);
+        ResponseEntity<Void> response = lobbyControllerz.startGame(666);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(404));
         assertThat(response.getBody()).isNull();
@@ -146,7 +146,7 @@ class LobbyControllerTest {
     void startGame_whenGameHasNotEnoughPlayers_returns400() {
         when(gameServiceMock.startGame(anyInt())).thenReturn(new StartResult(StartResultType.NOT_ENOUGH_PLAYERS));
 
-        ResponseEntity<Void> response = lobbyController.startGame(666);
+        ResponseEntity<Void> response = lobbyControllerz.startGame(666);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();
@@ -159,7 +159,7 @@ class LobbyControllerTest {
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.SUCCESS));
 
-        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+        ResponseEntity<Void> response = lobbyControllerz.play(gameId.value(), move);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isNull();
@@ -172,7 +172,7 @@ class LobbyControllerTest {
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.GAME_NOT_FOUND));
 
-        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+        ResponseEntity<Void> response = lobbyControllerz.play(gameId.value(), move);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(404));
         assertThat(response.getBody()).isNull();
@@ -185,7 +185,7 @@ class LobbyControllerTest {
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.PLAYER_NOT_PART_OF_GAME));
 
-        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+        ResponseEntity<Void> response = lobbyControllerz.play(gameId.value(), move);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();
@@ -198,7 +198,7 @@ class LobbyControllerTest {
         GameId gameId = new GameId(42);
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.INVALID_ACTION));
 
-        ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
+        ResponseEntity<Void> response = lobbyControllerz.play(gameId.value(), move);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();

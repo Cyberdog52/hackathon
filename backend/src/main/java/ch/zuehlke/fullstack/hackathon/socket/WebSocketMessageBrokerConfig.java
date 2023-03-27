@@ -18,7 +18,6 @@ public class WebSocketMessageBrokerConfig implements WebSocketMessageBrokerConfi
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // Improve: use this to get updates from the bots
-        registry.addEndpoint("/update");
+        registry.addEndpoint("/update").withSockJS();
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/lobby")
 @RequiredArgsConstructor
-public class LobbyController {
+public class LobbyControllerz {
 
     // Improve: Make endpoints secure
 
