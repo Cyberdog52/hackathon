@@ -1,0 +1,5 @@
+<div [ngSwitch]="field" [ngClass]="castle ? 'Castle' : null">
+  <span *ngSwitchCase="1" class="Attacker"></span>
+  <span *ngSwitchCase="2" class="Defender"></span>
+  <span *ngSwitchCase="3" class="King"></span>
+</div>

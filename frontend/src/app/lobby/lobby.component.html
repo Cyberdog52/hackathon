@@ -4,5 +4,6 @@
     <app-game-card [game]="game"></app-game-card>
   </mat-grid-tile>
 </mat-grid-list>
+<app-board></app-board>
 <h2>Debug game variable:</h2>
-<p>{{games$ | async | json }}</p>
+<p>{{ games$ | async | json }}</p>

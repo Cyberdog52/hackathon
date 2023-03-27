@@ -1,0 +1,38 @@
+:host {
+  background: #834f87;
+  width: fill-available;
+  height: fill-available;
+  display: flex;
+}
+
+div {
+  width: fill-available;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.Castle {
+  border: 2px dashed #f00;
+  background: #310;
+}
+
+span {
+  display: block;
+  margin: auto;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+}
+
+.Attacker {
+  background: #000;
+}
+
+.Defender {
+  background: #fff;
+}
+
+.King {
+  background: #ff0;
+}

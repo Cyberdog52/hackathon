@@ -56,8 +56,12 @@ export enum GameStatus {
   DELETED = "DELETED"
 }
 
-export enum GameAction {
-  ROCK = "ROCK",
-  PAPER = "PAPER",
-  SCISSORS = "SCISSORS"
+export interface GameAction {
+  from: Position;
+  to: Position;
+}
+
+export interface Position {
+  x:number,
+  y:number
 }
