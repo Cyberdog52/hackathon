@@ -7,4 +7,8 @@ public class Card {
 
     private final Color color;
     private final CardValue value;
+
+    public int getValue() {
+        return value.getValue();
+    }
 }
