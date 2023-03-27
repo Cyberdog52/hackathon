@@ -27,14 +27,23 @@ class RuleEngineTest {
 
     public static Stream<Arguments> losingHands() {
         return Stream.of(
-                Arguments.of(List.of(new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(DIAMOND, ACE), new Card(HEART, EIGHT), new Card(HEART, NINE), new Card(HEART, TEN), new Card(HEART, SIX))),       // ♣A ♠A ♦A   |  ♥8 ♥9 ♥10 | ♥6 -> Too high
-                Arguments.of(List.of(new Card(HEART, FIVE), new Card(DIAMOND, FIVE), new Card(CLUBS, FIVE), new Card(SPADE, FIVE), new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(SPADE, TWO)))       //♣5 ♠5 ♦5 ♥5 | ♣A ♠A ♠2   | Score of 4, but not winning
+                Arguments.of(List.of(new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(DIAMOND, ACE), new Card(HEART, EIGHT), new Card(HEART, NINE), new Card(HEART, TEN), new Card(HEART, SIX)), 6),        // ♣A ♠A ♦A   |  ♥8 ♥9 ♥10 | ♥6 -> Too high
+                Arguments.of(List.of(new Card(HEART, FIVE), new Card(DIAMOND, FIVE), new Card(CLUBS, FIVE), new Card(SPADE, FIVE), new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(SPADE, TWO)), 4),       //♣5 ♠5 ♦5 ♥5 | ♣A ♠A ♠2   | Score of 4, but not winning
+                Arguments.of(List.of(new Card(CLUBS, SEVEN), new Card(CLUBS, EIGHT), new Card(CLUBS, NINE), new Card(CLUBS, FIVE), new Card(HEART, FOUR), new Card(HEART, FIVE), new Card(SPADE, TWO)), 16)     //♣7 ♣8 ♣9 | ♣5 ♥4 ♥5 ♠2 -> Score of 16
                 );
     }
 
     @ParameterizedTest
     @MethodSource("winningHands")
-    void calculateScore(List<Card> cards, int score) {
+    void calculateScoreWinning(List<Card> cards, int score) {
+        var result = RuleEngine.calculateScore(cards);
+
+        assertThat(result).isEqualTo(score);
+    }
+
+    @ParameterizedTest
+    @MethodSource("losingHands")
+    void calculateScoreLosing(List<Card> cards, int score) {
         var result = RuleEngine.calculateScore(cards);
 
         assertThat(result).isEqualTo(score);
