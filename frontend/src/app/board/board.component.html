@@ -1,6 +1,6 @@
 <p>BOARD</p>
 <mat-grid-list cols="9" rowHeight="1:1">
-  <div *ngFor="let row of board; let y = index">
+  <div *ngFor="let row of board.fields; let y = index">
     <mat-grid-tile *ngFor="let field of row; let x = index">
       <app-field [field]="field" [castle]="x == 4 && y == 4"></app-field>
     </mat-grid-tile>

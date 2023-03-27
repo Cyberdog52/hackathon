@@ -33,11 +33,9 @@ public class InternalGameState {
     }
 
     private Set<GameAction> getPossibleActionsForAttacker() {
-        Set<Field> fieldsWithAttackers = board.getFields().stream()
+        return board.getAllFieldsAsList().stream()
                 .filter(field -> field.state().equals(FieldState.ATTACKER))
-                .collect(Collectors.toSet());
-
-        return fieldsWithAttackers.stream().flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
+                .flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
     }
 
     private Set<GameAction> findAvailableActions(Field field) {
@@ -57,7 +55,7 @@ public class InternalGameState {
         var neighbour = neighbourGetter.apply(field.coordinates());
         while (neighbour.isPresent()) {
             var neighbourCoordinates = neighbour.get();
-            var neighbourField = board.getField(neighbourCoordinates);
+            var neighbourField = board.getFieldForCoordinate(neighbourCoordinates);
             if (neighbourField.state() == FieldState.EMPTY) {
                 result.add(new GameAction(field.coordinates(), neighbourField.coordinates()));
             } else {
@@ -69,11 +67,9 @@ public class InternalGameState {
     }
 
     private Set<GameAction> getPossibleActionsForDefender() {
-        Set<Field> fieldsWithDefenders = board.getFields().stream()
+        return board.getAllFieldsAsList().stream()
                 .filter(field -> field.state() == FieldState.DEFENDER)
-                .collect(Collectors.toSet());
-
-        return fieldsWithDefenders.stream().flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
+                .flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
     }
 
     public void playAction(GameAction gameAction) {

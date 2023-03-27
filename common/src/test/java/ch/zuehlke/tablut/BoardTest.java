@@ -38,21 +38,21 @@ public class BoardTest {
     void initialBoard_firstFieldIsNotCastle() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.getField(new Coordinates(0, 0)).isCastle()).isFalse();
+        assertThat(board.getFieldForCoordinate(new Coordinates(0, 0)).isCastle()).isFalse();
     }
 
     @Test
     void initialBoard_centerFieldIsCastleField() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.getField(new Coordinates(4, 4)).isCastle()).isTrue();
+        assertThat(board.getFieldForCoordinate(new Coordinates(4, 4)).isCastle()).isTrue();
     }
 
     @Test
     void initialBoard_centerFieldIsOccupiedWithKing() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.getField(new Coordinates(4, 4)).state()).isEqualTo(FieldState.KING);
+        assertThat(board.getFieldForCoordinate(new Coordinates(4, 4)).state()).isEqualTo(FieldState.KING);
     }
 
     @ParameterizedTest

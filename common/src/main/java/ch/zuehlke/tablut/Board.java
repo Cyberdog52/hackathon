@@ -58,12 +58,12 @@ public record Board(Field[][] fields) {
     }
 
     @Transient
-    public Field getField(Coordinates coordinates) {
+    public Field getFieldForCoordinate(Coordinates coordinates) {
         return fields[coordinates.x()][coordinates.y()];
     }
 
     @Transient
-    public List<Field> getFields() {
+    public List<Field> getAllFieldsAsList() {
         var fieldsList = new ArrayList<Field>();
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
@@ -74,7 +74,7 @@ public record Board(Field[][] fields) {
     }
 
     public void movePiece(Coordinates from, Coordinates to) {
-        Field fromField = getField(from);
+        Field fromField = getFieldForCoordinate(from);
 
         updateField(new Field(to, fromField.state()));
         updateField(new Field(from, FieldState.EMPTY));

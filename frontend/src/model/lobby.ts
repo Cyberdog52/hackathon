@@ -26,7 +26,7 @@ export interface PlayerId {
 export interface GameState {
   currentRequests: PlayRequest[];
   moves: Move[];
-  board: number[][];
+  board: Board;
 }
 
 export interface PlayRequest {
@@ -45,11 +45,26 @@ export interface Move {
   action: GameAction;
 }
 
+export interface Board {
+  fields: Field[][];
+}
+
+export interface Field {
+  state: FieldState;
+}
+
+export enum FieldState {
+  EMPTY = "EMPTY",
+  ATTACKER = "ATTACKER",
+  DEFENDER = "DEFENDER",
+  KING = "KING",
+}
+
 export enum GameStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  FINISHED = 'FINISHED',
-  DELETED = 'DELETED',
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  FINISHED = "FINISHED",
+  DELETED = "DELETED",
 }
 
 export interface GameAction {
