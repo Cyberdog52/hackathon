@@ -33,5 +33,11 @@
       <mat-icon>delete_outline</mat-icon>
       Delete
     </button>
+    <button mat-raised-button
+            (click)="spectateGame()"
+            [disabled]="game.status === GameStatus.IN_PROGRESS">
+      <mat-icon>visibility</mat-icon>
+      Delete
+    </button>
   </mat-card-actions>
 </mat-card>

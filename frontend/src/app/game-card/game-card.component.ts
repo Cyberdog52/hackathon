@@ -19,6 +19,10 @@ export class GameCardComponent {
   constructor(private lobbyService: LobbyService) {
   }
 
+  spectateGame(): void {
+
+  }
+
   deleteGame(): void {
     this.lobbyService.deleteGame(this.game.id).subscribe({
       next: () => {

@@ -15,11 +15,13 @@ import { MatButtonModule } from "@angular/material/button";
 import { GameCardComponent } from "./game-card/game-card.component";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatListModule } from "@angular/material/list";
+import { GameViewerComponent } from "./game-viewer/game-viewer.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LobbyComponent,
+    GameViewerComponent,
     HeaderComponent,
     GameCardComponent,
   ],
