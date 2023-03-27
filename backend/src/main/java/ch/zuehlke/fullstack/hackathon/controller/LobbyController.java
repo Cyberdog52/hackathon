@@ -54,7 +54,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Game is already full")
     @ApiResponse(responseCode = "404", description = "The game does not exist")
     @PostMapping("/game/{gameId}/join")
-    public ResponseEntity<JoinResponse> join(@PathVariable int gameId, @RequestBody JoinRequest joinRequest) {
+    public ResponseEntity<JoinResponse> join(@PathVariable String gameId, @RequestBody JoinRequest joinRequest) {
         JoinResult joinResult = gameService.join(gameId, joinRequest.name());
 
         if (joinResult.resultType() == JoinResult.JoinResultType.GAME_NOT_FOUND) {
@@ -64,7 +64,7 @@ public class LobbyController {
             return ResponseEntity.badRequest().build();
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
-        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
+        return ResponseEntity.ok(new JoinResponse(joinResult.playerId(), joinResult.playerToken()));
     }
 
     @Operation(summary = "Plays a move",
@@ -73,7 +73,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
     @ApiResponse(responseCode = "404", description = "Game was not found")
     @PostMapping("/game/{gameId}/play")
-    public ResponseEntity<Void> play(@PathVariable int gameId, @RequestBody Move move) {
+    public ResponseEntity<Void> play(@PathVariable String gameId, @RequestBody Move move) {
         PlayResult playResult = gameService.play(move, new GameId(gameId));
         if (playResult.resultType() == PlayResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();
@@ -90,7 +90,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "200", description = "Successfully deleted the game")
     @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be deleted")
     @DeleteMapping("/game/{gameId}")
-    public ResponseEntity<Void> deleteGame(@PathVariable int gameId) {
+    public ResponseEntity<Void> deleteGame(@PathVariable String gameId) {
         boolean success = gameService.deleteGame(gameId);
         if (!success) {
             return ResponseEntity.notFound().build();
@@ -104,7 +104,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Not enough players to start the game")
     @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be started")
     @PostMapping("/game/{gameId}/start")
-    public ResponseEntity<Void> startGame(@PathVariable int gameId) {
+    public ResponseEntity<Void> startGame(@PathVariable String gameId) {
         StartResult result = gameService.startGame(gameId);
         if (result.resultType() == StartResult.StartResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();

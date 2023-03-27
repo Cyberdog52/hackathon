@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,47 +19,44 @@ public class GameService {
 
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
-    private static int counter = 0;
 
     public List<Game> getGames() {
         return games;
     }
 
     public Game createGame() {
-        // Improve: Find a better way to create game ids
-        counter += 1;
-        Game game = new Game(new GameId(counter));
+        Game game = new Game(new GameId());
         games.add(game);
         return game;
     }
 
 
-    public boolean deleteGame(int gameId) {
-        return games.removeIf(game -> game.getGameId().value() == gameId);
+    public boolean deleteGame(String gameId) {
+        return games.removeIf(game -> Objects.equals(game.getGameId().value(), gameId));
     }
 
-    public Optional<Game> getGame(int gameId) {
+    public Optional<Game> getGame(String gameId) {
         return games.stream()
-                .filter(game -> game.getGameId().value() == gameId)
+                .filter(game -> Objects.equals(game.getGameId().value(), gameId))
                 .findFirst();
     }
 
-    public JoinResult join(int gameId, PlayerName name) {
+    public JoinResult join(String gameId, PlayerName name) {
         Optional<Game> game = getGame(gameId);
         if (game.isEmpty()) {
-            return new JoinResult(null, JoinResultType.GAME_NOT_FOUND);
+            return new JoinResult(null, null, JoinResultType.GAME_NOT_FOUND);
         }
-        Player newPlayer = new Player(new PlayerId(), name);
+        Player newPlayer = new Player(new PlayerId(), name, new PlayerToken(), new Board());
 
         boolean success = game.get().addPlayer(newPlayer);
         if (!success) {
-            return new JoinResult(null, JoinResultType.GAME_FULL);
+            return new JoinResult(null, null, JoinResultType.GAME_FULL);
         }
 
-        return new JoinResult(newPlayer.id(), JoinResultType.SUCCESS);
+        return new JoinResult(newPlayer.id(), newPlayer.token(), JoinResultType.SUCCESS);
     }
 
-    public StartResult startGame(int gameId) {
+    public StartResult startGame(String gameId) {
         Optional<Game> optionalGame = getGame(gameId);
         if (optionalGame.isEmpty()) {
             return new StartResult(StartResult.StartResultType.GAME_NOT_FOUND);
@@ -81,9 +79,9 @@ public class GameService {
         }
 
         Game game = optionalGame.get();
-        if (!game.isMoveAllowed(move)) {
-            return new PlayResult(PlayResultType.INVALID_ACTION);
-        }
+        //if (!game.isMoveAllowed(move)) {
+        //    return new PlayResult(PlayResultType.INVALID_ACTION);
+        //}
 
         game.playMove(move);
 
