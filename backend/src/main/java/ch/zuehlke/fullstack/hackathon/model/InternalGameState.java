@@ -4,7 +4,7 @@ import ch.zuehlke.common.GameAction;
 import ch.zuehlke.tablut.Board;
 import ch.zuehlke.tablut.Coordinates;
 import ch.zuehlke.tablut.Field;
-import ch.zuehlke.tablut.NormalFieldState;
+import ch.zuehlke.tablut.FieldState;
 
 import java.util.*;
 import java.util.function.Function;
@@ -12,13 +12,17 @@ import java.util.stream.Collectors;
 
 public class InternalGameState {
 
-    private Board board;
+    private final Board board;
 
-    private List<GameAction> actionHistory;
+    private final List<GameAction> actionHistory;
 
     public InternalGameState() {
         this.board = Board.createInitialBoard();
         this.actionHistory = new ArrayList<>();
+    }
+
+    public List<GameAction> getActionHistory() {
+        return actionHistory;
     }
 
     public Set<GameAction> getPossibleActions() {
@@ -29,10 +33,8 @@ public class InternalGameState {
     }
 
     private Set<GameAction> getPossibleActionsForAttacker() {
-        Set<Field.NormalField> fieldsWithAttackers = board.getFields().stream()
-                .filter(field -> field instanceof Field.NormalField)
-                .map(normalField -> (Field.NormalField) normalField)
-                .filter(field -> field.state.equals(NormalFieldState.ATTACKER))
+        Set<Field> fieldsWithAttackers = board.getFields().stream()
+                .filter(field -> field.state().equals(FieldState.ATTACKER))
                 .collect(Collectors.toSet());
 
         return fieldsWithAttackers.stream().flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
@@ -52,12 +54,12 @@ public class InternalGameState {
     private Set<GameAction> findAvailableActions(Field field, Function<Coordinates, Optional<Coordinates>> neighbourGetter) {
         var result = new HashSet<GameAction>();
 
-        var neighbour = neighbourGetter.apply(field.coordinates);
+        var neighbour = neighbourGetter.apply(field.coordinates());
         while (neighbour.isPresent()) {
             var neighbourCoordinates = neighbour.get();
             var neighbourField = board.getField(neighbourCoordinates);
-            if (neighbourField instanceof Field.NormalField n && n.state == NormalFieldState.EMPTY) {
-                result.add(new GameAction(field.coordinates, neighbourField.coordinates));
+            if (neighbourField.state() == FieldState.EMPTY) {
+                result.add(new GameAction(field.coordinates(), neighbourField.coordinates()));
             } else {
                 break;
             }
@@ -67,12 +69,19 @@ public class InternalGameState {
     }
 
     private Set<GameAction> getPossibleActionsForDefender() {
-        Set<Field.NormalField> fieldsWithDefenders = board.getFields().stream()
-                .filter(field -> field instanceof Field.NormalField)
-                .map(normalField -> (Field.NormalField) normalField)
-                .filter(field -> field.state.equals(NormalFieldState.DEFENDER))
+        Set<Field> fieldsWithDefenders = board.getFields().stream()
+                .filter(field -> field.state() == FieldState.DEFENDER)
                 .collect(Collectors.toSet());
 
         return fieldsWithDefenders.stream().flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
+    }
+
+    public void playAction(GameAction gameAction) {
+        getActionHistory().add(gameAction);
+        board.movePiece(gameAction.from(), gameAction.to());
+    }
+
+    public Board board() {
+        return board;
     }
 }

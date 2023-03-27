@@ -45,7 +45,7 @@ class GameServiceTest {
     @Test
     void onGameUpdate_withImportantUpdate_playsMove() {
         PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
+        GameState state = new GameState(Set.of(new PlayRequest(playerId, Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
@@ -88,7 +88,7 @@ class GameServiceTest {
     @Test
     void onGameUpdate_whenCalledTwice_onlyPlaysOneMove() {
         PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
+        GameState state = new GameState(Set.of(new PlayRequest(playerId, Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 
@@ -103,7 +103,7 @@ class GameServiceTest {
     @Test
     void onGameUpdate_whenItsForADifferentPlayer_doesNotPlayMove() {
         PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(new PlayerId())), List.of());
+        GameState state = new GameState(Set.of(new PlayRequest(new PlayerId(), Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(new GameAction(new Coordinates(0,0),new Coordinates(0,0)));
 

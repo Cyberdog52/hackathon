@@ -15,14 +15,14 @@ public class BoardTest {
     private static Stream<Arguments> boardSetup() {
         // TODO: restliche Felder testen
         return Stream.of(
-                Arguments.of(4, 0, NormalFieldState.ATTACKER),
-                Arguments.of(0, 4, NormalFieldState.ATTACKER),
-                Arguments.of(4, 8, NormalFieldState.ATTACKER),
-                Arguments.of(8, 4, NormalFieldState.ATTACKER),
-                Arguments.of(4, 2, NormalFieldState.DEFENDER),
-                Arguments.of(2, 4, NormalFieldState.DEFENDER),
-                Arguments.of(4, 6, NormalFieldState.DEFENDER),
-                Arguments.of(6, 4, NormalFieldState.DEFENDER)
+                Arguments.of(4, 0, FieldState.ATTACKER),
+                Arguments.of(0, 4, FieldState.ATTACKER),
+                Arguments.of(4, 8, FieldState.ATTACKER),
+                Arguments.of(8, 4, FieldState.ATTACKER),
+                Arguments.of(4, 2, FieldState.DEFENDER),
+                Arguments.of(2, 4, FieldState.DEFENDER),
+                Arguments.of(4, 6, FieldState.DEFENDER),
+                Arguments.of(6, 4, FieldState.DEFENDER)
         );
     }
 
@@ -35,34 +35,30 @@ public class BoardTest {
     }
 
     @Test
-    void initialBoard_firstFieldIsNormalField() {
+    void initialBoard_firstFieldIsNotCastle() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.getField(new Coordinates(0, 0))).isInstanceOf(Field.NormalField.class);
+        assertThat(board.getField(new Coordinates(0, 0)).isCastle()).isFalse();
     }
 
     @Test
     void initialBoard_centerFieldIsCastleField() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.getField(new Coordinates(4, 4))).isInstanceOf(Field.CastleField.class);
+        assertThat(board.getField(new Coordinates(4, 4)).isCastle()).isTrue();
     }
 
     @Test
-    void initialBoard_centerFieldIsOccupied() {
+    void initialBoard_centerFieldIsOccupiedWithKing() {
         var board = Board.createInitialBoard();
 
-        if (board.getField(new Coordinates(4, 4)) instanceof Field.CastleField castleField) {
-            assertThat(castleField.state).isEqualTo(CastleFieldState.OCCUPIED);
-        } else {
-            fail("Not a CastleField");
-        }
+        assertThat(board.getField(new Coordinates(4, 4)).state()).isEqualTo(FieldState.KING);
     }
 
     @ParameterizedTest
     @MethodSource("boardSetup")
-    void initialBoard_correctSetup(int x, int y, NormalFieldState state) {
-        Field.NormalField expected = new Field.NormalField(new Coordinates(x, y), state);
+    void initialBoard_correctSetup(int x, int y, FieldState state) {
+        Field expected = new Field(new Coordinates(x, y), state);
         var board = Board.createInitialBoard();
 
         assertThat(board.fields()[x][y]).isEqualToComparingFieldByField(expected);

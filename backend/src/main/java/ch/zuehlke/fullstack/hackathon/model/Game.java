@@ -20,7 +20,7 @@ public class Game {
 
     private GameStatus status = GameStatus.NOT_STARTED;
 
-    private final GameState state = new GameState();
+    private GameState state = new GameState();
     private final InternalGameState internalGameState = new InternalGameState();
 
     // moves is not exposed to the GameDto to avoid cheating
@@ -51,7 +51,8 @@ public class Game {
 
     private void startRound() {
         currentMoves = new ArrayList<>();
-        state.currentRequests().add(new PlayRequest(players.get(state.moves().size() % 2).id(), internalGameState.getPossibleActions()));
+        state.currentRequests().add(new PlayRequest(players.get(internalGameState.getActionHistory().size() % 2).id(),
+                internalGameState.getPossibleActions()));
     }
 
     public void finishGame() {
@@ -83,7 +84,10 @@ public class Game {
 
     private void finishRound() {
 //        Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
-        state.moves().add(currentMoves.get(0));
+        var move = currentMoves.get(0);
+        state.moves().add(move);
+        internalGameState.playAction(move.action());
+        state = new GameState(state.currentRequests(), state.moves(), internalGameState.board());
 
         // TODO: Did someone win?
 

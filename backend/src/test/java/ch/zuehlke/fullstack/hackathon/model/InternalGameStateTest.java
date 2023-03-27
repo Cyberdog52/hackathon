@@ -1,7 +1,7 @@
-package ch.zuehlke.tablut;
+package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.GameAction;
-import ch.zuehlke.common.GameState;
+import ch.zuehlke.tablut.Coordinates;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -9,18 +9,18 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GameStateTest {
+public class InternalGameStateTest {
 
     @Test
-    void initalGame_FirstMove_PossibleMoveForBlack() {
-        var gameState = new GameState();
+    void initialGame_FirstMove_PossibleMoveForBlack() {
+        var gameState = new InternalGameState();
 
         assertThat(gameState.getPossibleActions()).contains(new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
     }
 
     @Test
-    void initalGame_FirstMove_NoMoveWithDefenders() {
-        var gameState = new GameState();
+    void initialGame_FirstMove_NoMoveWithDefenders() {
+        var gameState = new InternalGameState();
 
         Set<Coordinates> coordinatesDefender = Set.of(
                 new Coordinates(4, 2),
@@ -40,7 +40,7 @@ class GameStateTest {
 
     @Test
     void getPossibleMoves_ForLeftAttackerAtStart() {
-        var gameState = new GameState();
+        var gameState = new InternalGameState();
         Set<Coordinates> expectedGameActions = Set.of(
                 new Coordinates(0, 0),
                 new Coordinates(0, 1),
@@ -59,7 +59,7 @@ class GameStateTest {
 
     @Test
     void getPossibleMoves_ForTopAttackerAtStart() {
-        var gameState = new GameState();
+        var gameState = new InternalGameState();
         Set<Coordinates> expectedGameActions = Set.of();
 
         assertThat(gameState.getPossibleActions().stream()
@@ -70,7 +70,7 @@ class GameStateTest {
 
     @Test
     void getPossibleMoves_ForRightAttackerAtStart() {
-        var gameState = new GameState();
+        var gameState = new InternalGameState();
         Set<Coordinates> expectedGameActions = Set.of(
                 new Coordinates(5, 5),
                 new Coordinates(6, 5),
@@ -88,7 +88,7 @@ class GameStateTest {
 
     @Test
     void getPossibleMoves_ForBottomAttackerAtStart() {
-        var gameState = new GameState();
+        var gameState = new InternalGameState();
         Set<Coordinates> expectedGameActions = Set.of(
                 new Coordinates(0, 7),
                 new Coordinates(1, 7),

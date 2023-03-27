@@ -25,7 +25,7 @@ dependencies {
 
     // Test packages
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompileOnly 'org.assertj:assertj-core:3.11.1'
+    testCompileOnly 'org.assertj:assertj-core:3.24.2'
 }
 
 tasks.named('compileJava') {

@@ -1,5 +1,5 @@
 package ch.zuehlke.tablut;
 
-public enum NormalFieldState {
+public enum FieldState {
     EMPTY, ATTACKER, DEFENDER, KING
 }

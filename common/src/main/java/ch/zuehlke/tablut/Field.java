@@ -1,30 +1,11 @@
 package ch.zuehlke.tablut;
 
-public sealed class Field {
+import java.beans.Transient;
 
-    public final Coordinates coordinates;
-
-    public Field(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public static final class NormalField extends Field {
-        public final NormalFieldState state;
-
-        public NormalField(Coordinates coordinates, NormalFieldState state) {
-            super(coordinates);
-            this.state = state;
-        }
-    }
-
-    public static final class CastleField extends Field {
-        public final CastleFieldState state;
-
-        public CastleField(Coordinates coordinates, CastleFieldState state) {
-            super(coordinates);
-            this.state = state;
-        }
-
+public record Field(Coordinates coordinates, FieldState state) {
+    @Transient
+    public boolean isCastle() {
+        return coordinates.x() == 4 && coordinates.y() == 4;
     }
 }
 
