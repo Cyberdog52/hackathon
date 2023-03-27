@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.controller.game;
+package ch.zuehlke.fullstack.hackathon.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

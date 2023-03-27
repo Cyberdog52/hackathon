@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.controller.game;
+package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.shared.action.setup.PlaceBoatAction;
 import ch.zuehlke.common.shared.event.setup.GameConfigEvent;

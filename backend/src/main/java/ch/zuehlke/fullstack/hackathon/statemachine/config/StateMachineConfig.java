@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.statemachine;
+package ch.zuehlke.fullstack.hackathon.statemachine.config;
 
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
