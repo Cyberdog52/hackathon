@@ -50,4 +50,8 @@ public record Board(Field[][] fields) {
 
         return new Board(fields);
     }
+
+    public Field getField(Coordinates coordinates) {
+        return fields[coordinates.x()][coordinates.y()];
+    }
 }

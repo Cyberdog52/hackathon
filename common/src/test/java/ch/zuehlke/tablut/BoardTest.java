@@ -38,21 +38,21 @@ public class BoardTest {
     void initialBoard_firstFieldIsNormalField() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.fields()[0][0]).isInstanceOf(Field.NormalField.class);
+        assertThat(board.getField(new Coordinates(0, 0))).isInstanceOf(Field.NormalField.class);
     }
 
     @Test
     void initialBoard_centerFieldIsCastleField() {
         var board = Board.createInitialBoard();
 
-        assertThat(board.fields()[4][4]).isInstanceOf(Field.CastleField.class);
+        assertThat(board.getField(new Coordinates(4, 4))).isInstanceOf(Field.CastleField.class);
     }
 
     @Test
     void initialBoard_centerFieldIsOccupied() {
         var board = Board.createInitialBoard();
 
-        if (board.fields()[4][4] instanceof Field.CastleField castleField) {
+        if (board.getField(new Coordinates(4, 4)) instanceof Field.CastleField castleField) {
             assertThat(castleField.state).isEqualTo(CastleFieldState.OCCUPIED);
         } else {
             fail("Not a CastleField");

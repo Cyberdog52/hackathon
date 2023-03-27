@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MoveTest {
+class GameActionTest {
 
     @Test
     void getWinningPlayer_sameMoves_returnsNull() {
