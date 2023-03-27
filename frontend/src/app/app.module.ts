@@ -17,6 +17,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatListModule } from "@angular/material/list";
 import { BoardComponent } from './board/board.component';
 import { FieldComponent } from './field/field.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FieldComponent } from './field/field.component';
     GameCardComponent,
     BoardComponent,
     FieldComponent,
+    RulesComponent,
   ],
   imports: [
     BrowserModule,
