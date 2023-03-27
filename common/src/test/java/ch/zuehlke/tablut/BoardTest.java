@@ -62,7 +62,7 @@ public class BoardTest {
     @ParameterizedTest
     @MethodSource("boardSetup")
     void initialBoard_correctSetup(int x, int y, NormalFieldState state) {
-        Field.NormalField expected = new Field.NormalField(state);
+        Field.NormalField expected = new Field.NormalField(new Coordinates(x, y), state);
         var board = Board.createInitialBoard();
 
         assertThat(board.fields()[x][y]).isEqualToComparingFieldByField(expected);
