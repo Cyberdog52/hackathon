@@ -123,8 +123,8 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Player is already registered")
     @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be started")
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody String name) {
-        return gameService.register(name);
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
+        return gameService.register(request.getName());
     }
 
 }

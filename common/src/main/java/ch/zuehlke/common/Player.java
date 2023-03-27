@@ -8,21 +8,25 @@ public class Player {
     private final String token;
     private final String playerName;
 
+    public Player() {
+        this("No Name provided");
+    }
+
     public Player(String playerName) {
         id = UUID.randomUUID().toString();
         token = UUID.randomUUID().toString();
         this.playerName = playerName;
     }
 
-    public String id() {
+    public String getId() {
         return id;
     }
 
-    public String token() {
+    public String getToken() {
         return token;
     }
 
-    public String playerName() {
+    public String getPlayerName() {
         return playerName;
     }
 }

@@ -97,8 +97,7 @@ public class GameService {
     public ResponseEntity<RegisterResponse> register(String playerName) {
         Player player = new Player(playerName);
         RegisterResponse response = new RegisterResponse(player);
-        playersById.put(player.id(), player);
+        playersById.put(player.getId(), player);
         return ResponseEntity.ok(response);
-
     }
 }

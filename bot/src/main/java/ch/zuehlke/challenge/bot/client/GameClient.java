@@ -21,14 +21,14 @@ public class GameClient {
     private final ShutDownService shutDownService;
 
     public PlayerId register() {
-        RegisterRequest registerRequest = new RegisterRequest(applicationProperties.getName());
+        var registerRequest = new RegisterRequest(applicationProperties.getName());
         log.info("Joining game with request {}", registerRequest);
         log.info(applicationProperties.getBackendRegisterUrl());
 
         // Improve: Handle exceptions
         ResponseEntity<RegisterResponse> signUpResponse = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendRegisterUrl(),
-                        registerRequest.name(),
+                        registerRequest,
                         RegisterResponse.class
                 );
         log.info("Received response: {}", signUpResponse);
