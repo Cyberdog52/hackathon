@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 // Improve: Split this into DTO and domain object
-public record GameState(Set<PlayRequest> currentRequests, List<Round> rounds) {
+public record GameState(Set<PlayRequest> currentRequests, List<Move> moves) {
 
     public GameState() {
         this(new HashSet<>(), new ArrayList<>());

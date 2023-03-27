@@ -21,7 +21,7 @@ public class Game {
     private GameStatus status = GameStatus.NOT_STARTED;
 
     private final GameState state = new GameState();
-    private final GameState2 state2 = new GameState2();
+    private final InternalGameState internalGameState = new InternalGameState();
 
     // moves is not exposed to the GameDto to avoid cheating
     private List<Move> currentMoves;
@@ -51,7 +51,7 @@ public class Game {
 
     private void startRound() {
         currentMoves = new ArrayList<>();
-        players.forEach(player -> state.currentRequests().add(new PlayRequest(player.id(), state2.getPossibleActions())));
+        state.currentRequests().add(new PlayRequest(players.get(state.moves().size() % 2).id(), internalGameState.getPossibleActions()));
     }
 
     public void finishGame() {
@@ -82,18 +82,23 @@ public class Game {
     }
 
     private void finishRound() {
-        Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
-        state.rounds().add(currentRound);
+//        Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
+        state.moves().add(currentMoves.get(0));
+
+        // TODO: Did someone win?
+
+        startRound();
 
         // Improve: Do multiple rounds
-        finishGame();
+        //finishGame();
     }
 
     public Optional<PlayerId> getWinner() {
-        if (status != GameStatus.FINISHED || state.rounds().isEmpty()) {
+        if (status != GameStatus.FINISHED || state.moves().isEmpty()) {
             return Optional.empty();
         }
         // Improve: Handle multiple rounds
-        return Optional.ofNullable(state.rounds().get(0).winner());
+//        return Optional.ofNullable(state.moves().get(0).winner());
+        return Optional.empty();
     }
 }
