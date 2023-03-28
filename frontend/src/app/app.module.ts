@@ -15,6 +15,10 @@ import { MatButtonModule } from "@angular/material/button";
 import { GameCardComponent } from "./game-card/game-card.component";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatListModule } from "@angular/material/list";
+import { CreateGameDialogComponent } from './create-game-dialog/create-game-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -22,6 +26,7 @@ import { MatListModule } from "@angular/material/list";
     LobbyComponent,
     HeaderComponent,
     GameCardComponent,
+    CreateGameDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +39,10 @@ import { MatListModule } from "@angular/material/list";
     MatIconModule,
     MatButtonModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

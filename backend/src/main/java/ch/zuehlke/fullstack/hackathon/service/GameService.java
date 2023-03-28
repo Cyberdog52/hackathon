@@ -1,6 +1,8 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerNameResponse;
+import ch.zuehlke.common.PlayerScoreResponse;
 import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
@@ -16,6 +18,7 @@ public class GameService {
 
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
+    private final Map<Player, Integer> scores = new HashMap<>();
 
     public List<Game> getGames() {
         return games;
@@ -82,7 +85,18 @@ public class GameService {
     public ResponseEntity<RegisterResponse> register(String playerName) {
         Player player = new Player(playerName);
         playersById.put(player.getId(), player);
+        scores.put(player, 0);
         RegisterResponse response = new RegisterResponse(player);
         return ResponseEntity.ok(response);
+    }
+
+    public List<PlayerNameResponse> getActivePlayers() {
+        List<PlayerNameResponse> playerNameResponses = new ArrayList<>();
+        playersById.values().stream().forEach(player -> playerNameResponses.add(new PlayerNameResponse(player.getId(), player.getPlayerName())));
+        return playerNameResponses;
+    }
+
+    public List<PlayerScoreResponse> getTop10() {
+        return new ArrayList<>(); //TODO
     }
 }

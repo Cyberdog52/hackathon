@@ -46,6 +46,6 @@ export class GameCardComponent {
   }
 
   getPlayerName(key: PlayerId): string | undefined {
-    return this.game.players.find(player => player.id.value === key.value)?.name.value;
+    return this.game.players.find(player => player.id === key.value)?.playerName;
   }
 }

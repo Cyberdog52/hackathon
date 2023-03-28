@@ -1,5 +1,5 @@
 export interface GameDto {
-  id: GameId;
+  id: string;
   players: Player[];
   status: GameStatus;
   state: GameState;
@@ -7,8 +7,15 @@ export interface GameDto {
 }
 
 export interface Player {
-  id: PlayerId;
-  name: PlayerName;
+  id: string;
+  token: string;
+  playerName: string;
+}
+
+export interface TopPlayers {
+  id: string;
+  playerName: string;
+  score: number;
 }
 
 export interface PlayerName {
@@ -50,8 +57,8 @@ export interface Move {
 }
 
 export enum GameStatus {
-  NOT_STARTED = "NOT_STARTED",
-  IN_PROGRESS = "IN_PROGRESS",
+  CREATED = "CREATED",
+  PLACE_SHIPS = "PLACE_SHIPS",
   FINISHED = "FINISHED",
   DELETED = "DELETED"
 }
