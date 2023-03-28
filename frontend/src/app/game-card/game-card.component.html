@@ -25,12 +25,18 @@
     <p *ngIf="game.status === GameStatus.IN_PROGRESS">Game is in progress</p>
     <div *ngIf="game.status === GameStatus.FINISHED">
       <p *ngIf="!game.winner">Game is a draw</p>
-      <p *ngIf="game.winner">{{ getPlayerName(game.winner) }} has won</p>
+      <p
+        *ngIf="game.winner"
+        [ngClass]="
+          game.winner.value == game.players[0].id.value ? 'black' : 'white'
+        "
+      >
+        {{ getPlayerName(game.winner) }} has won
+      </p>
     </div>
   </mat-card-content>
   <mat-card-actions>
     <button
-      mat-raised-button
       (click)="startGame()"
       [disabled]="
         game.players.length < MIN_PLAYERS ||
@@ -41,7 +47,6 @@
       Start
     </button>
     <button
-      mat-raised-button
       (click)="deleteGame()"
       [disabled]="
         game.players.length > 0 && game.status !== GameStatus.FINISHED
