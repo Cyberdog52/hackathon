@@ -220,4 +220,44 @@ public class InternalGameStateTest {
                 .map(GameAction::to)
                 .collect(Collectors.toSet())).doesNotContain(new Coordinates(4, 4));
     }
+
+    @Test
+    void isDraw() {
+        var gameState = new InternalGameState();
+
+        assertThat(gameState.isDraw()).isFalse();
+
+        for (int i = 0; i < 110; i++) {
+            gameState.playAction(new GameAction(0, 0, 0, 0));
+        }
+
+        assertThat(gameState.isDraw()).isTrue();
+    }
+
+    @Test
+    void hasAttackerWon() {
+        var gameState = new InternalGameState();
+
+        assertThat(gameState.hasAttackerWon()).isFalse();
+
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+
+        assertThat(gameState.hasAttackerWon()).isTrue();
+
+    }
+
+    @Test
+    void hasDefenderWon() {
+        var gameState = new InternalGameState();
+
+        assertThat(gameState.hasDefenderWon()).isFalse();
+
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.KING));
+
+        assertThat(gameState.hasDefenderWon()).isTrue();
+
+
+    }
+
 }

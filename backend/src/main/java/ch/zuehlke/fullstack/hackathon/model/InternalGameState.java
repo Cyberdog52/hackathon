@@ -81,4 +81,26 @@ public class InternalGameState {
     public Board board() {
         return board;
     }
+
+    public boolean isGameFinished() {
+        return hasDefenderWon() || isDraw() || hasAttackerWon();
+    }
+
+    public boolean isDraw() {
+        return getActionHistory().size() >= 100;
+    }
+
+    public boolean hasDefenderWon() {
+        return board.getAllFieldsAsList().stream()
+                .filter(a -> a.state() == FieldState.KING)
+                .anyMatch(Field::isBorder);
+    }
+
+    public boolean hasAttackerWon() {
+        return board.getAllFieldsAsList().stream()
+                .filter(a -> a.state() == FieldState.KING)
+                .findAny()
+                .isEmpty();
+
+    }
 }

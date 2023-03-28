@@ -89,20 +89,17 @@ public class Game {
         internalGameState.playAction(move.action());
         state = new GameState(state.currentRequests(), state.moves(), internalGameState.board());
 
-        // TODO: Did someone win?
-
-        startRound();
-
-        // Improve: Do multiple rounds
-        //finishGame();
+        if (internalGameState.isGameFinished()) {
+            finishGame();
+        } else {
+            startRound();
+        }
     }
 
     public Optional<PlayerId> getWinner() {
-        if (status != GameStatus.FINISHED || state.moves().isEmpty()) {
+        if (status != GameStatus.FINISHED || state.moves().isEmpty() || internalGameState.isDraw()) {
             return Optional.empty();
         }
-        // Improve: Handle multiple rounds
-//        return Optional.ofNullable(state.moves().get(0).winner());
-        return Optional.empty();
+        return Optional.ofNullable(state.moves().get(state.moves().size() - 1).playerId());
     }
 }
