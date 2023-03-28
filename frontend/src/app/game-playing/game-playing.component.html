@@ -7,6 +7,10 @@
         <span *ngIf="gamePhase === gamePhaseEnum.SETUP">, click to place your boats</span>
         <span *ngIf="gamePhase === gamePhaseEnum.PLAYING">, click to shoot a square!</span>
       </div>
+      <div *ngIf="gamePhase === gamePhaseEnum.END">
+        <span>You defeated you oponent!</span>
+        <span>Your opponent won!</span>
+      </div>
       <div *ngIf="player2Turn">Waiting for opponent</div>
       <h2>You: {{this.player1Id}}</h2>
       <app-map gameId="{{this.gameId}}"
