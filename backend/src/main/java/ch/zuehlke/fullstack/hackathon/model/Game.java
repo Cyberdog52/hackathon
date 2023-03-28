@@ -15,17 +15,16 @@ public class Game {
     public static final int REQUIRED_NUMBER_OF_PLAYERS = 2;
     public static final int MIN_PLAYERS = 2;
 
-    private Map<String, Board> boardsByPlayerId = new HashMap<>();
-    private final String gameId = UUID.randomUUID().toString();
+    private final Map<String, Board> boardsByPlayerId = new HashMap<>();
     private final List<Player> players = new ArrayList<>();
-
-    private GameStatus status = CREATED;
-    private List<Player> winner = new ArrayList<>();
-
+    private final String gameId = UUID.randomUUID().toString();
     private final GameState state = new GameState();
 
     private List<Round> rounds = new ArrayList<>();
+    private List<Player> winner = new ArrayList<>();
 
+    private GameStatus status = CREATED;
+    
     public boolean addPlayer(Player player) {
         if (status != CREATED) {
             throw new IllegalArgumentException("cannot add players in current phase: " + status);

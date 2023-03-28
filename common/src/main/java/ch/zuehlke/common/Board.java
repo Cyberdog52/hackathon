@@ -3,11 +3,10 @@ package ch.zuehlke.common;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Getter
@@ -24,6 +23,11 @@ public class Board {
     }
 
     public boolean shipsValid() {
+
+        if (ships.size() != ShipType.values().length || !hasUniqueShips()) {
+            return false;
+        }
+
         int totalPositions = ships.stream().mapToInt(ship -> ship.type.length).sum();
         int uniquePositions = ships.stream().flatMap(ship -> ship.positions.stream()).collect(Collectors.toSet()).size();
         if(totalPositions != uniquePositions) {
@@ -35,6 +39,10 @@ public class Board {
                 return false;
         }
         return true;
+    }
+
+    private boolean hasUniqueShips() {
+        return ships.stream().map(ship -> ship.type).collect(Collectors.toSet()).size() == ShipType.values().length;
     }
 
     private boolean isOutOfBounds(Ship ship) {

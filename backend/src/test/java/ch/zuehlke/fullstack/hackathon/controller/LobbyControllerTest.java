@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,16 +65,30 @@ class LobbyControllerTest {
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
 
         // place ships
-        var shipPlayerOne = new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL);
-        var shipPlayerTwo = new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL);
-        controller.placeShips(createPlaceShipsRequest(playerOne, gameId, shipPlayerOne));
+        List<Ship> shipsPlayerOne = new ArrayList<>();
+        List<Ship> shipsPlayerTwo = new ArrayList<>();
+
+        shipsPlayerOne.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
+        shipsPlayerOne.add(new Ship(ShipType.CRUISER, 0, 1, Orientation.HORIZONTAL));
+        shipsPlayerOne.add(new Ship(ShipType.SUBMARINE, 0, 2, Orientation.HORIZONTAL));
+        shipsPlayerOne.add(new Ship(ShipType.BATTLESHIP, 0, 3, Orientation.HORIZONTAL));
+        shipsPlayerOne.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 4, Orientation.HORIZONTAL));
+
+        shipsPlayerTwo.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
+        shipsPlayerTwo.add(new Ship(ShipType.CRUISER, 0, 1, Orientation.HORIZONTAL));
+        shipsPlayerTwo.add(new Ship(ShipType.SUBMARINE, 0, 2, Orientation.HORIZONTAL));
+        shipsPlayerTwo.add(new Ship(ShipType.BATTLESHIP, 0, 3, Orientation.HORIZONTAL));
+        shipsPlayerTwo.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 4, Orientation.HORIZONTAL));
+
+        controller.placeShips(createPlaceShipsRequest(playerOne, gameId, shipsPlayerOne));
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
-        controller.placeShips(createPlaceShipsRequest(playerTwo, gameId, shipPlayerTwo));
+        controller.placeShips(createPlaceShipsRequest(playerTwo, gameId, shipsPlayerTwo));
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.SHOOT);
 
         // shoot!
-        var shootRequestOfPlayerOne = createShootRequest(playerOne, gameId, shipPlayerOne.getX(), shipPlayerOne.getY());
-        var shootRequestOfPlayerTwo = createShootRequest(playerTwo, gameId, shipPlayerTwo.getX(), shipPlayerTwo.getY());
+        var shootRequestOfPlayerOne = createShootRequest(playerOne, gameId, 0, 0);
+        var shootRequestOfPlayerTwo = createShootRequest(playerTwo, gameId, 0, 0);
+
         // what happens, if player shoots twice?
         assertHit(controller.shoot(shootRequestOfPlayerOne));
         assertHit(controller.shoot(shootRequestOfPlayerTwo));
@@ -81,8 +96,49 @@ class LobbyControllerTest {
         var game = gameService.getGame(gameId).orElseThrow();
         assertThat(game.getCurrentRound().isFinished());
 
-        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipPlayerOne.getX() + 1, shipPlayerOne.getY())));
-        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipPlayerTwo.getX() + 1, shipPlayerTwo.getY())));
+        //finishing move on destroyers
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(0).getX() + 1, shipsPlayerOne.get(0).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerTwo.get(0).getX() + 1, shipsPlayerTwo.get(0).getY())));
+
+        //destroy cruisers
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(1).getX(), shipsPlayerOne.get(1).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(1).getX(), shipsPlayerOne.get(1).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(1).getX() + 1, shipsPlayerOne.get(1).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(1).getX() + 1, shipsPlayerOne.get(1).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(1).getX() + 2, shipsPlayerOne.get(1).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(1).getX() + 2, shipsPlayerOne.get(1).getY())));
+
+        //destroy submarines
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(2).getX(), shipsPlayerOne.get(2).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(2).getX(), shipsPlayerOne.get(2).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(2).getX() + 1, shipsPlayerOne.get(2).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(2).getX() + 1, shipsPlayerOne.get(2).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(2).getX() + 2, shipsPlayerOne.get(2).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(2).getX() + 2, shipsPlayerOne.get(2).getY())));
+
+        //destroy battleship
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(3).getX(), shipsPlayerOne.get(3).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(3).getX(), shipsPlayerOne.get(3).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(3).getX() + 1, shipsPlayerOne.get(3).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(3).getX() + 1, shipsPlayerOne.get(3).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(3).getX() + 2, shipsPlayerOne.get(3).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(3).getX() + 2, shipsPlayerOne.get(3).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(3).getX() + 3, shipsPlayerOne.get(3).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(3).getX() + 3, shipsPlayerOne.get(3).getY())));
+
+        //destroy battleship
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX(), shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX(), shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX() + 1, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX() + 1, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX() + 2, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX() + 2, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX() + 3, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX() + 3, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX() + 3, shipsPlayerOne.get(4).getY())));
+        assertHit(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX() + 3, shipsPlayerOne.get(4).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipsPlayerOne.get(4).getX() + 4, shipsPlayerOne.get(4).getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipsPlayerOne.get(4).getX() + 4, shipsPlayerOne.get(4).getY())));
 
         assertThat(game.hasWinner()).isTrue();
         assertThat(game.getWinnerIds().contains(playerOne.getId())).isTrue();
@@ -107,11 +163,11 @@ class LobbyControllerTest {
         return shootRequest;
     }
 
-    private static PlaceShipsRequest createPlaceShipsRequest(Player playerOne, String gameId, Ship ship) {
+    private static PlaceShipsRequest createPlaceShipsRequest(Player playerOne, String gameId, List<Ship> ships) {
         var placeShipsRequestOfPlayerOne = new PlaceShipsRequest();
         placeShipsRequestOfPlayerOne.setGameId(gameId);
         placeShipsRequestOfPlayerOne.setPlayer(playerOne);
-        placeShipsRequestOfPlayerOne.setShips(List.of(ship));
+        placeShipsRequestOfPlayerOne.setShips(ships);
         return placeShipsRequestOfPlayerOne;
     }
 
