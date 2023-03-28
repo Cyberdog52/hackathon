@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ApplicationProperties {
     private String name;
+    private Integer tournamentId;
     private Integer gameId;
     private String backendRootUri;
+    private String backendTournamentJoinUrl;
     private String backendJoinUrl;
     private String backendPlayUrl;
     private String webSocketUri;

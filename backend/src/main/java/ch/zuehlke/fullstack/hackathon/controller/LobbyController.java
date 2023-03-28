@@ -4,8 +4,11 @@ import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
+import ch.zuehlke.fullstack.hackathon.model.Tournament;
+import ch.zuehlke.fullstack.hackathon.model.TournamentMapper;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
+import ch.zuehlke.fullstack.hackathon.service.TournamentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ public class LobbyController {
     // Improve: Create ExceptionInterceptor for custom exceptions in the backend
 
     private final GameService gameService;
+    private final TournamentService tournamentService;
 
     private final NotificationService notificationService;
 
@@ -39,6 +43,18 @@ public class LobbyController {
         return ResponseEntity.ok(gameDtos);
     }
 
+    @Operation(summary = "Returns the list of tournaments",
+            description = "Returns all tournaments, whether they are in progress or not")
+    @ApiResponse(responseCode = "200", description = "Successfully returned the list of tournaments")
+    @GetMapping("/tournaments")
+    public ResponseEntity<List<TournamentDto>> getTournaments() {
+        var tournaments = tournamentService.getTournaments();
+        var dtos = tournaments.stream()
+                .map(TournamentMapper::map)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
     @Operation(summary = "Creates a new game",
             description = "Creates a new game and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new game")
@@ -46,6 +62,15 @@ public class LobbyController {
     public ResponseEntity<GameId> createGame() {
         Game game = gameService.createGame();
         return ResponseEntity.ok(game.getGameId());
+    }
+
+    @Operation(summary = "Creates a new tournament",
+            description = "Creates a new tournament and returns tournament id")
+    @ApiResponse(responseCode = "200", description = "Successfully created a new tournament")
+    @PostMapping("/tournament")
+    public ResponseEntity<TournamentId> createTournament() {
+        Tournament tournament = tournamentService.createTournament();
+        return ResponseEntity.ok(tournament.getTournamentId());
     }
 
     @Operation(summary = "Joins a game",
@@ -64,6 +89,25 @@ public class LobbyController {
             return ResponseEntity.badRequest().build();
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
+        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
+    }
+
+    @Operation(summary = "Joins a tournament",
+            description = "Joins a tournament and returns the socket url")
+    @ApiResponse(responseCode = "200", description = "Successfully joined the tournament")
+    @ApiResponse(responseCode = "400", description = "Tournament is already full")
+    @ApiResponse(responseCode = "404", description = "The tournament does not exist")
+    @PostMapping("/tournament/{tournamentId}/join")
+    public ResponseEntity<JoinResponse> joinTournament(@PathVariable int tournamentId, @RequestBody JoinRequest joinRequest) {
+        var joinResult = tournamentService.join(tournamentId, joinRequest.name());
+
+        if (joinResult.resultType() == TournamentJoinResult.TournamentJoinResultType.TOURNAMENT_NOT_FOUND) {
+            return ResponseEntity.notFound().build();
+        }
+        if (joinResult.resultType() == TournamentJoinResult.TournamentJoinResultType.TOURNAMENT_FULL) {
+            return ResponseEntity.badRequest().build();
+        }
+        notificationService.notifyTournamentUpdate(new TournamentId(tournamentId));
         return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
     }
 
@@ -98,6 +142,19 @@ public class LobbyController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Deletes a tournament",
+            description = "Deletes a tournament")
+    @ApiResponse(responseCode = "200", description = "Successfully deleted the tournament")
+    @ApiResponse(responseCode = "404", description = "Tournament did not exist and can therefore not be deleted")
+    @DeleteMapping("/tournament/{tournamentId}")
+    public ResponseEntity<Void> deleteTournament(@PathVariable int tournamentId) {
+        boolean success = tournamentService.deleteTournament(tournamentId);
+        if (!success) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @Operation(summary = "Starts a game",
             description = "Starts a game")
     @ApiResponse(responseCode = "200", description = "Successfully started the game")
@@ -116,5 +173,21 @@ public class LobbyController {
         return ResponseEntity.ok().build();
     }
 
-
+    @Operation(summary = "Starts a tournament",
+            description = "Starts a tournament")
+    @ApiResponse(responseCode = "200", description = "Successfully started the tournament")
+    @ApiResponse(responseCode = "400", description = "Not enough players to start the tournament")
+    @ApiResponse(responseCode = "404", description = "Tournament did not exist and can therefore not be started")
+    @PostMapping("/tournament/{tournamentId}/start")
+    public ResponseEntity<Void> startTournament(@PathVariable int tournamentId) {
+        var result = tournamentService.startTournament(tournamentId);
+        if (result.resultType() == TournamentStartResult.TournamentStartResultType.TOURNAMENT_NOT_FOUND) {
+            return ResponseEntity.notFound().build();
+        }
+        if (result.resultType() == TournamentStartResult.TournamentStartResultType.NOT_ENOUGH_PLAYERS) {
+            return ResponseEntity.badRequest().build();
+        }
+        notificationService.notifyTournamentUpdate(new TournamentId(tournamentId));
+        return ResponseEntity.ok().build();
+    }
 }

@@ -7,6 +7,7 @@ import ch.zuehlke.fullstack.hackathon.controller.StartResult.StartResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
+import ch.zuehlke.fullstack.hackathon.service.TournamentService;
 import ch.zuehlke.tablut.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,14 +23,15 @@ class LobbyControllerTest {
 
     private LobbyController lobbyController;
     private GameService gameServiceMock;
-
+    private TournamentService tournamentServiceMock;
     private NotificationService notificationServiceMock;
 
     @BeforeEach
     void setUp() {
         gameServiceMock = mock(GameService.class);
+        tournamentServiceMock = mock(TournamentService.class);
         notificationServiceMock = mock(NotificationService.class);
-        lobbyController = new LobbyController(gameServiceMock, notificationServiceMock);
+        lobbyController = new LobbyController(gameServiceMock, tournamentServiceMock, notificationServiceMock);
     }
 
     @Test

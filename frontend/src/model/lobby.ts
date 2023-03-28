@@ -76,3 +76,22 @@ export interface Position {
   x: number;
   y: number;
 }
+
+export interface TournamentDto {
+  id: TournamentId;
+  players: Player[];
+  status: TournamentStatus;
+  state: GameState;
+  winner?: PlayerId;
+}
+
+export interface TournamentId {
+  value: number;
+}
+
+export enum TournamentStatus {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  FINISHED = "FINISHED",
+  DELETED = "DELETED",
+}

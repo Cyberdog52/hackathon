@@ -1,3 +1,9 @@
+<button mat-raised-button (click)="createTournament()">Create new tournament</button>
+<mat-grid-list cols="3" rowHeight="200">
+  <mat-grid-tile *ngFor="let tournament of tournaments$ | async">
+    <app-tournament-card [tournament]="tournament"></app-tournament-card>
+  </mat-grid-tile>
+</mat-grid-list>
 <button mat-raised-button (click)="createGame()">Create new game</button>
 <mat-grid-list cols="3" rowHeight="350">
   <mat-grid-tile *ngFor="let game of games$ | async">
@@ -5,4 +11,7 @@
   </mat-grid-tile>
 </mat-grid-list>
 <h2>Debug game variable:</h2>
+<p>Tournament:</p>
+<pre>{{ tournaments$ | async | json }}</pre>
+<p>Games:</p>
 <pre>{{ games$ | async | json }}</pre>

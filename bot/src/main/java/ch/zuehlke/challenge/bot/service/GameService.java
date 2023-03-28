@@ -25,6 +25,10 @@ public class GameService {
     @Setter
     private PlayerId playerId;
 
+    @Getter
+    @Setter
+    private TournamentId tournamentId;
+
     private final GameClient gameClient;
 
     private final ShutDownService shutDownService;
@@ -33,9 +37,14 @@ public class GameService {
     private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
 
 
-    @EventListener(ApplicationReadyEvent.class)
+    //    @EventListener(ApplicationReadyEvent.class)
     public void joinGame() {
         this.playerId = gameClient.join();
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void joinTournament() {
+        this.tournamentId = gameClient.joinTournament();
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {
