@@ -85,7 +85,8 @@ class LobbyControllerTest {
         assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipPlayerTwo.getX() + 1, shipPlayerTwo.getY())));
 
         assertThat(game.hasWinner()).isTrue();
-
+        assertThat(game.getWinnerIds().contains(playerOne.getId())).isTrue();
+        assertThat(game.getWinnerIds().contains(playerTwo.getId())).isTrue();
     }
 
     private static void assertHit(ResponseEntity<ShootResult> shootResult) {

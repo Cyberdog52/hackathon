@@ -20,6 +20,7 @@ public class Game {
     private final List<Player> players = new ArrayList<>();
 
     private GameStatus status = CREATED;
+    private List<Player> winner = new ArrayList<>();
 
     private final GameState state = new GameState();
 
@@ -70,6 +71,9 @@ public class Game {
         if (currentRound.receivedBothMoves()) {
             if (hasWinner()) {
                 status = GameStatus.FINISHED;
+                winner  = getWinnerIds().stream()
+                        .map(this::getPlayerById)
+                        .toList();
             }
             currentRound.finishRound();
             rounds.add(new Round());
@@ -117,17 +121,9 @@ public class Game {
         Round currentRound = getCurrentRound();
         state.rounds().add(currentRound);
 
-        if (getWinner().isPresent()) {
+        if (getWinnerIds().isEmpty()) {
             finishGame();
         }
-    }
-
-    public Optional<PlayerId> getWinner() {
-        if (status != GameStatus.FINISHED || state.rounds().isEmpty()) {
-            return Optional.empty();
-        }
-        // Improve: Handle multiple rounds
-        return Optional.empty();
     }
 
     public Player getPlayerById(String playerId) {
@@ -143,11 +139,14 @@ public class Game {
         return rounds.get(rounds.size() - 1);
     }
 
-    public boolean hasWinner() {
+    public List<String> getWinnerIds() {
         return boardsByPlayerId.entrySet().stream()
                 .filter(entry -> entry.getValue().allShipsDestroyed())
                 .map(Map.Entry::getKey)
-                .findAny()
-                .isPresent();
+                .toList();
+    }
+
+    public boolean hasWinner() {
+        return !getWinnerIds().isEmpty();
     }
 }
