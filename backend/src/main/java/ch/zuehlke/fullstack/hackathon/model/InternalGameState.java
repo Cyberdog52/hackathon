@@ -25,8 +25,17 @@ public class InternalGameState {
         return actionHistory;
     }
 
+    public boolean attackersTurn() {
+        return actionHistory.size() % 2 == 0;
+    }
+
+    public boolean defendersTurn() {
+        return !attackersTurn();
+    }
+
+
     public Set<GameAction> getPossibleActions() {
-        if (actionHistory.size() % 2 == 0) {
+        if (attackersTurn()) {
             return getPossibleActionsForAttacker();
         }
         return getPossibleActionsForDefender();
@@ -110,16 +119,22 @@ public class InternalGameState {
     }
 
     public boolean isDraw() {
-        return getActionHistory().size() >= 100;
+        return getActionHistory().size() >= 200;
     }
 
     public boolean hasDefenderWon() {
+        if (attackersTurn() && getPossibleActions().isEmpty()) {
+            return true;
+        }
         return board.getAllFieldsAsList().stream()
                 .filter(a -> a.state() == FieldState.KING)
                 .anyMatch(Field::isBorder);
     }
 
     public boolean hasAttackerWon() {
+        if (defendersTurn() && getPossibleActions().isEmpty()) {
+            return true;
+        }
         return board.getAllFieldsAsList().stream()
                 .filter(a -> a.state() == FieldState.KING)
                 .findAny()
