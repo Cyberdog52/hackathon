@@ -6,7 +6,9 @@ import ch.zuehlke.common.PlayerName;
 import ch.zuehlke.common.TournamentId;
 import ch.zuehlke.fullstack.hackathon.controller.TournamentJoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.TournamentStartResult;
+import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.Tournament;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TournamentService {
-
+    private final GameService gameService;
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Tournament> tournaments = new ArrayList<>();
     private static int counter = 0;
-
-    public TournamentService() {
-        createTournament();
-    }
 
     public List<Tournament> getTournaments() {
         return tournaments;
@@ -74,6 +73,9 @@ public class TournamentService {
         }
 
         tournament.startTournament();
+        Game game = gameService.createGame();
+        game.addPlayer(tournament.getPlayers().get(0));
+        game.addPlayer(tournament.getPlayers().get(1));
 
         return new TournamentStartResult(TournamentStartResult.TournamentStartResultType.SUCCESS);
     }

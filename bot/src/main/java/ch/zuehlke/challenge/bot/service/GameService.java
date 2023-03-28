@@ -26,10 +26,6 @@ public class GameService {
     @Setter
     private PlayerId playerId;
 
-    @Getter
-    @Setter
-    private TournamentId tournamentId;
-
     private final GameClient gameClient;
 
     private final ShutDownService shutDownService;
@@ -42,7 +38,7 @@ public class GameService {
     @EventListener(ApplicationReadyEvent.class)
     public void joinTournamentOrGame() {
         if (applicationProperties.isTournamentBot()) {
-            this.tournamentId = gameClient.joinTournament();
+            this.playerId = gameClient.joinTournament();
         } else {
             this.playerId = gameClient.join();
         }

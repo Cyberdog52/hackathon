@@ -45,22 +45,22 @@ public class GameClient {
         }
     }
 
-    public TournamentId joinTournament() {
+    public PlayerId joinTournament() {
         var joinRequest = new TournamentJoinRequest(new PlayerName(applicationProperties.getName()));
         log.info("Joining tournament with request {}", joinRequest);
 
         // Improve: Handle exceptions
-        ResponseEntity<TournamentJoinResponse> signUpResponse = hackathonRestTemplateClient
+        ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendTournamentJoinUrl(),
                         joinRequest,
-                        TournamentJoinResponse.class,
+                        JoinResponse.class,
                         applicationProperties.getGameId()
                 );
         log.info("Received response: {}", signUpResponse);
         if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
-            var tournamentId = signUpResponse.getBody().tournamentId();
-            log.info("Joined game with PlayerId: {}", tournamentId);
-            return tournamentId;
+            var playerId = signUpResponse.getBody().playerId();
+            log.info("Joined game with PlayerId: {}", playerId);
+            return playerId;
         } else {
             log.error("Could not join game. Will shutdown now...");
             shutDownService.shutDown();
