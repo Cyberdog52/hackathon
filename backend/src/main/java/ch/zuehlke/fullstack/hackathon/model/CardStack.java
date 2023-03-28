@@ -1,6 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-import ch.zuehlke.common.Card;
+import ch.zuehlke.common.cards.Card;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 
 import java.util.Collections;

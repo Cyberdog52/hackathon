@@ -1,4 +1,4 @@
-package ch.zuehlke.common;
+package ch.zuehlke.common.cards;
 
 public enum Suit {
     HEART,

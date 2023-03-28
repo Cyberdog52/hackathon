@@ -41,7 +41,7 @@
 //        Match game = gameService.createGame();
 //        assertThat(gameService.getGames()).hasSize(1);
 //
-//        boolean success = gameService.deleteGame(game.getGameId().value());
+//        boolean success = gameService.deleteGame(game.getGameId().rank());
 //
 //        assertThat(gameService.getGames()).hasSize(0);
 //        assertThat(success).isTrue();
@@ -62,7 +62,7 @@
 //    void joinGame_successfully() {
 //        Match game = gameService.createGame();
 //
-//        JoinResult joinResult = gameService.join(game.getGameId().value(), new PlayerName("name"));
+//        JoinResult joinResult = gameService.join(game.getGameId().rank(), new PlayerName("name"));
 //
 //        assertThat(joinResult.resultType()).isEqualTo(JoinResult.JoinResultType.SUCCESS);
 //        assertThat(joinResult.playerId()).isNotNull();
@@ -72,9 +72,9 @@
 //    void joinGame_threeTimes_gameIsFull() {
 //        Match game = gameService.createGame();
 //
-//        gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
-//        JoinResult joinResult = gameService.join(game.getGameId().value(), new PlayerName("name3"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
+//        JoinResult joinResult = gameService.join(game.getGameId().rank(), new PlayerName("name3"));
 //
 //        assertThat(joinResult.resultType()).isEqualTo(JoinResult.JoinResultType.GAME_FULL);
 //        assertThat(joinResult.playerId()).isNull();
@@ -92,7 +92,7 @@
 //    void startGame_withZeroPlayers_notEnoughPlayers() {
 //        Match game = gameService.createGame();
 //
-//        StartResult startResult = gameService.startGame(game.getGameId().value());
+//        StartResult startResult = gameService.startGame(game.getGameId().rank());
 //
 //        assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.NOT_ENOUGH_PLAYERS);
 //        assertThat(game.getStatus()).isEqualTo(GameStatus.NOT_STARTED);
@@ -108,11 +108,11 @@
 //    @Test
 //    void startGame_gameIsFull_successfully() {
 //        Match game = gameService.createGame();
-//        gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
 //
 //
-//        StartResult startResult = gameService.startGame(game.getGameId().value());
+//        StartResult startResult = gameService.startGame(game.getGameId().rank());
 //
 //        assertThat(startResult.resultType()).isEqualTo(StartResult.StartResultType.SUCCESS);
 //        assertThat(game.getStatus()).isEqualTo(GameStatus.IN_PROGRESS);
@@ -121,10 +121,10 @@
 //    @Test
 //    void playGame_playerOnePlays_successfully() {
 //        Match game = gameService.createGame();
-//        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+//        JoinResult joinResult1 = gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
 //        PlayerId playerId1 = joinResult1.playerId();
-//        gameService.startGame(game.getGameId().value());
+//        gameService.startGame(game.getGameId().rank());
 //        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 //
 //        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
@@ -136,10 +136,10 @@
 //    @Test
 //    void playGame_playerOnePlaysTwice_returnsInvalidAction() {
 //        Match game = gameService.createGame();
-//        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+//        JoinResult joinResult1 = gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
 //        PlayerId playerId1 = joinResult1.playerId();
-//        gameService.startGame(game.getGameId().value());
+//        gameService.startGame(game.getGameId().rank());
 //        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 //
 //        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
@@ -152,10 +152,10 @@
 //    @Test
 //    void playGame_withNonExistingGameId_returnsGameNotFound() {
 //        Match game = gameService.createGame();
-//        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+//        JoinResult joinResult1 = gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
 //        PlayerId playerId1 = joinResult1.playerId();
-//        gameService.startGame(game.getGameId().value());
+//        gameService.startGame(game.getGameId().rank());
 //        RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 //
 //        Move move = new Move(playerId1, requestIdForPlayer1, GameAction.ROCK);
@@ -167,10 +167,10 @@
 //    @Test
 //    void playGame_withInvalidRequestId_returnsInvalidAction() {
 //        Match game = gameService.createGame();
-//        JoinResult joinResult1 = gameService.join(game.getGameId().value(), new PlayerName("name1"));
-//        gameService.join(game.getGameId().value(), new PlayerName("name2"));
+//        JoinResult joinResult1 = gameService.join(game.getGameId().rank(), new PlayerName("name1"));
+//        gameService.join(game.getGameId().rank(), new PlayerName("name2"));
 //        PlayerId playerId1 = joinResult1.playerId();
-//        gameService.startGame(game.getGameId().value());
+//        gameService.startGame(game.getGameId().rank());
 //
 //        Move move = new Move(playerId1, new RequestId(), GameAction.ROCK);
 //        PlayResult playResult = gameService.play(move, game.getGameId());

@@ -1,8 +1,8 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-import ch.zuehlke.common.Card;
-import ch.zuehlke.common.CardValue;
-import ch.zuehlke.common.Suit;
+import ch.zuehlke.common.cards.Card;
+import ch.zuehlke.common.cards.Rank;
+import ch.zuehlke.common.cards.Suit;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,8 @@ class CardStackTest {
     @Test
     void itShouldThrowAnException_whenACardIsStillOnTheStack() {
         final var myDeck = Deck.generateNewDeck();
-        myDeck.add(new Card(Suit.SPADE, CardValue.KING));
+        myDeck.add(new Card(Suit.SPADE, Rank.KING));
         final var myStack = new CardStack(myDeck);
-        assertThatThrownBy(() -> myStack.discard(new Card(Suit.SPADE, CardValue.KING))).isInstanceOf(CardStackException.class);
+        assertThatThrownBy(() -> myStack.discard(new Card(Suit.SPADE, Rank.KING))).isInstanceOf(CardStackException.class);
     }
 }

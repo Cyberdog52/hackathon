@@ -68,7 +68,7 @@ public class MatchService {
 
 //    public Optional<Match> getGame(int gameId) {
 //        return matches.stream()
-//                .filter(game -> game.getGameId().value() == gameId)
+//                .filter(game -> game.getGameId().rank() == gameId)
 //                .findFirst();
 //    }
 //
@@ -104,7 +104,7 @@ public class MatchService {
 //    }
 //
 //    public PlayResult play(Move move, GameId gameId) {
-//        Optional<Match> optionalGame = getGame(gameId.value());
+//        Optional<Match> optionalGame = getGame(gameId.rank());
 //        if (optionalGame.isEmpty()) {
 //            return new PlayResult(PlayResultType.GAME_NOT_FOUND);
 //        }

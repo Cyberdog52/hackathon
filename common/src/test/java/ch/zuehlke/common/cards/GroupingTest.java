@@ -1,12 +1,13 @@
-package ch.zuehlke.common;
+package ch.zuehlke.common.cards;
 
+import ch.zuehlke.common.GroupType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static ch.zuehlke.common.CardValue.*;
-import static ch.zuehlke.common.Suit.*;
+import static ch.zuehlke.common.cards.Rank.*;
+import static ch.zuehlke.common.cards.Suit.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GroupingTest {

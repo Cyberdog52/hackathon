@@ -1,5 +1,8 @@
 package ch.zuehlke.common;
 
+import ch.zuehlke.common.cards.Card;
+import ch.zuehlke.common.cards.Grouping;
+
 import java.util.Set;
 
 public class RuleEngine {

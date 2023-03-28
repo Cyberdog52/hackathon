@@ -1,12 +1,12 @@
-package ch.zuehlke.common;
+package ch.zuehlke.common.cards;
 
 import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static ch.zuehlke.common.CardValue.*;
-import static ch.zuehlke.common.Suit.HEART;
+import static ch.zuehlke.common.cards.Rank.*;
+import static ch.zuehlke.common.cards.Suit.HEART;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class CardTest {
@@ -25,8 +25,8 @@ class CardTest {
 
     @Test
     void hasSameValueAs() {
-        assertThat(card.hasSameValueAs(new Card(HEART, TWO))).isTrue();
-        assertThat(card.hasSameValueAs(new Card(HEART, ACE))).isFalse();
+        assertThat(card.hasSameRankAs(new Card(HEART, TWO))).isTrue();
+        assertThat(card.hasSameRankAs(new Card(HEART, ACE))).isFalse();
     }
 
     @Test
@@ -38,8 +38,8 @@ class CardTest {
 
     @Test
     void getCardsWithSameValue() {
-        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, TWO)))).hasSize(1);
-        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, ACE)))).hasSize(0);
+        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameRank(Set.of(new Card(HEART, TWO)))).hasSize(1);
+        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameRank(Set.of(new Card(HEART, ACE)))).hasSize(0);
     }
 
     @Test

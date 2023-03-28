@@ -1,11 +1,11 @@
-package ch.zuehlke.common;
+package ch.zuehlke.common.cards;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum CardValue {
+public enum Rank {
 
     ACE(1, 1),
     TWO(2, 2),
