@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Getter
 @Setter
@@ -20,6 +21,12 @@ public class Board {
     public boolean shipsValid() {
         // ToDo: add validation logic to check if ships are valid...
         return true;
+    }
+
+    public boolean allShipsDestroyed() {
+        return ships.stream()
+                .map(Ship::isDestroyed)
+                .anyMatch(Predicate.isEqual(Boolean.TRUE));
     }
 
     public ShootResult executeShot(int x, int y) {

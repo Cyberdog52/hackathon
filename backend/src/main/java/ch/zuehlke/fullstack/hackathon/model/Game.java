@@ -55,7 +55,7 @@ public class Game {
         }
     }
 
-    public void shoot(Player player, int x, int y) {
+    public ShootResult shoot(Player player, int x, int y) {
 
         var currentRound = getCurrentRound();
 
@@ -65,23 +65,23 @@ public class Game {
 
         var shoot = new Shoot(player.getId(), x, y);
         currentRound.addShoot(shoot);
+        var shootResult = executeShoot(shoot);
 
         if (currentRound.receivedBothMoves()) {
+            if (hasWinner()) {
+                status = GameStatus.FINISHED;
+            }
             currentRound.finishRound();
+            rounds.add(new Round());
         }
 
-        // finish game, if one player wins
-
-
-        if (state.currentRequests().isEmpty()) {
-            finishRound();
-        }
+        return shootResult;
     }
 
-    private ShootResult executeShoot(String playerId, int x, int y) {
-        Player enemy = players.stream().filter(p -> !p.getId().equals(playerId)).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
+    private ShootResult executeShoot(Shoot shoot) {
+        Player enemy = players.stream().filter(p -> !p.getId().equals(shoot.playerId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
         Board enemyBoard = boardsByPlayerId.get(enemy.getId());
-        return enemyBoard.executeShot(x, y);
+        return enemyBoard.executeShot(shoot.x(), shoot.y());
     }
 
     public boolean isPlayerAllowedToShoot(Player player) {
@@ -134,12 +134,20 @@ public class Game {
         return players.stream().filter(player -> player.getId().equals(playerId)).findFirst().orElseThrow(() -> new RuntimeException("Player not found"));
     }
 
-    private Round getCurrentRound() {
+    public Round getCurrentRound() {
         if (rounds.isEmpty()) {
             var round = new Round();
             rounds.add(round);
             return round;
         }
         return rounds.get(rounds.size() - 1);
+    }
+
+    public boolean hasWinner() {
+        return boardsByPlayerId.entrySet().stream()
+                .filter(entry -> entry.getValue().allShipsDestroyed())
+                .map(Map.Entry::getKey)
+                .findAny()
+                .isPresent();
     }
 }

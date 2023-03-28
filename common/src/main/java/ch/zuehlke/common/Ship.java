@@ -2,7 +2,6 @@ package ch.zuehlke.common;
 
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -26,6 +25,10 @@ public class Ship {
         this.x = x;
         this.y = y;
         this.orientation = orientation;
+    }
+
+    public boolean isDestroyed() {
+        return hits >= type.length;
     }
 
     public boolean hits(int x, int y) {

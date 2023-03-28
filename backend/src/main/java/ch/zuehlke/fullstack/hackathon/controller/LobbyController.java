@@ -1,10 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.GameDto;
-import ch.zuehlke.common.PlayerNameResponse;
-import ch.zuehlke.common.PlayerScoreResponse;
-import ch.zuehlke.common.RegisterRequest;
-import ch.zuehlke.common.RegisterResponse;
+import ch.zuehlke.common.*;
 import ch.zuehlke.common.gameplay.CreateGameRequest;
 import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.common.gameplay.ShootRequest;
@@ -106,17 +102,17 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
     @ApiResponse(responseCode = "404", description = "Game was not found")
     @PostMapping("/game/shoot")
-    public ResponseEntity<Void> shoot(@RequestBody ShootRequest request) {
+    public ResponseEntity<ShootResult> shoot(@RequestBody ShootRequest request) {
         Optional<Game> optionalGame = gameService.getGame(request.getGameId());
         if (optionalGame.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         Game game = optionalGame.get();
-        game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
+        var shootResult = game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
         notificationService.notifyGameUpdate(game.getGameId());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(shootResult);
     }
 
     @Operation(summary = "Deletes a game",

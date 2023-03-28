@@ -64,26 +64,44 @@ class LobbyControllerTest {
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
 
         // place ships
-        var ship = new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL);
-        controller.placeShips(createPlaceShipsRequest(playerOne, gameId, ship));
+        var shipPlayerOne = new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL);
+        var shipPlayerTwo = new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL);
+        controller.placeShips(createPlaceShipsRequest(playerOne, gameId, shipPlayerOne));
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
-        controller.placeShips(createPlaceShipsRequest(playerTwo, gameId, ship));
+        controller.placeShips(createPlaceShipsRequest(playerTwo, gameId, shipPlayerTwo));
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.SHOOT);
 
         // shoot!
-        ShootRequest shootRequestOfPlayerOne = createShootRequest(playerOne, gameId, ship);
-        ShootRequest shootRequestOfPlayerTwo = createShootRequest(playerTwo, gameId, ship);
+        var shootRequestOfPlayerOne = createShootRequest(playerOne, gameId, shipPlayerOne.getX(), shipPlayerOne.getY());
+        var shootRequestOfPlayerTwo = createShootRequest(playerTwo, gameId, shipPlayerTwo.getX(), shipPlayerTwo.getY());
         // what happens, if player shoots twice?
-        controller.shoot(shootRequestOfPlayerOne);
-        controller.shoot(shootRequestOfPlayerTwo);
+        assertHit(controller.shoot(shootRequestOfPlayerOne));
+        assertHit(controller.shoot(shootRequestOfPlayerTwo));
+
+        var game = gameService.getGame(gameId).orElseThrow();
+        assertThat(game.getCurrentRound().isFinished());
+
+        assertSunk(controller.shoot(createShootRequest(playerOne, gameId, shipPlayerOne.getX() + 1, shipPlayerOne.getY())));
+        assertSunk(controller.shoot(createShootRequest(playerTwo, gameId, shipPlayerTwo.getX() + 1, shipPlayerTwo.getY())));
+
+        assertThat(game.hasWinner()).isTrue();
+
     }
 
-    private static ShootRequest createShootRequest(Player playerOne, String gameId, Ship ship) {
+    private static void assertHit(ResponseEntity<ShootResult> shootResult) {
+        assertThat(shootResult.getBody().state()).isEqualTo(ShootState.HIT);
+    }
+
+    private static void assertSunk(ResponseEntity<ShootResult> shootResult) {
+        assertThat(shootResult.getBody().state()).isEqualTo(ShootState.SUNK);
+    }
+
+    private static ShootRequest createShootRequest(Player playerOne, String gameId, int x, int y) {
         var shootRequest = new ShootRequest();
         shootRequest.setGameId(gameId);
         shootRequest.setPlayerId(playerOne.getId());
-        shootRequest.setX(ship.getX());
-        shootRequest.setY(ship.getY());
+        shootRequest.setX(x);
+        shootRequest.setY(y);
         return shootRequest;
     }
 

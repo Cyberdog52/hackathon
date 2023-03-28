@@ -21,7 +21,7 @@ public class Round {
         if (receivedBothMoves()) {
             throw new IllegalArgumentException("Both moves were already set.");
         }
-        if (isPlayerAllowedToShoot(shoot.playerId())) {
+        if (!isPlayerAllowedToShoot(shoot.playerId())) {
             throw new IllegalArgumentException("Player did already submit a move");
         }
         shootByPlayerId.put(shoot.playerId(), shoot);
@@ -32,7 +32,7 @@ public class Round {
     }
 
     public boolean isPlayerAllowedToShoot(String playerId) {
-        return Objects.nonNull(shootByPlayerId.get(playerId));
+        return Objects.isNull(shootByPlayerId.get(playerId));
     }
 
     public boolean receivedBothMoves() {
