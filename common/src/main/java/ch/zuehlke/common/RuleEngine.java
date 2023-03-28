@@ -1,7 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.service;
-
-import ch.zuehlke.fullstack.hackathon.model.Card;
-import ch.zuehlke.fullstack.hackathon.model.Grouping;
+package ch.zuehlke.common;
 
 import java.util.Set;
 

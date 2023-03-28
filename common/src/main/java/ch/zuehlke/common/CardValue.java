@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

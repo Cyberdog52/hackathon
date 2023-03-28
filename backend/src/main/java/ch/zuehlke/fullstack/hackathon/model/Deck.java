@@ -1,5 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.Card;
+import ch.zuehlke.common.CardValue;
 import ch.zuehlke.common.Suit;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -7,8 +9,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ch.zuehlke.common.CardValue.*;
 import static ch.zuehlke.common.Suit.*;
-import static ch.zuehlke.fullstack.hackathon.model.CardValue.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Deck {

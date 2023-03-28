@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common;
 
 import lombok.NonNull;
 
@@ -112,11 +112,10 @@ public record Grouping(Set<Group> groups) {
     }
 
     public boolean isWinningHand() {
-        Optional<Group> singleGroup = groups.stream().filter(group -> group.type() == GroupType.SINGLE).findFirst();
+        var singleGroup = groups.stream().filter(group -> group.type() == GroupType.SINGLE).findFirst();
         if (singleGroup.isPresent() && singleGroup.get().cards().size() == 1 && singleGroup.get().cards().stream().findFirst().get().getPoints() < 6) {
             return true;
-        }
-        else return getNumberOfPoints() == -10 || getNumberOfPoints() == 0;
+        } else return getNumberOfPoints() == -10 || getNumberOfPoints() == 0;
     }
 
     public int getNumberOfPoints() {

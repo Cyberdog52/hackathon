@@ -1,11 +1,12 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common;
 
+import org.assertj.core.api.AssertionsForInterfaceTypes;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static ch.zuehlke.common.CardValue.*;
 import static ch.zuehlke.common.Suit.HEART;
-import static ch.zuehlke.fullstack.hackathon.model.CardValue.*;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class CardTest {
@@ -37,12 +38,12 @@ class CardTest {
 
     @Test
     void getCardsWithSameValue() {
-        assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, TWO)))).hasSize(1);
-        assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, ACE)))).hasSize(0);
+        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, TWO)))).hasSize(1);
+        AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameValue(Set.of(new Card(HEART, ACE)))).hasSize(0);
     }
 
     @Test
     void getAllCards() {
-        assertThat(Card.getAllCards()).hasSize(52);
+        AssertionsForInterfaceTypes.assertThat(Card.getAllCards()).hasSize(52);
     }
 }

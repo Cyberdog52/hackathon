@@ -1,6 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.model;
-
-import ch.zuehlke.common.Suit;
+package ch.zuehlke.common;
 
 import java.util.Arrays;
 import java.util.Set;

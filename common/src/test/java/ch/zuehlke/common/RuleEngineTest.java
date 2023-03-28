@@ -1,6 +1,5 @@
-package ch.zuehlke.fullstack.hackathon.service;
+package ch.zuehlke.common;
 
-import ch.zuehlke.fullstack.hackathon.model.Card;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -8,8 +7,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static ch.zuehlke.common.CardValue.*;
 import static ch.zuehlke.common.Suit.*;
-import static ch.zuehlke.fullstack.hackathon.model.CardValue.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class RuleEngineTest {

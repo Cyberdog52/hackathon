@@ -1,5 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.Card;
+import ch.zuehlke.common.CardValue;
 import ch.zuehlke.common.Suit;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 import org.junit.jupiter.api.BeforeEach;

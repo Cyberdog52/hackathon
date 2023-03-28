@@ -1,5 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.Card;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 
 import java.util.Collections;
@@ -19,7 +20,7 @@ public class CardStack {
         this.discarded.add(card);
     }
 
-    public Card peekDiscarded(){
+    public Card peekDiscarded() {
         return this.discarded.peek();
     }
 
