@@ -12,8 +12,14 @@ public class Game {
     @Getter
     private final UUID id;
     @Getter
-    private final List<Player> players;
+    private final List<PlayerHand> players;
     private final CardStack cardStack;
+
+    public Optional<PlayerHand> findPlayer(final UUID playerId) {
+        return this.players.stream()
+                .filter(playerHand -> playerHand.player().id().equals(playerId))
+                .findAny();
+    }
 
     /**
      * Returns the card on top of the discarded pile without removing it.

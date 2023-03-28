@@ -2,9 +2,7 @@ package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class CardStack {
     private Stack<Card> stack;
@@ -19,7 +17,15 @@ public class CardStack {
         this.discarded.add(card);
     }
 
-    public Card peekDiscarded(){
+    public Collection<Card> take(int number) {
+        final var hand = new ArrayList<Card>();
+        for (int i = 0; i < number; i++) {
+            hand.add(stack.pop());
+        }
+        return hand;
+    }
+
+    public Card peekDiscarded() {
         return this.discarded.peek();
     }
 

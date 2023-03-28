@@ -1,6 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.common.Deal;
 import ch.zuehlke.common.GameUpdate;
+import ch.zuehlke.fullstack.hackathon.model.Game;
+import ch.zuehlke.fullstack.hackathon.model.PlayerHand;
 import ch.zuehlke.fullstack.hackathon.model.mapper.GameMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -13,12 +16,19 @@ import java.util.UUID;
 public class NotificationService {
 
     private final SimpMessagingTemplate template;
-    private final GameService gameService;
 
-    public void notifyGameStart(final UUID gameId) {
-        this.gameService.getGame(gameId)
-                .map(GameMapper::map)
-                .ifPresent(gameDto -> template.convertAndSend("/topic/game/%s".formatted(gameId), new GameUpdate(gameDto)));
+    public void notifyGameStart(final Game game) {
+        final var gameDto = GameMapper.mapToRunning(game);
+        template.convertAndSend("/topic/game/%s".formatted(game.getId()), new GameUpdate(gameDto));
+    }
+
+    public void notifyPlayerStart(final Game game, final PlayerHand playerHand){
+        template.convertAndSendToUser(playerHand.player().id().toString(), "/topic/game/%s".formatted(game.getId().toString()), new Deal());
+
+    }
+
+    public void notifyPlayerTurn(final UUID playerId){
+
     }
 
 //    private final GameService gameService;
