@@ -1,6 +1,8 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.GameDto;
+import ch.zuehlke.common.PlayerNameResponse;
+import ch.zuehlke.common.PlayerScoreResponse;
 import ch.zuehlke.common.RegisterRequest;
 import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.common.gameplay.CreateGameRequest;

@@ -2,6 +2,8 @@ package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.Move;
 import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerNameResponse;
+import ch.zuehlke.common.PlayerScoreResponse;
 import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;

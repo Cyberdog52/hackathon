@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { LobbyService } from "../../services/lobby.service";
 import {delay, Observable, repeat, retry} from "rxjs";
 import {GameDto, Player, TopPlayers} from "../../model/lobby";
+import {MatDialog} from "@angular/material/dialog";
+import {CreateGameDialogComponent} from "../create-game-dialog/create-game-dialog.component";
 
 @Component({
   selector: "app-lobby",
@@ -15,7 +17,7 @@ export class LobbyComponent implements OnInit {
   playerNames$: Observable<Player[]> | undefined;
   topPlayers$: Observable<TopPlayers[]> | undefined;
 
-  constructor(private lobbyService: LobbyService) {
+  constructor(public dialog: MatDialog, private lobbyService: LobbyService) {
   }
 
   ngOnInit(): void {
@@ -41,16 +43,15 @@ export class LobbyComponent implements OnInit {
     console.log(this.topPlayers$)
   }
 
-  createGame(): void {
-    this.lobbyService.createGame().subscribe({
-      next: (gameId) => {
-        // Improve: Do something with the gameId
-        console.log("Created new game with id: ", gameId);
-      },
-      error: (error) => {
-        // Improve: Do something with the error
-        console.log("Something went wrong during creation of new game: ", error);
-      }
+  openCreateGameDialog(players: Player[]): void {
+    const dialogRef = this.dialog.open(CreateGameDialogComponent, {
+      data: {players: players},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.lobbyService.createGame({firstPlayerId: result.player1, secondPlayerId: result.player2}).subscribe(() => {
+        console.log("Game created");
+      });
     });
   }
 }
