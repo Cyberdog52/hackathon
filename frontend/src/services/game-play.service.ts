@@ -1,10 +1,9 @@
-import { finalize, Observable, ReplaySubject } from "rxjs";
+import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
-import { GameAction, GameId, PlayerId } from "../model/lobby";
-import { Coordinate, PlayingEvent } from "../model/game/playing/events";
-import { StompClient } from "./stomp-client";
+import { GameId, PlayerId } from "../model/lobby";
+import { Coordinate } from "../model/game/playing/events";
 import { HttpClient } from "@angular/common/http";
-import { AttackTurnAction } from "../model/game/playing/actions";
+import { AttackTurnAction, PlaceBoatAction } from "../model/game/playing/actions";
 
 @Injectable({
   providedIn: "root"
@@ -17,12 +16,20 @@ export class GamePlayService {
 
   attackPlayer(coordinate: Coordinate, playerId: PlayerId, gameId: GameId): Observable<void> {
     const url = `${this.backendUrl}/attack`;
-    const attackTurnAction: AttackTurnAction = {
+    return this.httpClient.post<void>(url, {
       playerId,
       coordinate,
       gameId
-    }
-    return this.httpClient.post<void>(url, attackTurnAction);
+    } as AttackTurnAction);
   }
 
+
+  placeBoat(coordinate: Coordinate, playerId: PlayerId, gameId: GameId): Observable<void> {
+    const url = `${this.backendUrl}/placeBoat`;
+    return this.httpClient.post<void>(url, {
+      playerId,
+      coordinate,
+      gameId
+    } as PlaceBoatAction);
+  }
 }

@@ -26,7 +26,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   public player1Id!: UUID;
   public player2Id!: UUID;
 
-  public player1Turn = false;
+  public player1Turn = true;
   public player2Turn = false;
 
   public gameId!: UUID;
@@ -37,7 +37,9 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   @ViewChild("mapPlayer2")
   public player2Map!: MapComponent;
 
-  public gamePhase = GameState.LOBBY;
+  public gamePhase = GameState.SETUP;
+  public readonly gamePhaseEnum = GameState;
+
   private playableActions: GamePlayingAction[] = [];
 
   constructor(
@@ -46,12 +48,39 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
     private gamePlayService: GamePlayService) {
   }
 
-  public onCellClick(evt: CellClickEvent): void {
+  public onCellClickPlayer1Map(evt: CellClickEvent): void {
     console.log(evt);
-    if(evt.value !== MapValue.EMPTY) {
-      console.warn("Can not attack an non-empty field");
+    if (evt.value !== MapValue.EMPTY) {
+      console.warn("Can not build an non-empty field");
+      return;
     }
-    this.player1Turn = false;
+    if (this.gamePhase !== GameState.SETUP) {
+      console.warn("Can not build outside of the SETUP phase");
+      return;
+    }
+    // this.player1Turn = false;
+    this.gamePlayService.placeBoat(evt.coordinate, this.player1Id, this.gameId).subscribe();
+  }
+
+  public onCellClickPlayer2Map(evt: CellClickEvent): void {
+    console.log(evt);
+
+    if (evt.value === MapValue.HIT || evt.value === MapValue.MISS) {
+      console.warn("Can not attack already attacked field!");
+      return;
+    }
+
+    if (!this.player1Turn) {
+      console.warn("Cannot attack, it's not this players turn");
+      return;
+    }
+
+    if (this.gamePhase !== GameState.PLAYING) {
+      console.warn("Cannot attack in the non-play phase!");
+      return;
+    }
+
+    // this.player1Turn = false;
     this.gamePlayService.attackPlayer(evt.coordinate, this.player1Id, this.gameId).subscribe();
   }
 
@@ -139,5 +168,9 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
     } else {
       return this.player2Map;
     }
+  }
+
+  public canAttack(): boolean {
+    return this.player1Turn && this.playableActions.find((a) => a.id === "ATTACK") !== undefined;
   }
 }

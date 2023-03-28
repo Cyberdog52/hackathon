@@ -6,3 +6,10 @@ export interface AttackTurnAction {
   coordinate: Coordinate;
   gameId: UUID;
 }
+
+
+export interface PlaceBoatAction {
+  playerId: UUID;
+  coordinate: Coordinate;
+  gameId: UUID;
+}

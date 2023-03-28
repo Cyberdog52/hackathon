@@ -2,7 +2,11 @@
   <a href="/">Back to home</a>
   <div class="map-container">
     <div class="map-wrapper">
-      <div *ngIf="player1Turn">It is your turn</div>
+      <div *ngIf="player1Turn">
+        It is your turn
+        <span *ngIf="gamePhase === gamePhaseEnum.SETUP">, click to place your boats</span>
+        <span *ngIf="gamePhase === gamePhaseEnum.PLAYING">, click to shoot a square!</span>
+      </div>
       <div *ngIf="player2Turn">Waiting for opponent</div>
       <h2>You: {{this.player1Id}}</h2>
       <app-map gameId="{{this.gameId}}"
@@ -10,14 +14,8 @@
                [sizeX]=this.sizeX
                [sizeY]=this.sizeY
                #mapPlayer1
-               (cellClick)="this.onCellClick($event)"
+               (cellClick)="this.onCellClickPlayer1Map($event)"
       />
-      <div class="action-bar">
-        <button mat-button color="primary">
-          <mat-icon>swords</mat-icon>
-          Attack Ship!
-        </button>
-      </div>
     </div>
     <div class="map-wrapper">
       <h2>Oponent: {{this.player2Id}}</h2>
@@ -25,7 +23,9 @@
                playerId="{{this.player2Id}}"
                [sizeX]=this.sizeX
                [sizeY]=this.sizeY
-               #mapPlayer2/>
+               #mapPlayer2
+               (cellClick)="this.onCellClickPlayer2Map($event)"
+      />
     </div>
   </div>
   <mat-expansion-panel hideToggle>
