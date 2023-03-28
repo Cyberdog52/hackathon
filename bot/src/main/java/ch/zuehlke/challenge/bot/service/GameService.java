@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class GameService {
 
     @Getter
     @Setter
-    private PlayerId playerId;
+    private UUID lobbyId;
 
     private final GameClient gameClient;
 
@@ -35,7 +36,7 @@ public class GameService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void joinGame() {
-        this.playerId = gameClient.join();
+        this.lobbyId = gameClient.joinLobby();
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {

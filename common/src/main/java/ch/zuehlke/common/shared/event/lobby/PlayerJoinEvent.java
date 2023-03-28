@@ -1,10 +1,14 @@
 package ch.zuehlke.common.shared.event.lobby;
 
+import lombok.Builder;
+import lombok.NonNull;
+
 import java.util.UUID;
 
-record PlayerJoinEvent(
-        UUID playerId,
-        UUID gameId
+@Builder
+public record PlayerJoinEvent(
+        @NonNull UUID playerId,
+        @NonNull UUID gameId
 ) {
 
 }

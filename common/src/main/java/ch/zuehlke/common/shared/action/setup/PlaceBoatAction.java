@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public record PlaceBoatAction (
         UUID playerId,
-        Coordinate coordinate
-) {
+        Coordinate coordinate,
+        UUID gameId
+        ) {
 }
