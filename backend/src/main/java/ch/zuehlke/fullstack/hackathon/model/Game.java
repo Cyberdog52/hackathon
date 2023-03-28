@@ -51,8 +51,11 @@ public class Game {
 
     private void startRound() {
         currentMoves = new ArrayList<>();
-        state.currentRequests().add(new PlayRequest(players.get(internalGameState.getActionHistory().size() % 2).id(),
-                internalGameState.getPossibleActions()));
+        var attacker = internalGameState.attackersTurn();
+        var playerId = players.get(attacker ? 0 : 1).id();
+        var possibleActions = internalGameState.getPossibleActions();
+
+        state.currentRequests().add(new PlayRequest(playerId, attacker, internalGameState.board(), possibleActions));
     }
 
     public void finishGame() {

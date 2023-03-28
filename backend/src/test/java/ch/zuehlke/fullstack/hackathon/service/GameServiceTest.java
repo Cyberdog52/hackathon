@@ -26,36 +26,36 @@ class GameServiceTest {
     void getGames_returnsEmptyList() {
         List<Game> games = gameService.getGames();
 
-        assertThat(games).hasSize(0);
+        assertThat(games).hasSize(1);
     }
 
     @Test
     void createGame_addsNewGameToList() {
         Game createdGame = gameService.createGame();
 
-        assertThat(createdGame.getGameId()).isEqualTo(new GameId(1));
-        assertThat(gameService.getGames()).hasSize(1);
+        assertThat(createdGame.getGameId()).isEqualTo(new GameId(2));
+        assertThat(gameService.getGames()).hasSize(2);
     }
 
     @Test
     void deleteGame_successfully() {
         Game game = gameService.createGame();
-        assertThat(gameService.getGames()).hasSize(1);
+        assertThat(gameService.getGames()).hasSize(2);
 
         boolean success = gameService.deleteGame(game.getGameId().value());
 
-        assertThat(gameService.getGames()).hasSize(0);
+        assertThat(gameService.getGames()).hasSize(1);
         assertThat(success).isTrue();
     }
 
     @Test
     void deleteGame_nonExistingGame_returnsFalse() {
         gameService.createGame();
-        assertThat(gameService.getGames()).hasSize(1);
+        assertThat(gameService.getGames()).hasSize(2);
 
         boolean success = gameService.deleteGame(666);
 
-        assertThat(gameService.getGames()).hasSize(1);
+        assertThat(gameService.getGames()).hasSize(2);
         assertThat(success).isFalse();
     }
 

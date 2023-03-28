@@ -1,6 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.GameAction;
+import ch.zuehlke.tablut.Board;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Profile({"simplebot","simplebot2"})
 public class SimpleBrain implements Brain {
 
-    public GameAction decide(Set<GameAction> possibleActions) {
+    public GameAction decide(boolean attacker, Board board, Set<GameAction> possibleActions) {
         think();
         List<GameAction> list = new ArrayList<>(possibleActions);
         int randIdx = new Random().nextInt(list.size());

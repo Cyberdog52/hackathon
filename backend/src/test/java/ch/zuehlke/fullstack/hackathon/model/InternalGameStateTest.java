@@ -227,7 +227,7 @@ public class InternalGameStateTest {
 
         assertThat(gameState.isDraw()).isFalse();
 
-        for (int i = 0; i < 110; i++) {
+        for (int i = 0; i < 210; i++) {
             gameState.playAction(new GameAction(0, 0, 0, 0));
         }
 

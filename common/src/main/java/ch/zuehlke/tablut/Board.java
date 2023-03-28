@@ -14,7 +14,7 @@ public record Board(Field[][] fields) {
 
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
-                fields[x][y] = new Field(new Coordinates(x, y), FieldState.EMPTY);
+                fields[y][x] = new Field(new Coordinates(x, y), FieldState.EMPTY);
             }
         }
         var board = new Board(fields);
@@ -54,12 +54,12 @@ public record Board(Field[][] fields) {
     }
 
     public void updateField(Field field) {
-        fields[field.coordinates().x()][field.coordinates().y()] = field;
+        fields[field.coordinates().y()][field.coordinates().x()] = field;
     }
 
     @Transient
     public Field getFieldForCoordinate(Coordinates coordinates) {
-        return fields[coordinates.x()][coordinates.y()];
+        return fields[coordinates.y()][coordinates.x()];
     }
 
     @Transient
@@ -67,7 +67,7 @@ public record Board(Field[][] fields) {
         var fieldsList = new ArrayList<Field>();
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
-                fieldsList.add(fields[x][y]);
+                fieldsList.add(fields[y][x]);
             }
         }
         return fieldsList;

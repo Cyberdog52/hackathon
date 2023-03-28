@@ -1,6 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.GameAction;
+import ch.zuehlke.tablut.Board;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import static java.util.Collections.shuffle;
 @Profile({"bestbot", "bestbot2"})
 public class BestBrain implements Brain {
 
-    public GameAction decide(Set<GameAction> possibleActions) {
+    public GameAction decide(boolean attacker, Board board, Set<GameAction> possibleActions) {
         thinkForALongTime();
 
         List<GameAction> list = new ArrayList<>(possibleActions);
