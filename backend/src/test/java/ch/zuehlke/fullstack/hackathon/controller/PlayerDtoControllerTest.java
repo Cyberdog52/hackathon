@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-class PlayerControllerTest {
+class PlayerDtoControllerTest {
 
     private PlayerController playerController;
 

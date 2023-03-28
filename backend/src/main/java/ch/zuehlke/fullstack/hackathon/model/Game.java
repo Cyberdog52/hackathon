@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -8,7 +9,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class Game {
 
-    private final UUID gameId;
+    @Getter
+    private final UUID id;
+    @Getter
     private final List<Player> players;
     private final CardStack cardStack;
 

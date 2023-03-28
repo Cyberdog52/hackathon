@@ -3,6 +3,7 @@ package ch.zuehlke.fullstack.hackathon.service;
 import ch.zuehlke.fullstack.hackathon.model.Match;
 import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,14 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MatchService {
 
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Match> matches = new ArrayList<>();
     private final List<MatchLobby> lobbies = new ArrayList<>();
+
+    private final GameService gameService;
 
     public List<Match> getMatches() {
         return matches;
@@ -34,11 +38,12 @@ public class MatchService {
         try {
             match = Match.fromLobby(lobby);
             this.matches.add(match);
-            return match;
         } catch (MatchStartException e) {
             log.error("Unable to start match", e);
             throw e;
         }
+        this.gameService.startNewGame(match.getPlayers());
+        return match;
     }
 
     public boolean deleteMatch(final UUID matchId) {

@@ -11,6 +11,7 @@ public class Match {
     @Getter
     private final UUID id;
     private Game currentGame;
+    @Getter
     private List<Player> players;
     private List<MatchResult> results;
 
@@ -20,10 +21,9 @@ public class Match {
     }
 
     public static Match fromLobby(final MatchLobby lobby) throws MatchStartException {
-        if(lobby.canStart()){
+        if (lobby.canStart()) {
             return new Match(lobby.getId(), lobby.getPlayers());
         }
         throw new MatchStartException("Unable to start match, not enough players");
     }
-
 }
