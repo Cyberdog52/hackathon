@@ -5,9 +5,9 @@ export interface GamePlayingAction {
 }
 
 export enum AttackStatus {
-  HIT = "hit",
-  MISS = "miss",
-  IGNORED = "ignored"
+  HIT = "HIT",
+  MISS = "MISS",
+  IGNORED = "IGNORED"
 }
 
 export interface Coordinate {

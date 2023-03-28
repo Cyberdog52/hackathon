@@ -32,7 +32,6 @@ export class MapComponent implements OnInit {
 
   public map: number[][] = [[]];
 
-
   constructor(private ref: ChangeDetectorRef) {
 
   }
@@ -63,8 +62,8 @@ export class MapComponent implements OnInit {
 
   public resetMap(): void {
     this.map = [];
-    for (let y = 0; y < this.sizeY; y++) {
-      this.map.push(Array(this.sizeX).fill(0));
+    for (let x = 0; x < this.sizeX; x++) {
+      this.map.push(Array(this.sizeY).fill(0));
     }
   }
 

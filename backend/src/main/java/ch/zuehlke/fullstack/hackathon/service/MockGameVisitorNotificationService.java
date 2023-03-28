@@ -21,17 +21,23 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MockGameVisitorNotificationService {
 
-    @Autowired
     private final SimpMessagingTemplate template;
+
+    private final List<Record> gameEvents = getGameEvents();
 
     private int eventIndex = 0;
 
-    @Scheduled(cron = "*/2 * * * * *")
+    public MockGameVisitorNotificationService(@Autowired
+                                               final SimpMessagingTemplate template) {
+        this.template = template;
+
+    }
+
+    @Scheduled(cron = "*/1 * * * * *")
     public void sendAction() {
-        eventIndex = eventIndex % getGameEvents().size();
+        eventIndex = eventIndex % gameEvents.size();
 
         String gameId = "1d71d4f0-80a0-483c-8f30-9d73fbf7b331";
         String topic = MessageFormat.format("/topic/game/{0}/spectate", gameId);
@@ -43,7 +49,7 @@ public class MockGameVisitorNotificationService {
     }
 
     public Record getNextGameEvent() {
-        final Record event = getGameEvents().get(eventIndex);
+        final Record event = gameEvents.get(eventIndex);
         eventIndex++;
         return event;
     }
