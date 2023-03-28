@@ -94,16 +94,30 @@ public class InternalGameState {
         checkPinchCapture(toField, Coordinates::down);
     }
 
-    private void checkPinchCapture(Field filed, Function<Coordinates, Optional<Coordinates>> neighbourGetter) {
-        neighbourGetter.apply(filed.coordinates())
+    private void checkPinchCapture(Field field, Function<Coordinates, Optional<Coordinates>> neighbourGetter) {
+        neighbourGetter.apply(field.coordinates())
                 .map(board::getFieldForCoordinate)
                 .ifPresent(neighbour -> {
-                    if (filed.state().isEnemy(neighbour.state())) {
+                    if (field.state().isEnemy(neighbour.state())) {
                         neighbourGetter.apply(neighbour.coordinates())
                                 .map(board::getFieldForCoordinate)
                                 .ifPresent(nextNeighbour -> {
-                                    if (neighbour.state().isEnemy(nextNeighbour.state())) {
-                                        board.updateField(new Field(neighbour.coordinates(), FieldState.EMPTY));
+                                    boolean isEmptyCastle = nextNeighbour.isCastle() && nextNeighbour.state() == FieldState.EMPTY;
+                                    boolean isEnemy = neighbour.state().isEnemy(nextNeighbour.state());
+                                    boolean isKingCapturable = neighbour.state() == FieldState.KING && (neighbour.isCastle() || neighbour.isAdjacentCastle());
+
+                                    if (isKingCapturable) {
+                                        long necessaryAttackersPresent = neighbour.getNeighbours().stream()
+                                                .map(c -> board.getFieldForCoordinate(c.get()))
+                                                .filter(f -> f.state() == FieldState.ATTACKER).count();
+                                        boolean necessaryAttackers = necessaryAttackersPresent == 3 && neighbour.isAdjacentCastle()
+                                                || necessaryAttackersPresent == 4 && neighbour.isCastle();
+                                        if (necessaryAttackers)
+                                            board.updateField(new Field(neighbour.coordinates(), FieldState.EMPTY));
+                                    } else {
+                                        if (isEnemy || isEmptyCastle) {
+                                            board.updateField(new Field(neighbour.coordinates(), FieldState.EMPTY));
+                                        }
                                     }
                                 });
                     }
