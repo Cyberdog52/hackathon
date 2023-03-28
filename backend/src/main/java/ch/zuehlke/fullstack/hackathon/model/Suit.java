@@ -1,6 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-public enum Color {
+public enum Suit {
     HEART,
     CLUBS,
     SPADE,
