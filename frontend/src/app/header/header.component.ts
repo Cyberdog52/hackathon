@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MatchService } from "../../services/MatchService";
+import { MatchService } from "../services/MatchService";
 import { Router } from "@angular/router";
 
 @Component({

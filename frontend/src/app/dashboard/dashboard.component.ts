@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { MatchService } from "../../services/MatchService";
-import { Match } from "../../model/match";
+import { MatchService } from "../services/MatchService";
+import { Match } from "../model/match";
 import { Router } from "@angular/router";
 
 @Component({

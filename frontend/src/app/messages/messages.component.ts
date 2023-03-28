@@ -1,6 +1,6 @@
 import { Component, Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MessageService } from "../../services/MessageService";
+import { MessageService } from "../services/MessageService";
 import { Subscription } from "rxjs";
 
 @Component({
