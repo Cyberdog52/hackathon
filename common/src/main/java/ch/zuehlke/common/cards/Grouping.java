@@ -1,5 +1,6 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common.cards;
 
+import ch.zuehlke.common.GroupType;
 import lombok.NonNull;
 
 import java.util.*;
@@ -89,7 +90,7 @@ public record Grouping(Set<Group> groups) {
 
     public static Set<Group> getAllPossibleTripletGroups(Set<Card> cards) {
         var tripletGroups = cards.stream()
-                .map(card -> card.getCardsWithSameValue(cards))
+                .map(card -> card.getCardsWithSameRank(cards))
                 .filter(set -> set.size() == 3)
                 .map(Group::new)
                 .collect(Collectors.toSet());
@@ -105,18 +106,17 @@ public record Grouping(Set<Group> groups) {
 
     public static Set<Group> getAllPossibleQuartetGroups(Set<Card> cards) {
         return cards.stream()
-                .map(card -> card.getCardsWithSameValue(cards))
+                .map(card -> card.getCardsWithSameRank(cards))
                 .filter(set -> set.size() == 4)
                 .map(Group::new)
                 .collect(Collectors.toSet());
     }
 
     public boolean isWinningHand() {
-        Optional<Group> singleGroup = groups.stream().filter(group -> group.type() == GroupType.SINGLE).findFirst();
+        var singleGroup = groups.stream().filter(group -> group.type() == GroupType.SINGLE).findFirst();
         if (singleGroup.isPresent() && singleGroup.get().cards().size() == 1 && singleGroup.get().cards().stream().findFirst().get().getPoints() < 6) {
             return true;
-        }
-        else return getNumberOfPoints() == -10 || getNumberOfPoints() == 0;
+        } else return getNumberOfPoints() == -10 || getNumberOfPoints() == 0;
     }
 
     public int getNumberOfPoints() {

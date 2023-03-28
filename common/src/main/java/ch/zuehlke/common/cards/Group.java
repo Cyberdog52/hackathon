@@ -1,4 +1,6 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common.cards;
+
+import ch.zuehlke.common.GroupType;
 
 import java.util.Comparator;
 import java.util.List;
@@ -15,10 +17,10 @@ public record Group(Set<Card> cards, GroupType type) {
     }
 
     private static GroupType getGroupType(Set<Card> cards) {
-        if (cards.size() == 4 && haveAllTheSameValue(cards)) {
+        if (cards.size() == 4 && haveAllTheSameRank(cards)) {
             return GroupType.QUARTET;
         }
-        if (cards.size() == 3 && haveAllTheSameValue(cards)) {
+        if (cards.size() == 3 && haveAllTheSameRank(cards)) {
             return GroupType.TRIPLET;
         }
         if (cards.size() > 2 && allCardsAreNeighbours(cards) && allCardsHaveSameSuit(cards)) {
@@ -45,8 +47,8 @@ public record Group(Set<Card> cards, GroupType type) {
         return true;
     }
 
-    private static boolean haveAllTheSameValue(Set<Card> cards) {
-        return cards.stream().allMatch(card -> card.hasSameValueAs(cards.iterator().next()));
+    private static boolean haveAllTheSameRank(Set<Card> cards) {
+        return cards.stream().allMatch(card -> card.hasSameRankAs(cards.iterator().next()));
     }
 
     public int getNumberOfPoints() {
