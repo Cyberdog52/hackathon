@@ -15,7 +15,7 @@ public record Field(Coordinates coordinates, FieldState state) {
     @Transient
     public boolean isAdjacentCastle() {
         Coordinates castle = new Coordinates(4, 4);
-        Set<Coordinates> coordinateSet = Set.of(castle.up(), castle.down(9), castle.left(), castle.right(9)).stream()
+        Set<Coordinates> coordinateSet = Set.of(castle.up(), castle.down(), castle.left(), castle.right()).stream()
                 .map(Optional::get)
                 .collect(Collectors.toSet());
 
@@ -30,7 +30,7 @@ public record Field(Coordinates coordinates, FieldState state) {
 
     @Transient
     public List<Optional<Coordinates>> getNeighbours() {
-        return List.of(coordinates.up(), coordinates.down(9), coordinates.left(), coordinates.right(9));
+        return List.of(coordinates.up(), coordinates.down(), coordinates.left(), coordinates.right());
     }
 }
 
