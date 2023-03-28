@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,9 +101,15 @@ public class LobbyController {
             description = "Shoot on the enemy board")
     @ApiResponse(responseCode = "200", description = "Successfully shot")
     @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
+    @ApiResponse(responseCode = "401", description = "Player is not authorized to shoot")
     @ApiResponse(responseCode = "404", description = "Game was not found")
     @PostMapping("/game/shoot")
     public ResponseEntity<ShootResult> shoot(@RequestBody ShootRequest request) {
+
+        if (!gameService.isValidPlayerToken(request.getPlayerId(), request.getPlayerToken())) {
+            ResponseEntity.status(HttpStatusCode.valueOf(401));
+        }
+
         Optional<Game> optionalGame = gameService.getGame(request.getGameId());
         if (optionalGame.isEmpty()) {
             return ResponseEntity.notFound().build();

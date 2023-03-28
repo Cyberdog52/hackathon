@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.util.Objects.nonNull;
+
 @Service
 public class GameService {
 
@@ -38,6 +40,11 @@ public class GameService {
     public List<Player> getRegisteredPlayers() {
         return playersById.values().stream()
                 .toList();
+    }
+
+    public boolean isValidPlayerToken(String playerId, String playerToken) {
+        var player = playersById.get(playerId);
+        return nonNull(player) && nonNull(playerToken) && Objects.equals(player.getToken(), playerToken);
     }
 
 

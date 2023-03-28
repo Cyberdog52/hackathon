@@ -97,12 +97,13 @@ class LobbyControllerTest {
         assertThat(shootResult.getBody().state()).isEqualTo(ShootState.SUNK);
     }
 
-    private static ShootRequest createShootRequest(Player playerOne, String gameId, int x, int y) {
+    private static ShootRequest createShootRequest(Player player, String gameId, int x, int y) {
         var shootRequest = new ShootRequest();
         shootRequest.setGameId(gameId);
-        shootRequest.setPlayerId(playerOne.getId());
+        shootRequest.setPlayerId(player.getId());
         shootRequest.setX(x);
         shootRequest.setY(y);
+        shootRequest.setPlayerToken(player.getToken());
         return shootRequest;
     }
 

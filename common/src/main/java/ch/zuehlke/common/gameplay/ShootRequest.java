@@ -11,6 +11,7 @@ public class ShootRequest {
 
     private String gameId;
     private String playerId;
+    private String playerToken;
     private int x;
     private int y;
 }
