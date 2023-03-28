@@ -32,10 +32,10 @@ class CardStackTest {
     }
 
     @Test
-    void itShouldThrowAnException_whenACardIsStillOnTheStack(){
+    void itShouldThrowAnException_whenACardIsStillOnTheStack() {
         final var myDeck = Deck.generateNewDeck();
-        myDeck.add(new Card(Color.SPADE, CardValue.KING));
+        myDeck.add(new Card(Suit.SPADE, CardValue.KING));
         final var myStack = new CardStack(myDeck);
-        assertThatThrownBy(() -> myStack.discard(new Card(Color.SPADE, CardValue.KING))).isInstanceOf(CardStackException.class);
+        assertThatThrownBy(() -> myStack.discard(new Card(Suit.SPADE, CardValue.KING))).isInstanceOf(CardStackException.class);
     }
 }
