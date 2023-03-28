@@ -1,120 +1,100 @@
-//package ch.zuehlke.fullstack.hackathon.controller;
-//
-//import ch.zuehlke.common.*;
-//import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
-//import ch.zuehlke.fullstack.hackathon.model.Match;
-//import ch.zuehlke.fullstack.hackathon.model.GameMapper;
-//import ch.zuehlke.fullstack.hackathon.service.GameService;
-//import ch.zuehlke.fullstack.hackathon.service.NotificationService;
-//import io.swagger.v3.oas.annotations.Operation;
-//import io.swagger.v3.oas.annotations.responses.ApiResponse;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api/lobby")
-//@RequiredArgsConstructor
-//public class LobbyController {
-//
-//    // Improve: Make endpoints secure
-//
-//    // Improve: Create ExceptionInterceptor for custom exceptions in the backend
-//
-//    private final GameService gameService;
-//
-//    private final NotificationService notificationService;
-//
-//    @Operation(summary = "Returns the list of games",
-//            description = "Returns all games, whether they are in progress or not")
-//    @ApiResponse(responseCode = "200", description = "Successfully returned the list of games")
-//    @GetMapping("/games")
-//    public ResponseEntity<List<GameDto>> getGames() {
-//        List<Match> games = gameService.getGames();
-//        List<GameDto> gameDtos = games.stream()
-//                .map(GameMapper::map)
-//                .toList();
-//        return ResponseEntity.ok(gameDtos);
-//    }
-//
-//    @Operation(summary = "Creates a new game",
-//            description = "Creates a new game and returns the game id")
-//    @ApiResponse(responseCode = "200", description = "Successfully created a new game")
-//    @PostMapping("/game")
-//    public ResponseEntity<GameId> createGame() {
-//        Match game = gameService.createGame();
-//        return ResponseEntity.ok(game.getGameId());
-//    }
-//
-//    @Operation(summary = "Joins a game",
-//            description = "Joins a game and returns the socket url")
-//    @ApiResponse(responseCode = "200", description = "Successfully joined the game")
-//    @ApiResponse(responseCode = "400", description = "Game is already full")
-//    @ApiResponse(responseCode = "404", description = "The game does not exist")
-//    @PostMapping("/game/{gameId}/join")
-//    public ResponseEntity<JoinResponse> join(@PathVariable int gameId, @RequestBody JoinRequest joinRequest) {
-//        JoinResult joinResult = gameService.join(gameId, joinRequest.name());
-//
-//        if (joinResult.resultType() == JoinResult.JoinResultType.GAME_NOT_FOUND) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        if (joinResult.resultType() == JoinResult.JoinResultType.GAME_FULL) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        notificationService.notifyGameUpdate(new GameId(gameId));
-//        return ResponseEntity.ok(new JoinResponse(joinResult.playerId()));
-//    }
-//
-//    @Operation(summary = "Plays a move",
-//            description = "Plays a move")
-//    @ApiResponse(responseCode = "200", description = "Successfully played the move")
-//    @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
-//    @ApiResponse(responseCode = "404", description = "Game was not found")
-//    @PostMapping("/game/{gameId}/play")
-//    public ResponseEntity<Void> play(@PathVariable int gameId, @RequestBody Move move) {
-//        PlayResult playResult = gameService.play(move, new GameId(gameId));
-//        if (playResult.resultType() == PlayResultType.GAME_NOT_FOUND) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        if (playResult.resultType() == PlayResultType.PLAYER_NOT_PART_OF_GAME || playResult.resultType() == PlayResultType.INVALID_ACTION) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        notificationService.notifyGameUpdate(new GameId(gameId));
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @Operation(summary = "Deletes a game",
-//            description = "Deletes a game")
-//    @ApiResponse(responseCode = "200", description = "Successfully deleted the game")
-//    @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be deleted")
-//    @DeleteMapping("/game/{gameId}")
-//    public ResponseEntity<Void> deleteGame(@PathVariable int gameId) {
-//        boolean success = gameService.deleteGame(gameId);
-//        if (!success) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @Operation(summary = "Starts a game",
-//            description = "Starts a game")
-//    @ApiResponse(responseCode = "200", description = "Successfully started the game")
-//    @ApiResponse(responseCode = "400", description = "Not enough players to start the game")
-//    @ApiResponse(responseCode = "404", description = "Game did not exist and can therefore not be started")
-//    @PostMapping("/game/{gameId}/start")
-//    public ResponseEntity<Void> startGame(@PathVariable int gameId) {
-//        StartResult result = gameService.startGame(gameId);
-//        if (result.resultType() == StartResult.StartResultType.GAME_NOT_FOUND) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        if (result.resultType() == StartResult.StartResultType.NOT_ENOUGH_PLAYERS) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        notificationService.notifyGameUpdate(new GameId(gameId));
-//        return ResponseEntity.ok().build();
-//    }
-//
-//
-//}
+package ch.zuehlke.fullstack.hackathon.controller;
+
+import ch.zuehlke.common.JoinRequest;
+import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
+import ch.zuehlke.fullstack.hackathon.model.Player;
+import ch.zuehlke.fullstack.hackathon.model.exception.LobbySizeException;
+import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
+import ch.zuehlke.fullstack.hackathon.model.exception.PlayerException;
+import ch.zuehlke.fullstack.hackathon.service.MatchService;
+import ch.zuehlke.fullstack.hackathon.service.PlayerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/lobby")
+@Slf4j
+@RequiredArgsConstructor
+public class LobbyController {
+    private final MatchService matchService;
+    private final PlayerService playerService;
+
+    @Operation(summary = "Returns the list of waiting matches",
+            description = "Returns all waiting matches")
+    @ApiResponse(responseCode = "200", description = "Successfully returned the list of waiting matches")
+    @GetMapping("/waiting")
+    public List<MatchLobby> getWaitingMatches() {
+        return this.matchService.getWaitingMatches();
+    }
+
+    @Operation(summary = "Get a match",
+            description = "Get the information for a match")
+    @ApiResponse(responseCode = "200", description = "Successfully created a new match")
+    @GetMapping("/waiting/{matchId}")
+    public ResponseEntity<MatchLobby> getMatch(@PathVariable final String matchId) {
+        try {
+            return ResponseEntity.ok(this.findLobby(matchId));
+        } catch (MatchStartException e) {
+            log.warn("Cloud not find match lobby with the id ({})", matchId);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Operation(summary = "Join a match",
+            description = "Join a waiting match")
+    @ApiResponse(responseCode = "200", description = "Successfully joined the match")
+    @ApiResponse(responseCode = "400", description = "The match is already full")
+    @ApiResponse(responseCode = "404", description = "The match does not exist")
+    @PostMapping("/waiting/{matchId}/join")
+    public ResponseEntity<MatchLobby> join(@PathVariable final String matchId, @RequestBody JoinRequest joinRequest) {
+        MatchLobby matchLobby;
+        try {
+            matchLobby = this.findLobby(matchId);
+        } catch (MatchStartException e) {
+            log.warn("Cloud not find match lobby with the id ({})", matchId);
+            return ResponseEntity.notFound().build();
+        }
+        Player player;
+        try {
+            player = this.findPlayer(joinRequest.playerId());
+        } catch (PlayerException e) {
+            log.warn("Cloud not find player with id ({})", joinRequest.playerId());
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            matchLobby.join(player);
+        } catch (LobbySizeException | PlayerException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(matchLobby);
+    }
+
+    @Operation(summary = "Create a new match",
+            description = "Creates a new match and returns the game id")
+    @ApiResponse(responseCode = "200", description = "Successfully created a new match")
+    @PostMapping("/match")
+    public String createMatch() {
+        return this.matchService.createMatch()
+                .getId()
+                .toString();
+    }
+
+    private MatchLobby findLobby(final String matchId) throws MatchStartException {
+        final var uuId = UUID.fromString(matchId);
+        return this.matchService.getLobby(uuId)
+                .orElseThrow(() -> new MatchStartException("Unable to start match %s because it does not exist".formatted(matchId)));
+    }
+
+    private Player findPlayer(final String playerId) throws PlayerException {
+        return this.playerService.find(UUID.fromString(playerId))
+                .orElseThrow(() -> new PlayerException("Player with the id (%s) does not exist".formatted(playerId)));
+    }
+
+}

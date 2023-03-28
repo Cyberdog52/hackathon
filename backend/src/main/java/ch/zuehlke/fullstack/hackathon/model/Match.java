@@ -26,9 +26,4 @@ public class Match {
         throw new MatchStartException("Unable to start match, not enough players");
     }
 
-    public Game newGame() {
-//        this.currentGame = new Game(UUID.randomUUID());
-        return this.currentGame;
-    }
-
 }

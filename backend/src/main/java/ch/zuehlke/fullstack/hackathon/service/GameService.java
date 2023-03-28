@@ -7,19 +7,24 @@ import ch.zuehlke.fullstack.hackathon.model.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
 public class GameService {
 
-    public Game initNew(final List<Player> players) {
+    private final Map<UUID, Game> games;
+
+    public GameService() {
+        this.games = new HashMap<>();
+    }
+
+    public Game startNewGame(final List<Player> players) {
         final var gameId = UUID.randomUUID();
         final var cardStack = new CardStack(Deck.generateNewDeck());
-        return new Game(gameId, this.shufflePlayers(players), cardStack);
+        final var game = new Game(gameId, this.shufflePlayers(players), cardStack);
+        this.games.put(gameId, game);
+        return game;
     }
 
     private List<Player> shufflePlayers(final List<Player> players) {

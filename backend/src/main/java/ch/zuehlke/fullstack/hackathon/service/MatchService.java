@@ -49,6 +49,12 @@ public class MatchService {
         return this.lobbies;
     }
 
+    public MatchLobby findLobby(final String matchId) throws MatchStartException {
+        final var uuId = UUID.fromString(matchId);
+        return this.getLobby(uuId)
+                .orElseThrow(() -> new MatchStartException("Unable to start match %s because it does not exist".formatted(matchId)));
+    }
+
     public Optional<MatchLobby> getLobby(final UUID matchId) {
         return this.lobbies.stream()
                 .filter(item -> item.getId().equals(matchId))
