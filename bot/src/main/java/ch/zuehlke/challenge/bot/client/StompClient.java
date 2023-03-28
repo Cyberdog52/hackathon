@@ -19,6 +19,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -47,9 +48,9 @@ public class StompClient implements StompSessionHandler {
         }
     }
 
-    private void subscribe(Integer gameId) {
-        log.info("Subscribing to id: {}", gameId);
-        this.subscription = stompSession.subscribe("/topic/game/" + gameId, this);
+    private void subscribe(UUID id) {
+        log.info("Subscribing to id: {}", id);
+        this.subscription = stompSession.subscribe("/topic/game/" + id, this);
     }
 
     @Override

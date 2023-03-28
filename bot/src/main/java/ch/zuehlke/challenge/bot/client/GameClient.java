@@ -2,41 +2,51 @@ package ch.zuehlke.challenge.bot.client;
 
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.Move;
+import ch.zuehlke.common.shared.action.lobby.PlayerJoinAction;
+import ch.zuehlke.common.shared.event.lobby.PlayerJoinEvent;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class GameClient {
 
+    @NonNull
     private final RestTemplate hackathonRestTemplateClient;
 
+    @NonNull
     private final ApplicationProperties applicationProperties;
 
+    @NonNull
     private final ShutDownService shutDownService;
 
+    public UUID joinLobby() {
+        PlayerJoinAction playerJoinAction = PlayerJoinAction.builder()
+                .gameId(applicationProperties.getGameId())
+                .playerId(applicationProperties.getPlayerId())
+                .build();
 
-    public PlayerId join() {
-        JoinRequest signUpRequest = new JoinRequest(new PlayerName(applicationProperties.getName()));
-        log.info("Joining game with request {}", signUpRequest);
-
-        // Improve: Handle exceptions
-        ResponseEntity<JoinResponse> signUpResponse = hackathonRestTemplateClient
+        ResponseEntity<PlayerJoinEvent> response = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendJoinUrl(),
-                        signUpRequest,
-                        JoinResponse.class,
-                        applicationProperties.getGameId()
-                );
-        log.info("Received response: {}", signUpResponse);
-        if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
-            PlayerId playerId = signUpResponse.getBody().playerId();
-            log.info("Joined game with PlayerId: {}", playerId);
-            return playerId;
+                        playerJoinAction,
+                        PlayerJoinEvent.class);
+
+        PlayerJoinEvent playerJoinEvent = handleResponseError(response);
+        return playerJoinEvent.gameId();
+    }
+
+
+    private <T> T handleResponseError(final ResponseEntity<T> response) {
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return response.getBody();
         } else {
             log.error("Could not join game. Will shutdown now...");
             shutDownService.shutDown();

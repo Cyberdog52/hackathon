@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.socket;
+package ch.zuehlke.common.websocket;
 
 import lombok.Getter;
 import lombok.NonNull;

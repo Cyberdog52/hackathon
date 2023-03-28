@@ -19,6 +19,7 @@ import java.util.Set;
 
 import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
 import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.*;
+import static ch.zuehlke.fullstack.hackathon.statemachine.action.PlayerJoinAction.playerJoinAction;
 
 @Configuration
 @EnableStateMachine
@@ -66,7 +67,7 @@ public class StateMachineConfig
         transitions
                 // LOBBY
                 .withExternal()
-                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action(action).guard(guard).and()
+                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action(playerJoinAction()).guard(guard).and()
 
                 // SETUP
                 .withExternal()
