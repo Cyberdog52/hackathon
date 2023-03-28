@@ -35,4 +35,8 @@ public class Ship {
             return y >= this.y && y < this.y + type.length && x == this.x;
         }
     }
+
+    public int distanceToShot(int x, int y) {
+        return 0;
+    }
 }

@@ -67,7 +67,6 @@ public class Game {
         currentRound.addShoot(shoot);
 
         if (currentRound.receivedBothMoves()) {
-            currentRound.getShoots().forEach(it -> executeShoot(it.playerId(), x, y));
             currentRound.finishRound();
         }
 
@@ -79,10 +78,10 @@ public class Game {
         }
     }
 
-    private void executeShoot(String playerId, int x, int y) {
+    private ShootResult executeShoot(String playerId, int x, int y) {
         Player enemy = players.stream().filter(p -> !p.getId().equals(playerId)).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
         Board enemyBoard = boardsByPlayerId.get(enemy.getId());
-        enemyBoard.executeShot(x, y);
+        return enemyBoard.executeShot(x, y);
     }
 
     public boolean isPlayerAllowedToShoot(Player player) {

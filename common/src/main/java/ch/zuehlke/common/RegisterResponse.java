@@ -15,10 +15,6 @@ public class RegisterResponse {
         this.player = player;
     }
 
-    public String uuid() {
-        return player.getId();
-    }
-
     @Override
     public String toString() {
         return "RegisterResponse{" +

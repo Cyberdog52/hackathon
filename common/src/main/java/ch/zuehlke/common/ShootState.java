@@ -1,5 +1,5 @@
 package ch.zuehlke.common;
 
-public enum ShotResult {
+public enum ShootState {
     MISS, HIT, SUNK
 }

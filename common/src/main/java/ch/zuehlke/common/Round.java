@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Round {
 
-    private Map<String, Shoot> shoots = new HashMap();
+    private Map<String, Shoot> shootByPlayerId = new HashMap();
     private boolean finished;
 
     public void addShoot(Shoot shoot) {
@@ -24,19 +24,19 @@ public class Round {
         if (isPlayerAllowedToShoot(shoot.playerId())) {
             throw new IllegalArgumentException("Player did already submit a move");
         }
-        shoots.put(shoot.playerId(), shoot);
+        shootByPlayerId.put(shoot.playerId(), shoot);
     }
 
-    public List<Shoot> getShoots() {
-        return shoots.values().stream().toList();
+    public List<Shoot> getShootByPlayerId() {
+        return shootByPlayerId.values().stream().toList();
     }
 
     public boolean isPlayerAllowedToShoot(String playerId) {
-        return Objects.nonNull(shoots.get(playerId));
+        return Objects.nonNull(shootByPlayerId.get(playerId));
     }
 
     public boolean receivedBothMoves() {
-        return shoots.size() == 2;
+        return shootByPlayerId.size() == 2;
     }
 
     public void finishRound() {
