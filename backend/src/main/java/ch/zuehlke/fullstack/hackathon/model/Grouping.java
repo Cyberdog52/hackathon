@@ -111,6 +111,14 @@ public record Grouping(Set<Group> groups) {
                 .collect(Collectors.toSet());
     }
 
+    public boolean isWinningHand() {
+        Optional<Group> singleGroup = groups.stream().filter(group -> group.type() == GroupType.SINGLE).findFirst();
+        if (singleGroup.isPresent() && singleGroup.get().cards().size() == 1 && singleGroup.get().cards().stream().findFirst().get().getPoints() < 6) {
+            return true;
+        }
+        else return getNumberOfPoints() == -10 || getNumberOfPoints() == 0;
+    }
+
     public int getNumberOfPoints() {
         // chinchon scores -10 points if there is only one sequence
         if (groups.size() == 1 && groups.stream().findFirst().get().type() == GroupType.SEQUENCE) {

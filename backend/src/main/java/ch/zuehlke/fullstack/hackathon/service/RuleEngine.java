@@ -20,7 +20,11 @@ public class RuleEngine {
     /**
      * Calculates of the hand is winning and returns the score
      */
-    public static int isWinning(Set<Card> cards) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public static boolean isWinning(Set<Card> cards) {
+if (cards.size() != NUMBER_OF_HANDCARDS) {
+            throw new IllegalArgumentException("Number of cards must be " + NUMBER_OF_HANDCARDS);
+        }
+
+        return Grouping.group(cards).isWinningHand();
     }
 }
