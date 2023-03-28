@@ -243,7 +243,6 @@ public class InternalGameStateTest {
         gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
 
         assertThat(gameState.hasAttackerWon()).isTrue();
-
     }
 
     @Test
@@ -256,8 +255,71 @@ public class InternalGameStateTest {
         gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.KING));
 
         assertThat(gameState.hasDefenderWon()).isTrue();
+    }
 
+    @Test
+    void attackerCaptures_toTheLeft() {
+        var gameState = new InternalGameState();
 
+        gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.ATTACKER));
+        gameState.board().updateField(new Field(new Coordinates(1, 0), FieldState.DEFENDER));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.DEFENDER);
+
+        gameState.playAction(new GameAction(3, 0, 2, 0));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.EMPTY);
+    }
+
+    @Test
+    void defenderCaptures_toTheLeft() {
+        var gameState = new InternalGameState();
+
+        gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.DEFENDER));
+        gameState.board().updateField(new Field(new Coordinates(1, 0), FieldState.ATTACKER));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.ATTACKER);
+
+        gameState.playAction(new GameAction(2, 4, 2, 0));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.EMPTY);
+    }
+
+    @Test
+    void defenderCapturesFeaturingKing_toTheLeft() {
+        var gameState = new InternalGameState();
+
+        gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.KING));
+        gameState.board().updateField(new Field(new Coordinates(1, 0), FieldState.ATTACKER));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.ATTACKER);
+
+        gameState.playAction(new GameAction(2, 4, 2, 0));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.EMPTY);
+    }
+
+    @Test
+    void defenderCapturesWithKing_toTheLeft() {
+        var gameState = new InternalGameState();
+
+        gameState.board().updateField(new Field(new Coordinates(0, 0), FieldState.DEFENDER));
+        gameState.board().updateField(new Field(new Coordinates(1, 0), FieldState.ATTACKER));
+        gameState.board().updateField(new Field(new Coordinates(2, 3), FieldState.KING));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.ATTACKER);
+
+        gameState.playAction(new GameAction(2, 3, 2, 0));
+
+        assertThat(gameState.board().getFieldForCoordinate(new Coordinates(1, 0)).state())
+                .isEqualTo(FieldState.EMPTY);
     }
 
 }

@@ -83,7 +83,6 @@ public class Game {
     }
 
     private void finishRound() {
-//        Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
         var move = currentMoves.get(0);
         state.moves().add(move);
         internalGameState.playAction(move.action());

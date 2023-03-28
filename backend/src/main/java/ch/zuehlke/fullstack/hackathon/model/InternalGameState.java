@@ -76,6 +76,29 @@ public class InternalGameState {
     public void playAction(GameAction gameAction) {
         getActionHistory().add(gameAction);
         board.movePiece(gameAction.from(), gameAction.to());
+
+        var toField = board.getFieldForCoordinate(gameAction.to());
+
+        checkPinchCapture(toField, Coordinates::left);
+        checkPinchCapture(toField, c -> c.right(9));
+        checkPinchCapture(toField, Coordinates::up);
+        checkPinchCapture(toField, c -> c.down(9));
+    }
+
+    private void checkPinchCapture(Field filed, Function<Coordinates, Optional<Coordinates>> neighbourGetter) {
+        neighbourGetter.apply(filed.coordinates())
+                .map(board::getFieldForCoordinate)
+                .ifPresent(neighbour -> {
+                    if (filed.state().isEnemy(neighbour.state())) {
+                        neighbourGetter.apply(neighbour.coordinates())
+                                .map(board::getFieldForCoordinate)
+                                .ifPresent(nextNeighbour -> {
+                                    if (neighbour.state().isEnemy(nextNeighbour.state())) {
+                                        board.updateField(new Field(neighbour.coordinates(), FieldState.EMPTY));
+                                    }
+                                });
+                    }
+                });
     }
 
     public Board board() {
