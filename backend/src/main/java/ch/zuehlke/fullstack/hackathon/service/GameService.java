@@ -1,7 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.*;
-import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
@@ -30,8 +29,13 @@ public class GameService {
         return games;
     }
 
-    public Game createGame() {
+    public Game createGame(String firstPlayerId, String secondPlayerId) {
+
         Game game = new Game(new GameId());
+        // todo: throw Exception, if bot does not exist!
+        game.addPlayer(playersById.get(firstPlayerId));
+        game.addPlayer(playersById.get(secondPlayerId));
+
         games.add(game);
         return game;
     }

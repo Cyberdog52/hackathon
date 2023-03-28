@@ -18,12 +18,13 @@ public class Game {
     private final GameId gameId;
     private final List<Player> players = new ArrayList<>();
 
-    private GameStatus status = GameStatus.NOT_STARTED;
+    private GameStatus status = GameStatus.CREATED;
 
     private final GameState state = new GameState();
 
     // moves is not exposed to the GameDto to avoid cheating
     private List<Move> currentMoves;
+
 
     public boolean addPlayer(Player player) {
         if (players.size() >= MAX_PLAYERS) {
@@ -34,17 +35,15 @@ public class Game {
     }
 
     public boolean canStartGame() {
-        return players.size() >= MIN_PLAYERS &&
-                players.size() == MAX_PLAYERS &&
-                status == GameStatus.NOT_STARTED;
+        return players.size() == 2 &&
+                status == GameStatus.CREATED;
     }
 
     public void startGame() {
         if (!canStartGame()) {
             return;
         }
-
-        status = GameStatus.IN_PROGRESS;
+        status = GameStatus.PLACE_SHIPS;
         startRound();
     }
 
@@ -62,7 +61,7 @@ public class Game {
     }
 
     public boolean isMoveAllowed(Move move) {
-        return status == GameStatus.IN_PROGRESS &&
+        return status == GameStatus.SHOOT &&
                 state.currentRequests().stream()
                         .anyMatch(request -> request.playerId().equals(move.playerId()) && request.requestId().equals(move.requestId()));
     }

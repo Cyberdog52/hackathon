@@ -1,6 +1,8 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
+import ch.zuehlke.common.gameplay.CreateGameRequest;
+import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
@@ -42,9 +44,11 @@ public class LobbyController {
     @Operation(summary = "Creates a new game",
             description = "Creates a new game and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new game")
-    @PostMapping("/game")
-    public ResponseEntity<GameId> createGame() {
-        Game game = gameService.createGame();
+    @PostMapping("/create")
+    public ResponseEntity<GameId> createGame(@RequestBody CreateGameRequest request) {
+        Game game = gameService.createGame(request.getFirstPlayerId(), request.getSecondPlayerId());
+        notificationService.notifyGameUpdate(game.getGameId());
+
         return ResponseEntity.ok(game.getGameId());
     }
 
@@ -66,6 +70,16 @@ public class LobbyController {
         notificationService.notifyGameUpdate(new GameId(gameId));
         return ResponseEntity.ok(new JoinResponse(joinResult.playerId(), joinResult.playerToken()));
     }*/
+
+    @Operation(summary = "Place ships in PLACE_SHIPS phase",
+            description = "Place ships on board")
+    @ApiResponse(responseCode = "200", description = "Successfully places ship")
+    @ApiResponse(responseCode = "400", description = "Player is not part of the game or places ships are invalid")
+    @ApiResponse(responseCode = "404", description = "Game was not found")
+    public ResponseEntity<Void> placeShips(@RequestBody PlaceShipsRequest request) {
+    // add some magic
+        return ResponseEntity.ok().build();
+    }
 
     @Operation(summary = "Plays a move",
             description = "Plays a move")
