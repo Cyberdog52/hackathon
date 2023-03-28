@@ -45,4 +45,11 @@ public record Game(
                 .orElse(false);
     }
 
+    public boolean allBoatsDestroyed() {
+        return players.stream()
+            .map(ThunderShipsPlayer::gameMap)
+            .map(map -> map.boats().stream().allMatch(Boat::isDestroyed))
+            .reduce((a, b) -> a || b)
+            .orElse(false);
+    }
 }
