@@ -42,8 +42,4 @@ class CardTest {
         AssertionsForInterfaceTypes.assertThat(card.getCardsWithSameRank(Set.of(new Card(HEART, ACE)))).hasSize(0);
     }
 
-    @Test
-    void getAllCards() {
-        AssertionsForInterfaceTypes.assertThat(Card.getAllCards()).hasSize(52);
-    }
 }

@@ -1,6 +1,5 @@
 package ch.zuehlke.common.cards;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,13 +10,6 @@ import java.util.stream.Collectors;
  * @param rank Value of the card, Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen or King
  */
 public record Card(Suit suit, Rank rank) {
-
-    public static Set<Card> getAllCards() {
-        return Arrays.stream(Rank.values())
-                .flatMap(rank -> Arrays.stream(Suit.values())
-                        .map(suit -> new Card(suit, rank)))
-                .collect(Collectors.toSet());
-    }
 
     public int getPoints() {
         return rank.getValue();
