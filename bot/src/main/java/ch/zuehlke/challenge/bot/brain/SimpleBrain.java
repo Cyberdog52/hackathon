@@ -22,7 +22,7 @@ public class SimpleBrain implements Brain {
 
     private static void think() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
         } catch (InterruptedException ignored) {
             // ignore
         }

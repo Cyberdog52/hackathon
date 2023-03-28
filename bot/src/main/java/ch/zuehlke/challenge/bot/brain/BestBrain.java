@@ -25,7 +25,7 @@ public class BestBrain implements Brain {
 
     private static void thinkForALongTime() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(500);
         } catch (InterruptedException ignored) {
             // ignore
         }

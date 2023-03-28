@@ -4,6 +4,8 @@ import ch.zuehlke.challenge.bot.service.GameService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.GameUpdate;
 import jakarta.annotation.PreDestroy;
+import jakarta.websocket.ContainerProvider;
+import jakarta.websocket.WebSocketContainer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,6 +20,7 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 
 @Slf4j
@@ -36,8 +39,12 @@ public class StompClient implements StompSessionHandler {
 
     @EventListener(value = ApplicationReadyEvent.class)
     public void connect() {
-        WebSocketClient client = new StandardWebSocketClient();
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        container.setDefaultMaxTextMessageBufferSize(1024 * 1024 * 100);
+        container.setDefaultMaxBinaryMessageBufferSize(1024 * 1024 * 100);
+        WebSocketClient client = new StandardWebSocketClient(container);
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
+        stompClient.setInboundMessageSizeLimit(1024 * 1024 * 100);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         try {
             String socketUrl = applicationProperties.getWebSocketUri();
