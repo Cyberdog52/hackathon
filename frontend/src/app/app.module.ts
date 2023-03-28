@@ -18,12 +18,14 @@ import { MatListModule } from "@angular/material/list";
 import { GameSpectatorComponent } from "./game-spectator/game-spectator.component";
 import { MapComponent } from "./game/map/map.component";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { GamePlayingComponent } from "./game-playing/game-playing.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LobbyComponent,
     GameSpectatorComponent,
+    GamePlayingComponent,
     HeaderComponent,
     GameCardComponent,
     MapComponent,

@@ -1,0 +1,33 @@
+<div>
+  <a href="/">Back to home</a>
+  <div class="map-container">
+    <div class="map-wrapper">
+      <h2>Player 1</h2>
+      <app-map gameId="{{this.gameId}}"
+               playerId="{{this.player1Id}}"
+               [sizeX]=this.sizeX
+               [sizeY]=this.sizeY
+               #mapPlayer1/>
+    </div>
+    <div class="map-wrapper">
+      <h2>Player 2</h2>
+      <app-map gameId="{{this.gameId}}"
+               playerId="{{this.player2Id}}"
+               [sizeX]=this.sizeX
+               [sizeY]=this.sizeY
+               #mapPlayer2/>
+    </div>
+  </div>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Show Log output
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ul>
+      <li *ngFor="let evt of events$ | async;">
+        {{evt}}
+      </li>
+    </ul>
+  </mat-expansion-panel>
+</div>

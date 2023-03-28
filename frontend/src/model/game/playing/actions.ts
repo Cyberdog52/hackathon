@@ -28,6 +28,10 @@ export interface PlayerTurnEvent {
   actions: GamePlayingAction[];
 }
 
+export interface GameStartSetupEvent {
+  type: "GameStartSetupEvent"
+}
+
 export interface GameStartPlayingEvent {
   type: "GameStartPlayingEvent";
   playerTurnOrder: UUID[];
