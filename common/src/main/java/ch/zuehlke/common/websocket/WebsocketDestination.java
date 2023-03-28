@@ -10,7 +10,8 @@ public enum WebsocketDestination {
 
     TOPIC_GAMES("/topic/game"),
     TOPIC("/game"),
-    UPDATE("/update");
+    UPDATE("/update"),
+    GAME_SPECTATOR("/spectate");
 
     @NonNull
     private final String destination;

@@ -30,6 +30,7 @@ public class LobbyOrchestrator {
         Lobby lobby = lobbyService.join(playerId, lobbyId);
         PlayerJoinEvent playerJoinEvent = PlayerJoinEventMapper.mapToPlayerJoinEvent(lobby.lobbyId(), playerId);
         notificationService.notifyLobbyPlayerJoined(playerJoinEvent);
+        notificationService.notifySpectatorPlayerJoined(playerJoinEvent);
         stateMachine.playerJoined();
         return playerJoinEvent;
     }

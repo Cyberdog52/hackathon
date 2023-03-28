@@ -6,7 +6,8 @@ import java.util.UUID;
 
 public record AttackTurnAction(
         UUID playerId,
-        Coordinate coordinate
-) {
+        Coordinate coordinate,
+        UUID gameId
+        ) {
 
 }
