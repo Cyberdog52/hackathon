@@ -36,7 +36,30 @@ public class Ship {
         }
     }
 
-    public int distanceToShot(int x, int y) {
-        return 0;
+    public int shortestDistanceToShot(int xShootPosition, int yShootPosition) {
+        int shortestDistance = distanceToShot(x, y, xShootPosition, yShootPosition);
+        for (int i = 1; i < type.length; i++) {
+            int tmp;
+            if (orientation.equals(Orientation.HORIZONTAL)) {
+                tmp = distanceToShot(x + i, y, xShootPosition, yShootPosition);
+            } else {
+                tmp = distanceToShot(x, y + 1, xShootPosition, yShootPosition);
+            }
+            if(shortestDistance > tmp)
+                shortestDistance = tmp;
+        }
+        return shortestDistance;
+    }
+
+    private int distanceToShot(int xShip, int yShip, int xShootPosition, int yShootPosition) {
+        int distanceX = distanceBetween(xShip, xShootPosition);
+        int distanceY = distanceBetween(yShip, yShootPosition);
+        return Math.max(distanceX, distanceY);
+    }
+
+    private int distanceBetween(int shipPos, int shootPos) {
+        if (shipPos >= shootPos)
+            return shipPos - shootPos;
+        return shootPos - shipPos;
     }
 }

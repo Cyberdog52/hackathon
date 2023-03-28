@@ -10,16 +10,11 @@ import java.util.Optional;
 @Setter
 public class Board {
 
-    List<Ship> ships;
-    ShootState[][] shots = new ShootState[10][10];
+    private final List<Ship> ships;
+    private final ShootState[][] shots = new ShootState[10][10];
 
     public Board(List<Ship> ships) {
         this.ships = ships;
-//        ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL));
-//        ships.add(new Ship(ShipType.BATTLESHIP, 0, 1, Orientation.HORIZONTAL));
-//        ships.add(new Ship(ShipType.SUBMARINE, 0, 2, Orientation.HORIZONTAL));
-//        ships.add(new Ship(ShipType.CRUISER, 0, 3, Orientation.HORIZONTAL));
-//        ships.add(new Ship(ShipType.DESTROYER, 0, 4, Orientation.HORIZONTAL));
     }
 
     public boolean shipsValid() {
@@ -27,7 +22,7 @@ public class Board {
         return true;
     }
 
-    public ShootResult executeShot(int x, int y) { //wrapper für result und distance
+    public ShootResult executeShot(int x, int y) {
         Optional<Ship> hitShip = ships.stream().filter(ship -> ship.hits(x, y)).findFirst();
         if (hitShip.isPresent()) {
             hitShip.get().hits++;
@@ -40,10 +35,14 @@ public class Board {
             }
         }
         shots[x][y] = ShootState.MISS;
-        return new ShootResult(ShootState.MISS, 0); //TODO
+        int shortestDistance = 0;
+        for (Ship ship : ships) {
+            shortestDistance = ship.shortestDistanceToShot(x, y);
+        }
+        return new ShootResult(ShootState.MISS, shortestDistance);
     }
 
-    private void markShipAsSunk(Ship ship) {
+    private void markShipAsSunk(final Ship ship) {
         for (int i = 0; i < ship.type.length; i++) {
             if (ship.orientation == Orientation.HORIZONTAL) {
                 shots[ship.x + i][ship.y] = ShootState.SUNK;
