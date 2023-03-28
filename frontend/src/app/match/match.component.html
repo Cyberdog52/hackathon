@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-content>
+    <mat-grid-list cols="2" rowHeight="2:1" *ngIf="getPlayersOfMatch().length > 0; else noPlayers">
+      <mat-grid-tile *ngFor="let player in getPlayersOfMatch()">{{ player.name }}</mat-grid-tile>
+    </mat-grid-list>
+    <ng-template #noPlayers>
+      <h1 class="text-center">No players yet in your match</h1>
+    </ng-template>
+    <div *ngIf="getPlayersOfMatch().length >= 2">
+      <button mat-flat-button (click)="startMatch()" class="rounded w-100" color="primary">START MATCH</button>
+    </div>
+  </mat-card-content>
+</mat-card>

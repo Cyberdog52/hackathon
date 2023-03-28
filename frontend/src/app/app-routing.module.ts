@@ -1,10 +1,16 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LobbyComponent } from "./lobby/lobby.component";
+import { MatchComponent } from "./match/match.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { MatchesComponent } from "./matches/matches.component";
+import { PlayingMatchComponent } from "./playing-match/playing-match.component";
 
 const routes: Routes = [
-  { path: "lobby", component: LobbyComponent },
-  { path: "", redirectTo: "/lobby", pathMatch: "full" },
+  { path: "match/:id", component: MatchComponent },
+  { path: "matches", component: MatchesComponent },
+  { path: "dashboard", component: DashboardComponent },
+  { path: "playing-match/:id", component: PlayingMatchComponent },
+  { path: "", redirectTo: "/dashboard", pathMatch: "full" },
   // Improve: create PageNotFound component and match to '**'
 ];
 

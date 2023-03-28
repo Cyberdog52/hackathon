@@ -7,3 +7,14 @@ html, body { height: 100%; }
 
 // Improve: Use Zühlke font
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.nice-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  height: 40px;
+  outline: none;
+  text-align: center;
+}
