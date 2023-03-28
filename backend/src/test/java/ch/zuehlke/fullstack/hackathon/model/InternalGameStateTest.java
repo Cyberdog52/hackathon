@@ -185,6 +185,23 @@ public class InternalGameStateTest {
     }
 
     @Test
+    void getPossibleActions_attackersCanNotMoveThroughTheCastle() {
+        var gameState = new InternalGameState();
+
+        // Remove the middle row of the defenders
+        gameState.board().updateField(new Field(new Coordinates(2, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(5, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(6, 4), FieldState.EMPTY));
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(1, 4)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).doesNotContain(new Coordinates(5, 4));
+    }
+
+    @Test
     void getPossibleActions_defendersCanNotMoveIntoTheCastle() {
         var gameState = new InternalGameState();
 
