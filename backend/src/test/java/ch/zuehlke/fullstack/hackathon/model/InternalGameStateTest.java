@@ -2,6 +2,8 @@ package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.GameAction;
 import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.tablut.Field;
+import ch.zuehlke.tablut.FieldState;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -104,5 +106,101 @@ public class InternalGameStateTest {
                 .filter(a -> a.from().equals(new Coordinates(4, 7)))
                 .map(GameAction::to)
                 .collect(Collectors.toSet())).isEqualTo(expectedGameActions);
+    }
+
+    @Test
+    void getPossibleActions_kingCanMoveOutOfTheCastle() {
+        var gameState = new InternalGameState();
+
+        // remove two pieces to the left of the king
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(2, 4), FieldState.EMPTY));
+
+        // make a move with attacker so that defender is playing next
+        gameState.playAction(new GameAction(0, 3, 0, 0));
+
+        var expectedDestinations = Set.of(
+                new Coordinates(3, 4),
+                new Coordinates(2, 4)
+        );
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(4, 4)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).isEqualTo(expectedDestinations);
+    }
+
+    @Test
+    void getPossibleActions_kingCanMoveIntoTheCastle() {
+        var gameState = new InternalGameState();
+
+        // Move king one field to the left (replacing the defender there)
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.KING));
+
+        // make a move with attacker so that defender is playing next
+        gameState.playAction(new GameAction(0, 3, 0, 0));
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(3, 4)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).contains(new Coordinates(4, 4));
+    }
+
+    @Test
+    void getPossibleActions_kingCanMoveThroughTheCastle() {
+        var gameState = new InternalGameState();
+
+        // Move king one field to the left (replacing the defender there)
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.KING));
+
+        // also clear the field to the right of the castle
+        gameState.board().updateField(new Field(new Coordinates(5, 4), FieldState.EMPTY));
+
+        // make a move with attacker so that defender is playing next
+        gameState.playAction(new GameAction(0, 3, 0, 0));
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(3, 4)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).contains(new Coordinates(5, 4));
+    }
+
+    @Test
+    void getPossibleActions_attackersCanNotMoveIntoTheCastle() {
+        var gameState = new InternalGameState();
+
+        // Remove the middle row of the defenders
+        gameState.board().updateField(new Field(new Coordinates(2, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(5, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(6, 4), FieldState.EMPTY));
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(1, 4)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).doesNotContain(new Coordinates(4, 4));
+    }
+
+    @Test
+    void getPossibleActions_defendersCanNotMoveIntoTheCastle() {
+        var gameState = new InternalGameState();
+
+        // Remove the middle row of the defenders
+        gameState.board().updateField(new Field(new Coordinates(2, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(3, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(4, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(5, 4), FieldState.EMPTY));
+        gameState.board().updateField(new Field(new Coordinates(6, 4), FieldState.EMPTY));
+
+        // make a move with attacker so that defender is playing next
+        gameState.playAction(new GameAction(0, 3, 0, 0));
+
+        assertThat(gameState.getPossibleActions().stream()
+                .filter(a -> a.from().equals(new Coordinates(4, 2)))
+                .map(GameAction::to)
+                .collect(Collectors.toSet())).doesNotContain(new Coordinates(4, 4));
     }
 }

@@ -56,7 +56,8 @@ public class InternalGameState {
         while (neighbour.isPresent()) {
             var neighbourCoordinates = neighbour.get();
             var neighbourField = board.getFieldForCoordinate(neighbourCoordinates);
-            if (neighbourField.state() == FieldState.EMPTY) {
+            if ((neighbourField.state() == FieldState.EMPTY && !neighbourField.isCastle()) ||
+                    (field.state() == FieldState.KING && neighbourField.isCastle())) {
                 result.add(new GameAction(field.coordinates(), neighbourField.coordinates()));
             } else {
                 break;
@@ -68,7 +69,7 @@ public class InternalGameState {
 
     private Set<GameAction> getPossibleActionsForDefender() {
         return board.getAllFieldsAsList().stream()
-                .filter(field -> field.state() == FieldState.DEFENDER)
+                .filter(field -> field.state() == FieldState.DEFENDER || field.state() == FieldState.KING)
                 .flatMap(a -> findAvailableActions(a).stream()).collect(Collectors.toSet());
     }
 
