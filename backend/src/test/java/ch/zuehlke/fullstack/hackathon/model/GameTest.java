@@ -8,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
 
+    @Test
+    void createValidGame() {
+        Game game = new Game();
+    }
+
   /*  @Test
     void addPlayer_successfully() {
         Player player = new Player(new PlayerId(), new PlayerName("name"));

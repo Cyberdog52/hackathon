@@ -4,12 +4,18 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Getter
 @Setter
 public class Ship {
 
     @NonNull
     ShipType type;
+
+    Set<ShipPosition> positions = new HashSet<>();
+    Set<ShipPosition> destroyed = new HashSet<>();
 
     int x;
 
@@ -18,25 +24,38 @@ public class Ship {
     @NonNull
     Orientation orientation;
 
-    int hits = 0;
-
     public Ship(ShipType type, int x, int y, Orientation orientation) {
         this.type = type;
         this.x = x;
         this.y = y;
         this.orientation = orientation;
+
+        for (int i = 0; i < type.length; i++) {
+            if (orientation.equals(Orientation.HORIZONTAL)) {
+                positions.add(new ShipPosition(x + i, y));
+            } else {
+                positions.add(new ShipPosition(x, y + i));
+            }
+        }
     }
 
     public boolean isDestroyed() {
-        return hits >= type.length;
+        return destroyed.size() == type.length;
     }
 
     public boolean hits(int x, int y) {
         if (orientation == Orientation.HORIZONTAL) {
-            return x >= this.x && x < this.x + type.length && y == this.y;
+            if(x >= this.x && x < this.x + type.length && y == this.y) {
+                destroyed.add(new ShipPosition(x, y));
+                return true;
+            }
         } else {
-            return y >= this.y && y < this.y + type.length && x == this.x;
+            if(y >= this.y && y < this.y + type.length && x == this.x) {
+                destroyed.add(new ShipPosition(x, y));
+                return true;
+            }
         }
+        return false;
     }
 
     public int shortestDistanceToShot(int xShootPosition, int yShootPosition) {

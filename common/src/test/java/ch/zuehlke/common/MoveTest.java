@@ -23,7 +23,6 @@ class MoveTest {
         assertThat(shootResult.distance()).isEqualTo(4);
     }
 
-
     @Test
     void getDistanceBetweenShotAndClosestShip() {
         ships.add(new Ship(ShipType.BATTLESHIP, 6, 0, Orientation.HORIZONTAL));
