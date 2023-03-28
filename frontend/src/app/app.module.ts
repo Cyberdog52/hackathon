@@ -23,6 +23,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { FormsModule } from "@angular/forms";
 import { PlayingMatchComponent } from "./playing-match/playing-match.component";
+import { CardComponent } from "./card/card.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { PlayingMatchComponent } from "./playing-match/playing-match.component";
     MatchesComponent,
     CreateMatchComponent,
     PlayingMatchComponent,
+    CardComponent,
   ],
     imports: [
         BrowserModule,
