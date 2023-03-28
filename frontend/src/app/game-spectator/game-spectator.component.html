@@ -1,0 +1,20 @@
+<div>
+  <a href="/">Back to home</a>
+  <div class="map-container">
+    <app-map gameId="{{this.gameId}}"
+             playerId="{{this.player1Id}}"
+             [sizeX]=this.sizeX
+             [sizeY]=this.sizeY
+             #mapPlayer1/>
+    <app-map gameId="{{this.gameId}}"
+             playerId="{{this.player2Id}}"
+             [sizeX]=this.sizeX
+             [sizeY]=this.sizeY
+             #mapPlayer2/>
+  </div>
+  <ul>
+    <li *ngFor="let evt of events$ | async;">
+      {{evt}}
+    </li>
+  </ul>
+</div>

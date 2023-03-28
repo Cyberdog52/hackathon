@@ -2,8 +2,11 @@ package ch.zuehlke.common.shared.event;
 
 import java.util.UUID;
 
-record GameEndEvent(
+public record GameEndEvent(
         UUID winnerId
 ) {
 
+    public String getType() {
+        return "GameEndEvent";
+    }
 }

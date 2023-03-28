@@ -9,4 +9,8 @@ public record GameStartPlayingEvent(
         List<UUID> playerTurnOrder
 ) {
 
+    public String getType() {
+        return "GameStartPlayingEvent";
+    }
+
 }

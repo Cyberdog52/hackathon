@@ -14,4 +14,8 @@ public record AttackEvent(
         MISS,
         IGNORED
     }
+
+    public String getType() {
+        return "AttackEvent";
+    }
 }

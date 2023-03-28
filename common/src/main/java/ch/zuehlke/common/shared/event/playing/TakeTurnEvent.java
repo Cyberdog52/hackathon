@@ -9,6 +9,8 @@ public record TakeTurnEvent (
     UUID playerId,
     List<GamePlayingAction> actions
 ) {
-
+    public String getType() {
+        return "TakeTurnEvent";
+    }
 }
 
