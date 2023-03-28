@@ -30,7 +30,7 @@ class RuleEngineTest {
                 Arguments.of(Set.of(new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(DIAMOND, ACE), new Card(HEART, EIGHT), new Card(HEART, NINE), new Card(HEART, TEN), new Card(HEART, SIX)), 6),        // ♣A ♠A ♦A   |  ♥8 ♥9 ♥10 | ♥6 -> Too high
                 Arguments.of(Set.of(new Card(HEART, FIVE), new Card(DIAMOND, FIVE), new Card(CLUBS, FIVE), new Card(SPADE, FIVE), new Card(CLUBS, ACE), new Card(SPADE, ACE), new Card(SPADE, TWO)), 4),       //♣5 ♠5 ♦5 ♥5 | ♣A ♠A ♠2   | Score of 4, but not winning
                 Arguments.of(Set.of(new Card(CLUBS, SEVEN), new Card(CLUBS, EIGHT), new Card(CLUBS, NINE), new Card(CLUBS, FIVE), new Card(HEART, FOUR), new Card(HEART, FIVE), new Card(SPADE, TWO)), 16),     //♣7 ♣8 ♣9 | ♣5 ♥4 ♥5 ♠2 -> Score of 16
-                Arguments.of(Set.of(new Card(CLUBS, SEVEN), new Card(SPADE, EIGHT), new Card(CLUBS, NINE), new Card(CLUBS, FIVE), new Card(HEART, FOUR), new Card(HEART, FIVE), new Card(SPADE, TWO)), 40)     //♣7 ♠8 ♣9 | ♣5 ♥4 ♥5 ♠2 -> Score of 16 (Not a row)
+                Arguments.of(Set.of(new Card(CLUBS, SEVEN), new Card(SPADE, EIGHT), new Card(CLUBS, NINE), new Card(CLUBS, FIVE), new Card(HEART, FOUR), new Card(HEART, FIVE), new Card(SPADE, TWO)), 40)     //♣7 ♠8 ♣9 | ♣5 ♥4 ♥5 ♠2 -> Score of 40 (Not a row)
         );
     }
 
