@@ -1,5 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import lombok.Data;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,10 +22,20 @@ public record Card(Suit suit, CardValue value) {
         return value.getOrder();
     }
 
+@Data
+@RequiredArgsConstructor
+public class Card {
     public boolean hasSameValueAs(Card other) {
         return value == other.value;
     }
 
+    private final Color color;
+    private final CardValue value;
+
+    @Override
+    public String toString() {
+        return "Card{ %s of %s }".formatted(value, color);
+    }
     public boolean isNeighbourOf(Card other) {
         return Math.abs(value.getOrder() - other.value.getOrder()) == 1;
     }
