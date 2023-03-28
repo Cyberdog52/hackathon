@@ -11,8 +11,8 @@ public record Coordinates(int x, int y) {
         return Optional.of(new Coordinates(x - 1, y));
     }
 
-    public Optional<Coordinates> right(int width) {
-        if (x >= width - 1) {
+    public Optional<Coordinates> right() {
+        if (x >= Board.SIZE - 1) {
             return Optional.empty();
         }
         return Optional.of(new Coordinates(x + 1, y));
@@ -25,8 +25,8 @@ public record Coordinates(int x, int y) {
         return Optional.of(new Coordinates(x, y - 1));
     }
 
-    public Optional<Coordinates> down(int height) {
-        if (y >= height - 1) {
+    public Optional<Coordinates> down() {
+        if (y >= Board.SIZE - 1) {
             return Optional.empty();
         }
         return Optional.of(new Coordinates(x, y + 1));

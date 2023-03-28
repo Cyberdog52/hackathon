@@ -10,8 +10,8 @@ public record Field(Coordinates coordinates, FieldState state) {
 
     @Transient
     public boolean isBorder() {
-        return coordinates.x() == 0 || coordinates.x() == 8 ||
-                coordinates.y() == 0 || coordinates.y() == 8;
+        return coordinates.x() == 0 || coordinates.x() == Board.SIZE -1 ||
+                coordinates.y() == 0 || coordinates.y() == Board.SIZE -1;
     }
 }
 
