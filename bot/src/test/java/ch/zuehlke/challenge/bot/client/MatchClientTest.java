@@ -34,14 +34,14 @@ class MatchClientTest {
         when(applicationPropertiesMock.getName()).thenReturn("name");
         when(applicationPropertiesMock.getBackendJoinUrl()).thenReturn("/game/{gameId}/join");
 
-        PlayerId expectedPlayerId = new PlayerId();
-        ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(expectedPlayerId));
+        final PlayerId expectedPlayerId = new PlayerId();
+        final ResponseEntity<JoinResponse> response = ResponseEntity.ok(new JoinResponse(expectedPlayerId));
         when(restTemplateMock.postForEntity(any(), any(), eq(JoinResponse.class), anyInt())).thenReturn(response);
 
-        PlayerId actualPlayerId = matchClient.join();
+        final PlayerId actualPlayerId = matchClient.join();
 
         assertThat(actualPlayerId).isEqualTo(expectedPlayerId);
-        JoinRequest expectedRequest = new JoinRequest(new PlayerName("name"));
+        final JoinRequest expectedRequest = new JoinRequest("name");
         verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/join", expectedRequest, JoinResponse.class, 1);
     }
 
@@ -52,7 +52,7 @@ class MatchClientTest {
         when(applicationPropertiesMock.getBackendPlayUrl()).thenReturn("/game/{gameId}/play");
         when(restTemplateMock.postForEntity(any(), any(), eq(Void.class), anyInt())).thenReturn(ResponseEntity.ok(null));
 
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+        final Move move = new Move(new PlayerId(), new RequestId(), null);
         matchClient.play(move);
 
         verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/play", move, Void.class, 1);

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -33,7 +34,7 @@ class MatchServiceTest {
 
     @Test
     void joinGame_callGameClient_successfully() {
-        PlayerId expectedPlayerId = new PlayerId();
+        final PlayerId expectedPlayerId = new PlayerId();
         when(matchClientMock.join()).thenReturn(expectedPlayerId);
         matchService.joinGame();
 
@@ -43,10 +44,10 @@ class MatchServiceTest {
 
     @Test
     void onGameUpdate_withImportantUpdate_playsMove() {
-        PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
-        GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        final PlayerId playerId = new PlayerId();
+        final GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
+        final GameUpdate gameUpdate = new GameUpdate(new GameDto(UUID.randomUUID(), List.of(), GameStatus.IN_PROGRESS, state, null));
+        when(brainMock.decide(any())).thenReturn(null);
 
         matchService.setPlayerId(playerId);
         matchService.onGameUpdate(gameUpdate);
@@ -57,10 +58,10 @@ class MatchServiceTest {
 
     @Test
     void onGameUpdate_whenGameIsNotStarted_doesNotPlayMove() {
-        PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(), List.of());
-        GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.NOT_STARTED, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        final PlayerId playerId = new PlayerId();
+        final GameState state = new GameState(Set.of(), List.of());
+        final GameUpdate gameUpdate = new GameUpdate(new GameDto(UUID.randomUUID(), List.of(), GameStatus.NOT_STARTED, state, null));
+        when(brainMock.decide(any())).thenReturn(null);
 
         matchService.setPlayerId(playerId);
         matchService.onGameUpdate(gameUpdate);
@@ -71,10 +72,10 @@ class MatchServiceTest {
 
     @Test
     void onGameUpdate_whenGameIsFinished_doesNotPlayMove() {
-        PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(), List.of());
-        GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.FINISHED, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        final PlayerId playerId = new PlayerId();
+        final GameState state = new GameState(Set.of(), List.of());
+        final GameUpdate gameUpdate = new GameUpdate(new GameDto(UUID.randomUUID(), List.of(), GameStatus.FINISHED, state, null));
+        when(brainMock.decide(any())).thenReturn(null);
 
         matchService.setPlayerId(playerId);
         matchService.onGameUpdate(gameUpdate);
@@ -86,10 +87,10 @@ class MatchServiceTest {
 
     @Test
     void onGameUpdate_whenCalledTwice_onlyPlaysOneMove() {
-        PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
-        GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        final PlayerId playerId = new PlayerId();
+        final GameState state = new GameState(Set.of(new PlayRequest(playerId)), List.of());
+        final GameUpdate gameUpdate = new GameUpdate(new GameDto(UUID.randomUUID(), List.of(), GameStatus.IN_PROGRESS, state, null));
+        when(brainMock.decide(any())).thenReturn(null);
 
         matchService.setPlayerId(playerId);
         matchService.onGameUpdate(gameUpdate);
@@ -101,10 +102,10 @@ class MatchServiceTest {
 
     @Test
     void onGameUpdate_whenItsForADifferentPlayer_doesNotPlayMove() {
-        PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(new PlayerId())), List.of());
-        GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
-        when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
+        final PlayerId playerId = new PlayerId();
+        final GameState state = new GameState(Set.of(new PlayRequest(new PlayerId())), List.of());
+        final GameUpdate gameUpdate = new GameUpdate(new GameDto(UUID.randomUUID(), List.of(), GameStatus.IN_PROGRESS, state, null));
+        when(brainMock.decide(any())).thenReturn(null);
 
         matchService.setPlayerId(playerId);
         matchService.onGameUpdate(gameUpdate);

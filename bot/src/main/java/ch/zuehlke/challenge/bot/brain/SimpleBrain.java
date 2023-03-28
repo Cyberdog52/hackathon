@@ -10,17 +10,16 @@ import java.util.Set;
 @Profile("simplebot")
 public class SimpleBrain implements Brain {
 
-    public GameAction decide(Set<GameAction> possibleActions) {
-        think();
-        return GameAction.ROCK;
-    }
 
-    private static void think() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ignored) {
-            // ignore
+    @Override
+    public GameAction decide(final Set<GameAction> possibleActions) {
+        //If simple bot can finish, it will finish
+        if (possibleActions.contains(GameAction.FINISH)) {
+            return GameAction.FINISH;
         }
+        
+
+        return null;
     }
 
     @Override

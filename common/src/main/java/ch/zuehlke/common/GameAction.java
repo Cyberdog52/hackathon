@@ -1,18 +1,6 @@
 package ch.zuehlke.common;
 
 public enum GameAction {
-    ROCK, PAPER, SCISSORS;
+    DRAW_FROM_DRAW_STACK, DRAW_FROM_DISCARD_STACK, DISCARD, FINISH
 
-    public boolean beats(GameAction action) {
-        if (this == ROCK) {
-            return action == SCISSORS;
-        }
-        if (this == PAPER) {
-            return action == ROCK;
-        }
-        if (this == SCISSORS) {
-            return action == PAPER;
-        }
-        return false;
-    }
 }
