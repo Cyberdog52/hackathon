@@ -8,7 +8,7 @@ import java.util.UUID;
 @UtilityClass
 public class PlayerJoinEventMapper {
 
-    public static PlayerJoinEvent mapToPlayerJoinEvent(final UUID lobbyId, final UUID playerId) {
+    public PlayerJoinEvent mapToPlayerJoinEvent(final UUID lobbyId, final UUID playerId) {
         return PlayerJoinEvent.builder()
                 .playerId(playerId)
                 .gameId(lobbyId)
