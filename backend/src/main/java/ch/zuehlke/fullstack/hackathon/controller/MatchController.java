@@ -48,7 +48,7 @@ public class MatchController {
     @Operation(summary = "Get a match",
             description = "Get the information for a match")
     @ApiResponse(responseCode = "200", description = "Successfully created a new match")
-    @PostMapping("/match/{matchId}")
+    @GetMapping("/match/{matchId}")
     public ResponseEntity<MatchLobby> getMatch(@PathVariable final String matchId) {
         try {
             return ResponseEntity.ok(this.findLobby(matchId));

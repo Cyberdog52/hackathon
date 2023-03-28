@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatusCode;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,7 +51,7 @@ class MatchControllerTest {
     void itShouldAllowPlayersToJoinMatches() {
         final var player0Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
-                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
+                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80")));
         final var matchId = this.matchController.createMatch();
         final var response = this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
@@ -62,7 +61,7 @@ class MatchControllerTest {
     void itShouldBlockPlayersToJoin_whenTheyTryTwice() {
         final var player0Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
-                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
+                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80")));
         final var matchId = this.matchController.createMatch();
         final var response = this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
@@ -75,9 +74,9 @@ class MatchControllerTest {
         final var player0Id = UUID.randomUUID();
         final var player1Id = UUID.randomUUID();
         when(this.playerService.find(player0Id))
-                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80", Collections.emptyList())));
+                .thenReturn(Optional.of(new Player(player0Id, "Alice", "\uD83D\uDC80")));
         when(this.playerService.find(player1Id))
-                .thenReturn(Optional.of(new Player(player1Id, "Bob", "\uD83D\uDD25", Collections.emptyList())));
+                .thenReturn(Optional.of(new Player(player1Id, "Bob", "\uD83D\uDD25")));
         final var matchId = this.matchController.createMatch();
         this.matchController.join(matchId, new JoinRequest(player0Id.toString()));
         this.matchController.join(matchId, new JoinRequest(player1Id.toString()));

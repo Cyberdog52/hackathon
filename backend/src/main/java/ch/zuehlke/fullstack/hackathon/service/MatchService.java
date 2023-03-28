@@ -41,7 +41,6 @@ public class MatchService {
         }
     }
 
-
     public boolean deleteMatch(final UUID matchId) {
         return matches.removeIf(match -> match.getId() == matchId);
     }

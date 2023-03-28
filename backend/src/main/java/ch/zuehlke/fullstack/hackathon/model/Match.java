@@ -27,7 +27,7 @@ public class Match {
     }
 
     public Game newGame() {
-        this.currentGame = new Game(UUID.randomUUID());
+//        this.currentGame = new Game(UUID.randomUUID());
         return this.currentGame;
     }
 
