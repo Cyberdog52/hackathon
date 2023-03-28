@@ -3,9 +3,9 @@ package ch.zuehlke.fullstack.hackathon.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -14,14 +14,12 @@ import java.util.function.Predicate;
 public class Game {
 
     private final UUID uuid;
-    private final List<ThunderShipsPlayer> players = new ArrayList<>();
-    private ThunderShipsPlayer winner;
+    private final Set<ThunderShipsPlayer> players = new HashSet<>();
 
     public Optional<ThunderShipsPlayer> determineWinner() {
         var winner = players.stream()
             .filter(Predicate.not(ThunderShipsPlayer::hasAnyBoatsLeft))
             .findFirst();
-        winner.ifPresent(player -> this.winner = player);
         return winner;
     }
 }

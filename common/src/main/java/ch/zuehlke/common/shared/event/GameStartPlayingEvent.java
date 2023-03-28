@@ -1,12 +1,14 @@
 package ch.zuehlke.common.shared.event;
 
-import ch.zuehlke.common.GamePlayingAction;
+import lombok.Builder;
 
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 public record GameStartPlayingEvent(
-        List<UUID> playerTurnOrder
+        List<UUID> playerTurnOrder,
+        UUID gameId
 ) {
 
     public String getType() {
