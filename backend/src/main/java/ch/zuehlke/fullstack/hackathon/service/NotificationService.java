@@ -24,9 +24,9 @@ public class NotificationService {
 //    private final GameService gameService;
 
 //    public void notifyGameUpdate(GameId gameId) {
-//        gameService.getGame(gameId.rank())
+//        gameService.getGame(gameId.value())
 //                .map(GameMapper::map)
-//                .ifPresent(game -> template.convertAndSend("/topic/game/" + gameId.rank(), new GameUpdate(game))
+//                .ifPresent(game -> template.convertAndSend("/topic/game/" + gameId.value(), new GameUpdate(game))
 //                );
 //    }
 }
