@@ -36,4 +36,7 @@ public record Card(Suit suit, CardValue value) {
                 .collect(Collectors.toSet());
     }
 
+    public boolean hasSameSuitAs(Card next) {
+        return suit == next.suit;
+    }
 }
