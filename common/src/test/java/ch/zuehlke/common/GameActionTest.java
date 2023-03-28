@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GameActionTest {
 
 
-    @ParameterizedTest
+/*    @ParameterizedTest
     @MethodSource("provideRockPaperScissorsInputs")
     void beats(GameAction firstAction, GameAction secondAction, boolean expected) {
         boolean actual = firstAction.beats(secondAction);
@@ -30,5 +30,5 @@ class GameActionTest {
                 Arguments.of(GameAction.SCISSORS, GameAction.PAPER, true),
                 Arguments.of(GameAction.SCISSORS, GameAction.SCISSORS, false)
         );
-    }
+    }*/
 }

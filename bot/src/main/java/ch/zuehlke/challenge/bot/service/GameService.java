@@ -60,10 +60,10 @@ public class GameService {
         log.info("Processing request: {}", playRequest);
         alreadyProcessedRequestIds.add(playRequest.requestId());
 
-        GameAction decision = brain.decide(playRequest.possibleActions());
+        // GameAction decision = brain.decide(playRequest.possibleActions());
 
-        Move move = new Move(playerId, playRequest.requestId(), decision);
-        gameClient.play(move);
+        // Move move = new Move(playerId, playRequest.requestId(), decision);
+        // gameClient.play(move);
     }
 
 

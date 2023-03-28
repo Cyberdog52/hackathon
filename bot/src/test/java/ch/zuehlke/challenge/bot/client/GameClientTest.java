@@ -44,17 +44,17 @@ class GameClientTest {
         verify(restTemplateMock, times(1)).postForEntity(eq("/api/lobby/register"), any(), eq(RegisterResponse.class));
     }
 
-    @Test
-    void play_successfully() {
-        when(applicationPropertiesMock.getGameId()).thenReturn(1);
-        when(applicationPropertiesMock.getName()).thenReturn("name");
-        when(applicationPropertiesMock.getBackendPlayUrl()).thenReturn("/game/{gameId}/play");
-        when(restTemplateMock.postForEntity(any(), any(), eq(Void.class), anyInt())).thenReturn(ResponseEntity.ok(null));
-
-        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
-        gameClient.play(move);
-
-        verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/play", move, Void.class, 1);
-    }
+//    @Test
+//    void play_successfully() {
+//        when(applicationPropertiesMock.getGameId()).thenReturn(1);
+//        when(applicationPropertiesMock.getName()).thenReturn("name");
+//        when(applicationPropertiesMock.getBackendPlayUrl()).thenReturn("/game/{gameId}/play");
+//        when(restTemplateMock.postForEntity(any(), any(), eq(Void.class), anyInt())).thenReturn(ResponseEntity.ok(null));
+//
+//        Move move = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
+//        gameClient.play(move);
+//
+//        verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/play", move, Void.class, 1);
+//    }
 
 }

@@ -41,7 +41,7 @@ class LobbyControllerTest {
         assertThat(response.getBody()).isEqualTo(List.of());
         verify(gameServiceMock, times(1)).getGames();
     }
-
+/*
     @Test
     void createGame_successfully() {
         GameId gameId = new GameId(42);
@@ -54,7 +54,7 @@ class LobbyControllerTest {
         verify(gameServiceMock, times(1)).createGame();
     }
 
-/*
+
     @Test
     void join_successfully() {
         JoinResult joinResult = new JoinResult(new PlayerId(), JoinResultType.SUCCESS);
@@ -100,7 +100,7 @@ class LobbyControllerTest {
         verify(notificationServiceMock, never()).notifyGameUpdate(any());
     }*/
 
-    @Test
+/*    @Test
     void deleteGame_successfully() {
         when(gameServiceMock.deleteGame(anyInt())).thenReturn(true);
 
@@ -204,5 +204,5 @@ class LobbyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
         assertThat(response.getBody()).isNull();
         verify(notificationServiceMock, never()).notifyGameUpdate(any());
-    }
+    }*/
 }

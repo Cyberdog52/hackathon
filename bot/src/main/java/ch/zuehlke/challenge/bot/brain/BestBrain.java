@@ -16,7 +16,7 @@ public class BestBrain implements Brain {
         return possibleActions.stream()
                 .skip(new Random().nextInt(possibleActions.size()))
                 .findFirst()
-                .orElse(GameAction.PAPER);
+                .orElseThrow();
     }
 
     private static void thinkForALongTime() {

@@ -71,7 +71,7 @@ public class Game {
         state.currentRequests().removeIf(request -> request.playerId().equals(move.playerId()));
         currentMoves.add(move);
 
-        move.action().execute(players.stream().filter(player -> !player.id().equals(move.playerId())).findFirst().get().board());
+        move.action().execute(players.stream().filter(player -> !player.getId().equals(move.playerId())).findFirst().get().getBoard());
 
         if (state.currentRequests().isEmpty()) {
             finishRound();

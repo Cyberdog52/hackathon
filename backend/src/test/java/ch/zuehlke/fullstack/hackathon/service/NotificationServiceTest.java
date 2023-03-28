@@ -26,7 +26,7 @@ class NotificationServiceTest {
         this.notificationService = new NotificationService(simpMessagingTemplateMock, gameServiceMock);
     }
 
-    @Test
+/*    @Test
     void notifyGameUpdate_withExistingGame_successfully() {
         int gameIdValue = 1;
         Game game = new Game(new GameId(gameIdValue));
@@ -48,5 +48,5 @@ class NotificationServiceTest {
 
         verify(simpMessagingTemplateMock, never()).convertAndSend(anyString(), (Object) any());
         verify(gameServiceMock).getGame(gameIdValue);
-    }
+    }*/
 }

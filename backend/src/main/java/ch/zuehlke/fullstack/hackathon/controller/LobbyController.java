@@ -48,7 +48,7 @@ public class LobbyController {
         return ResponseEntity.ok(game.getGameId());
     }
 
-    @Operation(summary = "Joins a game",
+/*    @Operation(summary = "Joins a game",
             description = "Joins a game and returns the socket url")
     @ApiResponse(responseCode = "200", description = "Successfully joined the game")
     @ApiResponse(responseCode = "400", description = "Game is already full")
@@ -65,7 +65,7 @@ public class LobbyController {
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
         return ResponseEntity.ok(new JoinResponse(joinResult.playerId(), joinResult.playerToken()));
-    }
+    }*/
 
     @Operation(summary = "Plays a move",
             description = "Plays a move")

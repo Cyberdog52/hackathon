@@ -13,7 +13,7 @@ class GameMapperTest {
 
     @Test
     void map_newGame_successfully() {
-        GameId gameId = new GameId(1);
+        GameId gameId = new GameId();
         Game game = new Game(gameId);
 
         GameDto gameDto = GameMapper.map(game);

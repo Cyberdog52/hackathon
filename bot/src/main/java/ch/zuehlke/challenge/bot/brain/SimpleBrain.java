@@ -12,7 +12,8 @@ public class SimpleBrain implements Brain {
 
     public GameAction decide(Set<GameAction> possibleActions) {
         think();
-        return GameAction.ROCK;
+        throw new IllegalArgumentException("Not implemented yet...");
+        // return new GameAction(12,12);
     }
 
     private static void think() {

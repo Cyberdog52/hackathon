@@ -1,6 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.*;
+import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
@@ -46,20 +47,20 @@ public class GameService {
                 .findFirst();
     }
 
-    public JoinResult join(String gameId, PlayerName name) {
+   /* public JoinResult join(String gameId, PlayerName name) {
         Optional<Game> game = getGame(gameId);
         if (game.isEmpty()) {
-            return new JoinResult(null, null, JoinResultType.GAME_NOT_FOUND);
+            return new JoinResult(null, null, JoinResult.JoinResultType.GAME_NOT_FOUND);
         }
         Player newPlayer = new Player(new PlayerId(), name, new PlayerToken(), new Board());
 
         boolean success = game.get().addPlayer(newPlayer);
         if (!success) {
-            return new JoinResult(null, null, JoinResultType.GAME_FULL);
+            return new JoinResult(null, null, JoinResult.JoinResultType.GAME_FULL);
         }
 
-        return new JoinResult(newPlayer.id(), newPlayer.token(), JoinResultType.SUCCESS);
-    }
+        return new JoinResult(newPlayer.getId(), newPlayer.getToken(), JoinResult.JoinResultType.SUCCESS);
+    }*/
 
     public StartResult startGame(String gameId) {
         Optional<Game> optionalGame = getGame(gameId);
