@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static ch.zuehlke.common.Suit.*;
 import static ch.zuehlke.fullstack.hackathon.model.CardValue.*;
-import static ch.zuehlke.fullstack.hackathon.model.Suit.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GroupTest {

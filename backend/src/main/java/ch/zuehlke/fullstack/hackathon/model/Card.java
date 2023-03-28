@@ -1,5 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.Suit;
+
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
