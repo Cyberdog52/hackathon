@@ -100,4 +100,10 @@ public class GameService {
         playersById.put(player.getId(), player);
         return ResponseEntity.ok(response);
     }
+
+    public HashMap<String, String> getActivePlayers() {
+        HashMap<String, String> playerNamesById = new HashMap<>();
+        playersById.values().stream().forEach(player -> playerNamesById.put(player.getId(), player.getPlayerName()));
+        return playerNamesById;
+    }
 }

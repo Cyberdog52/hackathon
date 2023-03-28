@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -126,4 +127,11 @@ public class LobbyController {
         return gameService.register(request.getName());
     }
 
+    @Operation(summary = "Get available bots",
+            description = "Get all bots which are currently connected to the backend.")
+    @ApiResponse(responseCode = "200", description = "Got all available bots")
+    @GetMapping("/players")
+    public ResponseEntity<HashMap<String, String>> getConnectedPlayers() {
+        return ResponseEntity.ok(gameService.getActivePlayers());
+    }
 }
