@@ -15,11 +15,24 @@ public class Board {
 
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
+    String playerId;
     private final List<Ship> ships;
     private final ShootState[][] shots = new ShootState[WIDTH][HEIGHT];
 
-    public Board(List<Ship> ships) {
+    public Board(String playerId, List<Ship> ships) {
+        this.playerId = playerId;
         this.ships = ships;
+
+        // TODO REMOVE LATER
+        ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL));
+        ships.add(new Ship(ShipType.BATTLESHIP, 0, 1, Orientation.HORIZONTAL));
+        ships.add(new Ship(ShipType.SUBMARINE, 0, 2, Orientation.HORIZONTAL));
+        ships.add(new Ship(ShipType.CRUISER, 0, 3, Orientation.HORIZONTAL));
+        ships.add(new Ship(ShipType.DESTROYER, 0, 4, Orientation.HORIZONTAL));
+        shots[0][0] = ShootState.HIT;
+        shots[0][8] = ShootState.MISS;
+        shots[4][0] = ShootState.SUNK;
+        shots[4][1] = ShootState.SUNK;
     }
 
     public boolean shipsValid() {
@@ -30,7 +43,7 @@ public class Board {
 
         int totalPositions = ships.stream().mapToInt(ship -> ship.type.length).sum();
         int uniquePositions = ships.stream().flatMap(ship -> ship.positions.stream()).collect(Collectors.toSet()).size();
-        if(totalPositions != uniquePositions) {
+        if (totalPositions != uniquePositions) {
             return false;
         }
 

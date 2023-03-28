@@ -7,15 +7,10 @@
       Players: {{game.players.length}}/{{MAX_PLAYERS}}</h3>
     <mat-chip-set>
       <mat-chip *ngFor="let player of game.players">{{ player.playerName }}</mat-chip>
-
     </mat-chip-set>
-    <p *ngIf="game.players.length === 0">Waiting for players...</p>
-
-    <p *ngIf="game.status === GameStatus.CREATED">Game created</p>
-    <div *ngIf="game.status === GameStatus.FINISHED">
-      <p *ngIf="!game.winner">Game is a draw</p>
-      <p *ngIf="game.winner">{{ getPlayerName(game.winner) }} has won</p>
-    </div>
+    <p *ngIf="game.status === GameStatus.CREATED">Game created! 💪</p>
+    <p *ngIf="game.status === GameStatus.PLACE_SHIPS">Turn: Place Ships! 🚢</p>
+    <p *ngIf="game.status === GameStatus.SHOOT">Turn: Shoot! 🚀</p>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button

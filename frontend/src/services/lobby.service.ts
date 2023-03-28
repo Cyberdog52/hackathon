@@ -18,9 +18,9 @@ export class LobbyService {
     return this.httpClient.get<GameDto[]>(url);
   }
 
-  createGame(createGameRequest: CreateGameRequest): Observable<GameId> {
+  createGame(createGameRequest: CreateGameRequest): Observable<CreateGameResponse> {
     const url = `${this.backendUrl}/create`;
-    return this.httpClient.post<GameId>(url, createGameRequest);
+    return this.httpClient.post<CreateGameResponse>(url, createGameRequest);
   }
 
   deleteGame(gameId: string): Observable<void> {
@@ -33,9 +33,9 @@ export class LobbyService {
     return this.httpClient.post<void>(url, {});
   }
 
-  getPlayers(): Observable<Player[]> {
+  getPlayers(): Observable<PlayerListResponse[]> {
     const url = `${this.backendUrl}/players`;
-    return this.httpClient.get<Player[]>(url);
+    return this.httpClient.get<PlayerListResponse[]>(url);
   }
 
   getTop10Players(): Observable<TopPlayers[]> {
@@ -47,4 +47,13 @@ export class LobbyService {
 export interface CreateGameRequest {
   firstPlayerId: string;
   secondPlayerId: string;
+}
+
+export interface PlayerListResponse {
+  id: string;
+  name: string;
+}
+
+export interface CreateGameResponse {
+  gameId: string;
 }

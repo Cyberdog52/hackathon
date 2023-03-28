@@ -8,6 +8,7 @@ public class GameMapper {
         return GameDto.builder()
                 .id(game.getGameId())
                 .players(game.getPlayers())
+                .boards(game.getBoardsByPlayerId().values().stream().toList())
                 .status(game.getStatus())
                 .state(game.getState())
                 .winner(game.getWinnerIds())

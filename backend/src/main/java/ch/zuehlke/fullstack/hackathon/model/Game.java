@@ -36,13 +36,17 @@ public class Game {
         if (players.size() == REQUIRED_NUMBER_OF_PLAYERS) {
             status = GameStatus.PLACE_SHIPS;
         }
+        // TODO REMOVE LATER
+        var board = new Board(player.getId(), new ArrayList<>());
+        boardsByPlayerId.put(player.getId(), board);
+
         return true;
     }
 
     public void placeShips(Player player, List<Ship> ships) {
 
         // ToDo: validate player token
-        var board = new Board(ships);
+        var board = new Board(player.getId(), ships);
 
         if (!board.shipsValid()) {
             throw new IllegalArgumentException("Board is not valid");
@@ -75,7 +79,7 @@ public class Game {
                         .toList();
             }
             currentRound.finishRound();
-            rounds.add(new Round());
+            rounds.add(currentRound);
         }
 
         return shootResult;

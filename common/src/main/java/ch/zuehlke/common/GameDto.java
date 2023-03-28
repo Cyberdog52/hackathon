@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record GameDto(String id, List<Player> players, GameStatus status, GameState state, List<String> winner) {
+public record GameDto(String id, List<Player> players, List<Board> boards, GameStatus status, GameState state, List<String> winner) {
 }

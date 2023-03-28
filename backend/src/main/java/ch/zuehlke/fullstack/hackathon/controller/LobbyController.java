@@ -1,6 +1,11 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
+import ch.zuehlke.common.GameDto;
+import ch.zuehlke.common.PlayerNameResponse;
+import ch.zuehlke.common.PlayerScoreResponse;
+import ch.zuehlke.common.RegisterRequest;
+import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.common.gameplay.CreateGameRequest;
 import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.common.gameplay.ShootRequest;
@@ -53,15 +58,24 @@ public class LobbyController {
         return ResponseEntity.ok(gameDtos);
     }
 
+    @Operation(summary = "Returns the game with the corresponding gameId",
+            description = "Returns the game with the corresponding gameId")
+    @ApiResponse(responseCode = "200", description = "Successfully returned the game")
+    @GetMapping("/game/{gameId}")
+    public ResponseEntity<GameDto> getGame(@PathVariable String gameId) {
+        Game game = gameService.getGame(gameId).orElseThrow(() -> new IllegalArgumentException("Game not Found"));
+        return ResponseEntity.ok(GameMapper.map(game));
+    }
+
     @Operation(summary = "Creates a new game",
             description = "Creates a new game and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new game")
     @PostMapping("/create")
-    public ResponseEntity<String> createGame(@RequestBody CreateGameRequest request) {
+    public ResponseEntity<CreateGameResponse> createGame(@RequestBody CreateGameRequest request) {
         Game game = gameService.createGame(request.getFirstPlayerId(), request.getSecondPlayerId());
         notificationService.notifyGameUpdate(game.getGameId());
 
-        return ResponseEntity.ok(game.getGameId());
+        return ResponseEntity.ok(new CreateGameResponse(game.getGameId()));
     }
 
 /*    @Operation(summary = "Joins a game",

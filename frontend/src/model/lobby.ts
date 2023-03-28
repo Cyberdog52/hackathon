@@ -1,6 +1,7 @@
 export interface GameDto {
   id: string;
   players: Player[];
+  boards: Board[];
   status: GameStatus;
   state: GameState;
   winner?: PlayerId;
@@ -59,6 +60,7 @@ export interface Move {
 export enum GameStatus {
   CREATED = "CREATED",
   PLACE_SHIPS = "PLACE_SHIPS",
+  SHOOT = "SHOOT",
   FINISHED = "FINISHED",
   DELETED = "DELETED"
 }
@@ -67,4 +69,43 @@ export enum GameAction {
   ROCK = "ROCK",
   PAPER = "PAPER",
   SCISSORS = "SCISSORS"
+}
+
+export interface Board {
+  playerId: string;
+  ships: Ship[];
+  shots: ShotResult[][];
+}
+
+export enum ShotResult {
+  MISS = "MISS",
+  HIT = "HIT",
+  SUNK = "SUNK"
+}
+
+export interface ShipPosition {
+  x: number;
+  y: number;
+}
+
+export interface Ship {
+  type: ShipType;
+  x: number;
+  y: number;
+  positions: ShipPosition[];
+  destroyed: ShipPosition[];
+  orientation: Orientation;
+}
+
+export enum ShipType {
+  AIRCRAFT_CARRIER = "AIRCRAFT_CARRIER",
+  BATTLESHIP = "BATTLESHIP",
+  SUBMARINE = "SUBMARINE",
+  CRUISER = "CRUISER",
+  DESTROYER = "DESTROYER"
+}
+
+export enum Orientation {
+  HORIZONTAL = "HORIZONTAL",
+  VERTICAL = "VERTICAL"
 }

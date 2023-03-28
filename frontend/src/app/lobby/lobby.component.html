@@ -1,6 +1,11 @@
-<div class="main-container">
+<div class="flex flex-row justify-between">
   <ng-container *ngIf="playerNames$ | async as playerNames">
-    <button mat-raised-button (click)="openCreateGameDialog(playerNames)">Create new game</button>
+    <div class="flex flex-col">
+      <span *ngIf="playerNames.length < 2">Not enough Players online! 🙄 Currently {{ playerNames.length }} Players online of min. 2!</span>
+      <button class="w-1/2" mat-raised-button (click)="openCreateGameDialog(playerNames)" [disabled]="playerNames.length < 2">
+        <span> Create Game</span>
+      </button>
+    </div>
     <div class="top10-player-column">
       <h2>Top 10</h2>
       <ol class="player-list">
@@ -10,7 +15,7 @@
     <div class="active-player-column">
       <h2>Active Players</h2>
       <ul class="player-list">
-        <li *ngFor="let playerName of playerNames">{{ playerName.playerName }}</li>
+        <li class="w-max p-1" *ngFor="let playerName of playerNames">🟢 {{ playerName.name }}</li>
       </ul>
     </div>
   </ng-container>
