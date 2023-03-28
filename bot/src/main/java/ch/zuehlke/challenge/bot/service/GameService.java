@@ -2,6 +2,7 @@ package ch.zuehlke.challenge.bot.service;
 
 import ch.zuehlke.challenge.bot.brain.Brain;
 import ch.zuehlke.challenge.bot.client.GameClient;
+import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -36,15 +37,15 @@ public class GameService {
     // Improve: find a better way to keep track of already processed requests
     private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
 
-
-    //    @EventListener(ApplicationReadyEvent.class)
-    public void joinGame() {
-        this.playerId = gameClient.join();
-    }
+    private final ApplicationProperties applicationProperties;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void joinTournament() {
-        this.tournamentId = gameClient.joinTournament();
+    public void joinTournamentOrGame() {
+        if (applicationProperties.isTournamentBot()) {
+            this.tournamentId = gameClient.joinTournament();
+        } else {
+            this.playerId = gameClient.join();
+        }
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {

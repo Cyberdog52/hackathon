@@ -34,7 +34,7 @@ public class Tournament {
 
     public boolean canStartTournament() {
         return players.size() >= MIN_PLAYERS &&
-                players.size() == MAX_PLAYERS &&
+                players.size() <= MAX_PLAYERS &&
                 status == TournamentStatus.NOT_STARTED;
     }
 

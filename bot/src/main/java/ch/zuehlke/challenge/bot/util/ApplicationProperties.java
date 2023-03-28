@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class ApplicationProperties {
     private String name;
+    private boolean tournamentBot;
     private Integer tournamentId;
     private Integer gameId;
     private String backendRootUri;
