@@ -1,10 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.Move;
 import ch.zuehlke.common.Player;
 import ch.zuehlke.common.RegisterResponse;
-import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
-import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +17,6 @@ public class GameService {
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
 
-
     public List<Game> getGames() {
         return games;
     }
@@ -34,6 +30,11 @@ public class GameService {
 
         games.add(game);
         return game;
+    }
+
+    public List<Player> getRegisteredPlayers() {
+        return playersById.values().stream()
+                .toList();
     }
 
 
@@ -80,8 +81,8 @@ public class GameService {
 
     public ResponseEntity<RegisterResponse> register(String playerName) {
         Player player = new Player(playerName);
-        RegisterResponse response = new RegisterResponse(player);
         playersById.put(player.getId(), player);
+        RegisterResponse response = new RegisterResponse(player);
         return ResponseEntity.ok(response);
     }
 }

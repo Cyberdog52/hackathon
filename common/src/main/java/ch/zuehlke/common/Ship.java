@@ -5,7 +5,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
 @Getter
 @Setter
 public class Ship {
@@ -21,6 +20,13 @@ public class Ship {
     Orientation orientation;
 
     int hits = 0;
+
+    public Ship(ShipType type, int x, int y, Orientation orientation) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.orientation = orientation;
+    }
 
     public boolean hits(int x, int y) {
         if (orientation == Orientation.HORIZONTAL) {

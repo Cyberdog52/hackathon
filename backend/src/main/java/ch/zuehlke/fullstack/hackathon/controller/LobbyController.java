@@ -100,7 +100,7 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Player is not part of the game or the move is invalid")
     @ApiResponse(responseCode = "404", description = "Game was not found")
     @PostMapping("/game/shoot")
-    public ResponseEntity<Void> play(@RequestBody ShootRequest request) {
+    public ResponseEntity<Void> shoot(@RequestBody ShootRequest request) {
         Optional<Game> optionalGame = gameService.getGame(request.getGameId());
         if (optionalGame.isEmpty()) {
             return ResponseEntity.notFound().build();

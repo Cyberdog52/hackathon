@@ -1,10 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.*;
-import ch.zuehlke.fullstack.hackathon.controller.JoinResult.JoinResultType;
-import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
-import ch.zuehlke.fullstack.hackathon.controller.StartResult.StartResultType;
-import ch.zuehlke.fullstack.hackathon.model.Game;
+import ch.zuehlke.common.gameplay.CreateGameRequest;
+import ch.zuehlke.common.gameplay.PlaceShipsRequest;
+import ch.zuehlke.common.gameplay.ShootRequest;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +39,65 @@ class LobbyControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isEqualTo(List.of());
         verify(gameServiceMock, times(1)).getGames();
+    }
+
+    @Test
+    void playCompleteGame_successfully() {
+        // setup
+        var gameService = new GameService();
+        var controller = new LobbyController(gameService, notificationServiceMock);
+
+        // register players
+        var playerOne = registerPlayer(controller, "Player One");
+        var playerTwo = registerPlayer(controller, "Player Two");
+        assertThat(gameService.getRegisteredPlayers()).hasSize(2);
+
+        // create game
+        var createGameRequest = new CreateGameRequest();
+        createGameRequest.setFirstPlayerId(playerOne.getId());
+        createGameRequest.setSecondPlayerId(playerTwo.getId());
+
+        var createGameResponse = controller.createGame(createGameRequest);
+        assertThat(createGameResponse.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(createGameResponse.hasBody()).isTrue();
+        var gameId = createGameResponse.getBody();
+        assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
+
+        // place ships
+        var ship = new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL);
+        controller.placeShips(createPlaceShipsRequest(playerOne, gameId, ship));
+        assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
+        controller.placeShips(createPlaceShipsRequest(playerTwo, gameId, ship));
+        assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.SHOOT);
+
+        // shoot!
+        ShootRequest shootRequestOfPlayerOne = createShootRequest(playerOne, gameId, ship);
+        ShootRequest shootRequestOfPlayerTwo = createShootRequest(playerTwo, gameId, ship);
+        // what happens, if player shoots twice?
+        controller.shoot(shootRequestOfPlayerOne);
+        controller.shoot(shootRequestOfPlayerTwo);
+    }
+
+    private static ShootRequest createShootRequest(Player playerOne, String gameId, Ship ship) {
+        var shootRequest = new ShootRequest();
+        shootRequest.setGameId(gameId);
+        shootRequest.setPlayerId(playerOne.getId());
+        shootRequest.setX(ship.getX());
+        shootRequest.setY(ship.getY());
+        return shootRequest;
+    }
+
+    private static PlaceShipsRequest createPlaceShipsRequest(Player playerOne, String gameId, Ship ship) {
+        var placeShipsRequestOfPlayerOne = new PlaceShipsRequest();
+        placeShipsRequestOfPlayerOne.setGameId(gameId);
+        placeShipsRequestOfPlayerOne.setPlayer(playerOne);
+        placeShipsRequestOfPlayerOne.setShips(List.of(ship));
+        return placeShipsRequestOfPlayerOne;
+    }
+
+    private static Player registerPlayer(LobbyController controller, String playerName) {
+        var playerOneRequest = new RegisterRequest(playerName);
+        return controller.register(playerOneRequest).getBody().getPlayer();
     }
 /*
     @Test

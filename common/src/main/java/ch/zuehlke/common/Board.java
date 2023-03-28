@@ -11,7 +11,7 @@ import java.util.Optional;
 @Setter
 public class Board {
 
-    List<Ship> ships = new ArrayList<>();
+    List<Ship> ships;
     ShotResult[][] shots = new ShotResult[10][10];
 
     public Board(List<Ship> ships) {

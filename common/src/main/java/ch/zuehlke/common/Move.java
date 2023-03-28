@@ -1,4 +1,4 @@
 package ch.zuehlke.common;
 
-public record Move(PlayerId playerId, RequestId requestId, GameAction action) {
+public record Move(String playerId, RequestId requestId, GameAction action) {
 }
