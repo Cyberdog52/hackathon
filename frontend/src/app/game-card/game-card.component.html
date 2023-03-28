@@ -3,19 +3,22 @@
     <mat-card-title>Game: {{ game.id.value }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <h3>Players: {{ game.players.length }}/{{ MAX_PLAYERS }}</h3>
-    <mat-chip-set>
-      <mat-chip *ngFor="let player of game.players">{{
-        player.name.value
-      }}</mat-chip>
-    </mat-chip-set>
+    <div *ngIf="game.players[0]" class="black">
+      {{ game.players[0].name.value }}
+    </div>
+    <div *ngIf="game.players[1]" class="white">
+      {{ game.players[1].name.value }}
+    </div>
     <p *ngIf="game.players.length === 0">Waiting for players...</p>
     <div class="board">
       <app-board [board]="game.state.board"></app-board>
-      <div #scrollMe [scrollTop]="scrollMe.scrollHeight">
-        <p *ngFor="let move of game.state.moves">
-          {{ getMoveNotation(move.action) }}
-        </p>
+      <div #moves [scrollTop]="moves.scrollHeight">
+        <ng-container *ngFor="let move of game.state.moves; let i = index">
+          <p *ngIf="i % 2 == 0" class="moveCount">{{ i / 2 + 1 }}.</p>
+          <p class="move" [ngClass]="i % 2 == 0 ? 'black' : 'white'">
+            {{ getMoveNotation(move.action) }}
+          </p>
+        </ng-container>
       </div>
     </div>
 
