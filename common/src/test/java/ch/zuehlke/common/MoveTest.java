@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MoveTest {
 
-    List<Ship> ships = new ArrayList<>();
 
     @Test
     void getDistanceBetweenShotAndShip() {
+        List<Ship> ships = new ArrayList<>();
+
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 4, Orientation.HORIZONTAL));
         Board board = new Board(ships);
 
@@ -25,6 +25,8 @@ class MoveTest {
 
     @Test
     void getDistanceBetweenShotAndClosestShip() {
+        List<Ship> ships = new ArrayList<>();
+
         ships.add(new Ship(ShipType.BATTLESHIP, 6, 0, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.BATTLESHIP, 0, 6, Orientation.VERTICAL));
 
@@ -38,6 +40,8 @@ class MoveTest {
 
     @Test
     void hitShip() {
+        List<Ship> ships = new ArrayList<>();
+
         ships.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.CRUISER, 6, 7, Orientation.VERTICAL));
 
@@ -51,6 +55,8 @@ class MoveTest {
 
     @Test
     void markShipAsSUNK() {
+        List<Ship> ships = new ArrayList<>();
+
         ships.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
 
         Board board = new Board(ships);
@@ -60,25 +66,4 @@ class MoveTest {
         assertThat(shootResult.state()).isEqualTo(ShootState.SUNK);
         assertThat(shootResult.distance()).isZero();
     }
-
-/*    @Test
-    void getWinningPlayer_sameMoves_returnsNull() {
-        Move move1 = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
-        Move move2 = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
-
-        Optional<PlayerId> winningPlayer = Move.getWinningPlayer(move1, move2);
-
-        assertThat(winningPlayer).isEmpty();
-    }
-
-    @Test
-    void getWinningPlayer_rockBeatsScissors_returnsPlayer1() {
-        Move move1 = new Move(new PlayerId(), new RequestId(), GameAction.ROCK);
-        Move move2 = new Move(new PlayerId(), new RequestId(), GameAction.SCISSORS);
-
-        Optional<PlayerId> winningPlayer = Move.getWinningPlayer(move1, move2);
-
-        assertThat(winningPlayer).isPresent();
-        assertThat(winningPlayer.get()).isEqualTo(move1.playerId());
-    }*/
 }
