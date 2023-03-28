@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { GameEventService } from "../../services/game-event.service";
 import { map, Subject, Subscription, switchMap } from "rxjs";
 import { UUID } from "../../model/uuid";
-import { AttackStatus, PlayingEvent } from "../../model/game/playing/actions";
+import { AttackStatus, PlayingEvent } from "../../model/game/playing/events";
 import { MapComponent } from "../game/map/map.component";
 
 @Component({

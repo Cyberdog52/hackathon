@@ -1,7 +1,7 @@
 import { finalize, Observable, ReplaySubject } from "rxjs";
 import { Injectable } from "@angular/core";
 import { GameAction } from "../model/lobby";
-import { PlayingEvent } from "../model/game/playing/actions";
+import { PlayingEvent } from "../model/game/playing/events";
 import { StompClient } from "./stomp-client";
 
 @Injectable({

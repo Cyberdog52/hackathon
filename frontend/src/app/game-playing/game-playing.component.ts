@@ -3,10 +3,11 @@ import { ActivatedRoute } from "@angular/router";
 import { GameEventService } from "../../services/game-event.service";
 import { map, Subject, Subscription, switchMap } from "rxjs";
 import { UUID } from "../../model/uuid";
-import { AttackStatus, PlayingEvent } from "../../model/game/playing/actions";
-import { MapComponent } from "../game/map/map.component";
+import { AttackStatus, GamePlayingAction, PlayingEvent } from "../../model/game/playing/events";
+import { CellClickEvent, MapComponent, MapValue } from "../game/map/map.component";
 import { STATIC_HUMAN_PLAYER_ID, STATIC_OPPONENT_PLAYER_ID } from "../../model/mocks";
-import { GameState } from "../../model/lobby";
+import { GameState } from "src/model/game/playing/game-state";
+import { GamePlayService } from "../../services/game-play.service";
 
 @Component({
   selector: "app-game-playing",
@@ -24,6 +25,10 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
   public player1Id!: UUID;
   public player2Id!: UUID;
+
+  public player1Turn = false;
+  public player2Turn = false;
+
   public gameId!: UUID;
 
   @ViewChild("mapPlayer1")
@@ -32,11 +37,22 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   @ViewChild("mapPlayer2")
   public player2Map!: MapComponent;
 
-  public gamePhase: GameState;
+  public gamePhase = GameState.LOBBY;
+  private playableActions: GamePlayingAction[] = [];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private gameViewerService: GameEventService) {
+    private gameViewerService: GameEventService,
+    private gamePlayService: GamePlayService) {
+  }
+
+  public onCellClick(evt: CellClickEvent): void {
+    console.log(evt);
+    if(evt.value !== MapValue.EMPTY) {
+      console.warn("Can not attack an non-empty field");
+    }
+    this.player1Turn = false;
+    this.gamePlayService.attackPlayer(evt.coordinate, this.player1Id, this.gameId).subscribe();
   }
 
   ngOnInit(): void {
@@ -67,7 +83,25 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   }
 
   private mapEventToMapChanges(event: PlayingEvent): void {
+    if (event.type === "GameStartSetupEvent") {
+      this.gamePhase = GameState.SETUP;
+      this.player1Turn = true;
+      this.player2Turn = true;
+    }
+
+    if (event.type === "GameStartPlayingEvent") {
+      this.gamePhase = GameState.PLAYING;
+      this.player1Turn = false;
+      this.player2Turn = false;
+    }
+
+    if (event.type === "TakeTurnEvent") {
+      this.gamePhase = GameState.PLAYING;
+      this.playableActions = event.actions;
+    }
+
     if (event.type === "GameEndEvent") {
+      this.gamePhase = GameState.END;
       this.player1Map.resetMap();
       this.player2Map.resetMap();
       return;

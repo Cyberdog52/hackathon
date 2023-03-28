@@ -13,6 +13,7 @@
         [class.boat]="cell === mapValuesEnum.BOAT"
         [class.hit]="cell === mapValuesEnum.HIT"
         [class.miss]="cell === mapValuesEnum.MISS"
+        (click)="this.onCellClick(i, i2)"
     >
       <span>{{getRowName(i)}}{{i2 + 1}}</span>
     </td>

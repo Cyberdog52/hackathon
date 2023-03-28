@@ -1,52 +1,8 @@
 import { UUID } from "../../uuid";
+import { Coordinate } from "./events";
 
-export interface GamePlayingAction {
-  id: string
-}
-
-export enum AttackStatus {
-  HIT = "HIT",
-  MISS = "MISS",
-  IGNORED = "IGNORED"
-}
-
-export interface Coordinate {
-  x: number;
-  y: number;
-}
-
-export interface AttackEvent {
-  type: "AttackEvent";
-  status: AttackStatus;
-  attackingPlayerId: UUID;
-  coordinate: Coordinate;
-}
-
-export interface PlayerTurnEvent {
-  type: "PlayerTurnEvent";
-  playerId: UUID;
-  actions: GamePlayingAction[];
-}
-
-export interface GameStartSetupEvent {
-  type: "GameStartSetupEvent"
-}
-
-export interface GameStartPlayingEvent {
-  type: "GameStartPlayingEvent";
-  playerTurnOrder: UUID[];
-}
-
-export interface GameEndEvent {
-  type: "GameEndEvent";
-  winnerId: UUID;
-}
-
-export type PlaceBoatEvent = {
-  type: "PlaceBoatEvent";
+export interface AttackTurnAction {
   playerId: UUID;
   coordinate: Coordinate;
-  successful: boolean;
+  gameId: UUID;
 }
-
-export type PlayingEvent = AttackEvent | PlayerTurnEvent | GameStartPlayingEvent | PlaceBoatEvent | GameEndEvent;
