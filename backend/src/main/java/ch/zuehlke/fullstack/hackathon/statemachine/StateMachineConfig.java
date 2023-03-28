@@ -66,7 +66,7 @@ public class StateMachineConfig
         transitions
                 // LOBBY
                 .withExternal()
-                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action(action).guard(guard).and()
+                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action().guard(guard).and()
 
                 // SETUP
                 .withExternal()

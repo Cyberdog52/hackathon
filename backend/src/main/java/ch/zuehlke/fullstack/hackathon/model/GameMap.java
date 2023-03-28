@@ -1,10 +1,15 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.Coordinate;
+import lombok.Builder;
 
 import java.util.List;
 
-public record GameMap(List<Boat> boats, int height, int width) {
+@Builder
+public record GameMap(
+        List<Boat> boats,
+        int height,
+        int width) {
 
   public boolean placeBoat(Boat boat) {
     if (checkBoatPlacing(boat)) {

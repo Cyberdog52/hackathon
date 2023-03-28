@@ -1,15 +1,27 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-public record Lobby(Game game, int minPlayerCount, int maxPlayerCount) {
-  public boolean addPlayer(ThunderShipsPlayer player) {
-    if (game.getPlayers().size() < maxPlayerCount) {
-      return game.getPlayers().add(player);
-    }
-    return false;
-  }
+import lombok.Builder;
+import lombok.NonNull;
 
-  public boolean canStartGame() {
-    return game.getPlayers().size() >= minPlayerCount;
-  }
+import java.util.Set;
+import java.util.UUID;
+
+@Builder
+public record Lobby(
+        @NonNull UUID lobbyId,
+        int minPlayerCount,
+        int maxPlayerCount,
+        Set<UUID> playerIds) {
+
+    public boolean addPlayer(final UUID playerId) {
+        if (playerIds.size() < maxPlayerCount) {
+            return playerIds.add(playerId);
+        }
+        return false;
+    }
+
+    public boolean canStartGame() {
+        return playerIds.size() >= minPlayerCount;
+    }
 
 }
