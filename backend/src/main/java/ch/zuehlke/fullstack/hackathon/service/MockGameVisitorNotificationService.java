@@ -55,6 +55,8 @@ public class MockGameVisitorNotificationService {
     }
 
     public static List<Record> getGameEvents() {
+        UUID gameId = UUID.fromString("1d71d4f0-80a0-483c-8f30-9d73fbf7b331");
+
         Coordinate p1Miss1 = new Coordinate(getRandomNumberUsingNextInt(0, 4), getRandomNumberUsingNextInt(0, 4));
         Coordinate p1Miss2 = new Coordinate(getRandomNumberUsingNextInt(0, 4), getRandomNumberUsingNextInt(21, 24));
         Coordinate p1Miss3 = new Coordinate(getRandomNumberUsingNextInt(21, 24), getRandomNumberUsingNextInt(0, 4));
@@ -82,60 +84,60 @@ public class MockGameVisitorNotificationService {
 
         return List.of(
                 // PLACE BOATS
-                new PlaceBoatEvent(player1Id, p1Boat1Coordinate, true),
-                new PlaceBoatEvent(player1Id, p1Boat2Coordinate, true),
-                new PlaceBoatEvent(player1Id, p1Boat3Coordinate, true),
-                new PlaceBoatEvent(player1Id, p1Boat4Coordinate, true),
-                new PlaceBoatEvent(player1Id, p1Boat5Coordinate, true),
-                new PlaceBoatEvent(player2Id, p2Boat1Coordinate, true),
-                new PlaceBoatEvent(player2Id, p2Boat2Coordinate, true),
-                new PlaceBoatEvent(player2Id, p2Boat3Coordinate, true),
-                new PlaceBoatEvent(player2Id, p2Boat4Coordinate, true),
-                new PlaceBoatEvent(player2Id, p2Boat5Coordinate, true),
+                new PlaceBoatEvent(player1Id, p1Boat1Coordinate, true, gameId),
+                new PlaceBoatEvent(player1Id, p1Boat2Coordinate, true, gameId),
+                new PlaceBoatEvent(player1Id, p1Boat3Coordinate, true, gameId),
+                new PlaceBoatEvent(player1Id, p1Boat4Coordinate, true, gameId),
+                new PlaceBoatEvent(player1Id, p1Boat5Coordinate, true, gameId),
+                new PlaceBoatEvent(player2Id, p2Boat1Coordinate, true, gameId),
+                new PlaceBoatEvent(player2Id, p2Boat2Coordinate, true, gameId),
+                new PlaceBoatEvent(player2Id, p2Boat3Coordinate, true, gameId),
+                new PlaceBoatEvent(player2Id, p2Boat4Coordinate, true, gameId),
+                new PlaceBoatEvent(player2Id, p2Boat5Coordinate, true, gameId),
 
                 // START GAME
-                new GameStartPlayingEvent(List.of(player1Id, player2Id)),
+                new GameStartPlayingEvent(List.of(player1Id, player2Id), gameId),
 
                 // MISSING
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss1),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss1),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss2),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss2),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss3),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss3),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss4),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss4),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss1, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss1, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss2, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss2, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss3, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss3, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player1Id, p1Miss4, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.MISS, player2Id, p2Miss4, gameId),
 
                 // HITTING
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat1Coordinate),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat1Coordinate),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat2Coordinate),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat2Coordinate),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat3Coordinate),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat3Coordinate),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat4Coordinate),
-                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat4Coordinate),
-                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK)),
-                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat5Coordinate),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat1Coordinate, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat1Coordinate, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat2Coordinate, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat2Coordinate, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat3Coordinate, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat3Coordinate, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat4Coordinate, gameId),
+                new TakeTurnEvent(player2Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player2Id, p1Boat4Coordinate, gameId),
+                new TakeTurnEvent(player1Id, List.of(GamePlayingAction.ATTACK), gameId),
+                new AttackEvent(AttackEvent.AttackStatus.HIT, player1Id, p2Boat5Coordinate, gameId),
 
                 // GAME END
-                new GameEndEvent(player1Id)
+                new GameEndEvent(player1Id, gameId)
         );
     }
 

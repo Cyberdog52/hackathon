@@ -41,17 +41,14 @@ export class MapComponent implements OnInit {
   }
 
   public setHit(coordinate: Coordinate): void {
-    console.log("Set HIT:")
     this.setMapValue(coordinate, MapValues.HIT);
   }
 
   public setMiss(coordinate: Coordinate): void {
-    console.log("Set MISS:")
     this.setMapValue(coordinate, MapValues.MISS);
   }
 
   public setBoat(coordinate: Coordinate): void {
-    console.log("Set BOAT:")
     this.setMapValue(coordinate, MapValues.BOAT);
   }
 
