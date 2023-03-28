@@ -32,7 +32,7 @@ public record Group(Set<Card> cards, GroupType type) {
                 .sorted(Comparator.comparingInt(Card::getOrder))
                 .toList();
 
-        for (int i = 0; i < sortedCards.size() - 1; i++) {
+        for (var i = 0; i < sortedCards.size() - 1; i++) {
             if (!sortedCards.get(i).isNeighbourOf(sortedCards.get(i + 1))) {
                 return false;
             }

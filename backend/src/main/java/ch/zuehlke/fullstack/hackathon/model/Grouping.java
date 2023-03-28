@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 public record Grouping(Set<Group> groups) {
 
     public static Grouping group(Set<Card> cards) {
-        Set<Group> allPossibleNonSingleGroups = getAllPossibleNonSingleGroups(cards);
-        Set<Grouping> allGroupings = findAllGroupings(cards, allPossibleNonSingleGroups, new HashSet<>());
+        var allPossibleNonSingleGroups = getAllPossibleNonSingleGroups(cards);
+        var allGroupings = findAllGroupings(cards, allPossibleNonSingleGroups, new HashSet<>());
         return allGroupings.stream()
                 .min(Comparator.comparingInt(Grouping::getNumberOfPoints))
                 .orElseThrow();
@@ -21,20 +21,20 @@ public record Grouping(Set<Group> groups) {
             return Set.of(new Grouping(alreadyPickedGroups));
         }
 
-        List<Group> remainingGroupsWhichAreStillPossibleWithRemainingCards = remainingGroups.stream()
+        var remainingGroupsWhichAreStillPossibleWithRemainingCards = remainingGroups.stream()
                 .filter(group -> remainingCards.containsAll(group.cards()))
                 .toList();
 
         // all cards must be in exactly one group, any cards that are not in a group are single cards
         if (remainingGroupsWhichAreStillPossibleWithRemainingCards.isEmpty()) {
-            Group singleGroup = new Group(remainingCards);
+            var singleGroup = new Group(remainingCards);
             alreadyPickedGroups.add(singleGroup);
             return Set.of(new Grouping(alreadyPickedGroups));
         }
 
         // find all grouping, doing recursion for each possible group
-        HashSet<Grouping> groupings = new HashSet<>();
-        for (Group group : remainingGroupsWhichAreStillPossibleWithRemainingCards) {
+        var groupings = new HashSet<Grouping>();
+        for (var group : remainingGroupsWhichAreStillPossibleWithRemainingCards) {
             Set<Group> newAlreadyPickedGroups = new HashSet<>(alreadyPickedGroups);
             newAlreadyPickedGroups.add(group);
             Set<Group> newRemainingGroups = new HashSet<>(remainingGroups);
@@ -56,14 +56,14 @@ public record Grouping(Set<Group> groups) {
     }
 
     public static Set<Group> getAllPossibleSequenceGroups(Set<Card> cards) {
-        List<Card> sortedCards = cards.stream()
+        var sortedCards = cards.stream()
                 .sorted(Comparator.comparingInt(Card::getOrder))
                 .toList();
         List<List<Card>> allRuns = new ArrayList<>();
 
-        for (Card card : sortedCards) {
+        for (var card : sortedCards) {
             List<List<Card>> newRuns = new ArrayList<>();
-            for (List<Card> run : allRuns) {
+            for (var run : allRuns) {
                 if (run.get(run.size() - 1).isNeighbourOf(card)) {
                     List<Card> newRun = new ArrayList<>(run);
                     newRun.add(card);
@@ -88,13 +88,13 @@ public record Grouping(Set<Group> groups) {
     }
 
     public static Set<Group> getAllPossibleTripletGroups(Set<Card> cards) {
-        Set<Group> tripletGroups = cards.stream()
+        var tripletGroups = cards.stream()
                 .map(card -> card.getCardsWithSameValue(cards))
                 .filter(set -> set.size() == 3)
                 .map(Group::new)
                 .collect(Collectors.toSet());
-        for (Group quartetGroup : getAllPossibleQuartetGroups(cards)) {
-            for (Card card : quartetGroup.cards()) {
+        for (var quartetGroup : getAllPossibleQuartetGroups(cards)) {
+            for (var card : quartetGroup.cards()) {
                 Set<Card> tripletCards = new HashSet<>(quartetGroup.cards());
                 tripletCards.remove(card);
                 tripletGroups.add(new Group(tripletCards));
@@ -112,13 +112,8 @@ public record Grouping(Set<Group> groups) {
     }
 
     public int getNumberOfPoints() {
-        // chinchon scores -25 points if there is only one sequence
+        // chinchon scores -10 points if there is only one sequence
         if (groups.size() == 1 && groups.stream().findFirst().get().type() == GroupType.SEQUENCE) {
-            return -25;
-        }
-
-        // gin scores -10 points if there is no single groups of cards
-        if (groups.stream().noneMatch(group -> group.type() == GroupType.SINGLE)) {
             return -10;
         }
 
