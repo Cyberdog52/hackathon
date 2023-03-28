@@ -45,18 +45,8 @@ public class PlaceBoat {
         return context -> {
             var stateMachine = context.getStateMachine();
 
-            MessageHeaders messageHeaders = context.getMessageHeaders();
-            PlaceBoatAction action = (PlaceBoatAction) messageHeaders.get(Header.PLACE_BOAT.name());
-            Game storedGame = (Game) stateMachine.getExtendedState().getVariables().get(Variable.GAME_ID);
-
-            Game updatedGame = setupOrchestrator.placeBoat(storedGame.gameId(), action.playerId(), action.coordinate());
-
-            stateMachine.getExtendedState().getVariables().put(Variable.GAME_ID, updatedGame);
-
-            // check if all boats placed
-            if (updatedGame.allBoatsPlaced()) {
-                stateMachine.sendEvent(ALL_BOATS_PLACED);
-            }
+            Game game = (Game) stateMachine.getExtendedState().getVariables().get(Variable.GAME_ID);
+            setupOrchestrator.allBoatsPlaced(game);
         };
     }
 

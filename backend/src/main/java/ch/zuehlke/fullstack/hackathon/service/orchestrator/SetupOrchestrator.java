@@ -1,12 +1,15 @@
 package ch.zuehlke.fullstack.hackathon.service.orchestrator;
 
 import ch.zuehlke.common.Coordinate;
+import ch.zuehlke.common.GamePlayingAction;
+import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.common.shared.event.setup.GameConfigEvent;
 import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
 import ch.zuehlke.fullstack.hackathon.mapper.GameConfigEventMapper;
 import ch.zuehlke.fullstack.hackathon.model.Boat;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.Lobby;
+import ch.zuehlke.fullstack.hackathon.model.ThunderShipsPlayer;
 import ch.zuehlke.fullstack.hackathon.model.factory.GameFactory;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
@@ -14,6 +17,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 import static ch.zuehlke.fullstack.hackathon.mapper.PlaceBoatEventMapper.mapToPlaceBoatEvent;
@@ -55,7 +59,17 @@ public class SetupOrchestrator {
     }
 
     public void allBoatsPlaced(final Game game) {
+        ThunderShipsPlayer firstPlayer = game.players().stream()
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("No player assigned to game"));
 
+        TakeTurnEvent takeTurnEvent = TakeTurnEvent.builder()
+            .gameId(game.gameId())
+            .playerId(firstPlayer.id())
+            .actions(List.of(GamePlayingAction.ATTACK))
+            .build();
+
+        notificationService.notifyGameStarted(game, takeTurnEvent);
     }
 
 }
