@@ -22,4 +22,14 @@ public class SimpleBrain implements Brain {
             // ignore
         }
     }
+
+    @Override
+    public String name() {
+        return "SimpleBrain";
+    }
+
+    @Override
+    public String icon() {
+        return "SimpleBrainIcon";
+    }
 }

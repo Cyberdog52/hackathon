@@ -1,7 +1,8 @@
 package ch.zuehlke.challenge.bot.service;
 
 import ch.zuehlke.challenge.bot.brain.Brain;
-import ch.zuehlke.challenge.bot.client.GameClient;
+import ch.zuehlke.challenge.bot.client.MatchClient;
+import ch.zuehlke.challenge.bot.client.PlayerClient;
 import ch.zuehlke.common.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class GameService {
+public class MatchService {
 
     private final Brain brain;
 
@@ -25,7 +27,9 @@ public class GameService {
     @Setter
     private PlayerId playerId;
 
-    private final GameClient gameClient;
+    private final MatchClient matchClient;
+
+    private final PlayerClient playerClient;
 
     private final ShutDownService shutDownService;
 
@@ -35,7 +39,13 @@ public class GameService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void joinGame() {
-        this.playerId = gameClient.join();
+        this.playerId = playerClient.createPlayer(brain.name(), brain.icon());
+        List<Match> matches = matchClient.getWaitingOpen();
+        Match joinResponse = matchClient.join(playerId.value(), pickRandom(matches).id());
+    }
+
+    private<T> T pickRandom(List<T> list) {
+        return list.get((int) (Math.random() * list.size()));
     }
 
     public void onGameUpdate(GameUpdate gameUpdate) {
@@ -63,7 +73,7 @@ public class GameService {
         GameAction decision = brain.decide(playRequest.possibleActions());
 
         Move move = new Move(playerId, playRequest.requestId(), decision);
-        gameClient.play(move);
+        //matchClient.play(move);
     }
 
 

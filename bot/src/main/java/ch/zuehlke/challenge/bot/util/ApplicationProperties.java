@@ -11,7 +11,9 @@ public class ApplicationProperties {
     private String name;
     private Integer gameId;
     private String backendRootUri;
-    private String backendJoinUrl;
+    private String backendMatchBaseUrl;
+    private String backendWaitingBaseUrl;
+    private String backendCreatePlayerUrl;
     private String backendPlayUrl;
     private String webSocketUri;
 }

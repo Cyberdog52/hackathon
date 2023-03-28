@@ -1,7 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
-import ch.zuehlke.challenge.bot.client.GameClient;
-import ch.zuehlke.challenge.bot.service.GameService;
+import ch.zuehlke.challenge.bot.client.MatchClient;
+import ch.zuehlke.challenge.bot.service.MatchService;
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.common.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +13,11 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class GameServiceTest {
+class MatchServiceTest {
 
-    private GameService gameService;
+    private MatchService matchService;
 
-    private GameClient gameClientMock;
+    private MatchClient matchClientMock;
 
     private Brain brainMock;
 
@@ -25,20 +25,20 @@ class GameServiceTest {
 
     @BeforeEach
     void setUp() {
-        gameClientMock = mock(GameClient.class);
+        matchClientMock = mock(MatchClient.class);
         brainMock = mock(Brain.class);
         shutDownServiceMock = mock(ShutDownService.class);
-        gameService = new GameService(brainMock, gameClientMock, shutDownServiceMock);
+        matchService = new MatchService(brainMock, matchClientMock, shutDownServiceMock);
     }
 
     @Test
     void joinGame_callGameClient_successfully() {
         PlayerId expectedPlayerId = new PlayerId();
-        when(gameClientMock.join()).thenReturn(expectedPlayerId);
-        gameService.joinGame();
+        when(matchClientMock.join()).thenReturn(expectedPlayerId);
+        matchService.joinGame();
 
-        assertThat(gameService.getPlayerId()).isEqualTo(expectedPlayerId);
-        verify(gameClientMock, times(1)).join();
+        assertThat(matchService.getPlayerId()).isEqualTo(expectedPlayerId);
+        verify(matchClientMock, times(1)).join();
     }
 
     @Test
@@ -48,11 +48,11 @@ class GameServiceTest {
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
 
-        gameService.setPlayerId(playerId);
-        gameService.onGameUpdate(gameUpdate);
+        matchService.setPlayerId(playerId);
+        matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
-        verify(gameClientMock, times(1)).play(any());
+        verify(matchClientMock, times(1)).play(any());
     }
 
     @Test
@@ -62,11 +62,11 @@ class GameServiceTest {
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.NOT_STARTED, state, null));
         when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
 
-        gameService.setPlayerId(playerId);
-        gameService.onGameUpdate(gameUpdate);
+        matchService.setPlayerId(playerId);
+        matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        verify(gameClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
     }
 
     @Test
@@ -76,11 +76,11 @@ class GameServiceTest {
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.FINISHED, state, null));
         when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
 
-        gameService.setPlayerId(playerId);
-        gameService.onGameUpdate(gameUpdate);
+        matchService.setPlayerId(playerId);
+        matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        verify(gameClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
         verify(shutDownServiceMock, times(1)).shutDown();
     }
 
@@ -91,12 +91,12 @@ class GameServiceTest {
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
 
-        gameService.setPlayerId(playerId);
-        gameService.onGameUpdate(gameUpdate);
-        gameService.onGameUpdate(gameUpdate); // call twice
+        matchService.setPlayerId(playerId);
+        matchService.onGameUpdate(gameUpdate);
+        matchService.onGameUpdate(gameUpdate); // call twice
 
         verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
-        verify(gameClientMock, times(1)).play(any());
+        verify(matchClientMock, times(1)).play(any());
     }
 
     @Test
@@ -106,10 +106,10 @@ class GameServiceTest {
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(any())).thenReturn(GameAction.ROCK);
 
-        gameService.setPlayerId(playerId);
-        gameService.onGameUpdate(gameUpdate);
+        matchService.setPlayerId(playerId);
+        matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        verify(gameClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
     }
 }

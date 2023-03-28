@@ -26,4 +26,14 @@ public class BestBrain implements Brain {
             // ignore
         }
     }
+
+    @Override
+    public String name() {
+        return "BestBrain";
+    }
+
+    @Override
+    public String icon() {
+        return "BestBrainIcon";
+    }
 }
