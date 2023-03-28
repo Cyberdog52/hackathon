@@ -19,6 +19,7 @@ public class GameService {
 
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
+    private final Map<Player, Integer> scores = new HashMap<>();
 
 
     public List<Game> getGames() {
@@ -82,6 +83,17 @@ public class GameService {
         Player player = new Player(playerName);
         RegisterResponse response = new RegisterResponse(player);
         playersById.put(player.getId(), player);
+        scores.put(player, 0);
         return ResponseEntity.ok(response);
+    }
+
+    public List<PlayerNameResponse> getActivePlayers() {
+        List<PlayerNameResponse> playerNameResponses = new ArrayList<>();
+        playersById.values().stream().forEach(player -> playerNameResponses.add(new PlayerNameResponse(player.getId(), player.getPlayerName())));
+        return playerNameResponses;
+    }
+
+    public List<PlayerScoreResponse> getTop10() {
+        return new ArrayList<>(); //TODO
     }
 }

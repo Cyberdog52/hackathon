@@ -13,6 +13,8 @@ import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LobbyController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(LobbyController.class);
     // Improve: Make endpoints secure
 
     // Improve: Create ExceptionInterceptor for custom exceptions in the backend
@@ -154,4 +158,21 @@ public class LobbyController {
         return gameService.register(request.getName());
     }
 
+    @Operation(summary = "Get available bots",
+            description = "Get all bots which are currently connected to the backend.")
+    @ApiResponse(responseCode = "200", description = "Got all available bots")
+    @GetMapping("/players")
+    public ResponseEntity<List<PlayerNameResponse>> getConnectedPlayers() {
+        var res = ResponseEntity.ok(gameService.getActivePlayers());
+        LOG.info(res.getBody().toString());
+        return res;
+    }
+
+    @Operation(summary = "Get available bots",
+            description = "Get all bots which are currently connected to the backend.")
+    @ApiResponse(responseCode = "200", description = "Got all available bots")
+    @GetMapping("/top10")
+    public ResponseEntity<List<PlayerScoreResponse>> getTop10Players() {
+        return ResponseEntity.ok(gameService.getTop10());
+    }
 }

@@ -20,3 +20,18 @@ app-game-card {
   height: 100%;
   padding-right: 16px;
 }
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.grid-list {
+  flex: 4;
+  margin-right: 10px;
+}
+
+.player-list {
+  flex: 1;
+  max-width: 20%;
+}
