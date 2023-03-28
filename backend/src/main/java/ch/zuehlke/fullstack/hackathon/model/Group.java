@@ -21,10 +21,14 @@ public record Group(Set<Card> cards, GroupType type) {
         if (cards.size() == 3 && haveAllTheSameValue(cards)) {
             return GroupType.TRIPLET;
         }
-        if (cards.size() > 2 && allCardsAreNeighbours(cards)) {
+        if (cards.size() > 2 && allCardsAreNeighbours(cards) && allCardsHaveSameSuit(cards)) {
             return GroupType.SEQUENCE;
         }
         return GroupType.SINGLE;
+    }
+
+    private static boolean allCardsHaveSameSuit(Set<Card> cards) {
+        return cards.stream().allMatch(card -> card.hasSameSuitAs(cards.iterator().next()));
     }
 
     private static boolean allCardsAreNeighbours(Set<Card> cards) {

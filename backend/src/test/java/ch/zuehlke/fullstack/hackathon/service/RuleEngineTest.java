@@ -48,7 +48,16 @@ class RuleEngineTest {
 
     @ParameterizedTest
     @MethodSource("winningHands")
-    void isCorrectScore(Set<Card> cards, int score) {
+    void isCorrectScoreWinningHands(Set<Card> cards, int score) {
+        var result = RuleEngine.calculateScore(cards);
+
+        assertThat(result).isEqualTo(score);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("losingHands")
+    void isCorrectScoreLosingHands(Set<Card> cards, int score) {
         var result = RuleEngine.calculateScore(cards);
 
         assertThat(result).isEqualTo(score);
