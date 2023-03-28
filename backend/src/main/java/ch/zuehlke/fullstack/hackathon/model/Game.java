@@ -4,18 +4,17 @@ import ch.zuehlke.common.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Getter
 public class Game {
 
-    public static final int MAX_PLAYERS = 2;
+    public static final int REQUIRED_NUMBER_OF_PLAYERS = 2;
     public static final int MIN_PLAYERS = 2;
 
-    private final GameId gameId;
+    private Map<String, Board> boardsByPlayerId = new HashMap<>();
+    private final String gameId = UUID.randomUUID().toString();
     private final List<Player> players = new ArrayList<>();
 
     private GameStatus status = GameStatus.CREATED;
@@ -27,11 +26,27 @@ public class Game {
 
 
     public boolean addPlayer(Player player) {
-        if (players.size() >= MAX_PLAYERS) {
+        if (players.size() >= REQUIRED_NUMBER_OF_PLAYERS) {
             return false;
         }
         players.add(player);
         return true;
+    }
+
+    public void placeShips(Player player, List<Ship> ships) {
+
+        // ToDo: validate player token
+        var board = new Board(ships);
+
+        if (!board.shipsValid()) {
+            throw new IllegalArgumentException("Board is not valid");
+        }
+
+        boardsByPlayerId.put(player.getId(), board);
+
+        if (boardsByPlayerId.size() == REQUIRED_NUMBER_OF_PLAYERS) {
+            this.status = GameStatus.SHOOT;
+        }
     }
 
     public boolean canStartGame() {
@@ -72,7 +87,8 @@ public class Game {
 
         // SHOOT Action, differentiate between SHOOT and PLACE
         Player enemy = players.stream().filter(player -> !player.getId().equals(move.playerId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
-        move.action().execute(enemy.getBoard());
+        var enemyBoard = boardsByPlayerId.get(enemy.getId());
+        move.action().execute(enemyBoard);
 
         if (state.currentRequests().isEmpty()) {
             finishRound();

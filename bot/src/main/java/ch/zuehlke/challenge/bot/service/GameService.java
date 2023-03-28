@@ -41,13 +41,17 @@ public class GameService {
     public void onGameUpdate(GameUpdate gameUpdate) {
         // Improve: use this to get updates from the bots
         GameDto gameDto = gameUpdate.gameDto();
-        if (gameDto.status() == GameStatus.NOT_STARTED) {
+        if (gameDto.status() == GameStatus.CREATED) {
             log.info("Not taking any action, game is not started yet...");
             return;
         }
         if (gameDto.status() == GameStatus.FINISHED || gameDto.status() == GameStatus.DELETED) {
             log.info("Game is finished, shutting down...");
             shutDownService.shutDown();
+        }
+
+        if (gameDto.status() == GameStatus.PLACE_SHIPS) {
+            // add magic to place ships...
         }
 
         gameDto.state().currentRequests().stream()

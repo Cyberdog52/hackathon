@@ -1,6 +1,5 @@
 package ch.zuehlke.common;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +13,8 @@ public class Ship {
     @NonNull
     ShipType type;
 
-    @NonNull
     int x;
 
-    @NonNull
     int y;
 
     @NonNull

@@ -1,6 +1,5 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.GameId;
 import ch.zuehlke.common.GameUpdate;
 import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +14,9 @@ public class NotificationService {
 
     private final GameService gameService;
 
-    public void notifyGameUpdate(GameId gameId) {
-        gameService.getGame(gameId.value())
+    public void notifyGameUpdate(String gameId) {
+        gameService.getGame(gameId)
                 .map(GameMapper::map)
-                .ifPresent(game -> template.convertAndSend("/topic/game/" + gameId.value(), new GameUpdate(game))
-                );
+                .ifPresent(game -> template.convertAndSend("/topic/game/" + gameId, new GameUpdate(game)));
     }
 }

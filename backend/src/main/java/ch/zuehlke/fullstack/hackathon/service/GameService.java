@@ -1,25 +1,21 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.Move;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
-import ch.zuehlke.common.Player;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GameService {
 
-    private Map<String, Player> playersById = new HashMap<>();
+    private final Map<String, Player> playersById = new HashMap<>();
 
     // Improve: Instead of storing this in-memory, store it in a database
     private final List<Game> games = new ArrayList<>();
@@ -31,7 +27,7 @@ public class GameService {
 
     public Game createGame(String firstPlayerId, String secondPlayerId) {
 
-        Game game = new Game(new GameId());
+        Game game = new Game();
         // todo: throw Exception, if bot does not exist!
         game.addPlayer(playersById.get(firstPlayerId));
         game.addPlayer(playersById.get(secondPlayerId));
@@ -42,12 +38,12 @@ public class GameService {
 
 
     public boolean deleteGame(String gameId) {
-        return games.removeIf(game -> Objects.equals(game.getGameId().value(), gameId));
+        return games.removeIf(game -> Objects.equals(game.getGameId(), gameId));
     }
 
     public Optional<Game> getGame(String gameId) {
         return games.stream()
-                .filter(game -> Objects.equals(game.getGameId().value(), gameId))
+                .filter(game -> Objects.equals(game.getGameId(), gameId))
                 .findFirst();
     }
 
@@ -82,8 +78,8 @@ public class GameService {
         return new StartResult(StartResult.StartResultType.SUCCESS);
     }
 
-    public PlayResult play(Move move, GameId gameId) {
-        Optional<Game> optionalGame = getGame(gameId.value());
+    public PlayResult play(Move move, String gameId) {
+        Optional<Game> optionalGame = getGame(gameId);
         if (optionalGame.isEmpty()) {
             return new PlayResult(PlayResultType.GAME_NOT_FOUND);
         }

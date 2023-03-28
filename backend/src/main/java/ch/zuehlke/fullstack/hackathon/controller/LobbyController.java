@@ -1,6 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.GameDto;
+import ch.zuehlke.common.Move;
+import ch.zuehlke.common.RegisterRequest;
+import ch.zuehlke.common.RegisterResponse;
 import ch.zuehlke.common.gameplay.CreateGameRequest;
 import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult.PlayResultType;
@@ -45,7 +48,7 @@ public class LobbyController {
             description = "Creates a new game and returns the game id")
     @ApiResponse(responseCode = "200", description = "Successfully created a new game")
     @PostMapping("/create")
-    public ResponseEntity<GameId> createGame(@RequestBody CreateGameRequest request) {
+    public ResponseEntity<String> createGame(@RequestBody CreateGameRequest request) {
         Game game = gameService.createGame(request.getFirstPlayerId(), request.getSecondPlayerId());
         notificationService.notifyGameUpdate(game.getGameId());
 
@@ -77,7 +80,10 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "Player is not part of the game or places ships are invalid")
     @ApiResponse(responseCode = "404", description = "Game was not found")
     public ResponseEntity<Void> placeShips(@RequestBody PlaceShipsRequest request) {
-    // add some magic
+        var game = gameService.getGame(request.getGameId()).orElseThrow(() -> new IllegalArgumentException("Game not Found"));
+        game.placeShips(request.getPlayer(), request.getShips());
+        notificationService.notifyGameUpdate(game.getGameId());
+        // add some magic
         return ResponseEntity.ok().build();
     }
 
@@ -88,14 +94,14 @@ public class LobbyController {
     @ApiResponse(responseCode = "404", description = "Game was not found")
     @PostMapping("/game/{gameId}/play")
     public ResponseEntity<Void> play(@PathVariable String gameId, @RequestBody Move move) {
-        PlayResult playResult = gameService.play(move, new GameId(gameId));
+        PlayResult playResult = gameService.play(move, gameId);
         if (playResult.resultType() == PlayResultType.GAME_NOT_FOUND) {
             return ResponseEntity.notFound().build();
         }
         if (playResult.resultType() == PlayResultType.PLAYER_NOT_PART_OF_GAME || playResult.resultType() == PlayResultType.INVALID_ACTION) {
             return ResponseEntity.badRequest().build();
         }
-        notificationService.notifyGameUpdate(new GameId(gameId));
+        notificationService.notifyGameUpdate(gameId);
         return ResponseEntity.ok().build();
     }
 
@@ -126,7 +132,7 @@ public class LobbyController {
         if (result.resultType() == StartResult.StartResultType.NOT_ENOUGH_PLAYERS) {
             return ResponseEntity.badRequest().build();
         }
-        notificationService.notifyGameUpdate(new GameId(gameId));
+        notificationService.notifyGameUpdate(gameId);
         return ResponseEntity.ok().build();
     }
 

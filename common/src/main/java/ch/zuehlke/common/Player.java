@@ -14,10 +14,8 @@ public class Player {
     private String id;
     private String token;
     private String playerName;
-    private Board board;
 
     public Player(String playerName) {
-        this.board = new Board();
         id = UUID.randomUUID().toString();
         token = UUID.randomUUID().toString();
         this.playerName = playerName;

@@ -1,17 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.GameDto;
-import ch.zuehlke.common.GameId;
-import ch.zuehlke.common.GameUpdate;
-import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.util.Optional;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class NotificationServiceTest {
 
