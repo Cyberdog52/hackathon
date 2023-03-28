@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { Match } from "../../model/match";
 import { MatchService } from "../../services/MatchService";
 import { Router } from "@angular/router";
 import { MessageService } from "../../services/MessageService";
@@ -17,11 +16,11 @@ export class CreateMatchComponent {
   ) {}
 
   createMatch(): void {
-    let match_id = "";
     this.matchService.createMatch()
-      .subscribe(match => match_id = match);
-    console.log("match_id: " + match_id);
-    this.messageService.add("Match created. Match ID: " + match_id);
-    this.router.navigate(["/match/" + match_id]);
+      .subscribe(match => {
+        console.log("match_id: " + match);
+        this.messageService.add("Match created. Match ID: " + match);
+        this.router.navigate(["/match/" + match]);
+      });
   }
 }

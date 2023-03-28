@@ -21,6 +21,8 @@ import { MatchesComponent } from "./matches/matches.component";
 import { CreateMatchComponent } from "./create-match/create-match.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { FormsModule } from "@angular/forms";
+import { PlayingMatchComponent } from "./playing-match/playing-match.component";
 
 @NgModule({
   declarations: [
@@ -31,23 +33,25 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MessagesComponent,
     MatchesComponent,
     CreateMatchComponent,
+    PlayingMatchComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatGridListModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatTableModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatGridListModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatChipsModule,
+        MatListModule,
+        MatFormFieldModule,
+        MatTableModule,
+        MatSnackBarModule,
+        FormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

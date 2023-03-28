@@ -1,8 +1,11 @@
 import { Component } from "@angular/core";
 import { Match } from "../../model/match";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatchService } from "../../services/MatchService";
-import { parseUri } from "angular-in-memory-web-api";
+import { Player } from "../../model/player";
+import { PlayerService } from "../../services/PlayerService";
+import { PlayerDto } from "../../model/playerDto";
+import { MessageService } from "../../services/MessageService";
 
 @Component({
   selector: "app-match",
@@ -10,27 +13,84 @@ import { parseUri } from "angular-in-memory-web-api";
   styleUrls: ["./match.component.scss"]
 })
 export class MatchComponent {
-  id: string | undefined;
   match: Match | undefined;
+  players: Player[] = [];
+
+  inputPlayer: PlayerDto = {
+    name: "",
+    icon: "",
+  };
 
   constructor(
     private route: ActivatedRoute,
-    private matchService: MatchService
-  ) {}
-
-  ngOnInit(): void {
-    this.route.queryParams
-      .subscribe(params => {
-          this.id = params.id;
-        }
-      );
-
-    this.getMatch();
+    private matchService: MatchService,
+    private router: Router,
+    private playerService: PlayerService,
+    private messageService: MessageService
+  ) {
   }
 
-  getMatch(): void {
-    this.matchService.getMatch(this.id!)
+  ngOnInit()
+    :
+    void {
+    const id = this.route.snapshot.paramMap.get("id");
+    if (id) {
+      this.getMatch(id);
+    } else {
+      this.router.navigate(["/dashboard"]);
+    }
+    this.getPlayersAll();
+  }
+
+  getMatch(id
+             :
+             string
+  ):
+    void {
+    this.matchService.getMatch(id)
       .subscribe(match => this.match = match);
   }
 
+  getPlayersOfMatch()
+    :
+    Player[] {
+    return this.match?.players || [];
+  }
+
+  getPlayersAll()
+    :
+    void {
+    this.playerService.getPlayers()
+      .subscribe(players => this.players = players);
+  }
+
+  addPlayer(player_dto
+              :
+              PlayerDto
+  ):
+    void {
+    this.playerService.createPlayer(player_dto)
+      .subscribe(player_id => {
+        console.log("player_id: " + player_id);
+      });
+    this.getPlayersAll();
+  }
+
+  joinPlayer(player_id: string): void {
+    if (this.match) {
+      this.matchService.join({ playerId: player_id }, this.match.id)
+        .subscribe(match => {
+          this.match = match;
+        });
+    }
+  }
+
+  startMatch(): void {
+    if (this.match) {
+      this.matchService.start(this.match.id)
+        .subscribe(match => {
+          this.router.navigate(["/playing-match/" + this.match!.id]);
+        });
+    }
+  }
 }
