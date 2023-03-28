@@ -51,9 +51,9 @@ public class InternalGameState {
 
         var result = new HashSet<GameAction>();
         result.addAll(findAvailableActions(field, Coordinates::left));
-        result.addAll(findAvailableActions(field, c -> c.right(9)));
+        result.addAll(findAvailableActions(field, Coordinates::right));
         result.addAll(findAvailableActions(field, Coordinates::up));
-        result.addAll(findAvailableActions(field, c -> c.down(9)));
+        result.addAll(findAvailableActions(field, Coordinates::down));
 
         return result;
     }
@@ -89,9 +89,9 @@ public class InternalGameState {
         var toField = board.getFieldForCoordinate(gameAction.to());
 
         checkPinchCapture(toField, Coordinates::left);
-        checkPinchCapture(toField, c -> c.right(9));
+        checkPinchCapture(toField, Coordinates::right);
         checkPinchCapture(toField, Coordinates::up);
-        checkPinchCapture(toField, c -> c.down(9));
+        checkPinchCapture(toField, Coordinates::down);
     }
 
     private void checkPinchCapture(Field filed, Function<Coordinates, Optional<Coordinates>> neighbourGetter) {

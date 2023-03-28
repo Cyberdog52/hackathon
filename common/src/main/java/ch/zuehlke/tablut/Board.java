@@ -5,15 +5,18 @@ import lombok.Builder;
 import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 public record Board(Field[][] fields) {
 
-    public static Board createInitialBoard() {
-        var fields = new Field[9][9];
+    public static int SIZE = 9;
 
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
+    public static Board createInitialBoard() {
+        var fields = new Field[SIZE][SIZE];
+
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
                 fields[y][x] = new Field(new Coordinates(x, y), FieldState.EMPTY);
             }
         }
@@ -65,12 +68,19 @@ public record Board(Field[][] fields) {
     @Transient
     public List<Field> getAllFieldsAsList() {
         var fieldsList = new ArrayList<Field>();
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
                 fieldsList.add(fields[y][x]);
             }
         }
         return fieldsList;
+    }
+
+    public Optional<Coordinates> getKingPosition() {
+        return getAllFieldsAsList().stream()
+            .filter(field -> field.state() == FieldState.KING)
+            .findFirst()
+            .map(Field::coordinates);
     }
 
     public void movePiece(Coordinates from, Coordinates to) {
