@@ -12,7 +12,7 @@ import java.util.Set;
 import static java.util.Collections.shuffle;
 
 @Component
-@Profile("bestbot")
+@Profile({"bestbot", "bestbot2"})
 public class BestBrain implements Brain {
 
     public GameAction decide(Set<GameAction> possibleActions) {
