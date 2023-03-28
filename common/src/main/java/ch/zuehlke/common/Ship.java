@@ -2,17 +2,28 @@ package ch.zuehlke.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class Ship {
 
+    @NonNull
     ShipType type;
+
+    @NonNull
     int x;
+
+    @NonNull
     int y;
+
+    @NonNull
     Orientation orientation;
+
+    int hits = 0;
 
     public boolean hits(int x, int y) {
         if (orientation == Orientation.HORIZONTAL) {

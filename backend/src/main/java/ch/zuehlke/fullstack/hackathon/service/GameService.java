@@ -85,9 +85,9 @@ public class GameService {
         }
 
         Game game = optionalGame.get();
-        //if (!game.isMoveAllowed(move)) {
-        //    return new PlayResult(PlayResultType.INVALID_ACTION);
-        //}
+        if (!game.isMoveAllowed(move)) {
+            return new PlayResult(PlayResultType.INVALID_ACTION);
+        }
 
         game.playMove(move);
 

@@ -71,7 +71,9 @@ public class Game {
         state.currentRequests().removeIf(request -> request.playerId().equals(move.playerId()));
         currentMoves.add(move);
 
-        move.action().execute(players.stream().filter(player -> !player.getId().equals(move.playerId())).findFirst().get().getBoard());
+        // SHOOT Action, differentiate between SHOOT and PLACE
+        Player enemy = players.stream().filter(player -> !player.getId().equals(move.playerId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
+        move.action().execute(enemy.getBoard());
 
         if (state.currentRequests().isEmpty()) {
             finishRound();

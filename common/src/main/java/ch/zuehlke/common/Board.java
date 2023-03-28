@@ -11,8 +11,7 @@ import java.util.List;
 public class Board {
 
     List<Ship> ships = new ArrayList<>();
-    boolean[][] hits = new boolean[10][10];
-    boolean[][] misses = new boolean[10][10];
+    ShotResult[][] shots = new ShotResult[10][10];
 
     public Board() {
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL));
