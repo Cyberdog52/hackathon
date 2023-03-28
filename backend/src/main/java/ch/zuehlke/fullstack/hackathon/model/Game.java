@@ -23,9 +23,7 @@ public class Game {
 
     private final GameState state = new GameState();
 
-    // moves is not exposed to the GameDto to avoid cheating
-    private List<Round> rounds;
-
+    private List<Round> rounds = new ArrayList<>();
 
     public boolean addPlayer(Player player) {
         if (status != CREATED) {
@@ -59,19 +57,32 @@ public class Game {
 
     public void shoot(Player player, int x, int y) {
 
-        // find out, if shoot is valid
+        var currentRound = getCurrentRound();
 
-        // find out, is round is finished
+        if (!currentRound.isPlayerAllowedToShoot(player.getId())) {
+            throw new IllegalArgumentException("Player did already shoot this round!");
+        }
 
-        // play round, id both moves arrived
+        var shoot = new Shoot(player.getId(), x, y);
+        currentRound.addShoot(shoot);
 
-        Player enemy = players.stream().filter(p -> !p.getId().equals(player.getId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
-        Board enemyBoard = boardsByPlayerId.get(enemy.getId());
-        enemyBoard.executeShot(x, y);
+        if (currentRound.receivedBothMoves()) {
+            currentRound.getShoots().forEach(it -> executeShoot(it.playerId(), x, y));
+            currentRound.finishRound();
+        }
+
+        // finish game, if one player wins
+
 
         if (state.currentRequests().isEmpty()) {
             finishRound();
         }
+    }
+
+    private void executeShoot(String playerId, int x, int y) {
+        Player enemy = players.stream().filter(p -> !p.getId().equals(playerId)).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
+        Board enemyBoard = boardsByPlayerId.get(enemy.getId());
+        enemyBoard.executeShot(x, y);
     }
 
     public boolean isPlayerAllowedToShoot(Player player) {
@@ -88,7 +99,6 @@ public class Game {
             return;
         }
         status = GameStatus.PLACE_SHIPS;
-        startRound();
     }
 
     private void startRound() {
@@ -104,20 +114,12 @@ public class Game {
         status = GameStatus.DELETED;
     }
 
-    public boolean isMoveAllowed(Move move) {
-        return status == GameStatus.SHOOT &&
-                state.currentRequests().stream()
-                        .anyMatch(request -> request.playerId().equals(move.playerId()) && request.requestId().equals(move.requestId()));
-    }
-
     private void finishRound() {
         Round currentRound = getCurrentRound();
         state.rounds().add(currentRound);
 
         if (getWinner().isPresent()) {
             finishGame();
-        } else {
-            startRound();
         }
     }
 

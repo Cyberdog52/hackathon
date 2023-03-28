@@ -44,13 +44,13 @@ public class GameClient {
         }
     }
 
-    public void play(Move move) {
-        log.info("Playing move: {}", move);
+    public void play(Shoot shoot) {
+        log.info("Playing move: {}", shoot);
 
         // Improve: Handle exceptions
         ResponseEntity<Void> response = hackathonRestTemplateClient
                 .postForEntity(applicationProperties.getBackendPlayUrl(),
-                        move,
+                        shoot,
                         Void.class,
                         applicationProperties.getGameId()
                 );
