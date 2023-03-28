@@ -1,0 +1,40 @@
+table {
+  table-layout: fixed;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+tr, td {
+  margin: 0;
+  padding: 0;
+}
+
+$cellSize: 20px;
+td {
+  width: $cellSize;
+  height: $cellSize;
+  overflow:hidden;
+
+  background-color: #fafafa;
+
+  &.boat {
+    background-color: rosybrown;
+  }
+
+  &.hit {
+    background-color: indianred;
+  }
+
+  &.miss {
+    background-color: lightgray;
+  }
+
+  &.empty {
+    background-color: #fafafa;
+  }
+}
+
+
+td:hover {
+  background-color: lightblue;
+}

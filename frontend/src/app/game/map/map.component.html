@@ -1,0 +1,19 @@
+<table>
+  <thead>
+  <tr>
+    <th></th>
+    <th *ngFor="let r of this.map[0] ?? []; let i = index">{{i}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of this.map; let i = index">
+    <th>{{getRowName(i)}}</th>
+    <td *ngFor="let cell of this.map[i]"
+        [class.empty]="cell === mapValuesEnum.EMPTY"
+        [class.boat]="cell === mapValuesEnum.BOAT"
+        [class.hit]="cell === mapValuesEnum.HIT"
+        [class.miss]="cell === mapValuesEnum.MISS"
+    ></td>
+  </tr>
+  </tbody>
+</table>
