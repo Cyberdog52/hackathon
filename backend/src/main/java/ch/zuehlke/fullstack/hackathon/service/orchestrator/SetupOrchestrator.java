@@ -69,7 +69,7 @@ public class SetupOrchestrator {
             .actions(List.of(GamePlayingAction.ATTACK))
             .build();
 
-        notificationService.notifyGameStarted(game, takeTurnEvent);
+        notificationService.notifyGameStarted(takeTurnEvent);
         return firstPlayer.id();
     }
 

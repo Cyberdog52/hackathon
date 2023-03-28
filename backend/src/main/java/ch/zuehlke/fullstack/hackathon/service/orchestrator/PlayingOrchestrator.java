@@ -1,10 +1,11 @@
 package ch.zuehlke.fullstack.hackathon.service.orchestrator;
 
 import ch.zuehlke.common.Coordinate;
+import ch.zuehlke.common.GamePlayingAction;
 import ch.zuehlke.common.shared.event.playing.AttackEvent;
 import ch.zuehlke.common.shared.event.playing.AttackEvent.AttackStatus;
+import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.GameMap;
 import ch.zuehlke.fullstack.hackathon.model.ThunderShipsPlayer;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
@@ -12,6 +13,7 @@ import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,37 +39,39 @@ public class PlayingOrchestrator {
       return game;
     }
 
-    GameMap targetMap = game.players().stream()
+    ThunderShipsPlayer otherPlayer = game.players().stream()
         .filter(player -> !player.id().equals(playerId))
-        .map(ThunderShipsPlayer::gameMap)
-        .findAny()
-        .orElseThrow(() -> new IllegalStateException("Player %s has no enemy".formatted(playerId)));
+        .findFirst()
+        .orElseThrow(
+            () -> new IllegalStateException("Player %s has no enemy.".formatted(playerId)));
 
-    boolean anyBoatHit = targetMap.boats().stream()
+    boolean anyBoatHit = otherPlayer.gameMap().boats().stream()
         .anyMatch(boat -> boat.isHit(coordinate));
 
-    AttackEvent attackEvent;
+    AttackEvent attackEvent = createAttackEvent(anyBoatHit, gameId, playerId, coordinate);
 
-    if (anyBoatHit) {
-      attackEvent = AttackEvent.builder()
-          .gameId(gameId)
-          .attackingPlayerId(playerId)
-          .coordinate(coordinate)
-          .status(AttackStatus.HIT)
-          .build();
-    } else {
-      attackEvent = AttackEvent.builder()
-          .gameId(gameId)
-          .attackingPlayerId(playerId)
-          .coordinate(coordinate)
-          .status(AttackStatus.MISS)
-          .build();
-    }
+    TakeTurnEvent takeTurnEvent = TakeTurnEvent.builder()
+        .actions(List.of(GamePlayingAction.ATTACK))
+        .playerId(otherPlayer.id())
+        .build();
 
     notificationService.notifySpectatorPlayerAttacked(attackEvent);
     notificationService.notifyPlayerAttacked(attackEvent);
+    notificationService.notifyPlayerTakeTurn(takeTurnEvent);
+    notificationService.notifySpectatorPlayerTurn(takeTurnEvent);
 
     return game;
+  }
+
+  private static AttackEvent createAttackEvent(boolean anyBoatHit, UUID gameId, UUID playerId, Coordinate coordinate) {
+    AttackEvent attackEvent;
+    attackEvent = AttackEvent.builder()
+        .gameId(gameId)
+        .attackingPlayerId(playerId)
+        .coordinate(coordinate)
+        .status(anyBoatHit ? AttackStatus.HIT : AttackStatus.MISS)
+        .build();
+    return attackEvent;
   }
 
   private boolean isAttackInvalid(UUID firstPlayerId, GameState currentState,

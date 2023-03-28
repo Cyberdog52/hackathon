@@ -3,6 +3,7 @@ package ch.zuehlke.fullstack.hackathon.statemachine.config;
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.GameAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.end.EndGame;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.AllPlayersJoined;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.PlayerJoinAction;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.playing.Attack;
@@ -55,6 +56,9 @@ public class StateMachineConfig
 
     @NonNull
     private final Attack attack;
+
+    @NonNull
+    private final EndGame endGame;
 
     @NonNull
     private final GameListener listener;
@@ -110,7 +114,7 @@ public class StateMachineConfig
                 .withExternal()
                 .source(PLAYING_PLAYER_2).target(PLAYING_PLAYER_1).event(ATTACK).action(attack.attack()).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).and()
+                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).action(endGame.endGame()).and()
                 .withExternal()
                 .source(PLAYING_PLAYER_2).target(END).event(ALL_BOATS_DESTROYED);
     }
