@@ -2,18 +2,20 @@
   <thead>
   <tr>
     <th></th>
-    <th *ngFor="let r of this.map[0] ?? []; let i = index">{{i}}</th>
+    <th *ngFor="let r of this.map[0] ?? []; let i = index">{{i + 1}}</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let row of this.map; let i = index">
     <th>{{getRowName(i)}}</th>
-    <td *ngFor="let cell of this.map[i]"
+    <td *ngFor="let cell of this.map[i]; let i2 = index"
         [class.empty]="cell === mapValuesEnum.EMPTY"
         [class.boat]="cell === mapValuesEnum.BOAT"
         [class.hit]="cell === mapValuesEnum.HIT"
         [class.miss]="cell === mapValuesEnum.MISS"
-    ></td>
+    >
+      <span>{{getRowName(i)}}{{i2 + 1}}</span>
+    </td>
   </tr>
   </tbody>
 </table>

@@ -17,6 +17,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatListModule } from "@angular/material/list";
 import { GameSpectatorComponent } from "./game-spectator/game-spectator.component";
 import { MapComponent } from "./game/map/map.component";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MapComponent } from "./game/map/map.component";
     MatIconModule,
     MatButtonModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

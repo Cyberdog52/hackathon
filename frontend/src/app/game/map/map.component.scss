@@ -13,7 +13,12 @@ $cellSize: 20px;
 td {
   width: $cellSize;
   height: $cellSize;
-  overflow:hidden;
+  overflow: hidden;
+
+  font-size: 0.5rem;
+  text-align: center;
+  vertical-align: middle;
+  cursor: none;
 
   background-color: #fafafa;
 
@@ -31,6 +36,17 @@ td {
 
   &.empty {
     background-color: #fafafa;
+  }
+
+  & > span {
+    visibility: hidden;
+  }
+
+  &:not(.empty),
+  &:hover {
+    & > span {
+      visibility: visible;
+    }
   }
 }
 
