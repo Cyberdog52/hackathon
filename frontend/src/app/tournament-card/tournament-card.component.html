@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Tournament: {{ tournament.id.value }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngFor="let player of tournament.players" class="white">
+      {{ player.name.value }}
+    </div>
+    <p *ngIf="tournament.players.length === 0">Waiting for players...</p>
+
+    <p *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">Tournament is in progress</p>
+    <div *ngIf="tournament.status === TournamentStatus.FINISHED">
+      <p *ngIf="!tournament.winner">Tournament is a draw</p>
+      <p *ngIf="tournament.winner">{{ getPlayerName(tournament.winner) }} has won</p>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      (click)="startTournament()"
+      [disabled]="
+        tournament.players.length < MIN_PLAYERS ||
+        tournament.status !== TournamentStatus.NOT_STARTED
+      "
+    >
+      <mat-icon>play_circle_outline</mat-icon>
+      Start
+    </button>
+    <button
+      mat-raised-button
+      (click)="deleteTournament()"
+      [disabled]="
+        tournament.players.length > 0 && tournament.status !== TournamentStatus.FINISHED
+      "
+    >
+      <mat-icon>delete_outline</mat-icon>
+      Delete
+    </button>
+  </mat-card-actions>
+</mat-card>

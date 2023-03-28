@@ -15,9 +15,10 @@ import { MatButtonModule } from "@angular/material/button";
 import { GameCardComponent } from "./game-card/game-card.component";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatListModule } from "@angular/material/list";
-import { BoardComponent } from './board/board.component';
-import { FieldComponent } from './field/field.component';
-import { RulesComponent } from './rules/rules.component';
+import { BoardComponent } from "./board/board.component";
+import { FieldComponent } from "./field/field.component";
+import { RulesComponent } from "./rules/rules.component";
+import { TournamentCardComponent } from "./tournament-card/tournament-card.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { RulesComponent } from './rules/rules.component';
     LobbyComponent,
     HeaderComponent,
     GameCardComponent,
+    TournamentCardComponent,
     BoardComponent,
     FieldComponent,
     RulesComponent,

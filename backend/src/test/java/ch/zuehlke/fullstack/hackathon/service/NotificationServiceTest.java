@@ -18,12 +18,13 @@ class NotificationServiceTest {
     private NotificationService notificationService;
     private SimpMessagingTemplate simpMessagingTemplateMock;
     private GameService gameServiceMock;
+    private TournamentService tournamentService;
 
     @BeforeEach
     void setUp() {
         this.simpMessagingTemplateMock = mock(SimpMessagingTemplate.class);
         this.gameServiceMock = mock(GameService.class);
-        this.notificationService = new NotificationService(simpMessagingTemplateMock, gameServiceMock);
+        this.notificationService = new NotificationService(simpMessagingTemplateMock, gameServiceMock, tournamentService);
     }
 
     @Test

@@ -1,0 +1,46 @@
+mat-card {
+  width: 100%;
+}
+
+button {
+  margin: 4px;
+}
+
+.board {
+  width: 60%;
+  margin-top: 25px;
+  max-width: 200px;
+}
+
+.board div {
+  position: absolute;
+  top: 75px;
+  right: 0;
+  width: 40%;
+  height: calc(100% - 150px);
+  overflow-y: hidden;
+}
+
+.black {
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  float: left;
+}
+
+.white {
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin-left: 5px;
+  float: left;
+}
+
+.move {
+  margin-left: 5px;
+  padding: 0 2px;
+}
+
+.moveCount {
+  float: left;
+  clear: both;
+}

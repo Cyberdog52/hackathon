@@ -20,10 +20,6 @@ public class GameService {
     private final List<Game> games = new ArrayList<>();
     private static int counter = 0;
 
-    public GameService() {
-        createGame();
-    }
-
     public List<Game> getGames() {
         return games;
     }
