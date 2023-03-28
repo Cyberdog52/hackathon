@@ -1,13 +1,19 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.GameStatus;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 public class Game {
+
+    @Getter
+    @Setter
+    private GameStatus status = GameStatus.NOT_STARTED;
 
     @Getter
     private final UUID id;
