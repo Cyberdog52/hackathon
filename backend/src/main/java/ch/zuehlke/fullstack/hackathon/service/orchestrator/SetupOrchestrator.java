@@ -44,7 +44,7 @@ public class SetupOrchestrator {
             throw new RuntimeException(String.format("Unable to place boat for gameId %s, playerId %s and coordinates %s",
                     gameId, playerId, coordinate));
         }
-        PlaceBoatEvent placeBoatEvent = mapToPlaceBoatEvent(playerId, boat, boatPlaced);
+        PlaceBoatEvent placeBoatEvent = mapToPlaceBoatEvent(playerId, boat.getCoordinate(), boatPlaced);
         notificationService.notifyBoatPlaced(placeBoatEvent, gameId);
         return game;
     }

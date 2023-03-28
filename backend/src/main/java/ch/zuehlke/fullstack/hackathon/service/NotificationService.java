@@ -35,8 +35,8 @@ public class NotificationService {
 
     public void notifySpectatorPlayerJoined(final PlayerJoinEvent playerJoinEvent) {
         String destination = String.format("%s/%s/%s",
-            WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId(),
-            WebsocketDestination.SPECTATE.getDestination());
+                WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId(),
+                WebsocketDestination.SPECTATE.getDestination());
         template.convertAndSend(destination, playerJoinEvent);
     }
 
