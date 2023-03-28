@@ -107,7 +107,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/cards/*"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
@@ -131,6 +132,7 @@
   "cli": {
     "schematicCollections": [
       "@angular-eslint/schematics"
-    ]
+    ],
+    "analytics": false
   }
 }

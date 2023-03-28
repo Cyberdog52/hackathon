@@ -1,1 +1,41 @@
-<p>playing-match works!</p>
+<div class="container">
+  <div class="upper-sections">
+    <ng-container class="left-section" *ngIf="currentRound; else defaultCard" >
+
+    </ng-container>
+    <ng-container class="right-section"  *ngIf="currentRound; else defaultCard">
+
+    </ng-container>
+  </div>
+  <div class="bottom-section">
+    <ng-container  *ngIf="currentRound?.currentPlayer?.currentDeck; else defaultDeck">
+      <ng-container *ngFor="let card of currentRound?.currentPlayer?.currentDeck">
+        <mat-card>
+          <app-svg-icon [cardValue]="card.value" [suit]="card.suit"></app-svg-icon>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #defaultCard>
+  <mat-card>
+   <!-- <app-svg-icon name="backSide"></app-svg-icon>-->
+    <img src="assets/img/cards/img/backside.png" style="width: 100px">
+  </mat-card>
+</ng-template>
+
+<ng-template #defaultDeck>
+<!--  <ng-container *ngFor="let _ of [].constructor(7)">
+    <mat-card>
+      <app-svg-icon name="backSide"></app-svg-icon>
+    </mat-card>
+  </ng-container>-->
+
+    <ng-container *ngFor="let _ of [].constructor(7)">
+    <mat-card>
+      <img src="assets/img/cards/img/backside.png" style="width: 100px">
+    </mat-card>
+  </ng-container>
+
+</ng-template>
