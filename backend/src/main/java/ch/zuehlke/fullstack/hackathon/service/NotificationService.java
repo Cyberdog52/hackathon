@@ -72,4 +72,10 @@ public class NotificationService {
             WebsocketDestination.TOPIC_GAMES.getDestination(), game.gameId());
         template.convertAndSend(destination, takeTurnEvent);
     }
+
+    public void notifyPlayerAttacked(AttackEvent attackEvent) {
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId());
+        template.convertAndSend(destination, attackEvent);
+    }
 }

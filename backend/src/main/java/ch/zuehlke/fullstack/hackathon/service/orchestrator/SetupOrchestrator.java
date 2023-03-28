@@ -58,7 +58,7 @@ public class SetupOrchestrator {
         return simpleGame;
     }
 
-    public void allBoatsPlaced(final Game game) {
+    public UUID allBoatsPlaced(final Game game) {
         ThunderShipsPlayer firstPlayer = game.players().stream()
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("No player assigned to game"));
@@ -70,6 +70,7 @@ public class SetupOrchestrator {
             .build();
 
         notificationService.notifyGameStarted(game, takeTurnEvent);
+        return firstPlayer.id();
     }
 
 }

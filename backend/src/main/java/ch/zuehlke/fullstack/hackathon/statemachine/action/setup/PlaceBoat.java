@@ -13,6 +13,8 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_BOATS_PLACED;
 
 @Component
@@ -46,7 +48,9 @@ public class PlaceBoat {
             var stateMachine = context.getStateMachine();
 
             Game game = (Game) stateMachine.getExtendedState().getVariables().get(Variable.GAME_ID);
-            setupOrchestrator.allBoatsPlaced(game);
+            UUID firstPlayerId = setupOrchestrator.allBoatsPlaced(game);
+            stateMachine.getExtendedState().getVariables()
+                .put(Variable.FIRST_PLAYER_ID, firstPlayerId);
         };
     }
 
