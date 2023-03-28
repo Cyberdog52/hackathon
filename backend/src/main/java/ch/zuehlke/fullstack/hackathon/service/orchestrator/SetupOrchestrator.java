@@ -10,7 +10,6 @@ import ch.zuehlke.fullstack.hackathon.model.Lobby;
 import ch.zuehlke.fullstack.hackathon.model.factory.GameFactory;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
-import ch.zuehlke.fullstack.hackathon.statemachine.MyStateMachine;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,10 +28,7 @@ public class SetupOrchestrator {
     @NonNull
     private final GameService gameService;
 
-    @NonNull
-    private final MyStateMachine stateMachine;
-
-    public PlaceBoatEvent placeBoat(final UUID gameId, final UUID playerId, final Coordinate coordinate) {
+    public Game placeBoat(final UUID gameId, final UUID playerId, final Coordinate coordinate) {
         Game game = gameService.get(gameId);
         // check if you can place a boat
         Boat boat = Boat.builder()
@@ -40,22 +36,26 @@ public class SetupOrchestrator {
                 .coordinate(coordinate)
                 .build();
         boolean boatPlaced = game.addBoat(playerId, boat);
-        if (boatPlaced) {
-            stateMachine.playerAddedBoat(game);
+        if (!boatPlaced) {
+            throw new RuntimeException(String.format("Unable to place boat for gameId %s, playerId %s and coordinates %s",
+                    gameId, playerId, coordinate));
         }
-
         PlaceBoatEvent placeBoatEvent = mapToPlaceBoatEvent(playerId, boat, boatPlaced);
         notificationService.notifyBoatPlaced(placeBoatEvent, gameId);
-        return placeBoatEvent;
+        return game;
     }
 
-    public void initialiseGame() {
-        Lobby lobby = stateMachine.getLobby();
+    public Game initialiseGame(final Lobby lobby) {
         Game simpleGame = GameFactory.createSimpleGame(lobby);
         gameService.create(simpleGame);
 
         GameConfigEvent gameConfigEvent = GameConfigEventMapper.mapToGameConfigEvent(simpleGame);
         notificationService.notifyGameInitialised(gameConfigEvent);
+        return simpleGame;
+    }
+
+    public void allBoatsPlaced(final Game game) {
+
     }
 
 }

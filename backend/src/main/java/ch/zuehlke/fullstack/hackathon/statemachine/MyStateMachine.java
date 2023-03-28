@@ -11,15 +11,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MyStateMachine implements LobbyStateMachine {
+public class MyStateMachine {
 
 
     @NonNull
     public final StateMachine<GameState, GameEvent> stateMachine;
 
-    @Override
-    public void playerJoined(final Lobby lobby) {
-        stateMachine.getExtendedState().getVariables().put(Variable.LOBBY_ID, lobby);
+    public void playerJoined() {
         sendEvent(GameEvent.PLAYER_JOINED);
     }
 

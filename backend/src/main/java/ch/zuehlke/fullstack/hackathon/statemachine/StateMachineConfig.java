@@ -3,6 +3,9 @@ package ch.zuehlke.fullstack.hackathon.statemachine;
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.GameAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.AllPlayersJoined;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.PlayerJoinAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.setup.PlaceBoat;
 import ch.zuehlke.fullstack.hackathon.statemachine.guard.GameGuard;
 import ch.zuehlke.fullstack.hackathon.statemachine.listener.GameListener;
 import lombok.NonNull;
@@ -29,6 +32,15 @@ public class StateMachineConfig
 
     @NonNull
     private final GameAction action;
+
+    @NonNull
+    private final PlayerJoinAction playerJoinAction;
+
+    @NonNull
+    private final AllPlayersJoined allPlayersJoined;
+
+    @NonNull
+    private final PlaceBoat placeBoat;
 
     @NonNull
     private final GameListener listener;
@@ -65,12 +77,16 @@ public class StateMachineConfig
             throws Exception {
         transitions
                 // LOBBY
+                .withInternal()
+                .source(LOBBY).event(PLAYER_JOINED).action(playerJoinAction.playerJoin()).guard(guard).and()
                 .withExternal()
-                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action().guard(guard).and()
+                .source(LOBBY).target(SETUP).event(ALL_PLAYERS_JOINED).action(allPlayersJoined.allPlayersJoined()).and()
 
                 // SETUP
+                .withInternal()
+                .source(SETUP).event(PLACE_BOAT).action(placeBoat.placeBoat()).guard(guard).and()
                 .withExternal()
-                .source(SETUP).target(PLAYING).event(PLACE_BOAT).guard(guard).and()
+                .source(SETUP).target(PLAYING).event(ALL_BOATS_PLACED).action(placeBoat.allBoatsPlaced()).guard(guard).and()
 
                 // PLAYING
                 .withExternal()
