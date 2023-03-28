@@ -1,7 +1,6 @@
 package ch.zuehlke.common.cards;
 
 import ch.zuehlke.common.GroupType;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -21,7 +20,7 @@ class GroupingTest {
 
         var grouping = Grouping.group(cards);
 
-        Assertions.assertThat(grouping.groups()).hasSize(1);
+        assertThat(grouping.groups()).hasSize(1);
         assertThat(grouping.groups().iterator().next().type()).isEqualTo(GroupType.TRIPLET);
     }
 
@@ -35,7 +34,7 @@ class GroupingTest {
 
         var grouping = Grouping.group(cards);
 
-        Assertions.assertThat(grouping.groups()).hasSize(1);
+        assertThat(grouping.groups()).hasSize(1);
         assertThat(grouping.groups().iterator().next().type()).isEqualTo(GroupType.QUARTET);
     }
 
@@ -51,8 +50,8 @@ class GroupingTest {
 
         var groups = Grouping.getAllPossibleNonSingleGroups(cards);
 
-        Assertions.assertThat(groups).hasSize(4);
-        Assertions.assertThat(groups).containsOnly(
+        assertThat(groups).hasSize(4);
+        assertThat(groups).containsOnly(
                 new Group(Set.of(new Card(CLUBS, JACK), new Card(HEART, JACK), new Card(DIAMOND, JACK))),
                 new Group(Set.of(new Card(CLUBS, JACK), new Card(DIAMOND, KING), new Card(SPADE, QUEEN))),
                 new Group(Set.of(new Card(DIAMOND, JACK), new Card(DIAMOND, KING), new Card(SPADE, QUEEN))),
@@ -71,7 +70,7 @@ class GroupingTest {
 
         var groups = Grouping.getAllPossibleMatchingGroups(cards);
 
-        Assertions.assertThat(groups).containsExactlyInAnyOrder(
+        assertThat(groups).containsExactlyInAnyOrder(
                 new Group(Set.of(new Card(CLUBS, JACK), new Card(HEART, JACK), new Card(DIAMOND, JACK))),
                 new Group(Set.of(new Card(CLUBS, JACK), new Card(HEART, JACK), new Card(SPADE, JACK))),
                 new Group(Set.of(new Card(CLUBS, JACK), new Card(DIAMOND, JACK), new Card(SPADE, JACK))),
@@ -95,10 +94,10 @@ class GroupingTest {
         var grouping = Grouping.group(cards);
 
         assertThat(grouping.getNumberOfPoints()).isEqualTo(8);
-        Assertions.assertThat(grouping.groups()).hasSize(3);
-        Assertions.assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.TRIPLET);
-        Assertions.assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.SEQUENCE);
-        Assertions.assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.SINGLE);
+        assertThat(grouping.groups()).hasSize(3);
+        assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.TRIPLET);
+        assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.SEQUENCE);
+        assertThat(grouping.groups()).anyMatch(group -> group.type() == GroupType.SINGLE);
     }
 
     @Test
@@ -116,7 +115,7 @@ class GroupingTest {
         var grouping = Grouping.group(cards);
 
         assertThat(grouping.getNumberOfPoints()).isEqualTo(-10);
-        Assertions.assertThat(grouping.groups()).hasSize(1);
-        Assertions.assertThat(grouping.groups()).allMatch(group -> group.type() == GroupType.SEQUENCE);
+        assertThat(grouping.groups()).hasSize(1);
+        assertThat(grouping.groups()).allMatch(group -> group.type() == GroupType.SEQUENCE);
     }
 }

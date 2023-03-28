@@ -1,12 +1,12 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.cards.Card;
-import ch.zuehlke.common.cards.Rank;
-import ch.zuehlke.common.cards.Suit;
 import ch.zuehlke.fullstack.hackathon.model.exception.CardStackException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static ch.zuehlke.common.cards.Rank.KING;
+import static ch.zuehlke.common.cards.Suit.SPADE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -37,8 +37,8 @@ class CardStackTest {
     @Test
     void itShouldThrowAnException_whenACardIsStillOnTheStack() {
         final var myDeck = Deck.generateNewDeck();
-        myDeck.add(new Card(Suit.SPADE, Rank.KING));
+        myDeck.add(new Card(SPADE, KING));
         final var myStack = new CardStack(myDeck);
-        assertThatThrownBy(() -> myStack.discard(new Card(Suit.SPADE, Rank.KING))).isInstanceOf(CardStackException.class);
+        assertThatThrownBy(() -> myStack.discard(new Card(SPADE, KING))).isInstanceOf(CardStackException.class);
     }
 }
