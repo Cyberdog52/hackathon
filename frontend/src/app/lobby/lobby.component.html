@@ -1,8 +1,25 @@
-<button mat-raised-button (click)="createGame()">Create new game</button>
+<div class="main-container">
+  <button mat-raised-button (click)="createGame()">Create new game</button>
+  <div class="top10-player-column">
+    <h2>Top 10</h2>
+    <ol class="player-list">
+      <li *ngFor="let playerName of topPlayers$ | async">{{ playerName.name }}</li>
+    </ol>
+  </div>
+  <div class="active-player-column">
+    <h2>Active Players</h2>
+    <ul class="player-list">
+      <li *ngFor="let playerName of playerNames$ | async">{{ playerName.name }}</li>
+    </ul>
+  </div>
+</div>
+
 <mat-grid-list cols="4" rowHeight="350">
   <mat-grid-tile *ngFor="let game of games$ | async">
     <app-game-card [game]="game"></app-game-card>
   </mat-grid-tile>
 </mat-grid-list>
+
+
 <h2>Debug game variable:</h2>
 <p>{{games$ | async | json }}</p>

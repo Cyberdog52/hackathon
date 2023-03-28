@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { GameDto, GameId } from "../model/lobby";
+import {GameDto, GameId, Player, TopPlayers} from "../model/lobby";
 
 @Injectable({
   providedIn: "root"
@@ -31,5 +31,15 @@ export class LobbyService {
   startGame(gameId: GameId): Observable<void> {
     const url = `${this.backendUrl}/game/${gameId.value}/start`;
     return this.httpClient.post<void>(url, {});
+  }
+
+  getPlayers(): Observable<Player[]> {
+    const url = `${this.backendUrl}/players`;
+    return this.httpClient.get<Player[]>(url);
+  }
+
+  getTop10Players(): Observable<TopPlayers[]> {
+    const url = `${this.backendUrl}/top10`;
+    return this.httpClient.get<TopPlayers[]>(url);
   }
 }

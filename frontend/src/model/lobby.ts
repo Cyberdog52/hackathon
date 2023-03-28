@@ -11,6 +11,12 @@ export interface Player {
   name: PlayerName;
 }
 
+export interface TopPlayers {
+  id: PlayerId;
+  name: PlayerName;
+  score: number;
+}
+
 export interface PlayerName {
   value: string;
 }
