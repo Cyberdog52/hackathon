@@ -6,6 +6,12 @@ import java.util.stream.Collectors;
 
 public record Card(Suit suit, CardValue value) {
 
+    public static Set<Card> getAllCards() {
+        return Arrays.stream(CardValue.values())
+                .flatMap(value -> Arrays.stream(Suit.values())
+                        .map(suit -> new Card(suit, value)))
+                .collect(Collectors.toSet());
+    }
 
     public int getPoints() {
         return value.getValue();
@@ -21,13 +27,6 @@ public record Card(Suit suit, CardValue value) {
 
     public boolean isNeighbourOf(Card other) {
         return Math.abs(value.getOrder() - other.value.getOrder()) == 1;
-    }
-
-    public static Set<Card> getAllCards() {
-        return Arrays.stream(CardValue.values())
-                .flatMap(value -> Arrays.stream(Suit.values())
-                        .map(suit -> new Card(suit, value)))
-                .collect(Collectors.toSet());
     }
 
     public Set<Card> getCardsWithSameValue(Set<Card> cards) {
