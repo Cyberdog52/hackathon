@@ -1,9 +1,13 @@
 package ch.zuehlke.challenge.bot.client;
 
 import ch.zuehlke.challenge.bot.service.GameService;
+import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.GameUpdate;
+import ch.zuehlke.common.shared.event.EventType;
+import ch.zuehlke.common.websocket.WebsocketDestination;
 import jakarta.annotation.PreDestroy;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,6 +23,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +31,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 // Adapted from tutorial at https://blog.dkwr.de/development/spring/spring-stomp-client/
 public class StompClient implements StompSessionHandler {
+
+    @NonNull
+    private final ShutDownService shutDownService;
 
     private final ApplicationProperties applicationProperties;
 
@@ -45,12 +53,14 @@ public class StompClient implements StompSessionHandler {
             stompSession = stompClient.connectAsync(socketUrl, this).get();
         } catch (Exception e) {
             log.error("Connection failed.", e); // Improve: error handling.
+            shutDownService.shutDown();
         }
     }
 
-    private void subscribe(UUID id) {
+    public void subscribe(UUID id) {
         log.info("Subscribing to id: {}", id);
-        this.subscription = stompSession.subscribe("/topic/game/" + id, this);
+        String destination = String.format("%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), id);
+        this.subscription = stompSession.subscribe(destination, this);
     }
 
     @Override
@@ -80,15 +90,18 @@ public class StompClient implements StompSessionHandler {
     }
 
     @Override
-    public Type getPayloadType(StompHeaders headers) {
+    public Type getPayloadType(final StompHeaders headers) {
         return GameUpdate.class;
     }
 
     @Override
-    public void handleFrame(StompHeaders headers, Object payload) {
+    public void handleFrame(final StompHeaders headers, final Object payload) {
         log.info("Got a new message {}", payload);
-        GameUpdate gameUpdate = (GameUpdate) payload;
-        gameService.onGameUpdate(gameUpdate);
+
+        List<String> eventTypes = headers.get("EventType");
+        EventType eventType = EventType.valueOf(eventTypes.get(0));
+
+        gameService.onGameUpdate(eventType, payload);
     }
 
     @PreDestroy

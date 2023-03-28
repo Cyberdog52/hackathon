@@ -2,9 +2,14 @@ package ch.zuehlke.challenge.bot.client;
 
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
+import ch.zuehlke.common.Coordinate;
 import ch.zuehlke.common.Move;
 import ch.zuehlke.common.shared.action.lobby.PlayerJoinAction;
+import ch.zuehlke.common.shared.action.playing.AttackTurnAction;
+import ch.zuehlke.common.shared.action.setup.PlaceBoatAction;
 import ch.zuehlke.common.shared.event.lobby.PlayerJoinEvent;
+import ch.zuehlke.common.shared.event.playing.AttackEvent;
+import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +46,37 @@ public class GameClient {
 
         PlayerJoinEvent playerJoinEvent = handleResponseError(response);
         return playerJoinEvent.gameId();
+    }
+
+    public boolean placeCoordinate(final Coordinate coordinate) {
+        PlaceBoatAction placeBoatAction = PlaceBoatAction.builder()
+                .gameId(applicationProperties.getGameId())
+                .playerId(applicationProperties.getPlayerId())
+                .coordinate(coordinate)
+                .build();
+
+        ResponseEntity<PlaceBoatEvent> response = hackathonRestTemplateClient
+                .postForEntity(applicationProperties.getBackendJoinUrl(),
+                        placeBoatAction,
+                        PlaceBoatEvent.class);
+
+        PlaceBoatEvent placeBoatEvent = handleResponseError(response);
+        return placeBoatEvent.successful();
+    }
+
+    public AttackEvent attack(final Coordinate coordinate) {
+        AttackTurnAction attackTurnAction = AttackTurnAction.builder()
+                .gameId(applicationProperties.getGameId())
+                .playerId(applicationProperties.getPlayerId())
+                .coordinate(coordinate)
+                .build();
+
+        ResponseEntity<AttackEvent> response = hackathonRestTemplateClient
+                .postForEntity(applicationProperties.getBackendJoinUrl(),
+                        attackTurnAction,
+                        AttackEvent.class);
+
+        return handleResponseError(response);
     }
 
 
