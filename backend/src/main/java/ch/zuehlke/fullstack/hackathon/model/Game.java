@@ -49,6 +49,17 @@ public class Game {
         }
     }
 
+    public void shoot(Player player, int x, int y) {
+
+        Player enemy = players.stream().filter(p -> !p.getId().equals(player.getId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
+        Board enemyBoard = boardsByPlayerId.get(enemy.getId());
+        enemyBoard.executeShot(x, y);
+
+        if (state.currentRequests().isEmpty()) {
+            finishRound();
+        }
+    }
+
     public boolean canStartGame() {
         return players.size() == 2 &&
                 status == GameStatus.CREATED;
@@ -81,20 +92,6 @@ public class Game {
                         .anyMatch(request -> request.playerId().equals(move.playerId()) && request.requestId().equals(move.requestId()));
     }
 
-    public void playMove(Move move) {
-        state.currentRequests().removeIf(request -> request.playerId().equals(move.playerId()));
-        currentMoves.add(move);
-
-        // SHOOT Action, differentiate between SHOOT and PLACE
-        Player enemy = players.stream().filter(player -> !player.getId().equals(move.playerId())).findFirst().orElseThrow(() -> new RuntimeException("No enemy found"));
-        var enemyBoard = boardsByPlayerId.get(enemy.getId());
-        move.action().execute(enemyBoard);
-
-        if (state.currentRequests().isEmpty()) {
-            finishRound();
-        }
-    }
-
     private void finishRound() {
         Round currentRound = new Round(currentMoves.get(0), currentMoves.get(1));
         state.rounds().add(currentRound);
@@ -112,5 +109,9 @@ public class Game {
         }
         // Improve: Handle multiple rounds
         return Optional.empty();
+    }
+
+    public Player getPlayerById(String playerId) {
+        return players.stream().filter(player -> player.getId().equals(playerId)).findFirst().orElseThrow(() -> new RuntimeException("Player not found"));
     }
 }

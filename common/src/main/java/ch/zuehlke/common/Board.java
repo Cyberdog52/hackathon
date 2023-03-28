@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -25,5 +26,29 @@ public class Board {
     public boolean shipsValid() {
         // ToDo: add validation logic to check if ships are valid...
         return true;
+    }
+
+    public void executeShot(int x, int y) {
+        Optional<Ship> hitShip = ships.stream().filter(ship -> ship.hits(x, y)).findFirst();
+        if (hitShip.isPresent()) {
+            hitShip.get().hits++;
+            if (hitShip.get().type.length == hitShip.get().hits) {
+                markShipAsSunk(hitShip.get());
+            } else {
+                shots[x][y] = ShotResult.HIT;
+            }
+        } else {
+            shots[x][y] = ShotResult.MISS;
+        }
+    }
+
+    private void markShipAsSunk(Ship ship) {
+        for (int i = 0; i < ship.type.length; i++) {
+            if (ship.orientation == Orientation.HORIZONTAL) {
+                shots[ship.x + i][ship.y] = ShotResult.SUNK;
+            } else {
+                shots[ship.x][ship.y + i] = ShotResult.SUNK;
+            }
+        }
     }
 }

@@ -144,7 +144,7 @@ class GameTest {
         game.startGame();
         RequestId requestId1 = getRequestId(game, playerId1);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
+        game.shoot(new Move(playerId1, requestId1, GameAction.ROCK));
 
         assertThat(game.getState().currentRequests()).hasSize(1);
         assertThat(game.getState().currentRequests()).noneMatch(request -> request.playerId().equals(playerId1));
@@ -165,8 +165,8 @@ class GameTest {
         RequestId requestId1 = getRequestId(game, playerId1);
         RequestId requestId2 = getRequestId(game, playerId2);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
-        game.playMove(new Move(playerId2, requestId2, GameAction.ROCK));
+        game.shoot(new Move(playerId1, requestId1, GameAction.ROCK));
+        game.shoot(new Move(playerId2, requestId2, GameAction.ROCK));
 
         assertThat(game.getState().currentRequests()).hasSize(0);
         assertThat(game.getCurrentMoves()).hasSize(2);
@@ -187,8 +187,8 @@ class GameTest {
         RequestId requestId1 = getRequestId(game, playerId1);
         RequestId requestId2 = getRequestId(game, playerId2);
 
-        game.playMove(new Move(playerId1, requestId1, GameAction.ROCK));
-        game.playMove(new Move(playerId2, requestId2, GameAction.SCISSORS));
+        game.shoot(new Move(playerId1, requestId1, GameAction.ROCK));
+        game.shoot(new Move(playerId2, requestId2, GameAction.SCISSORS));
 
         assertThat(game.getState().currentRequests()).hasSize(0);
         assertThat(game.getCurrentMoves()).hasSize(2);

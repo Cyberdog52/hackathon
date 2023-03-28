@@ -78,22 +78,6 @@ public class GameService {
         return new StartResult(StartResult.StartResultType.SUCCESS);
     }
 
-    public PlayResult play(Move move, String gameId) {
-        Optional<Game> optionalGame = getGame(gameId);
-        if (optionalGame.isEmpty()) {
-            return new PlayResult(PlayResultType.GAME_NOT_FOUND);
-        }
-
-        Game game = optionalGame.get();
-        if (!game.isMoveAllowed(move)) {
-            return new PlayResult(PlayResultType.INVALID_ACTION);
-        }
-
-        game.playMove(move);
-
-        return new PlayResult(PlayResultType.SUCCESS);
-    }
-
     public ResponseEntity<RegisterResponse> register(String playerName) {
         Player player = new Player(playerName);
         RegisterResponse response = new RegisterResponse(player);
