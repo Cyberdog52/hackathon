@@ -14,10 +14,10 @@ button {
 
 .board div {
   position: absolute;
-  top: 30%;
+  top: 75px;
   right: 0;
-  width: 30%;
-  height: 50%;
+  width: 40%;
+  height: calc(100% - 150px);
   overflow-y: hidden;
 }
 
@@ -25,7 +25,6 @@ button {
   background-color: #000;
   color: #fff;
   border-radius: 5px;
-  margin-left: 5px;
   float: left;
 }
 
@@ -37,10 +36,11 @@ button {
 }
 
 .move {
-  width: 25px;
+  margin-left: 5px;
+  padding: 0 2px;
 }
 
 .moveCount {
   float: left;
-  width: 15px;
+  clear: both;
 }

@@ -1,5 +1,5 @@
 <button mat-raised-button (click)="createGame()">Create new game</button>
-<mat-grid-list cols="2" rowHeight="350">
+<mat-grid-list cols="3" rowHeight="350">
   <mat-grid-tile *ngFor="let game of games$ | async">
     <app-game-card [game]="game"></app-game-card>
   </mat-grid-tile>
