@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.statemachine.StateMachine;
 import reactor.core.publisher.Mono;
 
 import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
 
+@EnableScheduling
 @SpringBootApplication
 public class HackathonApplication implements CommandLineRunner {
 
