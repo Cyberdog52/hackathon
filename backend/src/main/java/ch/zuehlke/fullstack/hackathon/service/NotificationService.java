@@ -60,7 +60,7 @@ public class NotificationService {
         String destination = String.format("%s/%s%s",
                 WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId(),
                 WebsocketDestination.SPECTATE.getDestination());
-        template.convertAndSend(destination, attackEvent);
+        template.convertAndSend(destination, attackEvent,  Map.of("EventType", PLAYER_ATTACKED));
     }
 
     public void notifyBoatPlaced(final PlaceBoatEvent placeBoatEvent, final UUID gameId) {
@@ -92,20 +92,20 @@ public class NotificationService {
 
     public void notifySpectatorGameStarted(final TakeTurnEvent takeTurnEvent) {
         String destination = String.format("%s/%s%s",
-                WebsocketDestination.TOPIC_GAMES.getDestination(),
-                takeTurnEvent.gameId(), WebsocketDestination.SPECTATE.getDestination());
+                WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId(),
+                WebsocketDestination.SPECTATE.getDestination());
         template.convertAndSend(destination, takeTurnEvent, Map.of("EventType", TAKE_TURN));
     }
 
     public void notifyPlayerAttacked(AttackEvent attackEvent) {
         String destination = String.format("%s/%s",
-                WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId());
+            WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId());
         template.convertAndSend(destination, attackEvent, Map.of("EventType", PLAYER_ATTACKED));
     }
 
     public void notifyGameEnded(GameEndEvent gameEndEvent) {
         String destination = String.format("%s/%s",
-                WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId());
+            WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId());
         template.convertAndSend(destination, gameEndEvent, Map.of("EventType", GAME_ENDED));
     }
 

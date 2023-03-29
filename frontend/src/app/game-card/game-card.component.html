@@ -1,20 +1,23 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Game: {{game.id.value}}</mat-card-title>
+    <mat-card-title>Game: {{game.id.substring(0, 13)}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <h3>
       Players: {{game.players.length}}/{{MAX_PLAYERS}}</h3>
     <mat-chip-set>
-      <mat-chip *ngFor="let player of game.players">{{player.name.value}}</mat-chip>
+      <mat-chip *ngFor="let player of game.players">{{player.name}}</mat-chip>
     </mat-chip-set>
     <p *ngIf="game.players.length === 0">Waiting for players...</p>
+    <!--
     <mat-list *ngFor="let round of game.state.rounds">
       <mat-list-item *ngFor="let move of round.moves">
         {{ getPlayerName(move.playerId) }} played {{ move.action }}
       </mat-list-item>
     </mat-list>
+    -->
     <p *ngIf="game.status === GameStatus.IN_PROGRESS">Game is in progress</p>
+    <p *ngIf="game.status === GameStatus.NOT_STARTED">Game Lobby still open</p>
     <div *ngIf="game.status === GameStatus.FINISHED">
       <p *ngIf="!game.winner">Game is a draw</p>
       <p *ngIf="game.winner">{{ getPlayerName(game.winner) }} has won</p>
@@ -28,15 +31,21 @@
       Start
     </button>
     <button mat-raised-button
-            (click)="deleteGame()"
-            [disabled]="game.players.length > 0 && game.status !== GameStatus.FINISHED">
-      <mat-icon>delete_outline</mat-icon>
-      Delete
+            (click)="joinGame()"
+            [disabled]="game.players.length >= MAX_PLAYERS || game.status === GameStatus.NOT_STARTED && isInLobby()">
+      <mat-icon>add</mat-icon>
+      Join
     </button>
     <button mat-raised-button
             (click)="spectateGame()"
-            [disabled]="game.status === GameStatus.IN_PROGRESS">
+            [disabled]="game.status !== GameStatus.IN_PROGRESS || isInLobby()">
       <mat-icon>visibility</mat-icon>
+      Spectate
+    </button>
+    <button mat-raised-button
+            (click)="deleteGame()"
+            [disabled]="game.players.length > 0 && game.status !== GameStatus.FINISHED">
+      <mat-icon>delete_outline</mat-icon>
       Delete
     </button>
   </mat-card-actions>

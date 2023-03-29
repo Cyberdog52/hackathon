@@ -3,18 +3,20 @@ import { ActivatedRoute } from "@angular/router";
 import { GameEventService } from "../../services/game-event.service";
 import { map, Subject, Subscription, switchMap } from "rxjs";
 import { UUID } from "../../model/uuid";
-import { AttackStatus, PlayingEvent } from "../../model/game/playing/events";
-import { MapComponent } from "../game/map/map.component";
+import { AttackStatus, GamePlayingAction, PlayingEvent } from "../../model/game/playing/events";
+import { CellClickEvent, MapComponent, MapValue } from "../game/map/map.component";
+import { GameState } from "src/model/game/playing/game-state";
+import { GamePlayService } from "../../services/game-play.service";
 import { EventType } from "../../model/game/event-type";
-import { GameState } from "../../model/game/playing/game-state";
 import { NameGeneratorService } from "../../services/name.service";
+import { GameClient } from "../../services/game-client";
 
 @Component({
-  selector: "app-game-viewer",
-  templateUrl: "./game-spectator.component.html",
-  styleUrls: ["./game-spectator.component.scss"]
+  selector: "app-game-playing",
+  templateUrl: "./game-playing.component.html",
+  styleUrls: ["./game-playing.component.scss"]
 })
-export class GameSpectatorComponent implements OnInit, OnDestroy {
+export class GamePlayingComponent implements OnInit, OnDestroy {
   private gameEventSubscription?: Subscription;
   public readonly gameStateEnum = GameState;
 
@@ -26,8 +28,12 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   public player1Id!: UUID;
   public player2Id!: UUID;
+
   public player1Name = "";
   public player2Name = "";
+
+  public player1Turn = true;
+  public player2Turn = false;
 
   public gameWinnerId?: UUID;
 
@@ -38,11 +44,13 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   @ViewChild("mapPlayer2")
   public player2Map!: MapComponent;
-
+  private playableActions: GamePlayingAction[] = [];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private gameViewerService: GameEventService,
+    private gamePlayService: GamePlayService,
+    private gameClient: GameClient,
     private readonly nameGeneratorService: NameGeneratorService) {
 
   }
@@ -54,6 +62,7 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
         // TODO: Fetch game data here
         switchMap((gameId: UUID) => {
           this.gameId = gameId;
+          this.player1Id = this.gameClient.getCurrentPlayerId() as string;
           return this.gameViewerService.listenToGameEvents(gameId);
         })
       ).subscribe((event) => {
@@ -64,6 +73,43 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.gameEventSubscription?.unsubscribe();
+  }
+
+
+  public onCellClickPlayer1Map(evt: CellClickEvent): void {
+    console.log(evt);
+    if (evt.value !== MapValue.EMPTY) {
+      console.warn("Can not build an non-empty field");
+      return;
+    }
+    if (this.gameState !== GameState.SETUP) {
+      console.warn("Can not build outside of the SETUP phase");
+      return;
+    }
+    // this.player1Turn = false;
+    this.gamePlayService.placeBoat(evt.coordinate, this.player1Id, this.gameId).subscribe();
+  }
+
+  public onCellClickPlayer2Map(evt: CellClickEvent): void {
+    console.log(evt);
+
+    if (evt.value === MapValue.HIT || evt.value === MapValue.MISS) {
+      console.warn("Can not attack already attacked field!");
+      return;
+    }
+
+    if (!this.player1Turn) {
+      console.warn("Cannot attack, it's not this players turn");
+      return;
+    }
+
+    if (this.gameState !== GameState.PLAYING) {
+      console.warn("Cannot attack in the non-play phase!");
+      return;
+    }
+
+    // this.player1Turn = false;
+    this.gamePlayService.attackPlayer(evt.coordinate, this.player1Id, this.gameId).subscribe();
   }
 
   private onEvent(event: PlayingEvent): void {
@@ -87,7 +133,7 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
     console.log(event.type, event);
 
     if (event.type === EventType.PLAYER_JOINED) {
-      if (this.player1Id === undefined) {
+      if (event.playerId === this.gameClient.getCurrentPlayerId()) {
         this.player1Id = event.playerId;
         this.player1Name = this.nameGeneratorService.getNameForUUID(this.player1Id);
       } else {
@@ -102,17 +148,27 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
       this.sizeX = event.mapSizeX;
       this.sizeY = event.mapSizeY;
 
-      this.player1Id = event.playerIds[0];
-      this.player2Id = event.playerIds[1];
+      this.player2Id = event.playerIds.find(s => s !== this.gameClient.getCurrentPlayerId()) ?? "unknown";
       this.player1Name = this.nameGeneratorService.getNameForUUID(this.player1Id);
       this.player2Name = this.nameGeneratorService.getNameForUUID(this.player2Id);
 
+      this.player1Turn = true;
+      this.player2Turn = true;
 
       return;
     }
 
     if (event.type === EventType.START_PLAYING) {
       this.gameState = GameState.PLAYING;
+      this.player1Turn = false;
+      this.player2Turn = false;
+    }
+
+    if (event.type === EventType.TAKE_TURN) {
+      this.gameState = GameState.PLAYING;
+      this.player1Turn = this.player1Id === event.playerId;
+      this.player2Turn = this.player2Id === event.playerId;
+      this.playableActions = event.actions;
     }
 
     if (event.type === EventType.GAME_ENDED) {
@@ -138,7 +194,6 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
       }
       return;
     }
-
   }
 
   private getMapOfAttackedPlayer(attackingPlayerId: UUID): MapComponent {
@@ -159,5 +214,9 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   public canRenderMap(): boolean {
     return this.sizeX > 0 && this.sizeY > 0;
+  }
+
+  public canAttack(): boolean {
+    return this.player1Turn && this.playableActions.find((a) => a === GamePlayingAction.ATTACK) !== undefined;
   }
 }

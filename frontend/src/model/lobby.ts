@@ -1,3 +1,5 @@
+import { UUID } from "./uuid";
+
 export interface GameDto {
   id: GameId;
   players: Player[];
@@ -11,22 +13,14 @@ export interface Player {
   name: PlayerName;
 }
 
-export interface PlayerName {
-  value: string;
-}
+export type PlayerName = string;
 
-export interface GameId {
-  value: number;
-}
+export type GameId = UUID;
 
-export interface PlayerId {
-  value: string;
-}
+export type PlayerId = UUID;
 
-export interface GameState {
-  currentRequests: PlayRequest[];
-  rounds: Round[];
-}
+
+export type GameState = any;
 
 export interface PlayRequest {
   player: PlayerId;

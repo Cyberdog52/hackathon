@@ -17,3 +17,10 @@ button {
 .map-wrapper {
   min-width: 240px;
 }
+
+
+.action-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}

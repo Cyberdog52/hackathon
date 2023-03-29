@@ -1,4 +1,4 @@
-import { filter, map, Observable, Subject, Subscription, tap } from "rxjs";
+import { filter, map, Observable, Subject, Subscription } from "rxjs";
 import { IFrame, RxStomp } from "@stomp/rx-stomp";
 
 export class StompClient<Event, Action> {
@@ -12,9 +12,8 @@ export class StompClient<Event, Action> {
   ) {
     this.stomp = new RxStomp();
     this.stomp.configure({
-      brokerURL: "ws://localhost:8080/spectate",
+      brokerURL: "ws://localhost:8080/update",
       debug: (msg: string): void => {
-
         // console.log(new Date(), msg);
       }
     });
@@ -38,7 +37,10 @@ export class StompClient<Event, Action> {
     } else {
       json = message.body as string;
     }
-    return JSON.parse(json);
+
+    const obj = JSON.parse(json);
+    obj.type = message.headers["EventType"];
+    return obj;
   }
 
   public onEvent(): Observable<Event> {

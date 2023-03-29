@@ -85,7 +85,7 @@ public class SetupOrchestrator {
             .build();
 
         notificationService.notifyGameStarted(takeTurnEvent); // can replace with action from playing to playing_player_1
-        notificationService.notifySpectatorGameStarted(takeTurnEvent);
+        notificationService.notifySpectatorGameStarted(takeTurnEvent); // can replace with action from playing to playing_player_1
         return firstPlayer.id();
     }
 

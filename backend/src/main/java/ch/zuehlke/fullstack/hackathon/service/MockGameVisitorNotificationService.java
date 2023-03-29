@@ -5,6 +5,7 @@ import ch.zuehlke.common.GamePlayingAction;
 import ch.zuehlke.common.shared.action.setup.BoatType;
 import ch.zuehlke.common.shared.event.GameEndEvent;
 import ch.zuehlke.common.shared.event.GameStartPlayingEvent;
+import ch.zuehlke.common.shared.event.GameStartSetupEvent;
 import ch.zuehlke.common.shared.event.playing.AttackEvent;
 import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
@@ -56,6 +57,9 @@ public class MockGameVisitorNotificationService {
     public static List<Record> getGameEvents() {
         UUID gameId = UUID.fromString("1d71d4f0-80a0-483c-8f30-9d73fbf7b331");
 
+        UUID player1Id = UUID.fromString("1bcdebdc-8e97-4a6d-a0d8-c3f1cc0853f7");
+        UUID player2Id = UUID.fromString("803b89be-deb1-427f-a582-b85739d6f4ec");
+
         Coordinate p1Miss1 = new Coordinate(getRandomNumberUsingNextInt(0, 4), getRandomNumberUsingNextInt(0, 4));
         Coordinate p1Miss2 = new Coordinate(getRandomNumberUsingNextInt(0, 4), getRandomNumberUsingNextInt(21, 24));
         Coordinate p1Miss3 = new Coordinate(getRandomNumberUsingNextInt(21, 24), getRandomNumberUsingNextInt(0, 4));
@@ -78,10 +82,10 @@ public class MockGameVisitorNotificationService {
         Coordinate p2Boat4Coordinate = new Coordinate(getRandomNumberUsingNextInt(5, 20), getRandomNumberUsingNextInt(5, 20));
         Coordinate p2Boat5Coordinate = new Coordinate(getRandomNumberUsingNextInt(5, 20), getRandomNumberUsingNextInt(5, 20));
 
-        UUID player1Id = UUID.fromString("1bcdebdc-8e97-4a6d-a0d8-c3f1cc0853f7");
-        UUID player2Id = UUID.fromString("803b89be-deb1-427f-a582-b85739d6f4ec");
 
         return List.of(
+                //
+                new GameStartSetupEvent(gameId),
                 // PLACE BOATS
                 new PlaceBoatEvent(player1Id, List.of(p1Boat1Coordinate), true, gameId, BoatType.SMALL),
                 new PlaceBoatEvent(player1Id, List.of(p1Boat2Coordinate), true, gameId, BoatType.SMALL),

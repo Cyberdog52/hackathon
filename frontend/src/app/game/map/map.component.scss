@@ -18,12 +18,12 @@ td {
   font-size: 0.5rem;
   text-align: center;
   vertical-align: middle;
-  cursor: none;
+  cursor: pointer;
 
   background-color: #fafafa;
 
   &.boat {
-    background-color: rosybrown;
+    background-color: saddlebrown;
   }
 
   &.hit {
@@ -50,7 +50,6 @@ td {
   }
 }
 
-
-td:hover {
+table:not(.disabled) td:hover {
   background-color: lightblue;
 }

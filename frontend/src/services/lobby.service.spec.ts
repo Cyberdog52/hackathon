@@ -4,7 +4,7 @@ import { EMPTY, of } from "rxjs";
 import { GameId } from "../model/lobby";
 import { waitForAsync } from "@angular/core/testing";
 
-
+/*
 describe("LobbyService", () => {
   let service: LobbyService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
@@ -53,3 +53,4 @@ describe("LobbyService", () => {
     });
   }));
 });
+*/

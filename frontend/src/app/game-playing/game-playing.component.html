@@ -13,6 +13,16 @@
       <h2 *ngIf="this.player2Id">{{this.player1Name}} ({{this.player2Id.substring(24)}}) joined</h2>
     </ul>
   </ng-container>
+  <div *ngIf="player1Turn">
+    It is your turn
+    <span *ngIf="gameState === gameStateEnum.SETUP">, click to place your boats</span>
+    <span *ngIf="gameState === gameStateEnum.PLAYING">, click to shoot a square!</span>
+  </div>
+  <div *ngIf="gameState === gameStateEnum.END">
+    <span *ngIf="gameWinnerId === player1Id">You defeated you opponent!</span>
+    <span *ngIf="gameWinnerId === player2Id">Your opponent won!</span>
+  </div>
+  <div *ngIf="player2Turn">Waiting for opponent</div>
   <div class="map-container" *ngIf="gameState !== gameStateEnum.LOBBY">
     <div class="map-wrapper">
       <h2>Player 1: <br/>{{this.player1Name}} ({{player1Id.substring(24)}})</h2>
@@ -20,19 +30,24 @@
         *ngIf="canRenderMap()"
         gameId="{{gameId}}"
         playerId="{{player1Id}}"
+        [disabled]="gameState !== gameStateEnum.SETUP"
         [sizeX]=sizeX
         [sizeY]=sizeY
-        #mapPlayer1/>
+        #mapPlayer1
+        (cellClick)="this.onCellClickPlayer1Map($event)"
+      />
     </div>
     <div class="map-wrapper">
       <h2>Player 2: <br/> {{this.player2Name}} ({{player2Id.substring(24)}})</h2>
       <app-map
         *ngIf="canRenderMap()"
+        [disabled]="gameState !== gameStateEnum.PLAYING && !this.player1Turn"
         gameId="{{gameId}}"
         playerId="{{player2Id}}"
         [sizeX]=sizeX
         [sizeY]=sizeY
-        #mapPlayer2/>
+        #mapPlayer2
+        (cellClick)="this.onCellClickPlayer2Map($event)"/>
     </div>
   </div>
   <mat-expansion-panel hideToggle>
