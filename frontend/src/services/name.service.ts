@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { adjectives, animals, colors, Config, starWars, uniqueNamesGenerator } from "unique-names-generator";
+import { adjectives, animals, colors, Config, uniqueNamesGenerator } from "unique-names-generator";
 import { UUID } from "../model/uuid";
 
 @Injectable({
@@ -7,10 +7,12 @@ import { UUID } from "../model/uuid";
 })
 export class NameGeneratorService {
   private readonly generatorConfig: Config;
+  private readonly seedSuffix: string;
 
   constructor() {
+    this.seedSuffix = (new Date()).getTime() + "";
     this.generatorConfig = {
-      dictionaries: [adjectives, colors, starWars],
+      dictionaries: [adjectives, colors, animals],
       separator: " ",
       length: 3,
       style: "capital"
@@ -19,6 +21,6 @@ export class NameGeneratorService {
   }
 
   public getNameForUUID(uuid: UUID): string {
-    return uniqueNamesGenerator({ ...this.generatorConfig, seed: uuid });
+    return uniqueNamesGenerator({ ...this.generatorConfig, seed: uuid + this.seedSuffix });
   }
 }

@@ -4,7 +4,8 @@
     Back to lobby browser
   </button>
   <ng-container *ngIf="gameState === gameStateEnum.END">
-    <h1 *ngIf="gameWinnerId !== undefined">The winner is: <br /> {{this.player1Name}} ({{this.player1Id.substring(24)}})</h1>
+    <h1 *ngIf="gameWinnerId !== undefined">The winner is: <br/> {{this.player1Name}} ({{this.player1Id.substring(24)}})
+    </h1>
   </ng-container>
   <ng-container *ngIf="gameState === gameStateEnum.LOBBY">
     <h1>Waiting for Players:</h1>
@@ -49,6 +50,26 @@
         #mapPlayer2
         (cellClick)="this.onCellClickPlayer2Map($event)"/>
     </div>
+  </div>
+  <div class="action-bar" *ngIf="false">
+    <label>
+      Boat Size:
+      <select (change)="changeBoatSize($event)">
+        <option [selected]="boatType === boatTypeEnum.LARGE" value="{{boatTypeEnum.LARGE}}">3x</option>
+        <option [selected]="boatType === boatTypeEnum.MEDIUM" value="{{boatTypeEnum.MEDIUM}}">2x</option>
+        <option [selected]="boatType === boatTypeEnum.SMALL" value="{{boatTypeEnum.SMALL}}">1x</option>
+      </select>
+    </label>
+
+    <label>
+      Boat Orientation:
+      <select (change)="changeBoatOrientation($event)">
+        <option [selected]="boatDirection === boatDirectionEnum.UP" value="{{boatDirectionEnum.UP}}">Up</option>
+        <option [selected]="boatDirection === boatDirectionEnum.DOWN" value="{{boatDirectionEnum.DOWN}}">Down</option>
+        <option [selected]="boatDirection === boatDirectionEnum.LEFT" value="{{boatDirectionEnum.LEFT}}">Left</option>
+        <option [selected]="boatDirection === boatDirectionEnum.RIGHT" value="{{boatDirectionEnum.RIGHT}}">Right</option>
+      </select>
+    </label>
   </div>
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>

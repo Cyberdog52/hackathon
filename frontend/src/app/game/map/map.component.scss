@@ -9,7 +9,7 @@ tr, td {
   padding: 0;
 }
 
-$cellSize: 20px;
+$cellSize: 22px;
 td {
   width: $cellSize;
   height: $cellSize;
@@ -21,13 +21,16 @@ td {
   cursor: pointer;
 
   background-color: #fafafa;
+  color: #0e0e0e;
 
   &.boat {
     background-color: saddlebrown;
+    color: #fafafa;
   }
 
   &.hit {
     background-color: indianred;
+    color: #fafafa;
   }
 
   &.miss {

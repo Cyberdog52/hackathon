@@ -10,6 +10,7 @@ import { GamePlayService } from "../../services/game-play.service";
 import { EventType } from "../../model/game/event-type";
 import { NameGeneratorService } from "../../services/name.service";
 import { GameClient } from "../../services/game-client";
+import { BoatDirection, BoatType } from "../../model/game/playing/actions";
 
 @Component({
   selector: "app-game-playing",
@@ -19,6 +20,8 @@ import { GameClient } from "../../services/game-client";
 export class GamePlayingComponent implements OnInit, OnDestroy {
   private gameEventSubscription?: Subscription;
   public readonly gameStateEnum = GameState;
+  public readonly boatDirectionEnum = BoatDirection;
+  public readonly boatTypeEnum = BoatType;
 
   public eventsClean$: Subject<string[][]> = new Subject<string[][]>();
   private events: PlayingEvent[] = [];
@@ -87,7 +90,13 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
       return;
     }
     // this.player1Turn = false;
-    this.gamePlayService.placeBoat(evt.coordinate, this.player1Id, this.gameId).subscribe();
+    this.gamePlayService.placeBoat(
+      evt.coordinate,
+      this.player1Id,
+      this.gameId,
+      this.boatType,
+      this.boatDirection
+    ).subscribe();
   }
 
   public onCellClickPlayer2Map(evt: CellClickEvent): void {
@@ -127,6 +136,8 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   public gameState = GameState.LOBBY;
 
   public eventList: PlayingEvent[] = []
+  public boatType: BoatType = BoatType.SMALL;
+  public boatDirection = BoatDirection.DOWN;
 
   private mapEventToMapChanges(event: PlayingEvent): void {
     this.eventList.push(event);
@@ -179,6 +190,9 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
     }
 
     if (event.type === EventType.BOAT_PLACED) {
+      if(event.playerId !== this.gameClient.getCurrentPlayerId()) {
+        return;
+      }
       const map = this.getMapOfPlayer(event.playerId);
       map.setBoatCoordinates(event.coordinates);
       return;
@@ -218,5 +232,14 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
   public canAttack(): boolean {
     return this.player1Turn && this.playableActions.find((a) => a === GamePlayingAction.ATTACK) !== undefined;
+  }
+
+  changeBoatSize($event: Event): void {
+    console.log($event);
+
+  }
+
+  changeBoatOrientation($event: Event): void {
+    console.log($event);
   }
 }
