@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class GameFactory {
 
     public static Game createSimpleGame(final Lobby lobby) {
-        GameConfig gameConfig = GameConfigFactory.createSimpleGameConfig();
+        GameConfig gameConfig = GameConfigFactory.createNormalGameConfig();
         final List<ThunderShipsPlayer> players = createPlayers(lobby.playerIds(), gameConfig);
         return Game.builder()
                 .gameId(lobby.lobbyId())
