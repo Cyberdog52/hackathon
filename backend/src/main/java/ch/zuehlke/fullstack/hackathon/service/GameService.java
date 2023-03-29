@@ -1,9 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.fullstack.hackathon.model.CardStack;
-import ch.zuehlke.fullstack.hackathon.model.Deck;
-import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.Player;
+import ch.zuehlke.common.GameStatus;
+import ch.zuehlke.fullstack.hackathon.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,22 +17,39 @@ public class GameService {
 
     private final NotificationService notificationService;
 
-    public Game startNewGame(final List<Player> players) {
+    public void startNewGame(final List<Player> players) {
         final var gameId = UUID.randomUUID();
         final var cardStack = new CardStack(Deck.generateNewDeck());
-        final var game = new Game(gameId, this.shufflePlayers(players), cardStack);
+        final var playerHands = players.stream()
+                .map(player -> dealPlayer(player, cardStack))
+                .toList();
+        final var game = new Game(gameId, this.shufflePlayers(playerHands), cardStack);
         this.games.add(game);
-        return game;
+        this.playGame(game);
     }
 
-    private void playGame(final Game game){
-        this.notificationService.notifyGameStart(game.getId());
+    private PlayerHand dealPlayer(final Player player, final CardStack cardStack) {
+        return new PlayerHand(player, cardStack.take(7));
+    }
+
+    private void playGame(final Game game) {
+        game.setStatus(GameStatus.IN_PROGRESS);
+        this.notificationService.notifyGameStart(game);
         final var players = game.getPlayers();
-
+        for (final PlayerHand player : players) {
+            this.notificationService.notifyPlayerStart(game, player);
+        }
+        final var roundRobin = new RoundRobin<>(players);
+        for (PlayerHand player : roundRobin) {
+            if (game.getStatus() == GameStatus.FINISHED) {
+                break;
+            }
+            this.notificationService.notifyPlayerTurn(player.player().id());
+        }
     }
 
-    private List<Player> shufflePlayers(final List<Player> players) {
-        final var shuffledPlayers = new ArrayList<>(players);
+    private <T> List<T> shufflePlayers(final List<T> items) {
+        final var shuffledPlayers = new ArrayList<T>(items);
         Collections.shuffle(shuffledPlayers);
         return shuffledPlayers;
     }
