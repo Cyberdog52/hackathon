@@ -6,7 +6,6 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,13 +16,15 @@ public class Board {
 
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
-    String playerId;
+    private String playerId;
+    private String playerName;
     private List<Ship> ships;
     private final ShootState[][] shots = new ShootState[WIDTH][HEIGHT];
 
-    public Board(String playerId, List<Ship> ships) {
+    public Board(String playerId, String playerName, List<Ship> ships) {
         this.playerId = playerId;
         this.ships = ships;
+        this.playerName = playerName;
     }
 
     public boolean shipsValid() {

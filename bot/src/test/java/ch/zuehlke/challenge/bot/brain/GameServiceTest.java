@@ -23,13 +23,13 @@ class GameServiceTest {
 
     private ShutDownService shutDownServiceMock;
 
-    @BeforeEach
-    void setUp() {
-        gameClientMock = mock(GameClient.class);
-        brainMock = mock(Brain.class);
-        shutDownServiceMock = mock(ShutDownService.class);
-        gameService = new GameService(brainMock, gameClientMock, shutDownServiceMock);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        gameClientMock = mock(GameClient.class);
+//        brainMock = mock(Brain.class);
+//        shutDownServiceMock = mock(ShutDownService.class);
+//        gameService = new GameService(brainMock, gameClientMock, shutDownServiceMock);
+//    }
 
 /*    @Test
     void joinGame_callGameClient_successfully() {

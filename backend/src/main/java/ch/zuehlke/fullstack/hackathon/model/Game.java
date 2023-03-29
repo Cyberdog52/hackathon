@@ -43,7 +43,7 @@ public class Game {
     public void placeShips(Player player, List<Ship> ships) {
 
         // ToDo: validate player token
-        var board = new Board(player.getId(), ships);
+        var board = new Board(player.getId(), player.getPlayerName(), ships);
 
         if (!board.shipsValid()) {
             throw new IllegalArgumentException("Board is not valid");

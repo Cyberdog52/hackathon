@@ -71,6 +71,7 @@ export enum GameAction {
 }
 
 export interface Board {
+  playerName: string;
   playerId: string;
   ships: Ship[];
   shots: ShotResult[][];
