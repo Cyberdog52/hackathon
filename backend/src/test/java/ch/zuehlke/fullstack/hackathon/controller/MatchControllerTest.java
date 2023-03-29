@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.JoinRequest;
-import ch.zuehlke.fullstack.hackathon.model.Player;
+import ch.zuehlke.common.Player;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.MatchService;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;

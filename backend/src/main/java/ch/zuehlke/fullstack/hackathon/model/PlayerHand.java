@@ -1,5 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.Player;
 import ch.zuehlke.common.cards.Card;
 import lombok.Builder;
 

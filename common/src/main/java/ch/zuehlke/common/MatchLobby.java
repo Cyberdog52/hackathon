@@ -1,7 +1,5 @@
-package ch.zuehlke.fullstack.hackathon.model;
+package ch.zuehlke.common;
 
-import ch.zuehlke.fullstack.hackathon.model.exception.LobbySizeException;
-import ch.zuehlke.fullstack.hackathon.model.exception.PlayerException;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -17,6 +15,10 @@ public final class MatchLobby {
     private final UUID id;
     private final List<Player> players;
 
+    public MatchLobby() {
+        this(UUID.randomUUID());
+    }
+
     public MatchLobby(final UUID id) {
         this.id = id;
         this.players = new ArrayList<>();
@@ -26,7 +28,7 @@ public final class MatchLobby {
         if (this.isFull()) {
             throw new LobbySizeException();
         }
-        if(this.players.contains(player)){
+        if (this.players.contains(player)) {
             throw new PlayerException("Player %s has already joined this match".formatted(player.name()));
         }
         this.players.add(player);
@@ -36,12 +38,12 @@ public final class MatchLobby {
         this.players.remove(player);
     }
 
-    public boolean canStart(){
-        return this.players.size()>=MIN_PLAYER_COUNT;
+    public boolean canStart() {
+        return this.players.size() >= MIN_PLAYER_COUNT;
     }
 
-    public boolean isFull(){
-        return this.players.size()>=MAX_PLAYER_COUNT;
+    public boolean isFull() {
+        return this.players.size() >= MAX_PLAYER_COUNT;
     }
 
 }

@@ -1,6 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.GameAction;
+import ch.zuehlke.common.cards.Card;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,8 @@ import java.util.Set;
 @Profile("simplebot")
 public class SimpleBrain implements Brain {
 
+    private Set<Card> cards;
+
 
     @Override
     public GameAction decide(final Set<GameAction> possibleActions) {
@@ -17,7 +20,7 @@ public class SimpleBrain implements Brain {
         if (possibleActions.contains(GameAction.FINISH)) {
             return GameAction.FINISH;
         }
-        
+
 
         return null;
     }

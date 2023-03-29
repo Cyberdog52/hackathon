@@ -22,35 +22,29 @@ import java.util.Set;
 public class MatchService {
 
     private final Brain brain;
-
+    private final MatchClient matchClient;
+    private final PlayerClient playerClient;
+    private final ShutDownService shutDownService;
+    // Improve: find a better way to keep track of already processed requests
+    private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
     @Getter
     @Setter
     private PlayerId playerId;
 
-    private final MatchClient matchClient;
-
-    private final PlayerClient playerClient;
-
-    private final ShutDownService shutDownService;
-
-    // Improve: find a better way to keep track of already processed requests
-    private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
-
-
     @EventListener(ApplicationReadyEvent.class)
     public void joinGame() {
         this.playerId = playerClient.createPlayer(brain.name(), brain.icon());
-        List<Match> matches = matchClient.getWaitingOpen();
-        Match joinResponse = matchClient.join(playerId.value(), pickRandom(matches).id());
+        final var matches = matchClient.getWaitingOpen();
+        final var joinResponse = matchClient.join(playerId.value(), matches.get(0).getId().toString());
     }
 
-    private<T> T pickRandom(List<T> list) {
+    private <T> T pickRandom(final List<T> list) {
         return list.get((int) (Math.random() * list.size()));
     }
 
-    public void onGameUpdate(GameUpdate gameUpdate) {
+    public void onGameUpdate(final GameUpdate gameUpdate) {
         // Improve: use this to get updates from the bots
-        GameDto gameDto = gameUpdate.gameDto();
+        final GameDto gameDto = gameUpdate.gameDto();
         if (gameDto.status() == GameStatus.NOT_STARTED) {
             log.info("Not taking any action, game is not started yet...");
             return;
@@ -66,13 +60,13 @@ public class MatchService {
                 .forEach(this::processRequest);
     }
 
-    private void processRequest(PlayRequest playRequest) {
+    private void processRequest(final PlayRequest playRequest) {
         log.info("Processing request: {}", playRequest);
         alreadyProcessedRequestIds.add(playRequest.requestId());
 
-        GameAction decision = brain.decide(playRequest.possibleActions());
+        final GameAction decision = brain.decide(playRequest.possibleActions());
 
-        Move move = new Move(playerId, playRequest.requestId(), decision);
+        final Move move = new Move(playerId, playRequest.requestId(), decision);
         //matchClient.play(move);
     }
 

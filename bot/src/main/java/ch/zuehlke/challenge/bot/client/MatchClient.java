@@ -2,14 +2,16 @@ package ch.zuehlke.challenge.bot.client;
 
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.JoinRequest;
+import ch.zuehlke.common.MatchLobby;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -23,20 +25,20 @@ public class MatchClient {
 
     private final ShutDownService shutDownService;
 
-    public Match join(final String playerId, final String matchId) {
-        JoinRequest joinRequest = new JoinRequest(playerId);
+    public MatchLobby join(final String playerId, final String matchId) {
+        final JoinRequest joinRequest = new JoinRequest(playerId);
         log.info("Joining game with request {}", joinRequest);
 
         // Improve: Handle exceptions
-        ResponseEntity<Match> responseEntity = hackathonRestTemplateClient
-                .postForEntity(applicationProperties.getBackendMatchBaseUrl() + "/" + matchId + "/join",
+        final var responseEntity = hackathonRestTemplateClient
+                .postForEntity(applicationProperties.getBackendWaitingBaseUrl() + "/" + matchId + "/join",
                         joinRequest,
-                        Match.class
+                        MatchLobby.class
                 );
         log.info("Received response: {}", responseEntity);
         if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
-            Match match = responseEntity.getBody();
-            log.info("Joined game with PlayerId: {}", match.id());
+            final var match = responseEntity.getBody();
+            log.info("Joined game with PlayerId: {}", match.getId());
             return match;
         } else {
             log.error("Could not join game. Will shutdown now...");
@@ -47,21 +49,12 @@ public class MatchClient {
     }
 
 
-    public List<Match> getWaitingOpen() {
-        ResponseEntity<Match[]> responseEntity = hackathonRestTemplateClient
-                .getForEntity(applicationProperties.getBackendWaitingBaseUrl() + "/open",
-                        Match[].class
-                );
-        log.info("Received response: {}", responseEntity);
-        if (responseEntity.getStatusCode().is2xxSuccessful() && responseEntity.getBody() != null) {
-            Match[] matches = responseEntity.getBody();
-            return Arrays.stream(matches).toList();
-        } else {
-            log.error("Could not join game. Will shutdown now...");
-            shutDownService.shutDown();
-            // Needed to return something even though exit(0) is called
-            return null;
-        }
+    public List<MatchLobby> getWaitingOpen() {
+        return hackathonRestTemplateClient.exchange(applicationProperties.getBackendWaitingBaseUrl(),
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<MatchLobby>>() {
+                }).getBody();
     }
 
 }
