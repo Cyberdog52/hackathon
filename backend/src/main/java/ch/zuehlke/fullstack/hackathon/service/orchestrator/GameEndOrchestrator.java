@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class GameEndOrchestrator {
 
   public void endGame(Game storedGame) {
     Optional<ThunderShipsPlayer> winner = storedGame.players().stream()
-        .filter(Predicate.not(ThunderShipsPlayer::hasAnyBoatsLeft))
+            .filter(ThunderShipsPlayer::hasAnyBoatsLeft)
         .findFirst();
     if (winner.isEmpty()) {
       throw new IllegalStateException("All Players still have at leas one boat still left!");

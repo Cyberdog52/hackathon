@@ -4,14 +4,14 @@ import ch.zuehlke.fullstack.hackathon.model.GameMap;
 import ch.zuehlke.fullstack.hackathon.model.game.GameConfig;
 import lombok.experimental.UtilityClass;
 
-import java.util.Collections;
+import java.util.HashSet;
 
 @UtilityClass
 public class GameMapFactory {
 
     public static GameMap createSimpleMap(final GameConfig gameConfig) {
         return GameMap.builder()
-                .boats(Collections.emptyList())
+                .boats(new HashSet<>()) // mutable set
                 .height(gameConfig.mapHeight())
                 .width(gameConfig.mapWidth())
                 .build();

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.statemachine.StateMachineEventResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -26,7 +27,7 @@ public class LobbyController {
     private final MyStateMachine myStateMachine;
 
     @PostMapping("/join")
-    public ResponseEntity<PlayerJoinEvent> join(final PlayerJoinAction request) {
+    public ResponseEntity<PlayerJoinEvent> join(@RequestBody final PlayerJoinAction request) {
         Flux<StateMachineEventResult<GameState, GameEvent>> resultFlux = myStateMachine.playerJoined(request);
         StateMachineEventResult<GameState, GameEvent> result = resultFlux.blockFirst();
 
