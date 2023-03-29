@@ -3,6 +3,7 @@ package ch.zuehlke.fullstack.hackathon.statemachine;
 import ch.zuehlke.common.shared.action.lobby.PlayerJoinAction;
 import ch.zuehlke.common.shared.action.playing.AttackTurnAction;
 import ch.zuehlke.common.shared.action.setup.PlaceBoatAction;
+import ch.zuehlke.common.shared.event.playing.AttackEvent.AttackStatus;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.Lobby;
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
@@ -72,5 +73,10 @@ public class MyStateMachine {
             .setHeader(Header.ATTACK_TURN.name(), request)
             .build();
         return sendEventMessage(message);
+    }
+
+    public AttackStatus getLastAttackStatus() {
+        return (AttackStatus) stateMachine.getExtendedState().getVariables()
+            .get(Variable.LAST_ATTACK_STATUS);
     }
 }

@@ -7,10 +7,13 @@ import ch.zuehlke.common.shared.event.playing.AttackEvent.AttackStatus;
 import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.model.ThunderShipsPlayer;
+import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
+import ch.zuehlke.fullstack.hackathon.statemachine.Variable;
 import lombok.RequiredArgsConstructor;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class PlayingOrchestrator {
 
 
   public Game attack(UUID gameId, UUID playerId, Coordinate coordinate, GameState currentState,
-      UUID firstPlayerId) {
+      UUID firstPlayerId, StateMachine<GameState, GameEvent> stateMachine) {
     Game game = gameService.get(gameId);
 
     // we might want to throw an exception so the player re-takes their turn, also do not move from this state if that
@@ -39,6 +42,8 @@ public class PlayingOrchestrator {
               .build();
       notificationService.notifySpectatorPlayerAttacked(attackEvent);
       notificationService.notifyPlayerAttacked(attackEvent);
+      stateMachine.getExtendedState().getVariables()
+          .put(Variable.LAST_ATTACK_STATUS, attackEvent.status());
       return game;
     }
 
@@ -62,6 +67,8 @@ public class PlayingOrchestrator {
     notificationService.notifyPlayerAttacked(attackEvent);
     notificationService.notifyPlayerTakeTurn(takeTurnEvent);
     notificationService.notifySpectatorPlayerTurn(takeTurnEvent);
+    stateMachine.getExtendedState().getVariables()
+        .put(Variable.LAST_ATTACK_STATUS, attackEvent.status());
 
     return game;
   }
