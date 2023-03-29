@@ -3,15 +3,15 @@ package ch.zuehlke.fullstack.hackathon.model;
 import ch.zuehlke.fullstack.hackathon.model.game.GameConfig;
 import lombok.Builder;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 @Builder
 public record Game(
         UUID gameId,
-        Set<ThunderShipsPlayer> players,
+        List<ThunderShipsPlayer> players,
         GameConfig gameConfig
 ) {
     public Optional<ThunderShipsPlayer> determineWinner() {

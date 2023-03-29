@@ -8,6 +8,7 @@ import ch.zuehlke.common.shared.event.GameStartSetupEvent;
 import ch.zuehlke.common.shared.event.playing.AttackEvent;
 import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -29,12 +30,13 @@ public class MockGameVisitorNotificationService {
 
     private int eventIndex = 0;
 
-    public MockGameVisitorNotificationService(@Autowired final SimpMessagingTemplate template) {
+    public MockGameVisitorNotificationService(@Autowired
+                                               final SimpMessagingTemplate template) {
         this.template = template;
 
     }
 
-    // @Scheduled(cron = "*/1 * * * * *")
+//    @Scheduled(cron = "*/1 * * * * *")
     public void sendAction() {
         eventIndex = eventIndex % gameEvents.size();
 

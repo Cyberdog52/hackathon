@@ -14,4 +14,12 @@ public class GameConfigFactory {
                 .build();
     }
 
+    public static GameConfig createNormalGameConfig() {
+        return GameConfig.builder()
+            .maxNumberOfBoats(5)
+            .mapHeight(10)
+            .mapWidth(10)
+            .build();
+    }
+
 }
