@@ -51,16 +51,29 @@ public class GameService {
         }
 
         if (gameDto.status() == GameStatus.PLACE_SHIPS) {
-            // add magic to place ships...
+            gameDto.state().currentRequests().stream()
+                    .filter(request -> !alreadyProcessedRequestIds.contains(request.requestId()))
+                    .filter(request -> request.playerId().equals(player))
+                    .forEach(this::processBoardCreation);
         }
 
         gameDto.state().currentRequests().stream()
                 .filter(request -> !alreadyProcessedRequestIds.contains(request.requestId()))
                 .filter(request -> request.playerId().equals(player))
-                .forEach(this::processRequest);
+                .forEach(this::processShoot);
     }
 
-    private void processRequest(PlayRequest playRequest) {
+    private void processBoardCreation(PlayRequest playRequest) {
+        /*log.info("Processing request: {}", playRequest);
+        alreadyProcessedRequestIds.add(playRequest.requestId());
+
+        GameAction decision = brain.(playRequest.possibleActions());
+
+        Move move = new Move(playerId, playRequest.requestId(), decision);
+        gameClient.play(move);*/
+    }
+
+    private void processShoot(PlayRequest playRequest) {
         log.info("Processing request: {}", playRequest);
         alreadyProcessedRequestIds.add(playRequest.requestId());
 

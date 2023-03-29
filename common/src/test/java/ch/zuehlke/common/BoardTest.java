@@ -9,6 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BoardTest {
 
+    private String id = "1234567890";
+
     @Test
     void createValidBoard() {
 
@@ -20,7 +22,7 @@ class BoardTest {
         ships.add(new Ship(ShipType.BATTLESHIP, 6, 0, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 0, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         assertThat(board.shipsValid()).isTrue();
     }
@@ -37,9 +39,10 @@ class BoardTest {
         ships.add(new Ship(ShipType.SUBMARINE, 3, 4, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         assertThat(board.shipsValid()).isFalse();
+        assertThat(board.playerId).isEqualTo(id);
     }
 
     @Test
@@ -53,7 +56,7 @@ class BoardTest {
         ships.add(new Ship(ShipType.SUBMARINE, -1, -1, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         assertThat(board.shipsValid()).isFalse();
     }
@@ -69,7 +72,7 @@ class BoardTest {
         ships.add(new Ship(ShipType.SUBMARINE, 100, 3, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         assertThat(board.shipsValid()).isFalse();
     }
@@ -85,7 +88,7 @@ class BoardTest {
         ships.add(new Ship(ShipType.SUBMARINE, 9, 3, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         assertThat(board.shipsValid()).isFalse();
     }
