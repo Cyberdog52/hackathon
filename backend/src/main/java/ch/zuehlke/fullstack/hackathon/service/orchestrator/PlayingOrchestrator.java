@@ -27,13 +27,16 @@ public class PlayingOrchestrator {
   public Game attack(UUID gameId, UUID playerId, Coordinate coordinate, GameState currentState,
       UUID firstPlayerId) {
     Game game = gameService.get(gameId);
+
+    // we might want to throw an exception so the player re-takes their turn, also do not move from this state if that
+    // is the case
     if (isAttackInvalid(firstPlayerId, currentState, playerId)) {
       AttackEvent attackEvent = AttackEvent.builder()
-          .gameId(gameId)
-          .attackingPlayerId(playerId)
-          .coordinate(coordinate)
-          .status(AttackStatus.IGNORED)
-          .build();
+              .gameId(gameId)
+              .attackingPlayerId(playerId)
+              .coordinate(coordinate)
+              .status(AttackStatus.IGNORED)
+              .build();
       notificationService.notifySpectatorPlayerAttacked(attackEvent);
       notificationService.notifyPlayerAttacked(attackEvent);
       return game;
@@ -77,9 +80,9 @@ public class PlayingOrchestrator {
   private boolean isAttackInvalid(UUID firstPlayerId, GameState currentState,
       UUID attackingPlayerId) {
     boolean player1AttackingOutOfOrder =
-        firstPlayerId == attackingPlayerId && currentState.equals(GameState.PLAYING_PLAYER_2);
+            firstPlayerId.equals(attackingPlayerId) && currentState.equals(GameState.PLAYING_PLAYER_2);
     boolean player2AttackingOutOfORder =
-        firstPlayerId != attackingPlayerId && currentState.equals(GameState.PLAYING_PLAYER_1);
+            (!firstPlayerId.equals(attackingPlayerId)) && currentState.equals(GameState.PLAYING_PLAYER_1);
 
     return player1AttackingOutOfOrder || player2AttackingOutOfORder;
   }

@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.UUID;
 
+import static ch.zuehlke.common.shared.event.EventType.*;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -72,37 +74,37 @@ public class NotificationService {
         String destination = String.format("%s/%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId(),
             WebsocketDestination.SPECTATE.getDestination());
-        template.convertAndSend(destination, takeTurnEvent);
+        template.convertAndSend(destination, takeTurnEvent, Map.of("EventType", TAKE_TURN));
     }
 
     public void notifySpectatorGameEnded(final GameEndEvent gameEndEvent) {
         String destination = String.format("%s/%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId(),
             WebsocketDestination.SPECTATE.getDestination());
-        template.convertAndSend(destination, gameEndEvent);
+        template.convertAndSend(destination, gameEndEvent, Map.of("EventType", GAME_ENDED));
     }
 
     public void notifyGameStarted(final TakeTurnEvent takeTurnEvent) {
         String destination = String.format("%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId());
-        template.convertAndSend(destination, takeTurnEvent);
+        template.convertAndSend(destination, takeTurnEvent, Map.of("EventType", TAKE_TURN));
     }
 
     public void notifyPlayerAttacked(AttackEvent attackEvent) {
         String destination = String.format("%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId());
-        template.convertAndSend(destination, attackEvent);
+        template.convertAndSend(destination, attackEvent, Map.of("EventType", PLAYER_ATTACKED));
     }
 
     public void notifyGameEnded(GameEndEvent gameEndEvent) {
         String destination = String.format("%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId());
-        template.convertAndSend(destination, gameEndEvent);
+        template.convertAndSend(destination, gameEndEvent, Map.of("EventType", GAME_ENDED));
     }
 
     public void notifyPlayerTakeTurn(TakeTurnEvent takeTurnEvent) {
         String destination = String.format("%s/%s",
             WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId());
-        template.convertAndSend(destination, takeTurnEvent);
+        template.convertAndSend(destination, takeTurnEvent, Map.of("EventType", TAKE_TURN));
     }
 }
