@@ -5,9 +5,6 @@ import {GameDto, Player, TopPlayers} from "../../model/lobby";
 import {MatDialog} from "@angular/material/dialog";
 import {CreateGameDialogComponent} from "../create-game-dialog/create-game-dialog.component";
 import {Router} from "@angular/router";
-import {webSocket, WebSocketSubject} from "rxjs/webSocket";
-import {RxStompService} from "../../services/rx-stomp.service";
-import {topic} from "../../services/stomp.cfg";
 
 @Component({
   selector: "app-lobby",
@@ -21,19 +18,13 @@ export class LobbyComponent implements OnInit {
   playerNames$: Observable<PlayerListResponse[]> | undefined;
   topPlayers$: Observable<TopPlayers[]> | undefined;
 
-  myWebSocket: WebSocketSubject<any> = webSocket('ws://localhost:8080/update');
-
-  constructor(public dialog: MatDialog, private lobbyService: LobbyService, private router: Router, private stomp: RxStompService) {
+  constructor(public dialog: MatDialog, private lobbyService: LobbyService, private router: Router) {
   }
 
   ngOnInit(): void {
     this.pollGamesRegularly();
     this.pollPlayersRegularly();
     this.pollTop10PlayersRegularly();
-
-    this.stomp.watch(topic).subscribe((response) => {
-      console.log(response.body);
-    });
   }
 
   private pollGamesRegularly(): void {
