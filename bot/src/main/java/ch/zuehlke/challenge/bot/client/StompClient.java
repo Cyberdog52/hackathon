@@ -3,8 +3,13 @@ package ch.zuehlke.challenge.bot.client;
 import ch.zuehlke.challenge.bot.service.GameService;
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
-import ch.zuehlke.common.GameUpdate;
 import ch.zuehlke.common.shared.event.EventType;
+import ch.zuehlke.common.shared.event.GameEndEvent;
+import ch.zuehlke.common.shared.event.lobby.PlayerJoinEvent;
+import ch.zuehlke.common.shared.event.playing.AttackEvent;
+import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
+import ch.zuehlke.common.shared.event.setup.GameConfigEvent;
+import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
 import ch.zuehlke.common.websocket.WebsocketDestination;
 import jakarta.annotation.PreDestroy;
 import lombok.NonNull;
@@ -91,7 +96,17 @@ public class StompClient implements StompSessionHandler {
 
     @Override
     public Type getPayloadType(final StompHeaders headers) {
-        return GameUpdate.class;
+        List<String> eventTypes = headers.get("EventType");
+        EventType eventType = EventType.valueOf(eventTypes.get(0));
+        return switch (eventType) {
+            case PLAYER_JOINED -> PlayerJoinEvent.class;
+            case SETUP_GAME -> GameConfigEvent.class;
+            case BOAT_PLACED -> PlaceBoatEvent.class;
+            case START_PLAYING -> GameConfigEvent.class;
+            case TAKE_TURN -> TakeTurnEvent.class;
+            case PLAYER_ATTACKED -> AttackEvent.class;
+            case GAME_ENDED -> GameEndEvent.class;
+        };
     }
 
     @Override
@@ -101,6 +116,9 @@ public class StompClient implements StompSessionHandler {
         List<String> eventTypes = headers.get("EventType");
         EventType eventType = EventType.valueOf(eventTypes.get(0));
 
+        if (eventType == null) {
+            return;
+        }
         gameService.onGameUpdate(eventType, payload);
     }
 

@@ -3,11 +3,11 @@ package ch.zuehlke.fullstack.hackathon.model;
 import ch.zuehlke.common.Coordinate;
 import lombok.Builder;
 
-import java.util.List;
+import java.util.Set;
 
 @Builder
 public record GameMap(
-        List<Boat> boats,
+        Set<Boat> boats,
         int height,
         int width) {
 

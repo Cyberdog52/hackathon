@@ -56,7 +56,7 @@ public class GameClient {
                 .build();
 
         ResponseEntity<PlaceBoatEvent> response = hackathonRestTemplateClient
-                .postForEntity(applicationProperties.getBackendJoinUrl(),
+                .postForEntity(applicationProperties.getBackendSetupUrl(),
                         placeBoatAction,
                         PlaceBoatEvent.class);
 
@@ -72,7 +72,7 @@ public class GameClient {
                 .build();
 
         ResponseEntity<AttackEvent> response = hackathonRestTemplateClient
-                .postForEntity(applicationProperties.getBackendJoinUrl(),
+                .postForEntity(applicationProperties.getBackendPlayUrl(),
                         attackTurnAction,
                         AttackEvent.class);
 

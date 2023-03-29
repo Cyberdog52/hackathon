@@ -1,5 +1,6 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.common.shared.event.EventType;
 import ch.zuehlke.common.shared.event.GameEndEvent;
 import ch.zuehlke.common.shared.event.GameStartPlayingEvent;
 import ch.zuehlke.common.shared.event.lobby.PlayerJoinEvent;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -24,19 +26,19 @@ public class NotificationService {
 
     public void notifyLobbyPlayerJoined(final PlayerJoinEvent playerJoinEvent) {
         String destination = String.format("%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId());
-        template.convertAndSend(destination, playerJoinEvent);
+        template.convertAndSend(destination, playerJoinEvent, Map.of("EventType", EventType.PLAYER_JOINED));
     }
 
     public void notifyGameInitialised(final GameConfigEvent gameConfigEvent) {
         String destination = String.format("%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), gameConfigEvent.gameId());
-        template.convertAndSend(destination, gameConfigEvent);
+        template.convertAndSend(destination, gameConfigEvent, Map.of("EventType", EventType.SETUP_GAME));
     }
 
     public void notifySpectatorPlayerJoined(final PlayerJoinEvent playerJoinEvent) {
         String destination = String.format("%s/%s/%s",
                 WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId(),
                 WebsocketDestination.SPECTATE.getDestination());
-        template.convertAndSend(destination, playerJoinEvent);
+        template.convertAndSend(destination, playerJoinEvent, Map.of("EventType", EventType.PLAYER_JOINED));
     }
 
     public void notifySpectatorBoatPlaced(final PlaceBoatEvent placeBoatEvent) {
@@ -55,7 +57,7 @@ public class NotificationService {
         // should only be for the spectator
         String destination = String.format("%s/%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), gameId,
                 WebsocketDestination.SPECTATE.getDestination());
-        template.convertAndSend(destination, placeBoatEvent);
+        template.convertAndSend(destination, placeBoatEvent, Map.of("EventType", EventType.BOAT_PLACED));
     }
 
     public void notifySpectatorPlayerTurn(final TakeTurnEvent takeTurnEvent) {
