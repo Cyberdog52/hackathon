@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Backend" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" />
     <module name="Hackathon.backend.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="ch.zuehlke.fullstack.hackathon.HackathonApplication" />
     <method v="2">

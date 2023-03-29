@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Component
-@Profile({"simplebot","simplebot2","simplebottournament","simplebottournament2"})
+@Profile({"simplebot","simplebot2","benjamin","marius"})
 public class SimpleBrain implements Brain {
 
     public GameAction decide(boolean attacker, Board board, Set<GameAction> possibleActions) {
