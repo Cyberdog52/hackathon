@@ -72,7 +72,7 @@ public class SimpleBrain implements Brain {
 
     private static void thinkForALongTime() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException ignored) {
             // ignore
         }
