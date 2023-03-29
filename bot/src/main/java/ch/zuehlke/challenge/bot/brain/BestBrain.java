@@ -44,7 +44,7 @@ public class BestBrain implements Brain {
     }
 
     public List<Coordinate> chooseBoatCoordinates(final GameConfigEvent event) {
-        return IntStream.of(gameProperties.getGameConfig().numberOfBoats())
+        return IntStream.range(0, gameProperties.getGameConfig().numberOfBoats())
                 .boxed()
                 .map(i -> chooseCoordinate())
                 .collect(Collectors.toList());
