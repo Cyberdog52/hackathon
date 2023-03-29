@@ -27,6 +27,12 @@ public class NotificationService {
 
     }
 
+
+    public void notifyPlayerJoined(final UUID playerId){
+        template.convertAndSend("/topic/game/%s".formatted(playerId), playerId);
+    }
+
+
     public void notifyPlayerTurn(final UUID playerId){
 
     }
