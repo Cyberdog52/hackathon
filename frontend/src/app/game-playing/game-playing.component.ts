@@ -160,9 +160,9 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
   private getMapOfAttackedPlayer(attackingPlayerId: UUID): MapComponent {
     if (attackingPlayerId === this.player1Id) {
-      return this.player2Map;
-    } else {
       return this.player1Map;
+    } else {
+      return this.player2Map;
     }
   }
 

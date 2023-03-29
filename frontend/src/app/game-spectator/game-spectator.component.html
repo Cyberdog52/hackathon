@@ -42,8 +42,10 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ul>
-      <li *ngFor="let evt of events$ | async;">
-        {{evt}}
+      <li *ngFor="let evt of eventsClean$ | async;">
+        <div *ngFor="let line of evt">
+          {{line}}
+        </div>
       </li>
     </ul>
   </mat-expansion-panel>

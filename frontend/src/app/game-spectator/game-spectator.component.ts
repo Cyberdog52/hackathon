@@ -17,8 +17,8 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   private gameEventSubscription?: Subscription;
   public readonly gameStateEnum = GameState;
 
-  public events$: Subject<string[]> = new Subject<string[]>();
-  private events: string[] = [];
+  public eventsClean$: Subject<string[][]> = new Subject<string[][]>();
+  private events: PlayingEvent[] = [];
 
   public sizeX = 0;
   public sizeY = 0;
@@ -61,9 +61,15 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   }
 
   private onEvent(event: PlayingEvent): void {
-    this.events = this.events.concat([JSON.stringify(event)]);
-    this.events$.next(this.events);
+    this.events = this.events.concat([event]);
+    this.eventsClean$.next(this.formatEvents(this.events));
     this.mapEventToMapChanges(event);
+  }
+
+  public formatEvents(events: PlayingEvent[]): string[][] {
+    return events.map(event => {
+      return [event.type + ":", JSON.stringify(event)];
+    });
   }
 
   public gameState = GameState.LOBBY;
@@ -74,8 +80,8 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
     this.eventList.push(event);
     console.log(event.type, event);
 
-    if (event.type === EventType.PLAYER_JOINED ) {
-      if(this.player1Id === undefined) {
+    if (event.type === EventType.PLAYER_JOINED) {
+      if (this.player1Id === undefined) {
         this.player1Id = event.playerId;
       } else {
         this.player2Id = event.playerId;
