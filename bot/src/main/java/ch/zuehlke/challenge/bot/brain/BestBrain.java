@@ -1,12 +1,9 @@
 package ch.zuehlke.challenge.bot.brain;
 
-import ch.zuehlke.common.Board;
-import ch.zuehlke.common.GameUpdate;
 import ch.zuehlke.common.Orientation;
 import ch.zuehlke.common.Player;
 import ch.zuehlke.common.Ship;
 import ch.zuehlke.common.ShipType;
-import ch.zuehlke.common.gameplay.CreateGameRequest;
 import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.common.gameplay.ShootRequest;
 import org.springframework.context.annotation.Profile;
@@ -30,17 +27,18 @@ public class BestBrain implements Brain {
         ships.add(new Ship(ShipType.CRUISER, 0, 1, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.DESTROYER, 0, 2, Orientation.HORIZONTAL));
 
-        ships.add(new Ship(ShipType.SUBMARINE, 3, 4, Orientation.HORIZONTAL));
-        ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
+        ships.add(new Ship(ShipType.SUBMARINE, 0, 3, Orientation.HORIZONTAL));
+        ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 4, Orientation.HORIZONTAL));
 
         return new PlaceShipsRequest(gameId, player,  ships);
     }
 
-    public ShootRequest shootRequest(String gameId) {
+    public ShootRequest shootRequest(String gameId, Player player) {
         think();
         int x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
         int y = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-        return new ShootRequest(gameId, "playerId", "playerToken", x, y);
+        return new ShootRequest(gameId, player.getId(), player.getToken(), x, y);
+
     }
 
     private static void think() {

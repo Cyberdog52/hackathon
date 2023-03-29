@@ -5,6 +5,7 @@ import ch.zuehlke.challenge.bot.client.GameClient;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.*;
 import ch.zuehlke.common.gameplay.PlaceShipsRequest;
+import ch.zuehlke.common.gameplay.ShootRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -52,6 +53,20 @@ public class GameService {
 
             return;
         }
+
+        if (gameDto.status() == GameStatus.SHOOT) {
+            log.info("Shooting...");
+            ShootRequest request = brain.shootRequest(gameUpdate.gameDto().id(), player);
+            var response = hackathonRestTemplateClient
+                    .postForEntity(applicationProperties.getBackendShootUrl(),
+                            request,
+                            ShootResult.class
+                    );
+
+            log.info(response.toString());
+            return;
+        }
+
         if (gameDto.status() == GameStatus.FINISHED || gameDto.status() == GameStatus.DELETED) {
             log.info("Game is finished, shutting down...");
             shutDownService.shutDown();
@@ -60,11 +75,11 @@ public class GameService {
         if (gameDto.status() == GameStatus.PLACE_SHIPS) {
             PlaceShipsRequest request = brain.createGame(gameUpdate.gameDto().id(), player);
             var response = hackathonRestTemplateClient
-                    .postForEntity(applicationProperties.getBackendRegisterUrl(),
+                    .postForEntity(applicationProperties.getBackendPlaceShipsUrl(),
                             request,
                             Void.class
                     );
-            log.info(response.getBody().toString());
+            log.info("Got a place response: " + response);
             return;
         }
 

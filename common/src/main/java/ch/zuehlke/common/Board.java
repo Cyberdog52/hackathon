@@ -1,6 +1,7 @@
 package ch.zuehlke.common;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -11,12 +12,13 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Board {
 
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
     String playerId;
-    private final List<Ship> ships;
+    private List<Ship> ships;
     private final ShootState[][] shots = new ShootState[WIDTH][HEIGHT];
 
     public Board(String playerId, List<Ship> ships) {

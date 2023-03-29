@@ -11,6 +11,6 @@ public interface Brain {
 
     PlaceShipsRequest createGame(String gameId, Player player);
 
-    ShootRequest shootRequest(String gameId);
+    ShootRequest shootRequest(String gameId, Player player);
 
 }
