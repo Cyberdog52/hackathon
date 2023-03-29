@@ -2,17 +2,16 @@ package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.Coordinate;
 import ch.zuehlke.common.GamePlayingAction;
+import ch.zuehlke.common.shared.action.setup.BoatType;
 import ch.zuehlke.common.shared.event.GameEndEvent;
 import ch.zuehlke.common.shared.event.GameStartPlayingEvent;
 import ch.zuehlke.common.shared.event.GameStartSetupEvent;
 import ch.zuehlke.common.shared.event.playing.AttackEvent;
 import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -88,16 +87,16 @@ public class MockGameVisitorNotificationService {
                 //
                 new GameStartSetupEvent(gameId),
                 // PLACE BOATS
-                new PlaceBoatEvent(player1Id, p1Boat1Coordinate, true, gameId),
-                new PlaceBoatEvent(player1Id, p1Boat2Coordinate, true, gameId),
-                new PlaceBoatEvent(player1Id, p1Boat3Coordinate, true, gameId),
-                new PlaceBoatEvent(player1Id, p1Boat4Coordinate, true, gameId),
-                new PlaceBoatEvent(player1Id, p1Boat5Coordinate, true, gameId),
-                new PlaceBoatEvent(player2Id, p2Boat1Coordinate, true, gameId),
-                new PlaceBoatEvent(player2Id, p2Boat2Coordinate, true, gameId),
-                new PlaceBoatEvent(player2Id, p2Boat3Coordinate, true, gameId),
-                new PlaceBoatEvent(player2Id, p2Boat4Coordinate, true, gameId),
-                new PlaceBoatEvent(player2Id, p2Boat5Coordinate, true, gameId),
+                new PlaceBoatEvent(player1Id, List.of(p1Boat1Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player1Id, List.of(p1Boat2Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player1Id, List.of(p1Boat3Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player1Id, List.of(p1Boat4Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player1Id, List.of(p1Boat5Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player2Id, List.of(p2Boat1Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player2Id, List.of(p2Boat2Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player2Id, List.of(p2Boat3Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player2Id, List.of(p2Boat4Coordinate), true, gameId, BoatType.SMALL),
+                new PlaceBoatEvent(player2Id, List.of(p2Boat5Coordinate), true, gameId, BoatType.SMALL),
 
                 // START GAME
                 new GameStartPlayingEvent(List.of(player1Id, player2Id), gameId),

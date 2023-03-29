@@ -1,5 +1,6 @@
 package ch.zuehlke.common.shared.event.setup;
 
+import ch.zuehlke.common.shared.BoatRequirements;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -13,6 +14,7 @@ public record GameConfigEvent(
         int mapSizeX,
         int mapSizeY,
         int numberOfBoats,
+        BoatRequirements boatRequirements,
         Duration timeLimit,
         @NonNull List<UUID> playerIds
 ) {
