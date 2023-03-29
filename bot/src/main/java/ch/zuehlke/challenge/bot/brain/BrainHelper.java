@@ -35,24 +35,25 @@ public class BrainHelper {
 
         // not implementing checking the boat bounds
         Set<Coordinate> occupiedCoordinates = new HashSet<>();
+        Set<Integer> occupiedColumns = new HashSet<>(); // since we simply only place boats UP, we can avoid collisions by not placing new coordinates on a an occupied row
 
         List<BoatInformation> smallBoatsCoordinates = smallBoats.stream()
                 .map(t -> {
-                    BoatInformation info = chooseSmallBoatInfo(occupiedCoordinates);
+                    BoatInformation info = chooseSmallBoatInfo(occupiedCoordinates, occupiedColumns);
                     return info;
                 })
                 .toList();
 
         List<BoatInformation> mediumBoatsCoordinates = mediumBoats.stream()
                 .map(t -> {
-                    BoatInformation info = chooseBoatInfo(occupiedCoordinates, MEDIUM, UP);
+                    BoatInformation info = chooseBoatInfo(occupiedCoordinates, MEDIUM, UP, occupiedColumns);
                     return info;
                 })
                 .toList();
 
         List<BoatInformation> largeBoatsCoordinates = largeBoats.stream()
                 .map(t -> {
-                    BoatInformation info = chooseBoatInfo(occupiedCoordinates, LARGE, UP);
+                    BoatInformation info = chooseBoatInfo(occupiedCoordinates, LARGE, UP, occupiedColumns);
                     return info;
                 })
                 .toList();
@@ -62,10 +63,11 @@ public class BrainHelper {
                 .toList();
     }
 
-    private BoatInformation chooseSmallBoatInfo(final Set<Coordinate> occupiedCoordinates) {
-        Coordinate baseCoordinate = chooseSmallBoatCoordinate(occupiedCoordinates);
+    private BoatInformation chooseSmallBoatInfo(final Set<Coordinate> occupiedCoordinates, final Set<Integer> occupiedColumns) {
+        Coordinate baseCoordinate = chooseSmallBoatCoordinate(occupiedCoordinates, occupiedColumns);
         List<Coordinate> newlyOccupiedCoordinates = List.of(baseCoordinate);
         occupiedCoordinates.addAll(newlyOccupiedCoordinates);
+        occupiedColumns.add(baseCoordinate.x());
 
         return BoatInformation.builder()
                 .baseCoordinate(baseCoordinate)
@@ -75,10 +77,11 @@ public class BrainHelper {
     }
 
     private BoatInformation chooseBoatInfo(final Set<Coordinate> occupiedCoordinates, final BoatType boatType,
-                                           final BoatDirection boatDirection) {
-        Coordinate baseCoordinate = chooseMediumBoatCoordinate(occupiedCoordinates, boatDirection, boatType);
+                                           final BoatDirection boatDirection, final Set<Integer> occupiedColumns) {
+        Coordinate baseCoordinate = chooseMediumBoatCoordinate(occupiedCoordinates, boatDirection, boatType, occupiedColumns);
         List<Coordinate> newlyOccupiedCoordinates = BoatPlacementHelper.determineBoatCoordinates(MEDIUM, UP, baseCoordinate);
         occupiedCoordinates.addAll(newlyOccupiedCoordinates);
+        occupiedColumns.add(baseCoordinate.x());
 
         return BoatInformation.builder()
                 .baseCoordinate(baseCoordinate)
@@ -87,19 +90,21 @@ public class BrainHelper {
                 .build();
     }
 
-    private Coordinate chooseSmallBoatCoordinate(final Set<Coordinate> occupiedCoordinates) {
+    private Coordinate chooseSmallBoatCoordinate(final Set<Coordinate> occupiedCoordinates,
+                                                 final Set<Integer> occupiedRows) {
         Coordinate coordinate = chooseCoordinate();
-        if (occupiedCoordinates.contains(coordinate)) {
-            return chooseSmallBoatCoordinate(occupiedCoordinates);
+        if (occupiedCoordinates.contains(coordinate) || occupiedRows.contains(coordinate.x())) {
+            return chooseSmallBoatCoordinate(occupiedCoordinates, occupiedRows);
         }
         return coordinate;
     }
 
     private Coordinate chooseMediumBoatCoordinate(final Set<Coordinate> occupiedCoordinates,
-                                                  final BoatDirection boatDirection, final BoatType boatType) {
+                                                  final BoatDirection boatDirection, final BoatType boatType,
+                                                  final Set<Integer> occupiedColumns) {
         Coordinate coordinate = chooseCoordinate(boatDirection, boatType);
-        if (occupiedCoordinates.contains(coordinate)) {
-            return chooseMediumBoatCoordinate(occupiedCoordinates, boatDirection, boatType);
+        if (occupiedCoordinates.contains(coordinate) || occupiedColumns.contains(coordinate.x())) {
+            return chooseMediumBoatCoordinate(occupiedCoordinates, boatDirection, boatType, occupiedColumns);
         }
         return coordinate;
     }
@@ -108,20 +113,24 @@ public class BrainHelper {
         int x = 0;
         int y = 0;
         if (boatDirection.equals(UP)) {
-            y = new Random().nextInt(0, gameProperties.getGameConfig().mapWidth() - boatType.getBoatSize());
+            int diff = gameProperties.getGameConfig().mapWidth() - boatType.getBoatSize();
+            y = diff == 0 ? 0 : new Random().nextInt(0, diff);
             x = new Random().nextInt(gameProperties.getGameConfig().mapHeight());
         }
         if (boatDirection.equals(DOWN)) {
-            y = new Random().nextInt(boatType.getBoatSize(), gameProperties.getGameConfig().mapWidth());
+            int diff = gameProperties.getGameConfig().mapWidth() - boatType.getBoatSize();
+            y = diff == 0 ? boatType.getBoatSize() : new Random().nextInt(boatType.getBoatSize(), gameProperties.getGameConfig().mapWidth());
             x = new Random().nextInt(gameProperties.getGameConfig().mapHeight());
         }
         if (boatDirection.equals(LEFT)) {
+            int diff = gameProperties.getGameConfig().mapWidth() - boatType.getBoatSize();
+            x = diff == 0 ? boatType.getBoatSize() : new Random().nextInt(boatType.getBoatSize(), gameProperties.getGameConfig().mapHeight());
             y = new Random().nextInt(gameProperties.getGameConfig().mapWidth());
-            x = new Random().nextInt(boatType.getBoatSize(), gameProperties.getGameConfig().mapHeight());
         }
         if (boatDirection.equals(RIGHT)) {
+            int diff = gameProperties.getGameConfig().mapWidth() - boatType.getBoatSize();
+            x = diff == 0 ? 0 : new Random().nextInt(gameProperties.getGameConfig().mapHeight() - boatType.getBoatSize());
             y = new Random().nextInt(gameProperties.getGameConfig().mapWidth());
-            x = new Random().nextInt(gameProperties.getGameConfig().mapHeight() - boatType.getBoatSize());
         }
         return Coordinate.builder()
                 .x(x)

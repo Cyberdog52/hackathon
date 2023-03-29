@@ -70,7 +70,6 @@ public class PlayingOrchestrator {
     notificationService.notifySpectatorPlayerTurn(takeTurnEvent);
     stateMachine.getExtendedState().getVariables()
         .put(Variable.LAST_ATTACK_STATUS, attackEvent.status());
-
     return game;
   }
 
