@@ -1,5 +1,8 @@
 package ch.zuehlke.challenge.bot.brain;
 
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.gameplay.PlaceShipsRequest;
+import ch.zuehlke.common.gameplay.ShootRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +24,15 @@ public class SimpleBrain implements Brain {
         } catch (InterruptedException ignored) {
             // ignore
         }
+    }
+
+    @Override
+    public PlaceShipsRequest createGame(String gameId, Player player) {
+        return null;
+    }
+
+    @Override
+    public ShootRequest shootRequest(String gameId) {
+        return null;
     }
 }
