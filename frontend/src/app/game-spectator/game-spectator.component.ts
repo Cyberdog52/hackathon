@@ -69,6 +69,14 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   public gameState = GameState.LOBBY;
 
   private mapEventToMapChanges(event: PlayingEvent): void {
+    if (event.type === EventType.PLAYER_JOINED ) {
+      if(this.player1Id === undefined) {
+        this.player1Id = event.playerId;
+      } else {
+        this.player2Id = event.playerId;
+      }
+    }
+
     if (event.type === EventType.SETUP_GAME) {
       this.gameState = GameState.SETUP;
 
