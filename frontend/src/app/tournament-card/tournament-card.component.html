@@ -1,23 +1,24 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Tournament: {{ tournament.id.value }}</mat-card-title>
+    <mat-card-title *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">
+      Tournament is in progress
+    </mat-card-title>
+    <div *ngIf="tournament.status === TournamentStatus.FINISHED">
+      <mat-card-title *ngIf="!tournament.winner"
+        >Tournament is a draw</mat-card-title
+      >
+      <mat-card-title *ngIf="tournament.winner">
+        {{ getPlayerName(tournament.winner) }} has won
+      </mat-card-title>
+    </div>
   </mat-card-header>
   <mat-card-content>
-    <ng-container *ngFor="let score of tournament.scores">
-      <p class="player">{{ getPlayerName(score.playerId) }}</p>
-      <p class="score">: {{ score.score }}}</p>
-    </ng-container>
     <p *ngIf="tournament.players.length === 0">Waiting for players...</p>
 
-    <p *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">
-      Tournament is in progress
-    </p>
-    <div *ngIf="tournament.status === TournamentStatus.FINISHED">
-      <p *ngIf="!tournament.winner">Tournament is a draw</p>
-      <p *ngIf="tournament.winner">
-        {{ getPlayerName(tournament.winner) }} has won
-      </p>
-    </div>
+    <ng-container *ngFor="let player of tournament.players">
+      <p class="player">{{ player.name.value }}</p>
+      <p class="score">: {{ getScore(player.id) }}</p>
+    </ng-container>
   </mat-card-content>
   <mat-card-actions>
     <button

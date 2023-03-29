@@ -2,6 +2,11 @@ mat-card {
   width: 100%;
 }
 
+mat-card-title.black,
+mat-card-title.white {
+  margin: 0 0 10px 0;
+}
+
 button {
   margin: 4px;
 }
@@ -15,7 +20,7 @@ button {
 
 .board div {
   position: absolute;
-  top: 75px;
+  top: 85px;
   right: 0;
   width: 40%;
   height: calc(100% - 150px);

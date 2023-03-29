@@ -1,9 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {
-  TournamentDto,
-  TournamentStatus,
-  PlayerId,
-} from '../../model/lobby';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { TournamentDto, TournamentStatus, PlayerId } from '../../model/lobby';
 import { LobbyService } from '../../services/lobby.service';
 
 @Component({
@@ -19,6 +15,14 @@ export class TournamentCardComponent {
   TournamentStatus = TournamentStatus;
 
   constructor(private lobbyService: LobbyService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.tournament && changes.tournament.currentValue) {
+      this.tournament.players.sort(
+        (a, b) => this.getScore(b.id) - this.getScore(a.id)
+      );
+    }
+  }
 
   deleteTournament(): void {
     this.lobbyService.deleteTournament(this.tournament.id).subscribe({
@@ -53,5 +57,12 @@ export class TournamentCardComponent {
     return this.tournament.players.find(
       (player) => player.id.value === key.value
     )?.name.value;
+  }
+
+  getScore(key: PlayerId): number {
+    return (
+      this.tournament.scores.find((score) => score.playerId.value === key.value)
+        ?.score ?? 0
+    );
   }
 }

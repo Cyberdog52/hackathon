@@ -1,6 +1,19 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Game: {{ game.id.value }}</mat-card-title>
+    <mat-card-title *ngIf="game.status === GameStatus.IN_PROGRESS"
+      >Game is in progress</mat-card-title
+    >
+    <ng-container *ngIf="game.status === GameStatus.FINISHED">
+      <mat-card-title *ngIf="!game.winner">Game is a draw</mat-card-title>
+      <mat-card-title
+        *ngIf="game.winner"
+        [ngClass]="
+          game.winner.value == game.players[0].id.value ? 'black' : 'white'
+        "
+      >
+        {{ getPlayerName(game.winner) }} has won
+      </mat-card-title>
+    </ng-container>
   </mat-card-header>
   <mat-card-content>
     <div *ngIf="game.players[0]" class="black">
@@ -20,19 +33,6 @@
           </p>
         </ng-container>
       </div>
-    </div>
-
-    <p *ngIf="game.status === GameStatus.IN_PROGRESS">Game is in progress</p>
-    <div *ngIf="game.status === GameStatus.FINISHED">
-      <p *ngIf="!game.winner">Game is a draw</p>
-      <p
-        *ngIf="game.winner"
-        [ngClass]="
-          game.winner.value == game.players[0].id.value ? 'black' : 'white'
-        "
-      >
-        {{ getPlayerName(game.winner) }} has won
-      </p>
     </div>
   </mat-card-content>
   <mat-card-actions>
