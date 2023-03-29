@@ -46,13 +46,7 @@ export class LobbyComponent implements OnInit {
   }
 
   private pollTop10PlayersRegularly(): void {
-    this.topPlayers$ = this.lobbyService.getTop10Players().pipe(
-      repeat({
-        count: Infinity,
-        delay: 1000
-      }),
-      distinctUntilChanged()
-    );
+    this.topPlayers$ = this.lobbyService.getTop10Players();
   }
 
   openCreateGameDialog(players: PlayerListResponse[]): void {

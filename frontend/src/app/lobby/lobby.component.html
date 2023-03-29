@@ -6,11 +6,15 @@
         <span> Create Game</span>
       </button>
     </div>
-    <div class="top10-player-column">
+    <div class="text-center" *ngIf="topPlayers$ | async as topPlayers">
       <h2>Top 10</h2>
-      <ol class="player-list">
-        <li *ngFor="let playerName of topPlayers$ | async">{{ playerName.playerName }}</li>
-      </ol>
+      <mat-list>
+      <mat-list-item>🥇 {{ topPlayers[0].playerName }} W/L: {{ topPlayers[0].score }}%</mat-list-item>
+        <mat-list-item>🥈 {{ topPlayers[1].playerName }} W/L: {{ topPlayers[1].score }}%</mat-list-item>
+        <mat-list-item>🥉 {{ topPlayers[2].playerName }} W/L: {{ topPlayers[2].score }}%</mat-list-item>
+        <mat-list-item *ngFor="let topPlayer of topPlayers | slice:3">{{ topPlayer.playerName }} W/L: {{ topPlayer.score }}%</mat-list-item>
+        <mat-list-item>...</mat-list-item>
+      </mat-list>
     </div>
     <div class="active-player-column">
       <h2>Active Players</h2>

@@ -39,7 +39,7 @@ export class GameOverviewComponent implements OnInit {
     });
   }
 
-  shipIsOnField(y: number, x: number, ships: Ship[]): boolean {
+  shipIsOnField(x: number, y: number, ships: Ship[]): boolean {
     let isOnField: boolean = false;
     ships.forEach(ship => {
         if (ship.positions.some(position => position.x === x && position.y === y)) {
