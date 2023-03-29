@@ -13,3 +13,8 @@ export interface PlaceBoatAction {
   coordinate: Coordinate;
   gameId: UUID;
 }
+
+export interface  PlayerJoinAction {
+  playerId: UUID;
+  gameId: UUID;
+}

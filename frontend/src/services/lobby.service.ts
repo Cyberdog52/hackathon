@@ -10,6 +10,8 @@ import {
   STATIC_OPPONENT_PLAYER_ID,
   STATIC_OPPONENT_PLAYER_ID2
 } from "../model/mocks/mock-data";
+import { PlayerJoinedEvent } from "../model/game/playing/events";
+import { PlayerJoinAction } from "../model/game/playing/actions";
 
 @Injectable({
   providedIn: "root"
@@ -70,14 +72,14 @@ export class LobbyService {
     return this.httpClient.post<void>(url, {});
   }
 
-  joinGame(gameId: GameId): Observable<void> {
+  joinGame(gameId: GameId): Observable<PlayerJoinedEvent> {
     if (environment.mock) {
       return EMPTY;
     }
-    const url = `${this.backendUrl}/lobby/join`;
-    return this.httpClient.post<void>(url, {
+    const url = `${this.backendUrl}/join`;
+    return this.httpClient.post<PlayerJoinedEvent>(url, {
       playerId: STATIC_HUMAN_PLAYER_ID,
       gameId
-    });
+    } as PlayerJoinAction);
   }
 }

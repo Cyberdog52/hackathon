@@ -64,13 +64,13 @@ export class HttpClientMock {
       {
         type: EventType.BOAT_PLACED,
         playerId: body.playerId,
-        coordinate: body.coordinate as Coordinate,
+        coordinates: [body.coordinate as Coordinate],
         successful: true
       },
       {
         type: EventType.BOAT_PLACED,
         playerId: STATIC_OPPONENT_PLAYER_ID,
-        coordinate: { y: body.coordinate.x, x: body.coordinate.y } as Coordinate,
+        coordinates: [{ y: body.coordinate.x, x: body.coordinate.y } as Coordinate],
         successful: true
       }
     ];

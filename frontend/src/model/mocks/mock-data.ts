@@ -1,5 +1,6 @@
 import { GameId, PlayerId } from "../lobby";
 
+export const STATIC_BOT_GAME_ID_PLAY: GameId = "00000000-0000-0000-0000-000000000000"
 export const STATIC_GAME_ID_PLAY: GameId = "fbdbf268-ee06-4e67-beb2-c6e7a691d524"
 export const STATIC_GAME_ID_SPECTATE: GameId = "1d71d4f0-80a0-483c-8f30-9d73fbf7b331"
 export const STATIC_HUMAN_PLAYER_ID: PlayerId = "c59655c2-f69f-46e5-b23e-cdf0c15e57fd"

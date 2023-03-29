@@ -1,8 +1,21 @@
+.component-wrapper {
+  margin: 16px;
+}
+
+button {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
 .map-container {
   display: flex;
   flex-direction: row;
   gap: 24px;
   margin-bottom: 24px;
+}
+
+.map-wrapper {
+  min-width: 240px;
 }
 
 

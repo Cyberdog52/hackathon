@@ -4,7 +4,7 @@
     Back to lobby browser
   </button>
   <ng-container *ngIf="gameState === gameStateEnum.END">
-    <h1 *ngIf="gameWinnerId !== undefined">The winner is: {{gameWinnerId.substring(24)}}</h1>
+    <h1 *ngIf="gameWinnerId !== undefined">The winner is: <br /> {{this.player1Name}} ({{this.player1Id.substring(24)}})</h1>
   </ng-container>
   <ng-container *ngIf="gameState === gameStateEnum.LOBBY">
     <h1>Waiting for Players:</h1>
