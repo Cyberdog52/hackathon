@@ -66,6 +66,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
         switchMap((gameId: UUID) => {
           this.gameId = gameId;
           this.player1Id = this.gameClient.getCurrentPlayerId() as string;
+          this.player1Name = this.nameGeneratorService.getNameForUUID(this.player1Id);
           return this.gameViewerService.listenToGameEvents(gameId);
         })
       ).subscribe((event) => {
