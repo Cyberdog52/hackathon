@@ -60,6 +60,7 @@ public class PlayingOrchestrator {
 
     TakeTurnEvent takeTurnEvent = TakeTurnEvent.builder()
         .actions(List.of(GamePlayingAction.ATTACK))
+        .gameId(game.gameId())
         .playerId(otherPlayer.id())
         .build();
 
