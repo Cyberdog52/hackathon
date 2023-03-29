@@ -1,0 +1,41 @@
+<div class="flex flex-col" *ngIf="game$ | async as game">
+  <div class="text-center py-6">
+    <h1>Current Phase:
+      <span *ngIf="game.status === placeShips">Place Ships 🚢</span>
+      <span *ngIf="game.status === shoot">Shoot! 💥</span>
+      <span *ngIf="game.status === finished">Finished ✅</span>
+    </h1>
+  </div>
+  <div class="m-24 flex flex-row justify-around">
+    <div *ngFor="let board of game.boards">
+      <h1 class="text-4xl">Board of {{ board.playerId }}</h1>
+      <table class="border-black border-2">
+        <tr>
+          <th></th>
+          <th class="w-8 h-8" *ngFor="let shotRow of board.shots; let i = index">{{ i }}</th>
+        </tr>
+        <tr *ngFor="let shotRow of board.shots; let i = index">
+          <th class="w-8 h-8">
+            {{ i }}
+          </th>
+          <td class="w-8 h-8 border-black border-2" *ngFor="let shot of shotRow; let j = index"
+              [ngClass]="{'bg-gray-300': shipIsOnField(i, j, board.ships) }">
+            <div class="flex justify-center text-center">
+              <span class="text-2xl" *ngIf="shot === hit">💥</span>
+              <span class="text-2xl" *ngIf="shot === miss">💨</span>
+              <span class="text-2xl" *ngIf="shot === sunk">💀</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div>
+      <h1>History:</h1>
+      <ng-container *ngFor="let round of game.state.rounds">
+        <ul>
+          <li *ngFor="let move of round.moves">{{ move | json }}</li>
+        </ul>
+      </ng-container>
+    </div>
+  </div>
+</div>

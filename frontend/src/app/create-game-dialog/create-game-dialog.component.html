@@ -1,0 +1,22 @@
+<div class="p-6">
+  <h1 class="text-3xl font-bold text-center">Create Game</h1>
+  <form class="flex flex-col" [formGroup]="createGameForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Player 1</mat-label>
+      <mat-select formControlName="player1">
+        <mat-option *ngFor="let player of data.players" [value]=player.id>{{ player.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Player 2</mat-label>
+      <mat-select formControlName="player2">
+        <mat-option *ngFor="let player of data.players" [value]=player.id>{{ player.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex flex-col">
+      <button class="mb-2" mat-flat-button color="primary" [mat-dialog-close]="{data: createGameForm.value, action: 'inspect'}">Create Game & Inspect 🔍</button>
+      <button mat-flat-button color="primary" [mat-dialog-close]="{data: createGameForm.value, action: 'background'}">Create Game & Run in Background 📟</button>
+    </div>
+
+  </form>
+</div>

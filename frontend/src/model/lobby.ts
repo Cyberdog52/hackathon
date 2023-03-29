@@ -37,9 +37,8 @@ export interface GameState {
 }
 
 export interface PlayRequest {
-  player: PlayerId;
+  playerId: PlayerId;
   requestId: RequestId;
-  possibleActions: GameAction[];
 }
 
 export interface RequestId {
@@ -108,4 +107,8 @@ export enum ShipType {
 export enum Orientation {
   HORIZONTAL = "HORIZONTAL",
   VERTICAL = "VERTICAL"
+}
+
+export interface GameUpdate {
+  gameDto: GameDto;
 }
