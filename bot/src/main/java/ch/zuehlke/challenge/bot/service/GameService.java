@@ -62,6 +62,9 @@ public class GameService {
                             request,
                             ShootResult.class
                     );
+            if (response.getStatusCode().is4xxClientError()) {
+                brain.resetShoot(request);
+            }
 
             log.info(response.toString());
             return;

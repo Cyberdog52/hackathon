@@ -12,4 +12,5 @@ public interface Brain {
 
     ShootRequest shootRequest(String gameId, Player player);
 
+    void resetShoot(ShootRequest request);
 }

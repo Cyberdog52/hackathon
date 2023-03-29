@@ -17,6 +17,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Profile("bestbot")
 public class BestBrain implements Brain {
 
+    private final boolean[][] shots = new boolean[10][10];
+
     @Override
     public PlaceShipsRequest createGame(String gameId, Player player) {
         List<Ship> ships = new ArrayList<>();
@@ -33,10 +35,22 @@ public class BestBrain implements Brain {
 
     public ShootRequest shootRequest(String gameId, Player player) {
         think();
-        int x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-        int y = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+
+        int x, y;
+        do {
+            x = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+            y = ThreadLocalRandom.current().nextInt(0, 9 + 1);
+        } while(shots[x][y]);
+
+        shots[x][y] = true;
+
         return new ShootRequest(gameId, player.getId(), player.getToken(), x, y);
 
+    }
+
+    @Override
+    public void resetShoot(ShootRequest request) {
+        shots[request.getX()][request.getY()] = false;
     }
 
     private static void think() {
