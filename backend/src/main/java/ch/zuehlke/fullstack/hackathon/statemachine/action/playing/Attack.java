@@ -36,7 +36,7 @@ public class Attack {
                 .get(Variable.FIRST_PLAYER_ID);
 
             Game updatedGame = playingOrchestrator.attack(storedGame.gameId(), action.playerId(),
-                action.coordinate(), currentState, firstPlayerId);
+                action.coordinate(), currentState, firstPlayerId, stateMachine);
 
             stateMachine.getExtendedState().getVariables().put(Variable.GAME_ID, updatedGame);
 
