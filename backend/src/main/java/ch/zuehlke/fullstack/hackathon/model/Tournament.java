@@ -98,12 +98,16 @@ public class Tournament {
     }
 
     public Optional<PlayerId> getWinner() {
-        if (status != TournamentStatus.FINISHED) {
+        if (status != TournamentStatus.FINISHED || scores.isEmpty()) {
             return Optional.empty();
         }
-        return getScores().stream().findFirst().map(Score::playerId);
-    }
 
+        if (scores.size() >= 2 && scores.get(0).score() == scores.get(1).score()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(scores.get(0).playerId());
+    }
 
     public List<Score> getScores() {
         return scores;
