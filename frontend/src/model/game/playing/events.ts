@@ -1,4 +1,5 @@
 import { UUID } from "../../uuid";
+import { EventType } from "../event-type";
 
 export enum GamePlayingAction {
   ATTACK = "ATTACK"
@@ -16,53 +17,55 @@ export interface Coordinate {
 }
 
 export interface AttackEvent {
-  type: "AttackEvent";
+  type: EventType.PLAYER_ATTACKED;
   status: AttackStatus;
   attackingPlayerId: UUID;
   coordinate: Coordinate;
 }
 
-export interface PlayerTurnEvent {
-  type: "PlayerTurnEvent";
-  playerId: UUID;
-  actions: GamePlayingAction[];
-}
-
 export interface GameStartSetupEvent {
-  type: "GameStartSetupEvent"
-}
-
-export interface GameStartSetupEvent {
-  type: "GameStartSetupEvent";
+  type: EventType.SETUP_GAME,
+  gameId: UUID;
+  mapSizeX: number;
+  mapSizeY: number;
+  numberOfBoats: number;
+  playerIds: UUID[];
 }
 
 export interface GameStartPlayingEvent {
-  type: "GameStartPlayingEvent";
+  type: EventType.START_PLAYING;
   playerTurnOrder: UUID[];
 }
 
 export interface GameEndEvent {
-  type: "GameEndEvent";
+  type: EventType.GAME_ENDED;
   winnerId: UUID;
 }
 
 export type PlaceBoatEvent = {
-  type: "PlaceBoatEvent";
+  type: EventType.BOAT_PLACED;
   playerId: UUID;
   coordinate: Coordinate;
   successful: boolean;
 }
 
 export type TakeTurnEvent = {
-  type: "TakeTurnEvent";
+  type: EventType.TAKE_TURN;
   playerId: UUID;
   actions: GamePlayingAction[];
 }
 
+
+export type PlayerJoinedEvent = {
+  type: EventType.PLAYER_JOINED;
+  playerId: UUID;
+  gameId: UUID;
+}
+
 export type PlayingEvent = AttackEvent
-  | PlayerTurnEvent
   | GameStartSetupEvent
   | GameStartPlayingEvent
   | PlaceBoatEvent
   | TakeTurnEvent
-  | GameEndEvent;
+  | GameEndEvent
+  | PlayerJoinedEvent;

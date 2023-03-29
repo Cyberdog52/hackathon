@@ -34,7 +34,7 @@ public class MockGameVisitorNotificationService {
 
     }
 
-    @Scheduled(cron = "*/1 * * * * *")
+    // @Scheduled(cron = "*/1 * * * * *")
     public void sendAction() {
         eventIndex = eventIndex % gameEvents.size();
 

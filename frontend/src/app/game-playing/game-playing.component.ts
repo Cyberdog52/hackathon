@@ -8,6 +8,7 @@ import { CellClickEvent, MapComponent, MapValue } from "../game/map/map.componen
 import { STATIC_HUMAN_PLAYER_ID, STATIC_OPPONENT_PLAYER_ID } from "../../model/mocks/mock-data";
 import { GameState } from "src/model/game/playing/game-state";
 import { GamePlayService } from "../../services/game-play.service";
+import { EventType } from "../../model/game/event-type";
 
 @Component({
   selector: "app-game-playing",
@@ -113,26 +114,26 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   }
 
   private mapEventToMapChanges(event: PlayingEvent): void {
-    if (event.type === "GameStartSetupEvent") {
+    if (event.type === EventType.SETUP_GAME) {
       this.gamePhase = GameState.SETUP;
       this.player1Turn = true;
       this.player2Turn = true;
     }
 
-    if (event.type === "GameStartPlayingEvent") {
+    if (event.type === EventType.START_PLAYING) {
       this.gamePhase = GameState.PLAYING;
       this.player1Turn = false;
       this.player2Turn = false;
     }
 
-    if (event.type === "TakeTurnEvent") {
+    if (event.type === EventType.TAKE_TURN) {
       this.gamePhase = GameState.PLAYING;
       this.player1Turn = this.player1Id === event.playerId;
       this.player2Turn = this.player2Id === event.playerId;
       this.playableActions = event.actions;
     }
 
-    if (event.type === "GameEndEvent") {
+    if (event.type === EventType.GAME_ENDED) {
       this.gamePhase = GameState.END;
       this.winnerId = event.winnerId;
       this.player1Map.resetMap();
@@ -140,13 +141,13 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (event.type === "PlaceBoatEvent") {
+    if (event.type === EventType.BOAT_PLACED) {
       const map = this.getMapOfPlayer(event.playerId);
       map.setBoat(event.coordinate);
       return;
     }
 
-    if (event.type === "AttackEvent") {
+    if (event.type === EventType.PLAYER_ATTACKED) {
       const map = this.getMapOfAttackedPlayer(event.attackingPlayerId);
       if (event.status === AttackStatus.HIT) {
         map.setHit(event.coordinate);
@@ -155,7 +156,6 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
       }
       return;
     }
-
   }
 
   private getMapOfAttackedPlayer(attackingPlayerId: UUID): MapComponent {

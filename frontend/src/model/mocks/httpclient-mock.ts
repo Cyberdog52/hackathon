@@ -1,15 +1,10 @@
 import { delay, EMPTY, finalize, from, Observable, of } from "rxjs";
-import {
-  AttackStatus,
-  Coordinate,
-  GamePlayingAction,
-  GameStartPlayingEvent,
-  PlayingEvent
-} from "../game/playing/events";
+import { AttackStatus, Coordinate, GamePlayingAction, PlayingEvent } from "../game/playing/events";
 import { websocketMock } from "./websocket-mock";
 import { STATIC_HUMAN_PLAYER_ID, STATIC_OPPONENT_PLAYER_ID } from "./mock-data";
 import { HttpClient } from "@angular/common/http";
 import { UUID } from "../uuid";
+import { EventType } from "../game/event-type";
 
 export class HttpClientMock {
   public post<T>(url: string, body: any | null, options?: any): Observable<T> {
@@ -28,18 +23,18 @@ export class HttpClientMock {
         const nextPlayerID = body.playerId === STATIC_HUMAN_PLAYER_ID ? STATIC_HUMAN_PLAYER_ID : STATIC_OPPONENT_PLAYER_ID;
         from([
           {
-            type: "AttackEvent",
+            type: EventType.PLAYER_ATTACKED,
             status: AttackStatus.HIT,
             attackingPlayerId: body.attackingPlayerId,
             coordinate: body.coordinate as Coordinate
           },
           {
-            type: "TakeTurnEvent",
+            type: EventType.TAKE_TURN,
             actions: [GamePlayingAction.ATTACK],
             playerId: nextPlayerID
           },
           {
-            type: "AttackEvent",
+            type: EventType.PLAYER_ATTACKED,
             status: AttackStatus.MISS,
             attackingPlayerId: nextPlayerID,
             coordinate: {
@@ -48,7 +43,7 @@ export class HttpClientMock {
             } as Coordinate
           },
           {
-            type: "TakeTurnEvent",
+            type: EventType.TAKE_TURN,
             actions: [GamePlayingAction.ATTACK],
             playerId: body.playerId
           }
@@ -67,13 +62,13 @@ export class HttpClientMock {
     this.numBoats++;
     const evts: PlayingEvent[] = [
       {
-        type: "PlaceBoatEvent",
+        type: EventType.BOAT_PLACED,
         playerId: body.playerId,
         coordinate: body.coordinate as Coordinate,
         successful: true
       },
       {
-        type: "PlaceBoatEvent",
+        type: EventType.BOAT_PLACED,
         playerId: STATIC_OPPONENT_PLAYER_ID,
         coordinate: { y: body.coordinate.x, x: body.coordinate.y } as Coordinate,
         successful: true
@@ -82,11 +77,11 @@ export class HttpClientMock {
 
     if (this.numBoats === 5) {
       evts.push({
-          type: "GameStartPlayingEvent",
+          type: EventType.START_PLAYING,
           playerTurnOrder: [body.playerId as UUID, STATIC_OPPONENT_PLAYER_ID as UUID]
         },
         {
-          type: "TakeTurnEvent",
+          type: EventType.TAKE_TURN,
           actions: [GamePlayingAction.ATTACK],
           playerId: body.playerId
         }

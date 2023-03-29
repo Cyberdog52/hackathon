@@ -5,6 +5,7 @@ import { map, Subject, Subscription, switchMap } from "rxjs";
 import { UUID } from "../../model/uuid";
 import { AttackStatus, PlayingEvent } from "../../model/game/playing/events";
 import { MapComponent } from "../game/map/map.component";
+import { EventType } from "../../model/game/event-type";
 
 @Component({
   selector: "app-game-viewer",
@@ -17,11 +18,13 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   public events$: Subject<string[]> = new Subject<string[]>();
   private events: string[] = [];
 
-  public sizeX = 24.0;
-  public sizeY = 24.0;
+  public sizeX = 24;
+  public sizeY = 24;
 
   public player1Id!: UUID;
   public player2Id!: UUID;
+  public gameWinnerId?: UUID;
+
   public gameId!: UUID;
 
   @ViewChild("mapPlayer1")
@@ -43,8 +46,6 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
         // TODO: Fetch game data here
         switchMap((gameId: UUID) => {
           this.gameId = gameId;
-          this.player1Id = "1bcdebdc-8e97-4a6d-a0d8-c3f1cc0853f7"
-          this.player1Id = "803b89be-deb1-427f-a582-b85739d6f4ec"
           return this.gameViewerService.listenToGameEvents(gameId);
         })
       ).subscribe((event) => {
@@ -64,19 +65,30 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   }
 
   private mapEventToMapChanges(event: PlayingEvent): void {
-    if (event.type === "GameEndEvent") {
-      this.player1Map.resetMap();
-      this.player2Map.resetMap();
+    if (event.type === EventType.SETUP_GAME) {
+      console.log(EventType.SETUP_GAME);
+      this.sizeX = event.mapSizeX;
+      this.sizeY = event.mapSizeY;
+      this.player1Id = event.playerIds[0];
+      this.player2Id = event.playerIds[1];
       return;
     }
 
-    if (event.type === "PlaceBoatEvent") {
+    if (event.type === EventType.GAME_ENDED) {
+      console.log(EventType.GAME_ENDED);
+      this.gameWinnerId = event.winnerId;
+      return;
+    }
+
+    if (event.type === EventType.BOAT_PLACED) {
+      console.log(EventType.BOAT_PLACED);
       const map = this.getMapOfPlayer(event.playerId);
       map.setBoat(event.coordinate);
       return;
     }
 
-    if (event.type === "AttackEvent") {
+    if (event.type === EventType.PLAYER_ATTACKED) {
+      console.log(EventType.PLAYER_ATTACKED);
       const map = this.getMapOfAttackedPlayer(event.attackingPlayerId);
       if (event.status === AttackStatus.HIT) {
         map.setHit(event.coordinate);
@@ -89,7 +101,7 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   }
 
   private getMapOfAttackedPlayer(attackingPlayerId: UUID): MapComponent {
-    if (attackingPlayerId !== this.player1Id) {
+    if (attackingPlayerId === this.player1Id) {
       return this.player2Map;
     } else {
       return this.player1Map;

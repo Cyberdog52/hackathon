@@ -1,8 +1,9 @@
 <div>
   <a href="/">Back to home</a>
+  <h1 *ngIf="this.gameWinnerId !== undefined">The winner is: {{this.gameWinnerId}}</h1>
   <div class="map-container">
     <div class="map-wrapper">
-      <h2>Player 1</h2>
+      <h2>Player 1: <br />{{this.player1Id}}</h2>
       <app-map gameId="{{this.gameId}}"
                playerId="{{this.player1Id}}"
                [sizeX]=this.sizeX
@@ -10,7 +11,7 @@
                #mapPlayer1/>
     </div>
     <div class="map-wrapper">
-      <h2>Player 2</h2>
+      <h2>Player 2: <br /> {{this.player2Id}}</h2>
       <app-map gameId="{{this.gameId}}"
                playerId="{{this.player2Id}}"
                [sizeX]=this.sizeX
