@@ -15,7 +15,7 @@ class CardTest {
 
     @Test
     void getPoints() {
-        assertThat(card.getPoints()).isEqualTo(2);
+        assertThat(card.getValue()).isEqualTo(2);
     }
 
     @Test
