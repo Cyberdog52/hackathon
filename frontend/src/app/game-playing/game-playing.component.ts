@@ -143,7 +143,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
     if (event.type === EventType.BOAT_PLACED) {
       const map = this.getMapOfPlayer(event.playerId);
-      map.setBoat(event.coordinate);
+      map.setBoatCoordinates(event.coordinates);
       return;
     }
 

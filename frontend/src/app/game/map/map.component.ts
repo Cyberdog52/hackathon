@@ -75,8 +75,14 @@ export class MapComponent implements OnInit, OnChanges {
     this.setMapValue(coordinate, MapValue.MISS);
   }
 
-  public setBoat(coordinate: Coordinate): void {
+  public setSingleBoatCoordinate(coordinate: Coordinate): void {
     this.setMapValue(coordinate, MapValue.BOAT);
+  }
+
+  public setBoatCoordinates(coordinates: Coordinate[]): void {
+    coordinates.forEach(c => {
+      this.setSingleBoatCoordinate(c);
+    })
   }
 
   private setMapValue(coordinate: Coordinate, mapValue: MapValue): void {

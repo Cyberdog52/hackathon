@@ -45,7 +45,7 @@ export interface GameEndEvent {
 export type PlaceBoatEvent = {
   type: EventType.BOAT_PLACED;
   playerId: UUID;
-  coordinate: Coordinate;
+  coordinates: Coordinate[];
   successful: boolean;
 }
 

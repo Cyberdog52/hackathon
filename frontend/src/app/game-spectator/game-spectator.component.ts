@@ -7,6 +7,7 @@ import { AttackStatus, PlayingEvent } from "../../model/game/playing/events";
 import { MapComponent } from "../game/map/map.component";
 import { EventType } from "../../model/game/event-type";
 import { GameState } from "../../model/game/playing/game-state";
+import { NameGeneratorService } from "../../services/name.service";
 
 @Component({
   selector: "app-game-viewer",
@@ -25,6 +26,9 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   public player1Id!: UUID;
   public player2Id!: UUID;
+  public player1Name = "";
+  public player2Name = "";
+
   public gameWinnerId?: UUID;
 
   public gameId!: UUID;
@@ -35,9 +39,11 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   @ViewChild("mapPlayer2")
   public player2Map!: MapComponent;
 
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private gameViewerService: GameEventService) {
+    private gameViewerService: GameEventService,
+    private readonly nameGeneratorService: NameGeneratorService) {
 
   }
 
@@ -83,8 +89,10 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
     if (event.type === EventType.PLAYER_JOINED) {
       if (this.player1Id === undefined) {
         this.player1Id = event.playerId;
+        this.player1Name = this.nameGeneratorService.getNameForUUID(this.player1Id);
       } else {
         this.player2Id = event.playerId;
+        this.player2Name = this.nameGeneratorService.getNameForUUID(this.player2Id);
       }
     }
 
@@ -96,6 +104,9 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
       this.player1Id = event.playerIds[0];
       this.player2Id = event.playerIds[1];
+      this.player1Name = this.nameGeneratorService.getNameForUUID(this.player1Id);
+      this.player2Name = this.nameGeneratorService.getNameForUUID(this.player2Id);
+
 
       return;
     }
@@ -113,7 +124,7 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
     if (event.type === EventType.BOAT_PLACED) {
       const map = this.getMapOfPlayer(event.playerId);
-      map.setBoat(event.coordinate);
+      map.setBoatCoordinates(event.coordinates);
       return;
     }
 
