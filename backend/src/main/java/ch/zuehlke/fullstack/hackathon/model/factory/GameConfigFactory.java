@@ -16,9 +16,9 @@ public class GameConfigFactory {
 
     public static GameConfig createNormalGameConfig() {
         return GameConfig.builder()
-            .maxNumberOfBoats(5)
-            .mapHeight(10)
-            .mapWidth(10)
+                .maxNumberOfBoats(1)
+                .mapHeight(5)
+                .mapWidth(5)
             .build();
     }
 
