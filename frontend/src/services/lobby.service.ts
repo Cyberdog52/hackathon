@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import {Observable, of} from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {GameDto, GameId, Player, TopPlayers} from "../model/lobby";
@@ -39,6 +39,8 @@ export class LobbyService {
   }
 
   getTop10Players(): Observable<TopPlayers[]> {
+    return of([{id: "1", playerName: "GigaChadBot", score: 100}, {id: "2", playerName: "BestBot", score: 80}, {id: "3", playerName: "SimpleBot", score: 30}, {id: "4", playerName: "xXBeTaBoTXx", score: 10}]);
+
     const url = `${this.backendUrl}/top10`;
     return this.httpClient.get<TopPlayers[]>(url);
   }
