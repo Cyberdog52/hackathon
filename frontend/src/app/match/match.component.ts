@@ -1,20 +1,21 @@
-import { Component } from "@angular/core";
-import { Match } from "../../model/match";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import { Match } from "../model/match";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatchService } from "../../services/MatchService";
-import { Player } from "../../model/player";
-import { PlayerService } from "../../services/PlayerService";
-import { PlayerDto } from "../../model/playerDto";
-import { MessageService } from "../../services/MessageService";
+import { MatchService } from "../services/MatchService";
+import { Player } from "../model/player";
+import { PlayerService } from "../services/PlayerService";
+import { PlayerDto } from "../model/playerDto";
+import { MessageService } from "../services/MessageService";
+import { SocketService } from "../services/socket.service";
 
 @Component({
   selector: "app-match",
   templateUrl: "./match.component.html",
   styleUrls: ["./match.component.scss"]
 })
-export class MatchComponent {
+export class MatchComponent implements OnInit, OnDestroy {
   match: Match | undefined;
-  players: Player[] = [];
+  players: Array<Player> = new Array<Player>();
 
   inputPlayer: PlayerDto = {
     name: "",
@@ -26,7 +27,8 @@ export class MatchComponent {
     private matchService: MatchService,
     private router: Router,
     private playerService: PlayerService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private socketService: SocketService
   ) {
   }
 
@@ -40,6 +42,7 @@ export class MatchComponent {
       this.router.navigate(["/dashboard"]);
     }
     this.getPlayersAll();
+    this.checkForJoiningPlayers();
   }
 
   getMatch(id
@@ -57,9 +60,7 @@ export class MatchComponent {
     return this.match?.players || [];
   }
 
-  getPlayersAll()
-    :
-    void {
+  getPlayersAll(): void {
     this.playerService.getPlayers()
       .subscribe(players => this.players = players);
   }
@@ -86,11 +87,29 @@ export class MatchComponent {
   }
 
   startMatch(): void {
-    if (this.match) {
+    /*if (this.match) {
       this.matchService.start(this.match.id)
         .subscribe(match => {
           this.router.navigate(["/playing-match/" + this.match!.id]);
         });
-    }
+      this.router.navigate(["/playing-match/" + this.match!.id]);
+    }*/
+    this.router.navigate(["/playing-match/" + this.match!.id]);
+  }
+
+  checkForJoiningPlayers(): void {
+    this.socketService.subscribe("/topic/game/*", (message) => {
+      this.getPlayersAll()
+      this.match =  {
+        id: this.route.snapshot.paramMap.get("id"),
+        players: this.players,
+        full: false
+      } as Match
+      console.log("body: " + message.body);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.socketService.unsubscribe("/topic/game/*");
   }
 }

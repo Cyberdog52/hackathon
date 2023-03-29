@@ -1,1 +1,50 @@
-<p>playing-match works!</p>
+<div class="container">
+  <div class="upper-sections">
+    <span>Player 2</span>
+    <ng-container  *ngIf="currentRound?.currentPlayer?.currentDeck; else defaultDeck">
+      <ng-container *ngFor="let card of currentRound?.currentPlayer?.currentDeck">
+        <mat-card>
+          <!--<app-svg-icon [cardValue]="card.value" [suit]="card.suit"></app-svg-icon>-->
+          <img src="assets/img/cards/svg/{{card.value}}_{{card.suit}}" style="width: 100px">
+        </mat-card>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="middle-sections">
+    <ng-container class="left-section" *ngIf="currentRound; else defaultDiscardedCard" >
+      <img src="assets/img/cards/svg/{{currentRound.discardedCard.value}}_{{currentRound.discardedCard.suit}}" style="width: 100px">
+    </ng-container>
+    <ng-container class="right-section">
+      <mat-card>
+        <mat-card-header>Available Cards</mat-card-header>
+        <img src="assets/img/cards/img/backside.png" style="width: 150px">
+      </mat-card>
+    </ng-container>
+  </div>
+  <div class="bottom-section">
+    <span >Player 1</span>
+    <ng-container  *ngIf="currentRound?.currentPlayer?.currentDeck; else defaultDeck">
+      <ng-container *ngFor="let card of currentRound?.currentPlayer?.currentDeck">
+        <mat-card>
+          <img src="assets/img/cards/svg/{{card.value}}_{{card.suit}}" style="width: 80px">
+        </mat-card>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #defaultDiscardedCard>
+  <mat-card>
+    <mat-card-header>Discarded Cards</mat-card-header>
+    <img src="assets/img/cards/svg/backside.svg" style="width: 150px">
+  </mat-card>
+</ng-template>
+
+<ng-template #defaultDeck>
+    <ng-container *ngFor="let _ of [].constructor(7)">
+    <mat-card>
+      <img src="assets/img/cards/img/backside.png" style="width: 80px">
+    </mat-card>
+  </ng-container>
+
+</ng-template>

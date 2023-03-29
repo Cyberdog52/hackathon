@@ -20,6 +20,14 @@
           <td mat-cell *matCellDef="let element"> {{element.full}} </td>
         </ng-container>
 
+        <!-- Weight Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button routerLink="/playing-match/{{element.id}}">Join</button>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
