@@ -1,13 +1,13 @@
-<div class="flex flex-col" *ngIf="game$ | async as game">
+<div class="flex flex-col" *ngIf="game; else noGame">
   <div class="text-center py-6">
     <h1>Current Phase:
-      <span *ngIf="game.status === placeShips">Place Ships 🚢</span>
-      <span *ngIf="game.status === shoot">Shoot! 💥</span>
-      <span *ngIf="game.status === finished">Finished ✅</span>
+      <span *ngIf="game.gameDto.status === placeShips">Place Ships 🚢</span>
+      <span *ngIf="game.gameDto.status === shoot">Shoot! 💥</span>
+      <span *ngIf="game.gameDto.status === finished">Finished ✅</span>
     </h1>
   </div>
   <div class="m-24 flex flex-row justify-around">
-    <div *ngFor="let board of game.boards">
+    <div *ngFor="let board of game.gameDto.boards">
       <h1 class="text-4xl">Board of {{ board.playerId }}</h1>
       <table class="border-black border-2">
         <tr>
@@ -31,11 +31,16 @@
     </div>
     <div>
       <h1>History:</h1>
-      <ng-container *ngFor="let round of game.state.rounds">
-        <ul>
-          <li *ngFor="let move of round.moves">{{ move | json }}</li>
-        </ul>
-      </ng-container>
+
     </div>
   </div>
 </div>
+
+<ng-template #noGame>
+  <div class="text-center py-6">
+    <h1>Current Phase:
+      <span>Game Not Started yet 🚥</span>
+    </h1>
+  </div>
+</ng-template>
+

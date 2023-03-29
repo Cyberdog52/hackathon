@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {GameDto, GameStatus, Orientation, Ship, ShipType, ShotResult} from "../../model/lobby";
 import {ActivatedRoute} from "@angular/router";
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+import {RxStompService} from "../../services/rx-stomp.service";
+import {topic} from "../../services/stomp.cfg";
 
 
 @Component({
@@ -14,6 +16,7 @@ import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 export class GameOverviewComponent implements OnInit {
 
   game$: Observable<GameDto> | undefined;
+  game?: { gameDto: GameDto } | null = null;
 
   placeShips: GameStatus = GameStatus.PLACE_SHIPS;
   shoot: GameStatus = GameStatus.SHOOT;
@@ -24,11 +27,16 @@ export class GameOverviewComponent implements OnInit {
   miss: ShotResult = ShotResult.MISS;
   sunk: ShotResult = ShotResult.SUNK;
 
-  constructor(private gameService: GameService, private route: ActivatedRoute) {
+  constructor(private gameService: GameService, private route: ActivatedRoute, private stomp: RxStompService) {
   }
 
   ngOnInit(): void {
-    this.game$ = this.gameService.getGame(this.route.snapshot.queryParamMap.get("gameId") || "");
+    //this.game$ = this.gameService.getGame(this.route.snapshot.queryParamMap.get("gameId") || "");
+
+    this.stomp.watch(topic).subscribe((response) => {
+      this.game = JSON.parse(response.body);
+      console.log(response.body);
+    });
   }
 
   shipIsOnField(y: number, x: number, ships: Ship[]): boolean {
