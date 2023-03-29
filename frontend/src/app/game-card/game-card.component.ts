@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { GameAction, GameDto, GameStatus, PlayerId } from "../../model/lobby";
 import { LobbyService } from "../../services/lobby.service";
-import { STATIC_HUMAN_PLAYER_ID } from "../../model/mocks";
+import { STATIC_HUMAN_PLAYER_ID } from "../../model/mocks/mock-data";
 import { Router } from "@angular/router";
 
 @Component({

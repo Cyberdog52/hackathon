@@ -3,6 +3,8 @@ import { Injectable } from "@angular/core";
 import { GameAction } from "../model/lobby";
 import { PlayingEvent } from "../model/game/playing/events";
 import { StompClient } from "./stomp-client";
+import { environment } from "../environments/environment";
+import { websocketMock } from "../model/mocks/websocket-mock";
 
 @Injectable({
   providedIn: "root"
@@ -12,6 +14,9 @@ export class GameEventService {
   private subject: ReplaySubject<PlayingEvent> = new ReplaySubject<PlayingEvent>();
 
   public listenToGameEvents(gameId: string): Observable<PlayingEvent> {
+    if(environment.mock) {
+      return websocketMock.onEvent();
+    }
     const websocketClient = new StompClient<PlayingEvent, GameAction>(
       this.wsUrl,
       `/topic/game/${gameId}/spectate`

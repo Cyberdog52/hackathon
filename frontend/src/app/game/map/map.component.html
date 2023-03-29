@@ -1,4 +1,4 @@
-<table>
+<table [class.disabled]="this.disabled">
   <thead>
   <tr>
     <th></th>
@@ -6,16 +6,16 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let row of this.map; let i = index">
-    <th>{{getRowName(i)}}</th>
-    <td *ngFor="let cell of this.map[i]; let i2 = index"
-        [class.empty]="cell === mapValuesEnum.EMPTY"
-        [class.boat]="cell === mapValuesEnum.BOAT"
-        [class.hit]="cell === mapValuesEnum.HIT"
-        [class.miss]="cell === mapValuesEnum.MISS"
-        (click)="this.onCellClick(i, i2)"
+  <tr *ngFor="let row of this.map; let iy = index">
+    <th>{{getRowName(iy)}}</th>
+    <td *ngFor="let cell of this.map[0]; let ix = index"
+        [class.empty]="this.map[ix][iy] === mapValuesEnum.EMPTY"
+        [class.boat]="this.map[ix][iy] === mapValuesEnum.BOAT"
+        [class.hit]="this.map[ix][iy] === mapValuesEnum.HIT"
+        [class.miss]="this.map[ix][iy] === mapValuesEnum.MISS"
+        (click)="this.onCellClick(ix, iy)"
     >
-      <span>{{getRowName(i)}}{{i2 + 1}}</span>
+      <span>{{getRowName(iy)}}{{ix + 1}}</span>
     </td>
   </tr>
   </tbody>

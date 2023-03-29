@@ -1,7 +1,7 @@
 import { UUID } from "../../uuid";
 
-export interface GamePlayingAction {
-  id: string
+export enum GamePlayingAction {
+  ATTACK = "ATTACK"
 }
 
 export enum AttackStatus {

@@ -9,7 +9,7 @@ import {
   STATIC_HUMAN_PLAYER_ID,
   STATIC_OPPONENT_PLAYER_ID,
   STATIC_OPPONENT_PLAYER_ID2
-} from "../model/mocks";
+} from "../model/mocks/mock-data";
 
 @Injectable({
   providedIn: "root"

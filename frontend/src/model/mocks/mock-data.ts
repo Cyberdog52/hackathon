@@ -1,4 +1,4 @@
-import { GameId, PlayerId } from "./lobby";
+import { GameId, PlayerId } from "../lobby";
 
 export const STATIC_GAME_ID_PLAY: GameId = "fbdbf268-ee06-4e67-beb2-c6e7a691d524"
 export const STATIC_GAME_ID_SPECTATE: GameId = "1d71d4f0-80a0-483c-8f30-9d73fbf7b331"

@@ -5,7 +5,7 @@ import { map, Subject, Subscription, switchMap } from "rxjs";
 import { UUID } from "../../model/uuid";
 import { AttackStatus, GamePlayingAction, PlayingEvent } from "../../model/game/playing/events";
 import { CellClickEvent, MapComponent, MapValue } from "../game/map/map.component";
-import { STATIC_HUMAN_PLAYER_ID, STATIC_OPPONENT_PLAYER_ID } from "../../model/mocks";
+import { STATIC_HUMAN_PLAYER_ID, STATIC_OPPONENT_PLAYER_ID } from "../../model/mocks/mock-data";
 import { GameState } from "src/model/game/playing/game-state";
 import { GamePlayService } from "../../services/game-play.service";
 
@@ -25,6 +25,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
   public player1Id!: UUID;
   public player2Id!: UUID;
+  public winnerId?: UUID;
 
   public player1Turn = true;
   public player2Turn = false;
@@ -126,11 +127,14 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
 
     if (event.type === "TakeTurnEvent") {
       this.gamePhase = GameState.PLAYING;
+      this.player1Turn = this.player1Id === event.playerId;
+      this.player2Turn = this.player2Id === event.playerId;
       this.playableActions = event.actions;
     }
 
     if (event.type === "GameEndEvent") {
       this.gamePhase = GameState.END;
+      this.winnerId = event.winnerId;
       this.player1Map.resetMap();
       this.player2Map.resetMap();
       return;
@@ -155,7 +159,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   }
 
   private getMapOfAttackedPlayer(attackingPlayerId: UUID): MapComponent {
-    if (attackingPlayerId !== this.player1Id) {
+    if (attackingPlayerId === this.player1Id) {
       return this.player2Map;
     } else {
       return this.player1Map;
@@ -163,7 +167,7 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   }
 
   private getMapOfPlayer(playerId: UUID): MapComponent {
-    if (playerId !== this.player1Id) {
+    if (playerId === this.player1Id) {
       return this.player1Map;
     } else {
       return this.player2Map;
@@ -171,6 +175,6 @@ export class GamePlayingComponent implements OnInit, OnDestroy {
   }
 
   public canAttack(): boolean {
-    return this.player1Turn && this.playableActions.find((a) => a.id === "ATTACK") !== undefined;
+    return this.player1Turn && this.playableActions.find((a) => a === GamePlayingAction.ATTACK) !== undefined;
   }
 }

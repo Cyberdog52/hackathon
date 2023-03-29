@@ -50,7 +50,6 @@ td {
   }
 }
 
-
-td:hover {
+table:not(.disabled) td:hover {
   background-color: lightblue;
 }

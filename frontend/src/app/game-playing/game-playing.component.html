@@ -8,13 +8,14 @@
         <span *ngIf="gamePhase === gamePhaseEnum.PLAYING">, click to shoot a square!</span>
       </div>
       <div *ngIf="gamePhase === gamePhaseEnum.END">
-        <span>You defeated you opponent!</span>
-        <span>Your opponent won!</span>
+        <span *ngIf="winnerId === player1Id">You defeated you opponent!</span>
+        <span *ngIf="winnerId === player2Id">Your opponent won!</span>
       </div>
       <div *ngIf="player2Turn">Waiting for opponent</div>
       <h2>You: {{this.player1Id}}</h2>
       <app-map gameId="{{this.gameId}}"
                playerId="{{this.player1Id}}"
+               [disabled]="gamePhase !== gamePhaseEnum.SETUP"
                [sizeX]=this.sizeX
                [sizeY]=this.sizeY
                #mapPlayer1
@@ -25,6 +26,7 @@
       <h2>Opponent: {{this.player2Id}}</h2>
       <app-map gameId="{{this.gameId}}"
                playerId="{{this.player2Id}}"
+               [disabled]="gamePhase !== gamePhaseEnum.PLAYING && !this.player1Turn"
                [sizeX]=this.sizeX
                [sizeY]=this.sizeY
                #mapPlayer2

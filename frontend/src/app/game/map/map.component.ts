@@ -24,6 +24,9 @@ export class MapComponent implements OnInit {
   public readonly mapValuesEnum = MapValue;
 
   @Input()
+  public disabled = true;
+
+  @Input()
   public gameId!: UUID;
 
   @Input()
