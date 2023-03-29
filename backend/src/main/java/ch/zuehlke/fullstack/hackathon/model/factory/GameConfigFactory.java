@@ -23,11 +23,11 @@ public class GameConfigFactory {
 
     public static GameConfig createNormalGameConfig() {
         return GameConfig.builder()
-                .maxNumberOfBoats(3)
-                .mapHeight(3)
-                .mapWidth(3)
+                .maxNumberOfBoats(4)
+                .mapHeight(5)
+                .mapWidth(5)
                 .boatRequirements(BoatRequirements.builder()
-                        .boatTypes(List.of(BoatType.LARGE, BoatType.MEDIUM, BoatType.SMALL))
+                        .boatTypes(List.of(BoatType.LARGE, BoatType.MEDIUM, BoatType.SMALL, BoatType.SMALL))
                         .build())
             .build();
     }
