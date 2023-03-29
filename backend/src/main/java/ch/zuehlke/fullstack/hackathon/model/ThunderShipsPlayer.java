@@ -9,9 +9,8 @@ import java.util.function.Predicate;
 @Builder
 public record ThunderShipsPlayer(
         @NonNull UUID id,
-        @NonNull GameMap gameMap
-) {
-    public boolean hasAnyBoatsLeft() {
-        return gameMap.boats().stream().anyMatch(Predicate.not(Boat::isDestroyed));
-    }
+        @NonNull GameMap gameMap) {
+  public boolean hasAnyBoatsLeft() {
+    return gameMap.boats().stream().anyMatch(Predicate.not(Boat::isDestroyed));
+  }
 }

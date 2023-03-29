@@ -1,6 +1,5 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.NonNull;
 
@@ -10,11 +9,11 @@ import java.util.UUID;
 @Builder
 public record Lobby(
         @NonNull UUID lobbyId,
-        @NonNull @NotEmpty Set<UUID> playerIds,
         int minPlayerCount,
-        int maxPlayerCount) {
+        int maxPlayerCount,
+        Set<UUID> playerIds) {
 
-    public boolean addPlayer(UUID playerId) {
+    public boolean addPlayer(final UUID playerId) {
         if (playerIds.size() < maxPlayerCount) {
             return playerIds.add(playerId);
         }

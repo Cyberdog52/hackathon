@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 public enum WebsocketDestination {
 
     TOPIC_GAMES("/topic/game"),
+    SPECTATE("/spectate"),
     TOPIC("/game"),
-    UPDATE("/update"),
-    GAME_SPECTATOR("/spectate");
+    UPDATE("/update");
 
     @NonNull
     private final String destination;

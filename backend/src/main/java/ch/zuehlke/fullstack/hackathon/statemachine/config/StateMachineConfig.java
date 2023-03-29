@@ -3,6 +3,11 @@ package ch.zuehlke.fullstack.hackathon.statemachine.config;
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.GameAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.end.EndGame;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.AllPlayersJoined;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.PlayerJoinAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.playing.Attack;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.setup.PlaceBoat;
 import ch.zuehlke.fullstack.hackathon.statemachine.guard.GameGuard;
 import ch.zuehlke.fullstack.hackathon.statemachine.listener.GameListener;
 import lombok.NonNull;
@@ -17,9 +22,18 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 
 import java.util.Set;
 
-import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
-import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.*;
-import static ch.zuehlke.fullstack.hackathon.statemachine.action.PlayerJoinAction.playerJoinAction;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_BOATS_DESTROYED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_BOATS_PLACED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_PLAYERS_JOINED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ATTACK;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.PLACE_BOAT;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.PLAYER_JOINED;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.END;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.LOBBY;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING_PLAYER_1;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING_PLAYER_2;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.SETUP;
 
 @Configuration
 @EnableStateMachine
@@ -30,6 +44,21 @@ public class StateMachineConfig
 
     @NonNull
     private final GameAction action;
+
+    @NonNull
+    private final PlayerJoinAction playerJoinAction;
+
+    @NonNull
+    private final AllPlayersJoined allPlayersJoined;
+
+    @NonNull
+    private final PlaceBoat placeBoat;
+
+    @NonNull
+    private final Attack attack;
+
+    @NonNull
+    private final EndGame endGame;
 
     @NonNull
     private final GameListener listener;
@@ -66,22 +95,26 @@ public class StateMachineConfig
             throws Exception {
         transitions
                 // LOBBY
+                .withInternal()
+                .source(LOBBY).event(PLAYER_JOINED).action(playerJoinAction.playerJoin()).guard(guard).and()
                 .withExternal()
-                .source(LOBBY).target(SETUP).event(PLAYER_JOINED).action(playerJoinAction()).guard(guard).and()
+                .source(LOBBY).target(SETUP).event(ALL_PLAYERS_JOINED).action(allPlayersJoined.allPlayersJoined()).and()
 
                 // SETUP
+                .withInternal()
+                .source(SETUP).event(PLACE_BOAT).action(placeBoat.placeBoat()).guard(guard).and()
                 .withExternal()
-                .source(SETUP).target(PLAYING).event(PLACE_BOAT).guard(guard).and()
+                .source(SETUP).target(PLAYING).event(ALL_BOATS_PLACED).action(placeBoat.allBoatsPlaced()).guard(guard).and()
 
                 // PLAYING
                 .withExternal()
                 .source(PLAYING).target(END).event(ALL_BOATS_DESTROYED).action(action).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_1).target(PLAYING_PLAYER_2).event(ATTACK).and()
+                .source(PLAYING_PLAYER_1).target(PLAYING_PLAYER_2).event(ATTACK).action(attack.attack()).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_2).target(PLAYING_PLAYER_1).event(ATTACK).and()
+                .source(PLAYING_PLAYER_2).target(PLAYING_PLAYER_1).event(ATTACK).action(attack.attack()).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).and()
+                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).action(endGame.endGame()).and()
                 .withExternal()
                 .source(PLAYING_PLAYER_2).target(END).event(ALL_BOATS_DESTROYED);
     }

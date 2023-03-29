@@ -1,7 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.statemachine;
 
+import ch.zuehlke.fullstack.hackathon.model.Lobby;
+
 public interface LobbyStateMachine {
 
-    public void playerJoined();
+    void playerJoined(Lobby lobby);
 
 }

@@ -25,6 +25,10 @@ public class LobbyService {
         // check a lobby already exists with the given game id
         Optional<Lobby> lobby = getLobby(lobbyId);
         if (lobby.isPresent()) {
+            if (lobby.get().maxPlayerCount() == lobby.get().playerIds().size()) {
+                throw new RuntimeException("Player could not be added to the lobby because the lobby is full.");
+            }
+
             boolean added = lobby.get().addPlayer(playerId);
             if (!added) throw new RuntimeException("Player could not be added to the lobby.");
             return lobby.get();

@@ -55,7 +55,7 @@ class NotificationServiceTest {
             .build();
         String expectedDestination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR.getDestination());
+            WebsocketDestination.SPECTATE.getDestination());
 
         notificationService.notifySpectatorPlayerJoined(playerJoinEvent);
 
@@ -72,11 +72,11 @@ class NotificationServiceTest {
             .build();
         String expectedDestination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), placeBoatEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR.getDestination());
+            WebsocketDestination.SPECTATE.getDestination());
 
-        notificationService.notifySpectatorBoatPlaced(placeBoatEvent);
+      notificationService.notifyBoatPlaced(placeBoatEvent, placeBoatEvent.gameId());
 
-        verify(simpMessagingTemplate, times(1)).convertAndSend(expectedDestination, placeBoatEvent);
+      verify(simpMessagingTemplate, times(1)).convertAndSend(expectedDestination, placeBoatEvent);
     }
 
     @Test
@@ -87,7 +87,7 @@ class NotificationServiceTest {
             .build();
         String expectedDestination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), gameStartPlayingEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR.getDestination());
+            WebsocketDestination.SPECTATE.getDestination());
 
         notificationService.notifySpectatorGameStarted(gameStartPlayingEvent);
 
@@ -105,7 +105,7 @@ class NotificationServiceTest {
             .build();
         String expectedDestination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR.getDestination());
+            WebsocketDestination.SPECTATE.getDestination());
 
         notificationService.notifySpectatorPlayerAttacked(attackEvent);
 
@@ -121,7 +121,7 @@ class NotificationServiceTest {
             .build();
         String expectedDesetination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR);
+            WebsocketDestination.SPECTATE);
 
         notificationService.notifySpectatorPlayerTurn(takeTurnEvent);
 
@@ -136,7 +136,7 @@ class NotificationServiceTest {
             .build();
         String expectedDestination = "%s/%s/%s".formatted(
             WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId(),
-            WebsocketDestination.GAME_SPECTATOR.getDestination());
+            WebsocketDestination.SPECTATE.getDestination());
 
         notificationService.notifySpectatorGameEnded(gameEndEvent);
 

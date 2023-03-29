@@ -2,6 +2,7 @@ package ch.zuehlke.fullstack.hackathon.statemachine.listener;
 
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateContext;
@@ -12,8 +13,10 @@ import org.springframework.statemachine.transition.Transition;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class GameListener implements StateMachineListener<GameState, GameEvent> {
+
     @Override
     public void stateChanged(State<GameState, GameEvent> from, State<GameState, GameEvent> to) {
         log.info("State change to " + to.getId());
@@ -46,13 +49,14 @@ public class GameListener implements StateMachineListener<GameState, GameEvent> 
 
     @Override
     public void transitionEnded(Transition<GameState, GameEvent> transition) {
-
+//        if (transition.getSource().getId().equals(LOBBY) && transition.getTarget().getId().equals(SETUP)) {
+//            setupOrchestrator.initialiseGame();
+//        }
     }
 
     @Override
     public void stateMachineStarted(StateMachine<GameState, GameEvent> stateMachine) {
         log.info("State machine started" + stateMachine);
-
     }
 
     @Override
