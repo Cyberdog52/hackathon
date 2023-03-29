@@ -22,7 +22,7 @@ public class PlayerService {
 
     public Player addPlayer(final String name, final String icon) throws PlayerException {
         if (this.playerNameExists(name)) {
-            //throw new PlayerException("A player with the name '%s' already exists".formatted(name));
+            throw new PlayerException("A player with the name '%s' already exists".formatted(name));
         }
         final var player = new Player(UUID.randomUUID(), name, icon);
         this.players.add(player);
