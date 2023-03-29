@@ -1,11 +1,13 @@
 <mat-toolbar class="header-toolbar">
   <div class="header-toolbar__left">
-    <img src="assets/icon/zuehlke_standard_purple.avif" alt="zuehlke">
+    <img routerLink="/dashboard" src="assets/icon/zuehlke_standard_purple.avif" alt="zuehlke">
   </div>
   <div class="header-toolbar__title">
-    <a routerLink="/dashboard">Zühlke ChinChón Challenge</a>
+    <a routerLink="/dashboard">Zühlke Chinchón Challenge</a>
   </div>
   <div class="header-toolbar__right">
-    <mat-icon>person</mat-icon>
+    <a routerLink="/rules">
+      <mat-icon>gavel</mat-icon>
+    </a>
   </div>
 </mat-toolbar>

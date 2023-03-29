@@ -8,8 +8,6 @@
     <ng-template #noPlayers>
       <h1 class="text-center">No players yet in your match</h1>
     </ng-template>
-    <div *ngIf="players.length >= 2">
-      <button mat-flat-button (click)="startMatch()" class="rounded w-100" color="primary">START MATCH</button>
-    </div>
+      <button mat-flat-button [disabled]="players.length < 2" (click)="startMatch()" class="rounded w-100" color="primary">START MATCH</button>
   </mat-card-content>
 </mat-card>

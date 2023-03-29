@@ -7,6 +7,19 @@
 }
 
 .upper-sections {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+    height: 125px;
+
+    mat-card {
+      margin-left: 10px;
+    }
+}
+
+.middle-sections {
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -11,7 +11,7 @@ export class MatchesComponent implements OnInit{
 
   matches: Match[] = [];
 
-  displayedColumns: string[] = ["id", "players", "full"];
+  displayedColumns: string[] = ["id", "players", "full", "actions"];
 
   constructor(
     private matchService: MatchService

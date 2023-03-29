@@ -37,12 +37,18 @@ export class PlayingMatchComponent implements OnInit {
     this.matchService.getMatch(id!)
       .subscribe(match => this.match = match);
     this.checkForRounds(id!)
+    this.simulateRounds()
   }
-
 
   checkForRounds(id: string): void {
     this.socketService.subscribe("/topic/game/" + id + "/round", (message) => {
       this.currentRound = message.body as Round
     })
+  }
+
+  private simulateRounds() {
+    setInterval(() => {
+
+    }, 5000)
   }
 }

@@ -60,9 +60,7 @@ export class MatchComponent implements OnInit, OnDestroy {
     return this.match?.players || [];
   }
 
-  getPlayersAll()
-    :
-    void {
+  getPlayersAll(): void {
     this.playerService.getPlayers()
       .subscribe(players => this.players = players);
   }
@@ -101,17 +99,13 @@ export class MatchComponent implements OnInit, OnDestroy {
 
   checkForJoiningPlayers(): void {
     this.socketService.subscribe("/topic/game/*", (message) => {
-      const uuid = JSON.parse(message.body);
       this.getPlayersAll()
-      console.log("body: " + uuid);
-      /*if (this.players.length <= 3) {
-        this.players.push(body.player as Player);
-        this.match = {
-          id: body.matchId,
-          players: this.players,
-          full: true
-        } as Match
-      }*/
+      this.match =  {
+        id: this.route.snapshot.paramMap.get("id"),
+        players: this.players,
+        full: false
+      } as Match
+      console.log("body: " + message.body);
     });
   }
 
