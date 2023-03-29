@@ -67,7 +67,7 @@ public class MatchService {
         final GameAction decision = brain.decide(playRequest.possibleActions());
 
         final Move move = new Move(playerId, playRequest.requestId(), decision);
-        //matchClient.play(move);
+        matchClient.play(move);
     }
 
 

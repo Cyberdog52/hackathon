@@ -40,9 +40,8 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROGRESS);
         this.notificationService.notifyGameStart(game);
         final var players = game.getPlayers();
-        for (final PlayerHand player : players) {
-            this.notificationService.notifyPlayerStart(game, player);
-        }
+        players.forEach(player -> this.notificationService.notifyPlayerStart(game, player));
+
         final var roundRobin = new RoundRobin<>(players);
         for (final PlayerHand player : roundRobin) {
             if (game.getStatus() == GameStatus.FINISHED) {

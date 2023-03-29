@@ -31,16 +31,18 @@ public class SimpleBrain implements Brain {
             return shouldBotTakeDiscardedCard(topCardFromDiscardStack) ? GameAction.DRAW_FROM_DISCARD_STACK : GameAction.DRAW_FROM_DRAW_STACK;
         }
 
-        return GameAction.DISCARD; //TODO: discard highest card
+        return GameAction.DISCARD; //TODO: discard highestCard()
+    }
+
+    private Card highestCard() {
+        return cards.stream()
+                .max((o1, o2) -> o1.getValue() - o2.getValue())
+                .orElseThrow();
     }
 
     private boolean shouldBotTakeDiscardedCard(final Card discardedCard) {
         //If the discarded card is lower than the highest card in the hand, take it
-        final var highestValueInHand = cards.stream()
-                .mapToInt(Card::getValue)
-                .max()
-                .orElseThrow();
-        return discardedCard.getValue() < highestValueInHand;
+        return discardedCard.getValue() < highestCard().getValue();
     }
 
     @Override

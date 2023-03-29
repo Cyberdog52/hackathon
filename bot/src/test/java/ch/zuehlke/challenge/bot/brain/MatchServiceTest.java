@@ -56,7 +56,7 @@ class MatchServiceTest {
         matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
-        //verify(matchClientMock, times(1)).play(any());
+        verify(matchClientMock, times(1)).play(any());
     }
 
     @Test
@@ -70,7 +70,7 @@ class MatchServiceTest {
         matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        //verify(matchClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
     }
 
     @Test
@@ -84,7 +84,7 @@ class MatchServiceTest {
         matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        //verify(matchClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
         verify(shutDownServiceMock, times(1)).shutDown();
     }
 
@@ -100,7 +100,7 @@ class MatchServiceTest {
         matchService.onGameUpdate(gameUpdate); // call twice
 
         verify(brainMock, times(1)).decide(Set.of(GameAction.values()));
-        //verify(matchClientMock, times(1)).play(any());
+        verify(matchClientMock, times(1)).play(any());
     }
 
     @Test
@@ -114,6 +114,6 @@ class MatchServiceTest {
         matchService.onGameUpdate(gameUpdate);
 
         verify(brainMock, times(0)).decide(any());
-        //verify(matchClientMock, times(0)).play(any());
+        verify(matchClientMock, times(0)).play(any());
     }
 }

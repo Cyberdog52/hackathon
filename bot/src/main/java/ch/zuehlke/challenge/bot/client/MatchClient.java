@@ -4,6 +4,7 @@ import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.JoinRequest;
 import ch.zuehlke.common.MatchLobby;
+import ch.zuehlke.common.Move;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -57,4 +58,7 @@ public class MatchClient {
                 }).getBody();
     }
 
+    public void play(final Move move) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }
