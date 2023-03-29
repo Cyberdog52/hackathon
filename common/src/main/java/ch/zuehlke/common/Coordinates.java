@@ -1,4 +1,4 @@
-package ch.zuehlke.tablut;
+package ch.zuehlke.common;
 
 import java.util.Objects;
 import java.util.Optional;

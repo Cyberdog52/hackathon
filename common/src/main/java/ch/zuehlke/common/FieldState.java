@@ -1,4 +1,4 @@
-package ch.zuehlke.tablut;
+package ch.zuehlke.common;
 
 public enum FieldState {
     EMPTY, ATTACKER, DEFENDER, KING;

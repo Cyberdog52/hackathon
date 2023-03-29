@@ -1,10 +1,10 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
 import ch.zuehlke.common.GameAction;
-import ch.zuehlke.tablut.Board;
-import ch.zuehlke.tablut.Coordinates;
-import ch.zuehlke.tablut.Field;
-import ch.zuehlke.tablut.FieldState;
+import ch.zuehlke.common.Board;
+import ch.zuehlke.common.Coordinates;
+import ch.zuehlke.common.Field;
+import ch.zuehlke.common.FieldState;
 
 import java.util.*;
 import java.util.function.Function;

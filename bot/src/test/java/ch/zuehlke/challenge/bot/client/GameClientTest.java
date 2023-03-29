@@ -3,7 +3,7 @@ package ch.zuehlke.challenge.bot.client;
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.*;
-import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.common.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +53,7 @@ class GameClientTest {
         when(applicationPropertiesMock.getBackendPlayUrl()).thenReturn("/game/{gameId}/play");
         when(restTemplateMock.postForEntity(any(), any(), eq(Void.class), anyInt())).thenReturn(ResponseEntity.ok(null));
 
-        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+        Move move = new Move(new PlayerId(), new RequestId(), new GameId(1), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         gameClient.play(move);
 
         verify(restTemplateMock, times(1)).postForEntity("/game/{gameId}/play", move, Void.class, 1);

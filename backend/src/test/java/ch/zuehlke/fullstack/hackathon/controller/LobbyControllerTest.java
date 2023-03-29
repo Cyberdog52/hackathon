@@ -8,7 +8,7 @@ import ch.zuehlke.fullstack.hackathon.model.Game;
 import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import ch.zuehlke.fullstack.hackathon.service.TournamentService;
-import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.common.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatusCode;
@@ -158,8 +158,9 @@ class LobbyControllerTest {
 
     @Test
     void play_successfully() {
-        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
+        Move move = new Move(new PlayerId(), new RequestId(), gameId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.SUCCESS));
 
         ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
@@ -171,8 +172,8 @@ class LobbyControllerTest {
 
     @Test
     void play_whenGameIsNotFound_returns404() {
-        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
+        Move move = new Move(new PlayerId(), new RequestId(), gameId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.GAME_NOT_FOUND));
 
         ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
@@ -184,8 +185,8 @@ class LobbyControllerTest {
 
     @Test
     void play_whenPlayerIsNotPartOfTheGame_returns400() {
-        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
+        Move move = new Move(new PlayerId(), new RequestId(), gameId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.PLAYER_NOT_PART_OF_GAME));
 
         ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);
@@ -197,8 +198,8 @@ class LobbyControllerTest {
 
     @Test
     void play_whenActionIsInvalid_returns400() {
-        Move move = new Move(new PlayerId(), new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         GameId gameId = new GameId(42);
+        Move move = new Move(new PlayerId(), new RequestId(), gameId, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         when(gameServiceMock.play(eq(move), eq(gameId))).thenReturn(new PlayResult(PlayResultType.INVALID_ACTION));
 
         ResponseEntity<Void> response = lobbyController.play(gameId.value(), move);

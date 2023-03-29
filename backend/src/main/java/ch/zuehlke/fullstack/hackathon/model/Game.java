@@ -36,7 +36,7 @@ public class Game {
 
     public boolean canStartGame() {
         return players.size() >= MIN_PLAYERS &&
-                players.size() == MAX_PLAYERS &&
+                players.size() <= MAX_PLAYERS &&
                 status == GameStatus.NOT_STARTED;
     }
 
@@ -55,11 +55,12 @@ public class Game {
         var playerId = players.get(attacker ? 0 : 1).id();
         var possibleActions = internalGameState.getPossibleActions();
 
-        state.currentRequests().add(new PlayRequest(playerId, attacker, internalGameState.board(), possibleActions));
+        state.currentRequests().add(new PlayRequest(playerId, gameId, attacker, internalGameState.board(), possibleActions));
     }
 
     public void finishGame() {
         status = GameStatus.FINISHED;
+
     }
 
     public void deleteGame() {

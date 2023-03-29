@@ -126,6 +126,7 @@ public class LobbyController {
             return ResponseEntity.badRequest().build();
         }
         notificationService.notifyGameUpdate(new GameId(gameId));
+        tournamentService.update();
         return ResponseEntity.ok().build();
     }
 

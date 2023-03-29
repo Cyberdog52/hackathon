@@ -4,8 +4,8 @@ import ch.zuehlke.challenge.bot.client.GameClient;
 import ch.zuehlke.challenge.bot.service.GameService;
 import ch.zuehlke.challenge.bot.service.ShutDownService;
 import ch.zuehlke.common.*;
-import ch.zuehlke.tablut.Board;
-import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.common.Board;
+import ch.zuehlke.common.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +47,7 @@ class GameServiceTest {
     void onGameUpdate_withImportantUpdate_playsMove() {
         PlayerId playerId = new PlayerId();
         var board = Board.createInitialBoard();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId, true, board, Set.of())), List.of());
+        GameState state = new GameState(Set.of(new PlayRequest(playerId, new GameId(1), true, board, Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(anyBoolean(), any(), any())).thenReturn(new GameAction(new Coordinates(0, 0), new Coordinates(0, 0)));
 
@@ -90,8 +90,8 @@ class GameServiceTest {
     @Test
     void onGameUpdate_whenCalledTwice_onlyPlaysOneMove() {
         PlayerId playerId = new PlayerId();
-        var board =  Board.createInitialBoard();
-        GameState state = new GameState(Set.of(new PlayRequest(playerId, true, board, Set.of())), List.of());
+        var board = Board.createInitialBoard();
+        GameState state = new GameState(Set.of(new PlayRequest(playerId, new GameId(1), true, board, Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(anyBoolean(), any(), any())).thenReturn(new GameAction(new Coordinates(0, 0), new Coordinates(0, 0)));
 
@@ -106,7 +106,7 @@ class GameServiceTest {
     @Test
     void onGameUpdate_whenItsForADifferentPlayer_doesNotPlayMove() {
         PlayerId playerId = new PlayerId();
-        GameState state = new GameState(Set.of(new PlayRequest(new PlayerId(), true, Board.createInitialBoard(), Set.of())), List.of());
+        GameState state = new GameState(Set.of(new PlayRequest(new PlayerId(), new GameId(1), true, Board.createInitialBoard(), Set.of())), List.of());
         GameUpdate gameUpdate = new GameUpdate(new GameDto(new GameId(1), List.of(), GameStatus.IN_PROGRESS, state, null));
         when(brainMock.decide(anyBoolean(), any(), any())).thenReturn(new GameAction(new Coordinates(0, 0), new Coordinates(0, 0)));
 

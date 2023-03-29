@@ -28,8 +28,6 @@ public class GameService {
 
     private final GameClient gameClient;
 
-    private final ShutDownService shutDownService;
-
     // Improve: find a better way to keep track of already processed requests
     private final Set<RequestId> alreadyProcessedRequestIds = new HashSet<>();
 
@@ -51,10 +49,6 @@ public class GameService {
             log.info("Not taking any action, game is not started yet...");
             return;
         }
-        if (gameDto.status() == GameStatus.FINISHED || gameDto.status() == GameStatus.DELETED) {
-            log.info("Game is finished, shutting down...");
-            shutDownService.shutDown();
-        }
 
         gameDto.state().currentRequests().stream()
                 .filter(request -> !alreadyProcessedRequestIds.contains(request.requestId()))
@@ -68,7 +62,7 @@ public class GameService {
 
         GameAction decision = brain.decide(playRequest.attacker(), playRequest.board(), playRequest.possibleActions());
 
-        Move move = new Move(playerId, playRequest.requestId(), decision);
+        Move move = new Move(playerId, playRequest.requestId(), playRequest.gameId(), decision);
         gameClient.play(move);
     }
 

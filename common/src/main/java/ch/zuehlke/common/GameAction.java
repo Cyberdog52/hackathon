@@ -1,8 +1,5 @@
 package ch.zuehlke.common;
 
-import ch.zuehlke.tablut.Board;
-import ch.zuehlke.tablut.Coordinates;
-
 import java.util.Optional;
 
 public record GameAction(Coordinates from, Coordinates to) {
@@ -27,10 +24,7 @@ public record GameAction(Coordinates from, Coordinates to) {
 
     public boolean isKingMove(Board board) {
         Optional<Coordinates> kingPosition = board.getKingPosition();
-        if (kingPosition.isEmpty()) {
-            return false;
-        }
-        return from.equals(kingPosition.get());
+        return kingPosition.filter(from::equals).isPresent();
     }
 
     public boolean movesToSideOfBoard() {

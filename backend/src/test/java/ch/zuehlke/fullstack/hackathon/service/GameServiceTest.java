@@ -5,7 +5,7 @@ import ch.zuehlke.fullstack.hackathon.controller.JoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.PlayResult;
 import ch.zuehlke.fullstack.hackathon.controller.StartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.tablut.Coordinates;
+import ch.zuehlke.common.Coordinates;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -128,7 +128,7 @@ class GameServiceTest {
         gameService.startGame(game.getGameId().value());
         RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 
-        Move move = new Move(playerId1, requestIdForPlayer1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+        Move move = new Move(playerId1, requestIdForPlayer1, game.getGameId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         PlayResult playResult = gameService.play(move, game.getGameId());
 
         assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.SUCCESS);
@@ -143,7 +143,7 @@ class GameServiceTest {
         gameService.startGame(game.getGameId().value());
         RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 
-        Move move = new Move(playerId1, requestIdForPlayer1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+        Move move = new Move(playerId1, requestIdForPlayer1, game.getGameId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         gameService.play(move, game.getGameId());
         PlayResult playResult = gameService.play(move, game.getGameId());
 
@@ -159,7 +159,7 @@ class GameServiceTest {
         gameService.startGame(game.getGameId().value());
         RequestId requestIdForPlayer1 = getRequestIdForPlayer(playerId1, game);
 
-        Move move = new Move(playerId1, requestIdForPlayer1, new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+        Move move = new Move(playerId1, requestIdForPlayer1, game.getGameId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         PlayResult playResult = gameService.play(move, new GameId(666));
 
         assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.GAME_NOT_FOUND);
@@ -173,7 +173,7 @@ class GameServiceTest {
         PlayerId playerId1 = joinResult1.playerId();
         gameService.startGame(game.getGameId().value());
 
-        Move move = new Move(playerId1, new RequestId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
+        Move move = new Move(playerId1, new RequestId(), game.getGameId(), new GameAction(new Coordinates(0, 3), new Coordinates(0, 0)));
         PlayResult playResult = gameService.play(move, game.getGameId());
 
         assertThat(playResult.resultType()).isEqualTo(PlayResult.PlayResultType.INVALID_ACTION);

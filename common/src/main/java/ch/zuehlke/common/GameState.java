@@ -1,7 +1,5 @@
 package ch.zuehlke.common;
 
-import ch.zuehlke.tablut.Board;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

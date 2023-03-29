@@ -20,7 +20,6 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.awt.*;
 import java.lang.reflect.Type;
 
 @Slf4j
@@ -56,7 +55,7 @@ public class StompClient implements StompSessionHandler {
 
     private void subscribe(Integer gameId) {
         log.info("Subscribing to id: {}", gameId);
-        this.subscription = stompSession.subscribe("/topic/game/" + gameId, this);
+        this.subscription = stompSession.subscribe("/topic/game/", this);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class GameClient {
                 .postForEntity(applicationProperties.getBackendTournamentJoinUrl(),
                         joinRequest,
                         JoinResponse.class,
-                        applicationProperties.getGameId()
+                        applicationProperties.getTournamentId()
                 );
         log.info("Received response: {}", signUpResponse);
         if (signUpResponse.getStatusCode().is2xxSuccessful() && signUpResponse.getBody() != null) {
@@ -77,7 +77,7 @@ public class GameClient {
                 .postForEntity(applicationProperties.getBackendPlayUrl(),
                         move,
                         Void.class,
-                        applicationProperties.getGameId()
+                        move.gameId().value()
                 );
         log.info("Received response: {}", response);
         if (response.getStatusCode().is2xxSuccessful()) {

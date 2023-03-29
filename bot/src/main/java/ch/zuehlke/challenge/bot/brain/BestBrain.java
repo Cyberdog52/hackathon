@@ -1,7 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.GameAction;
-import ch.zuehlke.tablut.Board;
+import ch.zuehlke.common.Board;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 @Component
-@Profile({"bestbot", "bestbot2","bestbottournament"})
+@Profile({"bestbot", "bestbot2","bestbottournament","bestbottournament2"})
 public class BestBrain implements Brain {
 
     public GameAction decide(boolean attacker, Board board, Set<GameAction> possibleActions) {

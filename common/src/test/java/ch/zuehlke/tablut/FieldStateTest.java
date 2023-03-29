@@ -1,5 +1,6 @@
 package ch.zuehlke.tablut;
 
+import ch.zuehlke.common.FieldState;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

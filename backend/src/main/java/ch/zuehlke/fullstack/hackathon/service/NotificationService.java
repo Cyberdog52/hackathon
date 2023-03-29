@@ -22,7 +22,7 @@ public class NotificationService {
     public void notifyGameUpdate(GameId gameId) {
         gameService.getGame(gameId.value())
                 .map(GameMapper::map)
-                .ifPresent(game -> template.convertAndSend("/topic/game/" + gameId.value(), new GameUpdate(game))
+                .ifPresent(game -> template.convertAndSend("/topic/game/", new GameUpdate(game))
                 );
     }
 

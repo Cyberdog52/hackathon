@@ -1,7 +1,7 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.GameAction;
-import ch.zuehlke.tablut.Board;
+import ch.zuehlke.common.Board;
 
 import java.util.Set;
 

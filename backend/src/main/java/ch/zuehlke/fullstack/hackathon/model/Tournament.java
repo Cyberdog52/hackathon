@@ -50,6 +50,7 @@ public class Tournament {
     private void startRound() {
 //        state.currentRequests().add(new PlayRequest(players.get(internalGameState.getActionHistory().size() % 2).id(),
 //                internalGameState.getPossibleActions()));
+
     }
 
     public void finishTournament() {
