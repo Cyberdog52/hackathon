@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 @Profile("simplebot")
 public class SimpleBrain implements Brain {
 
-
     @Override
     public PlaceShipsRequest createGame(String gameId, Player player) {
         List<Ship> ships = new ArrayList<>();
@@ -38,6 +37,10 @@ public class SimpleBrain implements Brain {
         int y = ThreadLocalRandom.current().nextInt(0, 9 + 1);
         return new ShootRequest(gameId, player.getId(), player.getToken(), x, y);
 
+    }
+
+    @Override
+    public void resetShoot(ShootRequest request) {
     }
 
     private static void think() {
