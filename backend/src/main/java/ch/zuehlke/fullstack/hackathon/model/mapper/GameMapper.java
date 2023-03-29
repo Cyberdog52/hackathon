@@ -2,7 +2,6 @@ package ch.zuehlke.fullstack.hackathon.model.mapper;
 
 import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.Player;
 import ch.zuehlke.fullstack.hackathon.model.PlayerHand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

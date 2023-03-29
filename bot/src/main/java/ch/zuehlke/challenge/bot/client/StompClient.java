@@ -1,6 +1,6 @@
 package ch.zuehlke.challenge.bot.client;
 
-import ch.zuehlke.challenge.bot.service.GameService;
+import ch.zuehlke.challenge.bot.service.MatchService;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.GameUpdate;
 import jakarta.annotation.PreDestroy;
@@ -32,7 +32,7 @@ public class StompClient implements StompSessionHandler {
 
     private StompSession.Subscription subscription;
 
-    private final GameService gameService;
+    private final MatchService matchService;
 
     @EventListener(value = ApplicationReadyEvent.class)
     public void connect() {
@@ -87,7 +87,7 @@ public class StompClient implements StompSessionHandler {
     public void handleFrame(StompHeaders headers, Object payload) {
         log.info("Got a new message {}", payload);
         GameUpdate gameUpdate = (GameUpdate) payload;
-        gameService.onGameUpdate(gameUpdate);
+        matchService.onGameUpdate(gameUpdate);
     }
 
     @PreDestroy

@@ -1,7 +1,11 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
 import ch.zuehlke.common.GameStatus;
-import ch.zuehlke.fullstack.hackathon.model.*;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.fullstack.hackathon.model.CardStack;
+import ch.zuehlke.fullstack.hackathon.model.Deck;
+import ch.zuehlke.fullstack.hackathon.model.Game;
+import ch.zuehlke.fullstack.hackathon.model.PlayerHand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,11 +40,10 @@ public class GameService {
         game.setStatus(GameStatus.IN_PROGRESS);
         this.notificationService.notifyGameStart(game);
         final var players = game.getPlayers();
-        for (final PlayerHand player : players) {
-            this.notificationService.notifyPlayerStart(game, player);
-        }
+        players.forEach(player -> this.notificationService.notifyPlayerStart(game, player));
+
         final var roundRobin = new RoundRobin<>(players);
-        for (PlayerHand player : roundRobin) {
+        for (final PlayerHand player : roundRobin) {
             if (game.getStatus() == GameStatus.FINISHED) {
                 break;
             }
@@ -49,7 +52,7 @@ public class GameService {
     }
 
     private <T> List<T> shufflePlayers(final List<T> items) {
-        final var shuffledPlayers = new ArrayList<T>(items);
+        final var shuffledPlayers = new ArrayList<>(items);
         Collections.shuffle(shuffledPlayers);
         return shuffledPlayers;
     }

@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
+import ch.zuehlke.common.MatchLobby;
 import ch.zuehlke.fullstack.hackathon.model.Match;
-import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
 import ch.zuehlke.fullstack.hackathon.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,16 +25,16 @@ public class MatchController {
             description = "Start a match with the players from its lobby")
     @ApiResponse(responseCode = "200", description = "Successfully started the match")
     @PostMapping("/{matchId}/start")
-    public ResponseEntity<Match> startMatch(@PathVariable String matchId) {
+    public ResponseEntity<Match> startMatch(@PathVariable final String matchId) {
         final MatchLobby lobby;
         try {
             lobby = this.matchService.findLobby(matchId);
-        } catch (MatchStartException e) {
+        } catch (final MatchStartException e) {
             return ResponseEntity.notFound().build();
         }
         try {
             return ResponseEntity.ok(this.matchService.startMatch(lobby));
-        } catch (MatchStartException e) {
+        } catch (final MatchStartException e) {
             return ResponseEntity.badRequest().build();
         }
     }

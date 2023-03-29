@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.fullstack.hackathon.model.Player;
-import ch.zuehlke.fullstack.hackathon.model.exception.PlayerException;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerException;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
+import ch.zuehlke.common.MatchLobby;
+import ch.zuehlke.common.Player;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
 import lombok.Getter;
 
@@ -10,9 +12,9 @@ public class Match {
 
     @Getter
     private final UUID id;
-    private Game currentGame;
     @Getter
-    private List<Player> players;
+    private final List<Player> players;
+    private Game currentGame;
     private List<MatchResult> results;
 
     private Match(final UUID id, final List<Player> players) {

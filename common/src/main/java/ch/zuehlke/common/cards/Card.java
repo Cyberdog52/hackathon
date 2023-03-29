@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  */
 public record Card(Suit suit, Rank rank) {
 
-    public int getPoints() {
+    public int getValue() {
         return rank.getValue();
     }
 
@@ -19,21 +19,21 @@ public record Card(Suit suit, Rank rank) {
         return rank.getOrder();
     }
 
-    public boolean hasSameRankAs(Card other) {
+    public boolean hasSameRankAs(final Card other) {
         return rank == other.rank;
     }
 
-    public boolean isNeighbourOf(Card other) {
+    public boolean isNeighbourOf(final Card other) {
         return Math.abs(rank.getOrder() - other.rank.getOrder()) == 1;
     }
 
-    public Set<Card> getCardsWithSameRank(Set<Card> cards) {
+    public Set<Card> getCardsWithSameRank(final Set<Card> cards) {
         return cards.stream()
                 .filter(card -> card.rank() == rank)
                 .collect(Collectors.toSet());
     }
 
-    public boolean hasSameSuitAs(Card next) {
+    public boolean hasSameSuitAs(final Card next) {
         return suit == next.suit;
     }
 }
