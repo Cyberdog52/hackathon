@@ -15,7 +15,7 @@ export class SocketService {
       brokerURL: "ws://localhost:8080/ws",
     });
     this.client.activate();
-    this.mockUsers();
+   // this.mockUsers();
   }
 
 connect(): void {

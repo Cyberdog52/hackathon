@@ -24,7 +24,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { FormsModule } from "@angular/forms";
 import { PlayingMatchComponent } from "./playing-match/playing-match.component";
 import { CardComponent } from "./card/card.component";
-import { SvgIconComponent } from './util/svg-icon/svg-icon.component';
+import { SvgIconComponent } from "./util/svg-icon/svg-icon.component";
+import { RulesComponent } from "./rules/rules.component";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SvgIconComponent } from './util/svg-icon/svg-icon.component';
     PlayingMatchComponent,
     CardComponent,
     SvgIconComponent,
+    RulesComponent,
   ],
     imports: [
         BrowserModule,

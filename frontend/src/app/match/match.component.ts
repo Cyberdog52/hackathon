@@ -89,30 +89,33 @@ export class MatchComponent implements OnInit, OnDestroy {
   }
 
   startMatch(): void {
-    if (this.match) {
-      /*this.matchService.start(this.match.id)
+    /*if (this.match) {
+      this.matchService.start(this.match.id)
         .subscribe(match => {
           this.router.navigate(["/playing-match/" + this.match!.id]);
-        });*/
+        });
       this.router.navigate(["/playing-match/" + this.match!.id]);
-    }
+    }*/
+    this.router.navigate(["/playing-match/" + this.match!.id]);
   }
 
   checkForJoiningPlayers(): void {
-    this.socketService.subscribe("/topic/game/*/player", (message) => {
-      const body = JSON.parse(message.body);
-      if (this.players.length <= 3) {
+    this.socketService.subscribe("/topic/game/*", (message) => {
+      const uuid = JSON.parse(message.body);
+      this.getPlayersAll()
+      console.log("body: " + uuid);
+      /*if (this.players.length <= 3) {
         this.players.push(body.player as Player);
         this.match = {
           id: body.matchId,
           players: this.players,
           full: true
         } as Match
-      }
+      }*/
     });
   }
 
   ngOnDestroy(): void {
-    this.socketService.unsubscribe("/topic/game/"+ this.match?.id +"/player");
+    this.socketService.unsubscribe("/topic/game/*");
   }
 }
