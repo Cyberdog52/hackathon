@@ -15,6 +15,7 @@ public class GameConfigEventMapper {
                 .numberOfBoats(game.gameConfig().maxNumberOfBoats())
                 .timeLimit(null)
                 .gameId(game.gameId())
+                .boatRequirements(game.gameConfig().boatRequirements())
                 .build();
     }
 

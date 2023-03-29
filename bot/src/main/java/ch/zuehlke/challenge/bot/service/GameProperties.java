@@ -18,6 +18,7 @@ public class GameProperties {
                 .mapHeight(gameConfig.mapSizeY())
                 .mapWidth(gameConfig.mapSizeX())
                 .numberOfBoats(gameConfig.numberOfBoats())
+                .boatRequirements(gameConfig.boatRequirements())
                 .build();
     }
 

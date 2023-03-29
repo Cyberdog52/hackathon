@@ -1,7 +1,11 @@
 package ch.zuehlke.fullstack.hackathon.model.factory;
 
+import ch.zuehlke.common.shared.BoatRequirements;
+import ch.zuehlke.common.shared.action.setup.BoatType;
 import ch.zuehlke.fullstack.hackathon.model.game.GameConfig;
 import lombok.experimental.UtilityClass;
+
+import java.util.List;
 
 @UtilityClass
 public class GameConfigFactory {
@@ -11,6 +15,9 @@ public class GameConfigFactory {
                 .maxNumberOfBoats(1)
                 .mapHeight(1)
                 .mapWidth(1)
+                .boatRequirements(BoatRequirements.builder()
+                        .boatTypes(List.of(BoatType.SMALL))
+                        .build())
                 .build();
     }
 
@@ -19,6 +26,9 @@ public class GameConfigFactory {
                 .maxNumberOfBoats(1)
                 .mapHeight(5)
                 .mapWidth(5)
+                .boatRequirements(BoatRequirements.builder()
+                        .boatTypes(List.of(BoatType.LARGE))
+                        .build())
             .build();
     }
 

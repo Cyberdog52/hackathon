@@ -6,6 +6,8 @@ import ch.zuehlke.common.Coordinate;
 import ch.zuehlke.common.Move;
 import ch.zuehlke.common.shared.action.lobby.PlayerJoinAction;
 import ch.zuehlke.common.shared.action.playing.AttackTurnAction;
+import ch.zuehlke.common.shared.action.setup.BoatDirection;
+import ch.zuehlke.common.shared.action.setup.BoatType;
 import ch.zuehlke.common.shared.action.setup.PlaceBoatAction;
 import ch.zuehlke.common.shared.event.lobby.PlayerJoinEvent;
 import ch.zuehlke.common.shared.event.playing.AttackEvent;
@@ -48,11 +50,14 @@ public class GameClient {
         return playerJoinEvent.gameId();
     }
 
-    public boolean placeCoordinate(final Coordinate coordinate) {
+    public boolean placeCoordinate(final Coordinate coordinate, final BoatType boatType,
+                                   final BoatDirection boatDirection) {
         PlaceBoatAction placeBoatAction = PlaceBoatAction.builder()
                 .gameId(applicationProperties.getGameId())
                 .playerId(applicationProperties.getPlayerId())
                 .coordinate(coordinate)
+                .boatDirection(boatDirection)
+                .boatType(boatType)
                 .build();
 
         ResponseEntity<PlaceBoatEvent> response = hackathonRestTemplateClient

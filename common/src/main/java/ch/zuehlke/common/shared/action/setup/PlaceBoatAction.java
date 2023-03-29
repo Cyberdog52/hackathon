@@ -6,9 +6,11 @@ import lombok.Builder;
 import java.util.UUID;
 
 @Builder
-public record PlaceBoatAction (
+public record PlaceBoatAction(
         UUID playerId,
         Coordinate coordinate,
-        UUID gameId
+        UUID gameId,
+        BoatType boatType,
+        BoatDirection boatDirection
 ) {
 }
