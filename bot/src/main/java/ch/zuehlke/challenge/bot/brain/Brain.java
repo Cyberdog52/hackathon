@@ -6,7 +6,7 @@ import ch.zuehlke.common.gameplay.ShootRequest;
 
 public interface Brain {
 
-    int THINK_TIME = 500;
+    int THINK_TIME = 1000;
 
     PlaceShipsRequest createGame(String gameId, Player player);
 
