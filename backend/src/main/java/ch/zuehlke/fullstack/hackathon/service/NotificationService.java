@@ -15,9 +15,9 @@ public class NotificationService {
     private final GameService gameService;
 
     public void notifyGameUpdate(String gameId) {
-        gameService.getGame(gameId)
+        /*gameService.getGame(gameId)
                 .map(GameMapper::map)
-                .ifPresent(game -> template.convertAndSend("/topic/update", new GameUpdate(game)));
+                .ifPresent(game -> template.convertAndSend("/topic/update", new GameUpdate(game)));*/
 
         gameService.getGame(gameId)
                 .map(GameMapper::map)

@@ -14,4 +14,5 @@ public class ApplicationProperties {
     private String backendRegisterUrl;
     private String backendPlayUrl;
     private String webSocketUri;
+    private String backendPlaceShipsUrl;
 }

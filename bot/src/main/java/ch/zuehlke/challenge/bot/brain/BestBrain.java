@@ -1,9 +1,13 @@
 package ch.zuehlke.challenge.bot.brain;
 
 import ch.zuehlke.common.Board;
+import ch.zuehlke.common.GameUpdate;
 import ch.zuehlke.common.Orientation;
+import ch.zuehlke.common.Player;
 import ch.zuehlke.common.Ship;
 import ch.zuehlke.common.ShipType;
+import ch.zuehlke.common.gameplay.CreateGameRequest;
+import ch.zuehlke.common.gameplay.PlaceShipsRequest;
 import ch.zuehlke.common.gameplay.ShootRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -16,7 +20,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @Profile("bestbot")
 public class BestBrain implements Brain {
 
-    public Board createGame(String gameId) {
+    private String gameId;
+
+    @Override
+    public PlaceShipsRequest createGame(String gameId, Player player) {
         List<Ship> ships = new ArrayList<>();
         think();
         ships.add(new Ship(ShipType.BATTLESHIP, 0, 0, Orientation.HORIZONTAL));
@@ -26,8 +33,7 @@ public class BestBrain implements Brain {
         ships.add(new Ship(ShipType.SUBMARINE, 3, 4, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 4, 3, Orientation.VERTICAL));
 
-        return new Board(gameId, ships);
-
+        return new PlaceShipsRequest(gameId, player,  ships);
     }
 
     public ShootRequest shootRequest(String gameId) {

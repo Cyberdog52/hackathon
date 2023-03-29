@@ -36,6 +36,7 @@ public class StompClient implements StompSessionHandler {
 
     @EventListener(value = ApplicationReadyEvent.class)
     public void connect() {
+        log.info("connecting");
         WebSocketClient client = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
@@ -49,7 +50,7 @@ public class StompClient implements StompSessionHandler {
 
     private void subscribe(Integer gameId) {
         log.info("Subscribing to id: {}", gameId);
-        this.subscription = stompSession.subscribe("/topic/game/" + gameId, this);
+        this.subscription = stompSession.subscribe("/update", this);
     }
 
     @Override
