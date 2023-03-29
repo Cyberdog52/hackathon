@@ -18,7 +18,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SimpleBrain implements Brain {
 
 
-
     @Override
     public PlaceShipsRequest createGame(String gameId, Player player) {
         List<Ship> ships = new ArrayList<>();
@@ -43,7 +42,7 @@ public class SimpleBrain implements Brain {
 
     private static void think() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(THINK_TIME);
         } catch (InterruptedException ignored) {
             // ignore
         }
