@@ -22,7 +22,7 @@ class GameServiceTest {
         gameClientMock = mock(GameClient.class);
         brainMock = mock(Brain.class);
         shutDownServiceMock = mock(ShutDownService.class);
-        gameService = new GameService(brainMock, gameClientMock, shutDownServiceMock);
+//        gameService = new GameService(brainMock, gameClientMock, shutDownServiceMock);
     }
 
 }

@@ -17,4 +17,5 @@ public class ApplicationProperties {
     private String backendJoinUrl;
     private String backendPlayUrl;
     private String webSocketUri;
+    private String backendSetupUrl;
 }

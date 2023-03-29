@@ -22,7 +22,7 @@ class StompClientTest {
     void setUp() {
         applicationPropertiesMock = mock(ApplicationProperties.class);
         gameServiceMock = mock(GameService.class);
-        stompClient = new StompClient(applicationPropertiesMock, gameServiceMock);
+        stompClient = new StompClient(null, applicationPropertiesMock, gameServiceMock);
     }
 
     @Test
