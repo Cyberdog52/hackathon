@@ -55,6 +55,7 @@ public class SetupOrchestrator {
 
         GameConfigEvent gameConfigEvent = GameConfigEventMapper.mapToGameConfigEvent(simpleGame);
         notificationService.notifyGameInitialised(gameConfigEvent);
+        notificationService.notifySpectatorGameInitialised(gameConfigEvent);
         return simpleGame;
     }
 
@@ -70,6 +71,7 @@ public class SetupOrchestrator {
             .build();
 
         notificationService.notifyGameStarted(takeTurnEvent); // can replace with action from playing to playing_player_1
+        notificationService.notifySpectatorGameStarted(takeTurnEvent);
         return firstPlayer.id();
     }
 
