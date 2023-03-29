@@ -1,11 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { GameAction, TournamentDto, TournamentStatus, PlayerId } from "../../model/lobby";
-import { LobbyService } from "../../services/lobby.service";
+import { Component, Input } from '@angular/core';
+import {
+  TournamentDto,
+  TournamentStatus,
+  PlayerId,
+} from '../../model/lobby';
+import { LobbyService } from '../../services/lobby.service';
 
 @Component({
-  selector: "app-tournament-card",
-  templateUrl: "./tournament-card.component.html",
-  styleUrls: ["./tournament-card.component.scss"],
+  selector: 'app-tournament-card',
+  templateUrl: './tournament-card.component.html',
+  styleUrls: ['./tournament-card.component.scss'],
 })
 export class TournamentCardComponent {
   @Input() tournament!: TournamentDto;
@@ -20,11 +24,14 @@ export class TournamentCardComponent {
     this.lobbyService.deleteTournament(this.tournament.id).subscribe({
       next: () => {
         // Improve: Do something with the gameId
-        console.log("Deleted tournament with id: ", this.tournament.id);
+        console.log('Deleted tournament with id: ', this.tournament.id);
       },
       error: (error) => {
         // Improve: Do something with the error
-        console.log("Something went wrong during deletion of tournament: ", error);
+        console.log(
+          'Something went wrong during deletion of tournament: ',
+          error
+        );
       },
     });
   }
@@ -33,17 +40,18 @@ export class TournamentCardComponent {
     this.lobbyService.startTournament(this.tournament.id).subscribe({
       next: () => {
         // Improve: Do something with the gameId
-        console.log("Started tournament with id: ", this.tournament.id);
+        console.log('Started tournament with id: ', this.tournament.id);
       },
       error: (error) => {
         // Improve: Do something with the error
-        console.log("Something went wrong during start of tournament: ", error);
+        console.log('Something went wrong during start of tournament: ', error);
       },
     });
   }
 
   getPlayerName(key: PlayerId): string | undefined {
-    return this.tournament.players.find((player) => player.id.value === key.value)
-      ?.name.value;
+    return this.tournament.players.find(
+      (player) => player.id.value === key.value
+    )?.name.value;
   }
 }

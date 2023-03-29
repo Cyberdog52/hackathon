@@ -1,5 +1,7 @@
-<button mat-raised-button (click)="createTournament()">Create new tournament</button>
-<mat-grid-list cols="3" rowHeight="200">
+<button mat-raised-button (click)="createTournament()">
+  Create new tournament
+</button>
+<mat-grid-list cols="1" rowHeight="200">
   <mat-grid-tile *ngFor="let tournament of tournaments$ | async">
     <app-tournament-card [tournament]="tournament"></app-tournament-card>
   </mat-grid-tile>

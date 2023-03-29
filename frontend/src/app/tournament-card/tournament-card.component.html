@@ -3,20 +3,24 @@
     <mat-card-title>Tournament: {{ tournament.id.value }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let player of tournament.players" class="white">
-      {{ player.name.value }}
-    </div>
+    <ng-container *ngFor="let score of tournament.scores">
+      <p class="player">{{ getPlayerName(score.playerId) }}</p>
+      <p class="score">: {{ score.score }}}</p>
+    </ng-container>
     <p *ngIf="tournament.players.length === 0">Waiting for players...</p>
 
-    <p *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">Tournament is in progress</p>
+    <p *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">
+      Tournament is in progress
+    </p>
     <div *ngIf="tournament.status === TournamentStatus.FINISHED">
       <p *ngIf="!tournament.winner">Tournament is a draw</p>
-      <p *ngIf="tournament.winner">{{ getPlayerName(tournament.winner) }} has won</p>
+      <p *ngIf="tournament.winner">
+        {{ getPlayerName(tournament.winner) }} has won
+      </p>
     </div>
   </mat-card-content>
   <mat-card-actions>
     <button
-      mat-raised-button
       (click)="startTournament()"
       [disabled]="
         tournament.players.length < MIN_PLAYERS ||
@@ -27,10 +31,10 @@
       Start
     </button>
     <button
-      mat-raised-button
       (click)="deleteTournament()"
       [disabled]="
-        tournament.players.length > 0 && tournament.status !== TournamentStatus.FINISHED
+        tournament.players.length > 0 &&
+        tournament.status !== TournamentStatus.FINISHED
       "
     >
       <mat-icon>delete_outline</mat-icon>
