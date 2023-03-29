@@ -1,6 +1,5 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.PlayerCreateDto;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,10 +47,10 @@ class PlayerDtoControllerTest {
 
     @Test
     void itShouldDeleteAPlayer_whenItExists() {
-        final var playerId = this.playerController.createPlayer(new PlayerCreateDto("Alice", "\uD83E\uDD78"))
+        final var playerId = this.playerController.createPlayer("Alice", "\uD83E\uDD78")
                 .getBody()
                 .toString();
-        this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDEE4"));
+        this.playerController.createPlayer("Bob", "\uD83E\uDEE4");
         this.playerController.deletePlayer(playerId);
         final var response = this.playerController.getAllPlayers().stream().toList();
         assertThat(response).asList()
