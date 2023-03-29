@@ -22,17 +22,6 @@ public class Board {
     public Board(String playerId, List<Ship> ships) {
         this.playerId = playerId;
         this.ships = ships;
-
-        // TODO REMOVE LATER
-        ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 0, Orientation.HORIZONTAL));
-        ships.add(new Ship(ShipType.BATTLESHIP, 0, 1, Orientation.HORIZONTAL));
-        ships.add(new Ship(ShipType.SUBMARINE, 0, 2, Orientation.HORIZONTAL));
-        ships.add(new Ship(ShipType.CRUISER, 0, 3, Orientation.HORIZONTAL));
-        ships.add(new Ship(ShipType.DESTROYER, 0, 4, Orientation.HORIZONTAL));
-        shots[0][0] = ShootState.HIT;
-        shots[0][8] = ShootState.MISS;
-        shots[4][0] = ShootState.SUNK;
-        shots[4][1] = ShootState.SUNK;
     }
 
     public boolean shipsValid() {

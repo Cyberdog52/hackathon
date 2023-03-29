@@ -61,7 +61,7 @@ class LobbyControllerTest {
         var createGameResponse = controller.createGame(createGameRequest);
         assertThat(createGameResponse.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(createGameResponse.hasBody()).isTrue();
-        var gameId = createGameResponse.getBody();
+        var gameId = createGameResponse.getBody().gameId();
         assertThat(gameService.getGame(gameId).orElseThrow().getStatus()).isEqualTo(GameStatus.PLACE_SHIPS);
 
         // place ships

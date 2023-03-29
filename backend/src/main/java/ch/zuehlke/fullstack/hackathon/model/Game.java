@@ -36,9 +36,6 @@ public class Game {
         if (players.size() == REQUIRED_NUMBER_OF_PLAYERS) {
             status = GameStatus.PLACE_SHIPS;
         }
-        // TODO REMOVE LATER
-        var board = new Board(player.getId(), new ArrayList<>());
-        boardsByPlayerId.put(player.getId(), board);
 
         return true;
     }
@@ -79,7 +76,7 @@ public class Game {
                         .toList();
             }
             currentRound.finishRound();
-            rounds.add(currentRound);
+            rounds.add(new Round());
         }
 
         return shootResult;

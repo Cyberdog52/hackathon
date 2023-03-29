@@ -9,13 +9,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MoveTest {
 
+    private String id = "1234567890";
 
     @Test
     void getDistanceBetweenShotAndShip() {
         List<Ship> ships = new ArrayList<>();
 
         ships.add(new Ship(ShipType.AIRCRAFT_CARRIER, 0, 4, Orientation.HORIZONTAL));
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         ShootResult shootResult = board.executeShot(8, 8);
 
@@ -30,7 +31,7 @@ class MoveTest {
         ships.add(new Ship(ShipType.BATTLESHIP, 6, 0, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.BATTLESHIP, 0, 6, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         ShootResult shootResult = board.executeShot(8, 8);
 
@@ -45,7 +46,7 @@ class MoveTest {
         ships.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
         ships.add(new Ship(ShipType.CRUISER, 6, 7, Orientation.VERTICAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
 
         ShootResult shootResult = board.executeShot(1, 0);
 
@@ -59,7 +60,7 @@ class MoveTest {
 
         ships.add(new Ship(ShipType.DESTROYER, 0, 0, Orientation.HORIZONTAL));
 
-        Board board = new Board(ships);
+        Board board = new Board(id, ships);
         board.executeShot(0,0);
         ShootResult shootResult = board.executeShot(1, 0);
 
