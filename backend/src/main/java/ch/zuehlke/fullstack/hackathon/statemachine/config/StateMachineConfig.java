@@ -3,8 +3,10 @@ package ch.zuehlke.fullstack.hackathon.statemachine.config;
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.GameAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.end.EndGame;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.AllPlayersJoined;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.lobby.PlayerJoinAction;
+import ch.zuehlke.fullstack.hackathon.statemachine.action.playing.Attack;
 import ch.zuehlke.fullstack.hackathon.statemachine.action.setup.PlaceBoat;
 import ch.zuehlke.fullstack.hackathon.statemachine.guard.GameGuard;
 import ch.zuehlke.fullstack.hackathon.statemachine.listener.GameListener;
@@ -20,9 +22,18 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 
 import java.util.Set;
 
-import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
-import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.*;
-import static ch.zuehlke.fullstack.hackathon.statemachine.action.PlayerJoinAction.playerJoinAction;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_BOATS_DESTROYED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_BOATS_PLACED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ALL_PLAYERS_JOINED;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.ATTACK;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.PLACE_BOAT;
+import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.PLAYER_JOINED;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.END;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.LOBBY;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING_PLAYER_1;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.PLAYING_PLAYER_2;
+import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.SETUP;
 
 @Configuration
 @EnableStateMachine
@@ -42,6 +53,12 @@ public class StateMachineConfig
 
     @NonNull
     private final PlaceBoat placeBoat;
+
+    @NonNull
+    private final Attack attack;
+
+    @NonNull
+    private final EndGame endGame;
 
     @NonNull
     private final GameListener listener;
@@ -93,11 +110,11 @@ public class StateMachineConfig
                 .withExternal()
                 .source(PLAYING).target(END).event(ALL_BOATS_DESTROYED).action(action).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_1).target(PLAYING_PLAYER_2).event(ATTACK).and()
+                .source(PLAYING_PLAYER_1).target(PLAYING_PLAYER_2).event(ATTACK).action(attack.attack()).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_2).target(PLAYING_PLAYER_1).event(ATTACK).and()
+                .source(PLAYING_PLAYER_2).target(PLAYING_PLAYER_1).event(ATTACK).action(attack.attack()).and()
                 .withExternal()
-                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).and()
+                .source(PLAYING_PLAYER_1).target(END).event(ALL_BOATS_DESTROYED).action(endGame.endGame()).and()
                 .withExternal()
                 .source(PLAYING_PLAYER_2).target(END).event(ALL_BOATS_DESTROYED);
     }

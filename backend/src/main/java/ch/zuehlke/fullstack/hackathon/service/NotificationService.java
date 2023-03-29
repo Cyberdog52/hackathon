@@ -25,12 +25,21 @@ public class NotificationService {
     private final SimpMessagingTemplate template;
 
     public void notifyLobbyPlayerJoined(final PlayerJoinEvent playerJoinEvent) {
-        String destination = String.format("%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId());
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), playerJoinEvent.gameId());
         template.convertAndSend(destination, playerJoinEvent, Map.of("EventType", EventType.PLAYER_JOINED));
     }
 
     public void notifyGameInitialised(final GameConfigEvent gameConfigEvent) {
-        String destination = String.format("%s/%s", WebsocketDestination.TOPIC_GAMES.getDestination(), gameConfigEvent.gameId());
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), gameConfigEvent.gameId());
+        template.convertAndSend(destination, gameConfigEvent, Map.of("EventType", EventType.SETUP_GAME));
+    }
+
+    public void notifySpectatorGameInitialised(final GameConfigEvent gameConfigEvent) {
+        String destination = String.format("%s/%s%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), gameConfigEvent.gameId(),
+            WebsocketDestination.SPECTATE.getDestination());
         template.convertAndSend(destination, gameConfigEvent, Map.of("EventType", EventType.SETUP_GAME));
     }
 
@@ -41,16 +50,15 @@ public class NotificationService {
         template.convertAndSend(destination, playerJoinEvent, Map.of("EventType", EventType.PLAYER_JOINED));
     }
 
-    public void notifySpectatorBoatPlaced(final PlaceBoatEvent placeBoatEvent) {
-
-    }
-
     public void notifySpectatorGameStarted(final GameStartPlayingEvent gameStartPlayingEvent) {
 
     }
 
     public void notifySpectatorPlayerAttacked(final AttackEvent attackEvent) {
-
+        String destination = String.format("%s/%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId(),
+            WebsocketDestination.SPECTATE.getDestination());
+        template.convertAndSend(destination, attackEvent);
     }
 
     public void notifyBoatPlaced(final PlaceBoatEvent placeBoatEvent, final UUID gameId) {
@@ -61,11 +69,40 @@ public class NotificationService {
     }
 
     public void notifySpectatorPlayerTurn(final TakeTurnEvent takeTurnEvent) {
-
+        String destination = String.format("%s/%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId(),
+            WebsocketDestination.SPECTATE.getDestination());
+        template.convertAndSend(destination, takeTurnEvent);
     }
 
     public void notifySpectatorGameEnded(final GameEndEvent gameEndEvent) {
-
+        String destination = String.format("%s/%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId(),
+            WebsocketDestination.SPECTATE.getDestination());
+        template.convertAndSend(destination, gameEndEvent);
     }
 
+    public void notifyGameStarted(final TakeTurnEvent takeTurnEvent) {
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId());
+        template.convertAndSend(destination, takeTurnEvent);
+    }
+
+    public void notifyPlayerAttacked(AttackEvent attackEvent) {
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), attackEvent.gameId());
+        template.convertAndSend(destination, attackEvent);
+    }
+
+    public void notifyGameEnded(GameEndEvent gameEndEvent) {
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), gameEndEvent.gameId());
+        template.convertAndSend(destination, gameEndEvent);
+    }
+
+    public void notifyPlayerTakeTurn(TakeTurnEvent takeTurnEvent) {
+        String destination = String.format("%s/%s",
+            WebsocketDestination.TOPIC_GAMES.getDestination(), takeTurnEvent.gameId());
+        template.convertAndSend(destination, takeTurnEvent);
+    }
 }
