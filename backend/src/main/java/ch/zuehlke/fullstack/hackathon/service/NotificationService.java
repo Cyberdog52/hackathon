@@ -22,13 +22,18 @@ public class NotificationService {
         template.convertAndSend("/topic/game/%s".formatted(game.getId()), new GameUpdate(gameDto));
     }
 
-    public void notifyPlayerStart(final Game game, final PlayerHand playerHand){
-        template.convertAndSendToUser(playerHand.player().id().toString(), "/topic/game/%s".formatted(game.getId().toString()), new Deal());
-
+    public void notifyPlayerStart(final Game game, final PlayerHand playerHand) {
+        template.convertAndSendToUser(playerHand.player().id().toString(), "/topic/game/%s".formatted(game.getId().toString()), new Deal(playerHand.cards()));
     }
 
-    public void notifyPlayerTurn(final UUID playerId){
 
+    public void notifyPlayerJoined(final UUID playerId) {
+        template.convertAndSend("/topic/game/%s".formatted(playerId), playerId);
+    }
+
+
+    public void notifyPlayerTurn(final UUID playerId) {
+        //TODO: notify player its their turn and give stack information
     }
 
 //    private final GameService gameService;

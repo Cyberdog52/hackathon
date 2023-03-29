@@ -1,12 +1,9 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.JoinRequest;
-import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
-import ch.zuehlke.fullstack.hackathon.model.Player;
-import ch.zuehlke.fullstack.hackathon.model.exception.LobbySizeException;
+import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
-import ch.zuehlke.fullstack.hackathon.model.exception.PlayerException;
 import ch.zuehlke.fullstack.hackathon.service.MatchService;
+import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,6 +23,8 @@ public class LobbyController {
     private final MatchService matchService;
     private final PlayerService playerService;
 
+    private final NotificationService notificationService;
+
     @Operation(summary = "Returns the list of waiting matches",
             description = "Returns all waiting matches")
     @ApiResponse(responseCode = "200", description = "Successfully returned the list of waiting matches")
@@ -41,7 +40,7 @@ public class LobbyController {
     public ResponseEntity<MatchLobby> getMatch(@PathVariable final String matchId) {
         try {
             return ResponseEntity.ok(this.findLobby(matchId));
-        } catch (MatchStartException e) {
+        } catch (final MatchStartException e) {
             log.warn("Cloud not find match lobby with the id ({})", matchId);
             return ResponseEntity.notFound().build();
         }
@@ -53,26 +52,27 @@ public class LobbyController {
     @ApiResponse(responseCode = "400", description = "The match is already full")
     @ApiResponse(responseCode = "404", description = "The match does not exist")
     @PostMapping("/waiting/{matchId}/join")
-    public ResponseEntity<MatchLobby> join(@PathVariable final String matchId, @RequestBody JoinRequest joinRequest) {
-        MatchLobby matchLobby;
+    public ResponseEntity<MatchLobby> join(@PathVariable final String matchId, @RequestBody final JoinRequest joinRequest) {
+        final MatchLobby matchLobby;
         try {
             matchLobby = this.findLobby(matchId);
-        } catch (MatchStartException e) {
+        } catch (final MatchStartException e) {
             log.warn("Cloud not find match lobby with the id ({})", matchId);
             return ResponseEntity.notFound().build();
         }
-        Player player;
+        final Player player;
         try {
             player = this.findPlayer(joinRequest.playerId());
-        } catch (PlayerException e) {
+        } catch (final PlayerException e) {
             log.warn("Cloud not find player with id ({})", joinRequest.playerId());
             return ResponseEntity.badRequest().build();
         }
         try {
             matchLobby.join(player);
-        } catch (LobbySizeException | PlayerException e) {
+        } catch (final LobbySizeException | PlayerException e) {
             return ResponseEntity.badRequest().build();
         }
+        notificationService.notifyPlayerJoined(player.id());
         return ResponseEntity.ok(matchLobby);
     }
 

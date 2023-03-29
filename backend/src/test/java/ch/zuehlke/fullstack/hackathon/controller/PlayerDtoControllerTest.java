@@ -1,6 +1,5 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.PlayerCreateDto;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,22 +21,22 @@ class PlayerDtoControllerTest {
 
     @Test
     void itShouldCreateNewUsers_whenNameDoesNotExits() {
-        final var response = this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDD78"));
+        final var response = this.playerController.createPlayer("Bob", "\uD83E\uDD78");
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
         assertThat(response.getBody()).isNotNull();
     }
 
     @Test
     void itShouldNotCreateNewUsers_wheNameAlreadyExists() {
-        this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDD78"));
-        final var response = this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDEE4"));
+        this.playerController.createPlayer("Bob", "\uD83E\uDD78");
+        final var response = this.playerController.createPlayer("Bob", "\uD83E\uDEE4");
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(400));
     }
 
     @Test
     void itShouldReturnCreatedUsers_whenAllAreRequested() {
-        this.playerController.createPlayer(new PlayerCreateDto("Alice", "\uD83E\uDD78"));
-        this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDEE4"));
+        this.playerController.createPlayer("Alice", "\uD83E\uDD78");
+        this.playerController.createPlayer("Bob", "\uD83E\uDEE4");
         final var allPlayers = this.playerController.getAllPlayers().stream().toList();
         assertThat(allPlayers).asList()
                 .isNotEmpty()
@@ -48,10 +47,10 @@ class PlayerDtoControllerTest {
 
     @Test
     void itShouldDeleteAPlayer_whenItExists() {
-        final var playerId = this.playerController.createPlayer(new PlayerCreateDto("Alice", "\uD83E\uDD78"))
+        final var playerId = this.playerController.createPlayer("Alice", "\uD83E\uDD78")
                 .getBody()
                 .toString();
-        this.playerController.createPlayer(new PlayerCreateDto("Bob", "\uD83E\uDEE4"));
+        this.playerController.createPlayer("Bob", "\uD83E\uDEE4");
         this.playerController.deletePlayer(playerId);
         final var response = this.playerController.getAllPlayers().stream().toList();
         assertThat(response).asList()

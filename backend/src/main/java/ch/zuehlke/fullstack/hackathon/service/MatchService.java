@@ -1,7 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
+import ch.zuehlke.common.MatchLobby;
 import ch.zuehlke.fullstack.hackathon.model.Match;
-import ch.zuehlke.fullstack.hackathon.model.MatchLobby;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class MatchService {
         try {
             match = Match.fromLobby(lobby);
             this.matches.add(match);
-        } catch (MatchStartException e) {
+        } catch (final MatchStartException e) {
             log.error("Unable to start match", e);
             throw e;
         }

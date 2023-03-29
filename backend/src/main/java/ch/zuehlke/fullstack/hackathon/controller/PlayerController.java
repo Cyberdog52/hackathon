@@ -1,8 +1,7 @@
 package ch.zuehlke.fullstack.hackathon.controller;
 
-import ch.zuehlke.common.PlayerCreateDto;
-import ch.zuehlke.fullstack.hackathon.model.Player;
-import ch.zuehlke.fullstack.hackathon.model.exception.PlayerException;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerException;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,11 +32,11 @@ public class PlayerController {
     @Operation(summary = "Create a new player",
             description = "Creates a new player and returns the uuid")
     @ApiResponse(responseCode = "200", description = "Successfully created a new player")
-    @PostMapping("/create")
-    public ResponseEntity<UUID> createPlayer(final PlayerCreateDto createDto) {
+    @PostMapping("/create/{name}/{icon}")
+    public ResponseEntity<UUID> createPlayer(@PathVariable final String name, @PathVariable final String icon) {
         try {
-            return ResponseEntity.ok(this.playerService.addPlayer(createDto.name(), createDto.icon()).id());
-        } catch (PlayerException e) {
+            return ResponseEntity.ok(this.playerService.addPlayer(name, icon).id());
+        } catch (final PlayerException e) {
             return ResponseEntity.badRequest().build();
         }
     }
