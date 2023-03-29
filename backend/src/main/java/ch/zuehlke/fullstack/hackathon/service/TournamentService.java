@@ -1,15 +1,20 @@
 package ch.zuehlke.fullstack.hackathon.service;
 
-import ch.zuehlke.common.*;
+import ch.zuehlke.common.Player;
+import ch.zuehlke.common.PlayerId;
+import ch.zuehlke.common.PlayerName;
+import ch.zuehlke.common.TournamentId;
 import ch.zuehlke.fullstack.hackathon.controller.TournamentJoinResult;
 import ch.zuehlke.fullstack.hackathon.controller.TournamentStartResult;
 import ch.zuehlke.fullstack.hackathon.model.Game;
-import ch.zuehlke.fullstack.hackathon.model.GameMapper;
 import ch.zuehlke.fullstack.hackathon.model.Tournament;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -69,35 +74,33 @@ public class TournamentService {
         }
 
         tournament.startTournament();
-        matchmaking(tournament);
+        generateRoundRobin(tournament.getPlayers());
 
         return new TournamentStartResult(TournamentStartResult.TournamentStartResultType.SUCCESS);
     }
 
-    private void matchmaking(Tournament tournament) {
-        List<Game>  games = generateRoundRobin(tournament.getPlayers());
-        Collections.shuffle(games);
-
-        tournament.getState().games().addAll(games.stream().map(GameMapper::map).toList());
-    }
-
-
-    private List<Game> generateRoundRobin(List<Player> players) {
-        List<Game> games = new ArrayList<>();
+    private void generateRoundRobin(List<Player> players) {
         for (int i = 0; i < players.size(); i++) {
-            for (int j = 0; j < players.size() ; j++) {
-                if(i == j) continue;
+            for (int j = 0; j < players.size(); j++) {
+                if (i == j) continue;
 
                 Game game = gameService.createGame();
                 game.addPlayer(players.get(i));
                 game.addPlayer(players.get(j));
-                games.add(game);
+                getCurrentTournament().ifPresent(t -> t.getState().games().add(game.getGameId()));
             }
         }
-        return games;
+        Collections.shuffle(gameService.getGames());
+    }
+
+    public Optional<Tournament> getCurrentTournament() {
+        if (tournaments.size() > 0) {
+            return Optional.of(tournaments.get(0));
+        }
+        return Optional.empty();
     }
 
     public void update() {
-        //var allGamesFinished = tournaments.get(0).getState().games()
+        getCurrentTournament().ifPresent(t -> t.updateFromGames(gameService.getGames()));
     }
 }

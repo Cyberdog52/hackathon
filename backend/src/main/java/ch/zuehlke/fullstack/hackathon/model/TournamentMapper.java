@@ -10,7 +10,8 @@ public class TournamentMapper {
                 .players(tournament.getPlayers())
                 .status(tournament.getStatus())
                 .state(tournament.getState())
-//                .winner(tournament.getWinner().orElse(null))
+                .winner(tournament.getWinner().orElse(null))
+                .scores(tournament.getScores())
                 .build();
     }
 }

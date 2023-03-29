@@ -1,14 +1,10 @@
 package ch.zuehlke.fullstack.hackathon.model;
 
-import ch.zuehlke.common.Player;
-import ch.zuehlke.common.TournamentId;
-import ch.zuehlke.common.TournamentState;
-import ch.zuehlke.common.TournamentStatus;
+import ch.zuehlke.common.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Getter
@@ -23,6 +19,7 @@ public class Tournament {
     private TournamentStatus status = TournamentStatus.NOT_STARTED;
 
     private TournamentState state = new TournamentState();
+    private List<Score> scores = new ArrayList<>();
 
     public boolean addPlayer(Player player) {
         if (players.size() >= MAX_PLAYERS) {
@@ -44,13 +41,6 @@ public class Tournament {
         }
 
         status = TournamentStatus.IN_PROGRESS;
-        startRound();
-    }
-
-    private void startRound() {
-//        state.currentRequests().add(new PlayRequest(players.get(internalGameState.getActionHistory().size() % 2).id(),
-//                internalGameState.getPossibleActions()));
-
     }
 
     public void finishTournament() {
@@ -59,5 +49,63 @@ public class Tournament {
 
     public void deleteTournament() {
         status = TournamentStatus.DELETED;
+    }
+
+    public void updateFromGames(List<Game> games) {
+        var gamesBelongingToTournament = games.stream()
+                .filter(g -> state.games().contains(g.getGameId()))
+                .toList();
+
+        var allGamesFinished = gamesBelongingToTournament.stream()
+                .map(Game::getStatus)
+                .allMatch(s -> s == GameStatus.FINISHED);
+
+        if (allGamesFinished) {
+            finishTournament();
+        }
+
+        var finishedGames = gamesBelongingToTournament.stream()
+                .filter(g -> g.getStatus() == GameStatus.FINISHED)
+                .toList();
+
+        var multiMap = new HashMap<PlayerId, List<Game>>();
+        for (var game : finishedGames) {
+            for (var player : game.getPlayers()) {
+                multiMap.computeIfAbsent(player.id(), k -> new ArrayList<>())
+                        .add(game);
+            }
+        }
+
+        scores = multiMap.entrySet().stream()
+                .map(e -> new Score(e.getKey(), calculateScore(e.getKey(), e.getValue())))
+                .sorted(Comparator.comparing(Score::score).reversed())
+                .toList();
+    }
+
+    private static int calculateScore(PlayerId playerId, List<Game> games) {
+        int score = 0;
+
+        for (Game game : games) {
+            Optional<PlayerId> winner = game.getWinner();
+            if (winner.isEmpty()) {
+                score += 1;
+            } else if (winner.get().equals(playerId)) {
+                score += 3;
+            }
+        }
+
+        return score;
+    }
+
+    public Optional<PlayerId> getWinner() {
+        if (status != TournamentStatus.FINISHED) {
+            return Optional.empty();
+        }
+        return getScores().stream().findFirst().map(Score::playerId);
+    }
+
+
+    public List<Score> getScores() {
+        return scores;
     }
 }
