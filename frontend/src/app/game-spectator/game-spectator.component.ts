@@ -68,7 +68,12 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
   public gameState = GameState.LOBBY;
 
+  public eventList: PlayingEvent[] = []
+
   private mapEventToMapChanges(event: PlayingEvent): void {
+    this.eventList.push(event);
+    console.log(event.type, event);
+
     if (event.type === EventType.PLAYER_JOINED ) {
       if(this.player1Id === undefined) {
         this.player1Id = event.playerId;
@@ -95,13 +100,12 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
 
     if (event.type === EventType.GAME_ENDED) {
       this.gameState = GameState.END;
-      console.log(EventType.GAME_ENDED);
       this.gameWinnerId = event.winnerId;
+      console.table(this.eventList);
       return;
     }
 
     if (event.type === EventType.BOAT_PLACED) {
-      console.log(EventType.BOAT_PLACED);
       const map = this.getMapOfPlayer(event.playerId);
       map.setBoat(event.coordinate);
       return;
@@ -129,7 +133,7 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
   }
 
   private getMapOfPlayer(playerId: UUID): MapComponent {
-    if (playerId !== this.player1Id) {
+    if (playerId === this.player1Id) {
       return this.player1Map;
     } else {
       return this.player2Map;

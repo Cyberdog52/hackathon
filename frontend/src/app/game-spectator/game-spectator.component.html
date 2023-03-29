@@ -4,18 +4,18 @@
     Back to lobby browser
   </button>
   <ng-container *ngIf="gameState === gameStateEnum.END">
-    <h1 *ngIf="gameWinnerId !== undefined">The winner is: {{gameWinnerId}}</h1>
+    <h1 *ngIf="gameWinnerId !== undefined">The winner is: {{gameWinnerId.substring(24)}}</h1>
   </ng-container>
   <ng-container *ngIf="gameState === gameStateEnum.LOBBY">
     <h1>Waiting for Players:</h1>
     <ul>
-      <h2 *ngIf="this.player1Id">{{this.player1Id}} joined</h2>
-      <h2 *ngIf="this.player2Id">{{this.player2Id}} joined</h2>
+      <h2 *ngIf="this.player1Id">{{this.player1Id.substring(24)}} joined</h2>
+      <h2 *ngIf="this.player2Id">{{this.player2Id.substring(24)}} joined</h2>
     </ul>
   </ng-container>
   <div class="map-container" *ngIf="gameState !== gameStateEnum.LOBBY">
     <div class="map-wrapper">
-      <h2>Player 1: <br/>{{player1Id}}</h2>
+      <h2>Player 1: <br/>{{player1Id.substring(24)}}</h2>
       <app-map
         *ngIf="canRenderMap()"
         gameId="{{gameId}}"
@@ -25,7 +25,7 @@
         #mapPlayer1/>
     </div>
     <div class="map-wrapper">
-      <h2>Player 2: <br/> {{player2Id}}</h2>
+      <h2>Player 2: <br/> {{player2Id.substring(24)}}</h2>
       <app-map
         *ngIf="canRenderMap()"
         gameId="{{gameId}}"
