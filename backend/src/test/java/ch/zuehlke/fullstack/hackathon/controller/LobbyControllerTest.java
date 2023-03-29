@@ -2,6 +2,7 @@ package ch.zuehlke.fullstack.hackathon.controller;
 
 import ch.zuehlke.common.JoinRequest;
 import ch.zuehlke.fullstack.hackathon.model.Player;
+import ch.zuehlke.fullstack.hackathon.service.GameService;
 import ch.zuehlke.fullstack.hackathon.service.MatchService;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,11 +24,14 @@ class LobbyControllerTest {
     @Mock
     private PlayerService playerService;
 
+    @Mock
+    private GameService gameService;
+
     private LobbyController lobbyController;
 
     @BeforeEach
     void setUp() {
-        final var matchService = new MatchService();
+        final var matchService = new MatchService(gameService);
         this.lobbyController = new LobbyController(matchService, playerService);
     }
 
