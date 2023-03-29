@@ -2,8 +2,8 @@ package ch.zuehlke.challenge.bot.service;
 
 import ch.zuehlke.challenge.bot.brain.Brain;
 import ch.zuehlke.challenge.bot.client.GameClient;
+import ch.zuehlke.challenge.bot.model.BoatInformation;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
-import ch.zuehlke.common.Coordinate;
 import ch.zuehlke.common.GameUpdate;
 import ch.zuehlke.common.PlayRequest;
 import ch.zuehlke.common.RequestId;
@@ -69,15 +69,16 @@ public class GameService {
 
     private void handleSettingUpGame(final GameConfigEvent event) {
         gameProperties.createGameConfig(event);
-        List<Coordinate> boatCoordinates = brain.chooseBoatCoordinates(event);
+        List<BoatInformation> boatInformation = brain.chooseBoatCoordinates(event);
 
-        boatCoordinates.forEach(coordinate -> placeCoordinate(boatCoordinates, coordinate));
+        boatInformation.forEach(info -> placeBoat(info));
     }
 
-    private void placeCoordinate(final List<Coordinate> coordinates, final Coordinate coordinate) {
-        boolean successful = gameClient.placeCoordinate(coordinate);
+    private void placeBoat(final BoatInformation boatInformation) {
+        boolean successful = gameClient.placeCoordinate(boatInformation.baseCoordinate(), boatInformation.boatType(),
+                boatInformation.boatDirection());
         if (!successful) {
-            placeCoordinate(coordinates, brain.chooseNewBoatCoordinate(coordinates, coordinate));
+            throw new RuntimeException("Failed to place the boat!");
         }
     }
 

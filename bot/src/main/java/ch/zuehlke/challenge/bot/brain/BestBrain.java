@@ -1,5 +1,6 @@
 package ch.zuehlke.challenge.bot.brain;
 
+import ch.zuehlke.challenge.bot.model.BoatInformation;
 import ch.zuehlke.challenge.bot.service.GameProperties;
 import ch.zuehlke.challenge.bot.util.ApplicationProperties;
 import ch.zuehlke.common.Coordinate;
@@ -15,8 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Component
 @Profile("bestbot")
@@ -28,6 +27,9 @@ public class BestBrain implements Brain {
 
     @NonNull
     private final GameProperties gameProperties;
+
+    @NonNull
+    private final BrainHelper brainHelper;
 
     @NonNull
     private Set previousAttackCoordinates = new HashSet();
@@ -48,11 +50,8 @@ public class BestBrain implements Brain {
                 .build();
     }
 
-    public List<Coordinate> chooseBoatCoordinates(final GameConfigEvent event) {
-        return IntStream.range(0, gameProperties.getGameConfig().numberOfBoats())
-                .boxed()
-                .map(i -> chooseCoordinate())
-                .collect(Collectors.toList());
+    public List<BoatInformation> chooseBoatCoordinates(final GameConfigEvent event) {
+        return brainHelper.chooseBoatCoordinates(event);
     }
 
     // failed to place a coordinate so choose a new one

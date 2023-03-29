@@ -30,9 +30,12 @@ public class PlaceBoat {
 
             MessageHeaders messageHeaders = context.getMessageHeaders();
             PlaceBoatAction action = (PlaceBoatAction) messageHeaders.get(Header.PLACE_BOAT.name());
+            UUID boatId = (UUID) messageHeaders.get(Header.BOAT_ID.name());
+
             Game storedGame = (Game) stateMachine.getExtendedState().getVariables().get(Variable.GAME_ID);
 
-            Game updatedGame = setupOrchestrator.placeBoat(storedGame.gameId(), action.playerId(), action.coordinate());
+            Game updatedGame = setupOrchestrator.placeBoat(storedGame.gameId(), action.playerId(), action.coordinate(),
+                    action.boatType(), action.boatDirection(), boatId);
 
             stateMachine.getExtendedState().getVariables().put(Variable.GAME_ID, updatedGame);
 

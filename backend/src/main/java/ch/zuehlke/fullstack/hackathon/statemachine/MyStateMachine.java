@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class MyStateMachine {
@@ -36,9 +38,10 @@ public class MyStateMachine {
     }
 
     public Flux<StateMachineEventResult<ch.zuehlke.common.GameState, GameEvent>> placeBoat(
-            final PlaceBoatAction request) {
+            final PlaceBoatAction request, final UUID boatId) {
         Message message = MessageBuilder.withPayload(GameEvent.PLACE_BOAT)
                 .setHeader(Header.PLACE_BOAT.name(), request)
+                .setHeader(Header.BOAT_ID.name(), boatId)
                 .build();
 
         return sendEventMessage(message);

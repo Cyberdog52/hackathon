@@ -2,6 +2,8 @@ package ch.zuehlke.fullstack.hackathon.service.orchestrator;
 
 import ch.zuehlke.common.Coordinate;
 import ch.zuehlke.common.GamePlayingAction;
+import ch.zuehlke.common.shared.action.setup.BoatDirection;
+import ch.zuehlke.common.shared.action.setup.BoatType;
 import ch.zuehlke.common.shared.event.playing.TakeTurnEvent;
 import ch.zuehlke.common.shared.event.setup.GameConfigEvent;
 import ch.zuehlke.common.shared.event.setup.PlaceBoatEvent;
@@ -17,10 +19,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
 import static ch.zuehlke.fullstack.hackathon.mapper.PlaceBoatEventMapper.mapToPlaceBoatEvent;
+import static ch.zuehlke.fullstack.hackathon.model.Boat.determineBoatCoordinates;
 
 @Service
 @RequiredArgsConstructor
@@ -32,19 +36,29 @@ public class SetupOrchestrator {
     @NonNull
     private final GameService gameService;
 
-    public Game placeBoat(final UUID gameId, final UUID playerId, final Coordinate coordinate) {
+    public Game placeBoat(final UUID gameId, final UUID playerId, final Coordinate coordinate, final BoatType boatType,
+                          final BoatDirection boatDirection, final UUID boatId) {
         Game game = gameService.get(gameId);
+
+        List<Coordinate> boatCoordinates = determineBoatCoordinates(boatType, boatDirection, coordinate);
+        if (!Boat.validBoatCoordinates(boatCoordinates, game.gameConfig().mapHeight(), game.gameConfig().mapWidth())) {
+            throw new RuntimeException("Boat coordinates are not valied!");
+        }
+
         // check if you can place a boat
         Boat boat = Boat.builder()
                 .destroyed(false)
-                .coordinate(coordinate)
+                .coordinates(determineBoatCoordinates(boatType, boatDirection, coordinate))
+                .boatId(boatId)
+                .hitCoordinates(new HashSet<>())
                 .build();
         boolean boatPlaced = game.addBoat(playerId, boat);
+
         if (!boatPlaced) {
-            throw new RuntimeException(String.format("Unable to place boat for gameId %s, playerId %s and coordinates %s",
+            throw new RuntimeException(String.format("Unable to place boat for gameId %s, playerId %s and coordinate %s",
                     gameId, playerId, coordinate));
         }
-        PlaceBoatEvent placeBoatEvent = mapToPlaceBoatEvent(playerId, boat.getCoordinate(), boatPlaced);
+        PlaceBoatEvent placeBoatEvent = mapToPlaceBoatEvent(playerId, boat.getCoordinates(), boatPlaced);
         notificationService.notifyBoatPlaced(placeBoatEvent, gameId);
         return game;
     }
