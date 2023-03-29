@@ -55,6 +55,9 @@ public class LobbyController {
         List<GameDto> gameDtos = games.stream()
                 .map(GameMapper::map)
                 .toList();
+
+        notificationService.notifyGameUpdate("");
+
         return ResponseEntity.ok(gameDtos);
     }
 

@@ -24,19 +24,11 @@ export class GameOverviewComponent implements OnInit {
   miss: ShotResult = ShotResult.MISS;
   sunk: ShotResult = ShotResult.SUNK;
 
-  myWebSocket: WebSocketSubject<any> = webSocket('ws://localhost:8080/update');
-
   constructor(private gameService: GameService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.game$ = this.gameService.getGame(this.route.snapshot.queryParamMap.get("gameId") || "");
-
-    this.myWebSocket.asObservable().subscribe(dataFromServer => {
-      console.log(dataFromServer);
-    });
-
-    this.myWebSocket.next({message: "Hello from the client!"});
   }
 
   shipIsOnField(y: number, x: number, ships: Ship[]): boolean {

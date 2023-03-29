@@ -21,6 +21,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {GameOverviewComponent} from "./game-overview/game-overview.component";
 import {CommonModule} from "@angular/common";
+import {RxStompService} from "../services/rx-stomp.service";
+import {rxStompServiceFactory} from "../services/rx-stomp-service-factory";
 
 @NgModule({
   declarations: [
@@ -48,7 +50,12 @@ import {CommonModule} from "@angular/common";
     MatSelectModule,
     CommonModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: RxStompService,
+      useFactory: rxStompServiceFactory,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
