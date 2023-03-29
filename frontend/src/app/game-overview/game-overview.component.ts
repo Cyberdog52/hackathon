@@ -3,7 +3,8 @@ import {GameService} from "../../services/game.service";
 import {Observable} from "rxjs";
 import {GameDto, GameStatus, Orientation, Ship, ShipType, ShotResult} from "../../model/lobby";
 import {ActivatedRoute} from "@angular/router";
-import {WebsocketService} from "../../services/websocket.service";
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+
 
 @Component({
   selector: 'app-game-overview',
@@ -23,13 +24,19 @@ export class GameOverviewComponent implements OnInit {
   miss: ShotResult = ShotResult.MISS;
   sunk: ShotResult = ShotResult.SUNK;
 
+  myWebSocket: WebSocketSubject<any> = webSocket('ws://localhost:8080/update');
 
-  constructor(private gameService: GameService, private webSocketService: WebsocketService, private route: ActivatedRoute) {
+  constructor(private gameService: GameService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.game$ = this.gameService.getGame(this.route.snapshot.queryParamMap.get("gameId") || "");
 
+    this.myWebSocket.asObservable().subscribe(dataFromServer => {
+      console.log(dataFromServer);
+    });
+
+    this.myWebSocket.next({message: "Hello from the client!"});
   }
 
   shipIsOnField(y: number, x: number, ships: Ship[]): boolean {
