@@ -1,22 +1,38 @@
-<div>
-  <a href="/">Back to home</a>
-  <h1 *ngIf="this.gameWinnerId !== undefined">The winner is: {{this.gameWinnerId}}</h1>
-  <div class="map-container">
+<div class="component-wrapper">
+  <button mat-raised-button [routerLink]="'/'">
+    <mat-icon>arrow_back</mat-icon>
+    Back to lobby browser
+  </button>
+  <ng-container *ngIf="gameState === gameStateEnum.END">
+    <h1 *ngIf="gameWinnerId !== undefined">The winner is: {{gameWinnerId}}</h1>
+  </ng-container>
+  <ng-container *ngIf="gameState === gameStateEnum.LOBBY">
+    <h1>Waiting for Players:</h1>
+    <ul>
+      <h2 *ngIf="this.player1Id">{{this.player1Id}} joined</h2>
+      <h2 *ngIf="this.player2Id">{{this.player2Id}} joined</h2>
+    </ul>
+  </ng-container>
+  <div class="map-container" *ngIf="gameState !== gameStateEnum.LOBBY">
     <div class="map-wrapper">
-      <h2>Player 1: <br />{{this.player1Id}}</h2>
-      <app-map gameId="{{this.gameId}}"
-               playerId="{{this.player1Id}}"
-               [sizeX]=this.sizeX
-               [sizeY]=this.sizeY
-               #mapPlayer1/>
+      <h2>Player 1: <br/>{{player1Id}}</h2>
+      <app-map
+        *ngIf="canRenderMap()"
+        gameId="{{gameId}}"
+        playerId="{{player1Id}}"
+        [sizeX]=sizeX
+        [sizeY]=sizeY
+        #mapPlayer1/>
     </div>
     <div class="map-wrapper">
-      <h2>Player 2: <br /> {{this.player2Id}}</h2>
-      <app-map gameId="{{this.gameId}}"
-               playerId="{{this.player2Id}}"
-               [sizeX]=this.sizeX
-               [sizeY]=this.sizeY
-               #mapPlayer2/>
+      <h2>Player 2: <br/> {{player2Id}}</h2>
+      <app-map
+        *ngIf="canRenderMap()"
+        gameId="{{gameId}}"
+        playerId="{{player2Id}}"
+        [sizeX]=sizeX
+        [sizeY]=sizeY
+        #mapPlayer2/>
     </div>
   </div>
   <mat-expansion-panel hideToggle>

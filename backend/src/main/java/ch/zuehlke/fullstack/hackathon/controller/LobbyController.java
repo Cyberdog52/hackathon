@@ -10,10 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.statemachine.StateMachineEventResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import static org.springframework.statemachine.StateMachineEventResult.ResultType.DENIED;
@@ -37,5 +34,17 @@ public class LobbyController {
         var lobby = myStateMachine.getLobby();
         return ResponseEntity.ok().body(PlayerJoinEventMapper.mapToPlayerJoinEvent(lobby.lobbyId(), request.playerId()));
     }
+/*
+    @GetMapping("/state/{gameId}")
+    public ResponseEntity<Object> state(@PathVariable String gameId) {
+       return ResponseEntity.ok().body(
+               new GameStateDto(
 
+               )
+       )
+    }
+    public record GameStateDto (
+    ){
+
+    }*/
 }

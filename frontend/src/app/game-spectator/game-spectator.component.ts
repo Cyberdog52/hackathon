@@ -6,6 +6,7 @@ import { UUID } from "../../model/uuid";
 import { AttackStatus, PlayingEvent } from "../../model/game/playing/events";
 import { MapComponent } from "../game/map/map.component";
 import { EventType } from "../../model/game/event-type";
+import { GameState } from "../../model/game/playing/game-state";
 
 @Component({
   selector: "app-game-viewer",
@@ -14,12 +15,13 @@ import { EventType } from "../../model/game/event-type";
 })
 export class GameSpectatorComponent implements OnInit, OnDestroy {
   private gameEventSubscription?: Subscription;
+  public readonly gameStateEnum = GameState;
 
   public events$: Subject<string[]> = new Subject<string[]>();
   private events: string[] = [];
 
-  public sizeX = 24;
-  public sizeY = 24;
+  public sizeX = 0;
+  public sizeY = 0;
 
   public player1Id!: UUID;
   public player2Id!: UUID;
@@ -64,17 +66,27 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
     this.mapEventToMapChanges(event);
   }
 
+  public gameState = GameState.LOBBY;
+
   private mapEventToMapChanges(event: PlayingEvent): void {
     if (event.type === EventType.SETUP_GAME) {
-      console.log(EventType.SETUP_GAME);
+      this.gameState = GameState.SETUP;
+
       this.sizeX = event.mapSizeX;
       this.sizeY = event.mapSizeY;
+
       this.player1Id = event.playerIds[0];
       this.player2Id = event.playerIds[1];
+
       return;
     }
 
+    if (event.type === EventType.START_PLAYING) {
+      this.gameState = GameState.PLAYING;
+    }
+
     if (event.type === EventType.GAME_ENDED) {
+      this.gameState = GameState.END;
       console.log(EventType.GAME_ENDED);
       this.gameWinnerId = event.winnerId;
       return;
@@ -114,5 +126,9 @@ export class GameSpectatorComponent implements OnInit, OnDestroy {
     } else {
       return this.player2Map;
     }
+  }
+
+  public canRenderMap(): boolean {
+    return this.sizeX > 0 && this.sizeY > 0;
   }
 }

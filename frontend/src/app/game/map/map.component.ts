@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from "@angular/core";
 import { UUID } from "../../../model/uuid";
 import { Coordinate } from "../../../model/game/playing/events";
 
@@ -19,7 +28,7 @@ export interface CellClickEvent {
   templateUrl: "./map.component.html",
   styleUrls: ["./map.component.scss"]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
 
   public readonly mapValuesEnum = MapValue;
 
@@ -45,6 +54,13 @@ export class MapComponent implements OnInit {
 
   constructor(private ref: ChangeDetectorRef) {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.sizeX.previousValue !== changes.sizeX.currentValue
+      || changes.sizeY.previousValue !== changes.sizeY.currentValue) {
+      this.resetMap();
+    }
   }
 
   ngOnInit(): void {
@@ -73,6 +89,9 @@ export class MapComponent implements OnInit {
   }
 
   public resetMap(): void {
+    if (this.sizeY <= 0 && this.sizeX <= 0) {
+      return;
+    }
     this.map = [];
     for (let x = 0; x < this.sizeX; x++) {
       this.map.push(Array(this.sizeY).fill(0));

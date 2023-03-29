@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  mock: false
+  mock: false,
+  mockGames: false
 };
 
 /*

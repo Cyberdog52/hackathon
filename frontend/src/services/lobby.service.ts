@@ -22,7 +22,7 @@ export class LobbyService {
   }
 
   public getGames(): Observable<GameDto[]> {
-    if (environment.mock) {
+    if (environment.mock || environment.mockGames) {
       return of([
         {
           id: STATIC_GAME_ID_PLAY,

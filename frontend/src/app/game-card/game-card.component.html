@@ -33,7 +33,7 @@
     <button mat-raised-button
             (click)="joinGame()"
             [disabled]="game.players.length >= MAX_PLAYERS || game.status === GameStatus.NOT_STARTED && isInLobby()">
-      <mat-icon>plus</mat-icon>
+      <mat-icon>add</mat-icon>
       Join
     </button>
     <button mat-raised-button
