@@ -132,9 +132,13 @@ public class LobbyController {
 
         Game game = optionalGame.get();
         if (game.getStatus() == GameStatus.SHOOT) {
-            var shootResult = game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
-            notificationService.notifyGameUpdate(game.getGameId());
-            return ResponseEntity.ok(shootResult);
+            try {
+                var shootResult = game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
+                notificationService.notifyGameUpdate(game.getGameId());
+                return ResponseEntity.ok(shootResult);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.status(HttpStatusCode.valueOf(400)).build();
+            }
         }
         return ResponseEntity.status(HttpStatusCode.valueOf(401)).build();
     }
