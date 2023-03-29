@@ -3,6 +3,7 @@ package ch.zuehlke.fullstack.hackathon.controller;
 import ch.zuehlke.common.*;
 import ch.zuehlke.fullstack.hackathon.model.exception.MatchStartException;
 import ch.zuehlke.fullstack.hackathon.service.MatchService;
+import ch.zuehlke.fullstack.hackathon.service.NotificationService;
 import ch.zuehlke.fullstack.hackathon.service.PlayerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +22,8 @@ import java.util.UUID;
 public class LobbyController {
     private final MatchService matchService;
     private final PlayerService playerService;
+
+    private final NotificationService notificationService;
 
     @Operation(summary = "Returns the list of waiting matches",
             description = "Returns all waiting matches")
@@ -69,6 +72,7 @@ public class LobbyController {
         } catch (final LobbySizeException | PlayerException e) {
             return ResponseEntity.badRequest().build();
         }
+        notificationService.notifyPlayerJoined(player.id());
         return ResponseEntity.ok(matchLobby);
     }
 
