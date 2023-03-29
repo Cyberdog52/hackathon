@@ -60,7 +60,7 @@ public class Board {
     public boolean allShipsDestroyed() {
         return ships.stream()
                 .map(Ship::isDestroyed)
-                .anyMatch(Predicate.isEqual(Boolean.TRUE));
+                .allMatch(Predicate.isEqual(Boolean.TRUE));
     }
 
     public ShootResult executeShot(int x, int y) {

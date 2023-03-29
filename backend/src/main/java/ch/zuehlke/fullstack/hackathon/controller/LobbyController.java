@@ -131,10 +131,12 @@ public class LobbyController {
         }
 
         Game game = optionalGame.get();
-        var shootResult = game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
-        notificationService.notifyGameUpdate(game.getGameId());
-
-        return ResponseEntity.ok(shootResult);
+        if (game.getStatus() == GameStatus.SHOOT) {
+            var shootResult = game.shoot(game.getPlayerById(request.getPlayerId()), request.getX(), request.getY());
+            notificationService.notifyGameUpdate(game.getGameId());
+            return ResponseEntity.ok(shootResult);
+        }
+        return ResponseEntity.status(HttpStatusCode.valueOf(401)).build();
     }
 
     @Operation(summary = "Deletes a game",
