@@ -1,5 +1,10 @@
-<mat-grid-list cols="9" rowHeight="1:1">
+<mat-grid-list [cols]="board.fields[0].length + 1" rowHeight="1:1">
+  <mat-grid-tile> </mat-grid-tile>
+  <mat-grid-tile *ngFor="let row of board.fields[0]; let x = index">{{
+    getLetter(x)
+  }}</mat-grid-tile>
   <div *ngFor="let row of board.fields; let y = index">
+    <mat-grid-tile>{{ y + 1 }}</mat-grid-tile>
     <mat-grid-tile *ngFor="let field of row; let x = index">
       <app-field [field]="field" [castle]="x == 4 && y == 4"></app-field>
     </mat-grid-tile>

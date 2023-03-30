@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { getLetter } from 'src/helpers/helpers';
 import { GameAction, GameDto, GameStatus, PlayerId } from '../../model/lobby';
 import { LobbyService } from '../../services/lobby.service';
 
@@ -49,16 +50,10 @@ export class GameCardComponent {
 
   getMoveNotation(action: GameAction) {
     if (action.from.x === action.to.x) {
-      return (
-        String.fromCharCode(97 + action.from.x) +
-        (action.from.y + 1) +
-        (action.to.y + 1)
-      );
+      return getLetter(action.from.x) + (action.from.y + 1) + (action.to.y + 1);
     } else {
       return (
-        String.fromCharCode(97 + action.from.x) +
-        (action.from.y + 1) +
-        String.fromCharCode(97 + action.to.x)
+        getLetter(action.from.x) + (action.from.y + 1) + getLetter(action.to.x)
       );
     }
   }
