@@ -1,8 +1,11 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title *ngIf="game.status === GameStatus.IN_PROGRESS"
-      >Game is in progress</mat-card-title
-    >
+    <mat-card-title *ngIf="game.status === GameStatus.IN_PROGRESS">
+      Game is in progress
+    </mat-card-title>
+    <mat-card-title *ngIf="game.status === GameStatus.NOT_STARTED">
+      Game not started yet
+    </mat-card-title>
     <ng-container *ngIf="game.status === GameStatus.FINISHED">
       <mat-card-title *ngIf="!game.winner">Game is a draw</mat-card-title>
       <mat-card-title

@@ -3,6 +3,10 @@
     <mat-card-title *ngIf="tournament.status === TournamentStatus.IN_PROGRESS">
       Tournament is in progress
     </mat-card-title>
+
+    <mat-card-title *ngIf="tournament.status === TournamentStatus.NOT_STARTED">
+      Tournament not started yet
+    </mat-card-title>
     <div *ngIf="tournament.status === TournamentStatus.FINISHED">
       <mat-card-title *ngIf="!tournament.winner"
         >Tournament is a draw</mat-card-title
