@@ -1,23 +1,42 @@
+import { useEffect, useState } from "react";
+import {fetchNames, fetchDetails} from "./components/PersonApi";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 
 function App() {
-  const handlePersonSelection = (person: string) => {
-    console.log(person);
-  };
+  const [personNames, setPersonNames] = useState<string[]>([]);
+  const [selectedPersonName, setSelectedPersonName] = useState<string>("");
+  const [selectedPersonDetails, setSelectedPersonDetails] = useState<any>();
+
+  const baseUrl = "https://localhost:7017";
+  console.log("Base URL:", baseUrl)
+
+  useEffect(() => {
+    fetchNames(baseUrl, (x) => setPersonNames(x));
+  }, []);
+
+  useEffect(() =>{
+    fetchDetails(baseUrl, selectedPersonName, (x) => setSelectedPersonDetails(x));
+  }, [selectedPersonName]);
+
+  console.log("Rendering App")
 
   return (
-    <div className="container text-center">
-      <div className="row">
-        <PersonList
-          baseUrl="https://localhost:7017"
-          onSelectItem={handlePersonSelection}
-        />
-        <div className="col">
-          <PersonDetails baseUrl="https://localhost:7017" name="Megumin" />
+    <>
+      <div className="container text-left">
+        <div className="row justify-content-stretch">
+          <div className="col-4 m-3">
+            <PersonList
+              names={personNames}
+              onNameSelected={setSelectedPersonName}
+            />
+          </div>
+          <div className="col-6 m-3 border rounded">
+            <PersonDetails details={selectedPersonDetails} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-
+  
 
 interface NamesProps {
   names: string[];

@@ -1,36 +1,70 @@
-import Async from "react-async";
-import { useState } from "react";
-
 interface PersonDetailsProps {
-  baseUrl: string;
-  name: string;
+  details: any;
 }
 
-function PersonDetails({ baseUrl, name }: PersonDetailsProps) {
-  const content = async () => {
-    const res = await fetch(baseUrl + "/" + name + "/details/");
-    const data = await res.json();
-    console.log(data);
-    return data;
-  };
-
+function PersonDetails({ details }: PersonDetailsProps) {
+  
+  if(details == undefined)
+  {
+    return <></>
+  }
+    
   return (
-    <Async promiseFn={content} def={null}>
-      <Async.Pending>{<p>Loading</p>}</Async.Pending>
-      <Async.Fulfilled>
-        {(data: any) => (
-          <>
-            <p>{data.name}</p>
-            <p>{data.age}</p>
-            <p>{data.role}</p>
-            <p>{data.bioUrl}</p>
-          </>
-        )} 
-      </Async.Fulfilled>
-      <Async.Rejected>
-        {(error) => `Something went wrong: ${error.message}`}
-      </Async.Rejected>
-    </Async>
+    <div className="container overflow-hidden text-left">
+      <div className="row justify-content-evenly">
+        <div className="col-4 p-3">
+          <span>Name:</span>
+        </div>
+        <div className="col-6 p-3">
+          <strong>{details.name}</strong>
+        </div>
+      </div>
+      <div className="row justify-content-evenly">
+        <div className="col-4 p-3">
+          <span>Role:</span>
+        </div>
+        <div className="col-6 p-3">
+          <strong>{details.role}</strong>
+        </div>
+      </div>
+      <div className="row justify-content-evenly">
+        <div className="col-4 p-3">
+          <span>Age:</span>
+        </div>
+        <div className="col-6 p-3">
+          <strong>{details.age}</strong>
+        </div>
+      </div>
+      <div className="row justify-content-evenly">
+        <div className="col-4 p-3">
+          <span>Bio:</span>
+        </div>
+        <div className="col-6 p-3">
+          <strong>
+            <a
+              href={details.bioUrl}
+              target="_blank"
+              title={"Link to the biography of " + details.name}
+            >
+              Biography
+            </a>
+          </strong>
+        </div>
+      </div>
+      <div className="row justify-content-evenly">
+        <div className="col-0 p-3">
+          <span></span>
+        </div>
+        <div className="col-0 p-3">
+          <img
+            src={details.imageUrl}
+            width="100"
+            alt={"Image of " + details.name}
+            title={"Image of " + details.name}
+          ></img>
+        </div>
+      </div>
+    </div>
   );
 }
 
