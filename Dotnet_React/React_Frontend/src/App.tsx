@@ -22,9 +22,10 @@ function App() {
   console.log("Rendering App")
 
   return (
-    <>
-      <div className="container text-left">
-        <div className="row justify-content-stretch">
+    <div className="text-align-center">
+      <h1 className="m-3">Hackathon .NET / React demo and template</h1>
+      <div className="container text-left m-3">
+        <div className="row">
           <div className="col-4 m-3">
             <PersonList
               names={personNames}
@@ -36,7 +37,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

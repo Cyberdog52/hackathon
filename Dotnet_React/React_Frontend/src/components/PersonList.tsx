@@ -9,7 +9,7 @@ function PersonList({ names, onNameSelected }: PersonListProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   if (names.length === 0) {
-    return <p>Empty</p>;
+    return <p></p>;
   }
 
   return (

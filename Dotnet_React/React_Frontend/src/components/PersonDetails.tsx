@@ -10,8 +10,8 @@ function PersonDetails({ details }: PersonDetailsProps) {
   }
     
   return (
-    <div className="container overflow-hidden text-left">
-      <div className="row justify-content-evenly">
+    <div className="container">
+      <div className="row">
         <div className="col-4 p-3">
           <span>Name:</span>
         </div>
@@ -19,7 +19,7 @@ function PersonDetails({ details }: PersonDetailsProps) {
           <strong>{details.name}</strong>
         </div>
       </div>
-      <div className="row justify-content-evenly">
+      <div className="row">
         <div className="col-4 p-3">
           <span>Role:</span>
         </div>
@@ -27,7 +27,7 @@ function PersonDetails({ details }: PersonDetailsProps) {
           <strong>{details.role}</strong>
         </div>
       </div>
-      <div className="row justify-content-evenly">
+      <div className="row">
         <div className="col-4 p-3">
           <span>Age:</span>
         </div>
@@ -35,7 +35,7 @@ function PersonDetails({ details }: PersonDetailsProps) {
           <strong>{details.age}</strong>
         </div>
       </div>
-      <div className="row justify-content-evenly">
+      <div className="row">
         <div className="col-4 p-3">
           <span>Bio:</span>
         </div>
@@ -51,7 +51,7 @@ function PersonDetails({ details }: PersonDetailsProps) {
           </strong>
         </div>
       </div>
-      <div className="row justify-content-evenly">
+      <div className="row ">
         <div className="col-0 p-3">
           <span></span>
         </div>
