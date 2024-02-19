@@ -7,6 +7,8 @@ internal static class Endpoints
 {
     public static WebApplication DefineEndpoints(this WebApplication app, List<PersonDetails> persons)
     {
+
+
         // GET which responds with a simple string array of all names
         app.MapGet("persons/names", () => persons.Select(p => p.Name));
 
@@ -14,7 +16,7 @@ internal static class Endpoints
         app.MapGet("persons/details", () => persons);
 
         // GET which responds with a PersonDetail object for a specified person (name parameter)
-        app.MapGet("{name}/details", ([DefaultValue("Akua")] string name) =>
+        app.MapGet("persons/{name}/details", ([DefaultValue("Akua")] string name) =>
         {
             var person = persons.GetPerson(name);
 
@@ -27,7 +29,7 @@ internal static class Endpoints
         });
 
         // GET which responds with the lucky number of a specified person (name parameter) using an anonymous type
-        app.MapGet("{name}/luckynumber", ([DefaultValue("Megumin")] string name) =>
+        app.MapGet("persons/{name}/luckynumber", ([DefaultValue("Megumin")] string name) =>
         {
             var person = persons.GetPerson(name);
 
@@ -44,7 +46,7 @@ internal static class Endpoints
         });
 
         // POST which adds an additional to do to a specified person, taken from the request JSON body
-        app.MapPost("{name}/addtodo",
+        app.MapPost("persons/{name}/addtodo",
             ([FromRoute, DefaultValue("Dakunesu")] string name, [FromBody] Todo todo) =>
             {
                 var person = persons.GetPerson(name);
@@ -63,6 +65,17 @@ internal static class Endpoints
 
                 return Results.Ok();
             });
+
+
+
+        // GET which responds with Mermaid.js diagram markup as a string
+        app.MapGet("graph", () =>
+        {
+            
+
+            return Results.Ok("Test");
+        });
+
 
         return app;
     }
