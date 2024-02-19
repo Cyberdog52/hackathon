@@ -1,6 +1,9 @@
 import Axios from "axios";
 
-export async function fetchNames(baseUrl: string, onNamesFetched: (names: string[]) => void): Promise<string[]> {
+export async function fetchNames(
+  baseUrl: string,
+  onNamesFetched: (names: string[]) => void
+): Promise<string[]> {
   const { data } = await Axios.get(baseUrl + "/persons/names/");
   const names = data;
   console.log("Fetched names:", names);
@@ -8,12 +11,14 @@ export async function fetchNames(baseUrl: string, onNamesFetched: (names: string
   return names;
 }
 
-export async function fetchDetails(baseUrl: string, name: string, onDetailsFetched: (details: any) => void): Promise<any> {
-  const { data } = await Axios.get(
-    baseUrl + "/" + name + "/details/"
-  );
+export async function fetchDetails(
+  baseUrl: string,
+  name: string,
+  onDetailsFetched: (details: any) => void
+): Promise<any> {
+  const { data } = await Axios.get(baseUrl + "/" + name + "/details/");
   const details = data;
-  console.log("FetchedDetails", details);
+  console.log("Fetched details: ", details);
   onDetailsFetched(details);
   return details;
 }

@@ -2,38 +2,60 @@ import { useState } from "react";
 
 interface PersonListProps {
   names: string[];
-  onNameSelected: (item: string) => void;
+  className?: string;
+  onNameSelected: (item: string | undefined) => void;
 }
 
-function PersonList({ names, onNameSelected }: PersonListProps) {
+export default function PersonList({
+  names,
+  className,
+  onNameSelected,
+}: PersonListProps) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   if (names.length === 0) {
-    return <p></p>;
+    return (
+      <div className={className}>
+        <p>No persons available</p>
+      </div>
+    );
   }
 
+  const usedClassName =
+    "grid" +
+    (className == undefined || className.length === 0 ? "" : " " + className);
+
   return (
-    <ul className="list-group">
-      {names.map((item, index) => (
-        <li
-          className={
-            selectedIndex === index
-              ? "list-group-item active"
-              : "list-group-item"
-          }
-          key={item}
-          onClick={(e) => {
-            console.log("Person name change value:", item);
-            console.log("Person name change index:", index);
-            setSelectedIndex(index);
-            onNameSelected(item);
-          }}
-        >
-          {item}
-        </li>
-      ))}
-    </ul>
+    <div className={usedClassName}>
+      <ul className="list-group">
+        {names.map((item, index) => (
+          <li
+            className={
+              selectedIndex === index
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+            key={item}
+            onClick={(e) => {
+              if(selectedIndex === index)
+              {
+                console.log("Person name change value:", undefined);
+                console.log("Person name change index:", -1);
+                setSelectedIndex(-1);
+                onNameSelected(undefined);
+              }
+              else{
+                console.log("Person name change value:", item);
+                console.log("Person name change index:", index);
+                setSelectedIndex(index);
+                onNameSelected(item);
+              }
+            }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
-
-export default PersonList;
