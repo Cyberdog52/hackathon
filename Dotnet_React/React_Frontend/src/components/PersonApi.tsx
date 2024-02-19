@@ -16,7 +16,7 @@ export async function fetchDetails(
   name: string,
   onDetailsFetched: (details: any) => void
 ): Promise<any> {
-  const { data } = await Axios.get(baseUrl + "/" + name + "/details/");
+  const { data } = await Axios.get(baseUrl + "/persons/" + name + "/details/");
   const details = data;
   console.log("Fetched details: ", details);
   onDetailsFetched(details);
