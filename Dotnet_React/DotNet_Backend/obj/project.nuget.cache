@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "1bx7+vhIyI0zxRvbsFmYGJY+LyLqLS+LILVoHY2qvWJnQhHfkTF6F/WIyLnhXJ0nM7GlshdusUDh9BgGaFwRtw==",
+  "dgSpecHash": "wdppVM2YpS8Yozr/VgRVvuYrjAn5JJgLxX3FFOX9dqsco/uFMdY0XCeOnI+S9E3n5oGZESV04O/vB4U7SAq30Q==",
   "success": true,
   "projectFilePath": "C:\\Workfolder\\000_Zühlke\\001_Hackathon_2024\\hackathon\\Dotnet_React\\DotNet_Backend\\HackathonDotnetServer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\frar\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.1\\microsoft.aspnetcore.openapi.8.0.1.nupkg.sha512",
+    "C:\\Users\\frar\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.2\\microsoft.aspnetcore.openapi.8.0.2.nupkg.sha512",
     "C:\\Users\\frar\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\frar\\.nuget\\packages\\microsoft.openapi\\1.6.13\\microsoft.openapi.1.6.13.nupkg.sha512",
     "C:\\Users\\frar\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",

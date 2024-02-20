@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HackathonDotnetServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19438ba2f09dfbd66bebea745afdfe949d0a154a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cee3016682e507bc43495a9edea8d22eb99c1bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("HackathonDotnetServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HackathonDotnetServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

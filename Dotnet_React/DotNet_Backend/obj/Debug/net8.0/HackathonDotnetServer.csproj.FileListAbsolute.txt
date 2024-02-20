@@ -69,3 +69,4 @@ C:\Workfolder\000_Zühlke\001_Hackathon_2024\hackathon\Dotnet_React\DotNet_Backe
 C:\Workfolder\000_Zühlke\001_Hackathon_2024\hackathon\Dotnet_React\DotNet_Backend\obj\Debug\net8.0\HackathonDotnetServer.pdb
 C:\Workfolder\000_Zühlke\001_Hackathon_2024\hackathon\Dotnet_React\DotNet_Backend\obj\Debug\net8.0\HackathonDotnetServer.genruntimeconfig.cache
 C:\Workfolder\000_Zühlke\001_Hackathon_2024\hackathon\Dotnet_React\DotNet_Backend\obj\Debug\net8.0\ref\HackathonDotnetServer.dll
+C:\Workfolder\000_Zühlke\001_Hackathon_2024\hackathon\Dotnet_React\DotNet_Backend\bin\Debug\net8.0\HackathonDotnetServer.staticwebassets.runtime.json
