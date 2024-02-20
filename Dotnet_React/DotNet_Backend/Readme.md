@@ -1,4 +1,4 @@
-# Hackathon .NET  demo and template
+# Hackathon .NET demo and template
 
 ## Introduction
 
@@ -16,8 +16,8 @@ The backends WebAPI provides a list of persons (names, details, etc.) and shows 
 The frontend uses that WebAPI to retrieve said person names and details to display them in a list.
 
 > [!IMPORTANT]
-> The demo could be overwhelming.
-> See [Setup the template](#setup-the-template) to use the template instead.
+> The demo could be overwhelming for beginners.
+> See [Setup the template](#setup-the-template) how to use the template instead.
 > It creates a simple boilerplate project which has the bare minimum but can still be run immediately.
 
 

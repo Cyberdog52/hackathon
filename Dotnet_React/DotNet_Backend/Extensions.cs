@@ -45,7 +45,27 @@ internal static class Extensions
         
         return builder;
     }
-    
+
+    public static WebApplicationBuilder AddCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "MyAllowedOrigins", policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+            });
+        });
+
+        return builder;
+    }
+
+    public static WebApplication UseDefaultCors(this WebApplication app, string profileName = "cors-allow-all")
+    {
+        app.UseCors();
+        return app;
+    }
+
     public static WebApplication UseExceptionHandler(this WebApplication app, string prodEnvErrorMessage = "Error!")
     {
         app.UseExceptionHandler(config => config.Run(async context =>

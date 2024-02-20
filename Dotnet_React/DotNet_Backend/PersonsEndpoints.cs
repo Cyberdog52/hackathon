@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HackathonDotnetServer;
 
-internal static class Endpoints
+internal static class PersonsEndpoints
 {
-    public static WebApplication DefineEndpoints(this WebApplication app, List<PersonDetails> persons)
+    public static WebApplication DefinePersonsEndpoints(this WebApplication app, List<PersonDetails> persons)
     {
-
-
         // GET which responds with a simple string array of all names
         app.MapGet("persons/names", () => persons.Select(p => p.Name));
 
@@ -66,21 +64,10 @@ internal static class Endpoints
                 return Results.Ok();
             });
 
-
-
-        // GET which responds with Mermaid.js diagram markup as a string
-        app.MapGet("graph", () =>
-        {
-            
-
-            return Results.Ok("Test");
-        });
-
-
         return app;
     }
 
-    public static WebApplication DefineSwaggerEndpointDocumentation(this WebApplication app)
+    public static WebApplication DefinePersonsEndpointsSwaggerDocumentation(this WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {

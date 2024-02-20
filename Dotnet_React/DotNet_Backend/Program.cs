@@ -3,10 +3,8 @@ using HackathonDotnetServer;
 
 
 
-const string appName = "Hackathon .NET Server Template";
-const string appDescription = "This is the template for the .NET server part of the Hackathon.<br><br>" +
-                              "It's a REST WebAPI implemented using ASP.NET Core Minimal API, .NET 8.0, and C# 12.<br><br>" +
-                              "As an example, this WebAPI provides a list of persons and some details about them.";
+const string appName = "Hackathon .NET demo and template";
+const string appDescription = "This is the backend of the combined .NET / React template\n\nSee Readme.md for more details";
 
 
 
@@ -15,15 +13,11 @@ const string appDescription = "This is the template for the .NET server part of 
 //------------------------------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder();
+
 builder.AddKestrel();
 builder.AddLoggingServices();
 builder.AddSwaggerServices(appName, appDescription);
-builder.Services.AddCors(options => {
-    options.AddPolicy(name: "MyAllowedOrigins", policy => {
-        policy.AllowAnyOrigin();
-        policy.AllowAnyMethod();
-    });
-});
+builder.AddCorsServicesAndAllowAllOrigins();
 
 
 
@@ -32,7 +26,8 @@ builder.Services.AddCors(options => {
 //--------------------------------------------------------------------------------------------------
 
 var app = builder.Build();
-app.UseCors("MyAllowedOrigins");
+
+app.UseDefaultCors();
 app.UseExceptionHandler();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
@@ -45,6 +40,7 @@ app.UseSwaggerUi();
 //----------------------
 
 var persons = Persons.CreateDemoData();
+var graphs = Graphs.CreateDemoData();
 
 
 
@@ -52,8 +48,14 @@ var persons = Persons.CreateDemoData();
 // Define the REST endpoints
 //--------------------------
 
-app.DefineEndpoints(persons);
-app.DefineSwaggerEndpointDocumentation();
+app.DefinePersonsEndpoints(persons);
+app.DefinePersonsEndpointsSwaggerDocumentation();
+
+app.DefineGraphsEndpoints(graphs);
+app.DefineGraphsEndpointsSwaggerDocumentation();
+
+app.DefineJokesEndpoints();
+app.DefineJokesEndpointsSwaggerDocumentation();
 
 
 
