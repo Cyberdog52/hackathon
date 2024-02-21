@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tab, initMDB } from "mdb-ui-kit";
-import { fetchNames, fetchDetails } from "./components/PersonApi";
+import { fetchPersonNames, fetchPersonDetails } from "./components/PersonApi";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 
@@ -11,13 +11,12 @@ function App() {
   >(undefined);
   const [selectedPersonDetails, setSelectedPersonDetails] = useState<any>();
 
-  const baseUrl = "https://localhost:7017";
-  console.log("Base URL:", baseUrl);
+  const apiUrl = "https://localhost:7017";
 
   initMDB({ Tab });
 
   useEffect(() => {
-    fetchNames(baseUrl, (x) => setPersonNames(x));
+    fetchPersonNames(apiUrl, (x) => setPersonNames(x));
   }, []);
 
   useEffect(() => {
@@ -26,13 +25,11 @@ function App() {
       setSelectedPersonDetails(undefined);
       return;
     }
-    fetchDetails(baseUrl, selectedPersonName!, (x) => {
+    fetchPersonDetails(apiUrl, selectedPersonName!, (x) => {
       console.log("Selected name: ", x);
       setSelectedPersonDetails(x);
     });
   }, [selectedPersonName]);
-
-  console.log("Rendering App");
 
   return (
     <>

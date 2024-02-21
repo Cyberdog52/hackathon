@@ -83,7 +83,7 @@ export default function PersonDetails({
 
 function getAgeToDisplay(age: number): string {
   if (age === -1) {
-    return "? ? ?";
+    return "?";
   }
 
   return "" + age;
