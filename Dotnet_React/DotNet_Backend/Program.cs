@@ -49,13 +49,8 @@ var graphs = Graphs.CreateDemoData();
 //--------------------------
 
 app.DefinePersonsEndpoints(persons);
-app.DefinePersonsEndpointsSwaggerDocumentation();
-
 app.DefineGraphsEndpoints(graphs);
-app.DefineGraphsEndpointsSwaggerDocumentation();
-
 app.DefineJokesEndpoints();
-app.DefineJokesEndpointsSwaggerDocumentation();
 
 
 

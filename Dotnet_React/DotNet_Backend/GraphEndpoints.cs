@@ -13,22 +13,8 @@ internal static class GraphEndpoints
         return app;
     }
 
-    public static WebApplication DefineGraphsEndpointsSwaggerDocumentation(this WebApplication app)
+    private static GraphData? GetGraph(this IEnumerable<PersonDetails> persons, string name)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            return app;
-        }
-
-        var endpoints = app.Services.GetRequiredService<IEnumerable<EndpointDataSource>>().ToList();
-
-        // TODO add documentation
-
-        return app;
-    }
-
-    private static PersonDetails? GetGraph(this IEnumerable<PersonDetails> persons, string name)
-    {
-        return persons.FirstOrDefault(p => string.Equals(name, p.Name, StringComparison.InvariantCultureIgnoreCase));
+        return null;
     }
 }

@@ -12,18 +12,4 @@ internal static class JokesEndpoints
 
         return app;
     }
-
-    public static WebApplication DefineJokesEndpointsSwaggerDocumentation(this WebApplication app)
-    {
-        if (app.Environment.IsDevelopment())
-        {
-            return app;
-        }
-
-        var endpoints = app.Services.GetRequiredService<IEnumerable<EndpointDataSource>>().ToList();
-
-        // TODO add documentation
-
-        return app;
-    }
 }

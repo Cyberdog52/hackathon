@@ -15,7 +15,21 @@ internal static class Extensions
         
         return builder;
     }
-    
+
+    public static WebApplicationBuilder AddDefaultCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "MyAllowedOrigins", policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+            });
+        });
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddLoggingServices(this WebApplicationBuilder builder)
     {
         builder.Logging.AddSimpleConsole(config =>
@@ -43,20 +57,6 @@ internal static class Extensions
             });
         });
         
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddDefaultCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
-    {
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy(name: "MyAllowedOrigins", policy =>
-            {
-                policy.AllowAnyOrigin();
-                policy.AllowAnyMethod();
-            });
-        });
-
         return builder;
     }
 
