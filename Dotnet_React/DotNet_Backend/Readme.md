@@ -178,6 +178,13 @@ It's accessible using the relative path `/swagger/index.html`.
 
 
 
+
+> [!NOTE]
+>
+> If the IntelliSense becomes loopy, restart Visual Studio Code.
+
+
+
 > [!NOTE]
 > Sometimes, by some freaky accident, a solution file (`*.sln`) is created.
 > We're not using a solution in the demo and template as it has only one project.

@@ -46,7 +46,7 @@ internal static class Extensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
+    public static WebApplicationBuilder AddDefaultCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
     {
         builder.Services.AddCors(options =>
         {

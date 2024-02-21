@@ -15,22 +15,22 @@ const string appDescription = "This is the backend of the combined .NET / React 
 var builder = WebApplication.CreateBuilder();
 
 builder.AddKestrel();
+builder.AddDefaultCorsServicesAndAllowAllOrigins();
 builder.AddLoggingServices();
 builder.AddSwaggerServices(appName, appDescription);
-builder.AddCorsServicesAndAllowAllOrigins();
 
 
 
-//--------------------------------------------------------------------------------------------------
-// Build the actual web application and configure its used middleware which processes HTTPS requests
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+// Build the actual web application and specify the used middleware which processes HTTPS requests
+//------------------------------------------------------------------------------------------------
 
 var app = builder.Build();
 
 app.UseDefaultCors();
 app.UseExceptionHandler();
-app.UseStaticFiles();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseSwaggerUi();
 
 
