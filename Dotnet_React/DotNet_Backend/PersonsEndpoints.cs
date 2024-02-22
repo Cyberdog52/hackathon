@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
 
 
@@ -12,18 +13,20 @@ internal static class PersonsEndpoints
 {
     public static WebApplication DefinePersonsEndpoints(this WebApplication app, List<PersonDetails> persons)
     {
+
+
+
+
         // ----------------------------------------------------------
         // GET which responds with a simple string array of all names
         //-----------------------------------------------------------
 
-        app.MapGet("persons/names", () => persons.Select(p => p.Name))
-        .WithTags("Persons")
-        .WithName("persons_names_all")
-        .WithSummary("Gets the list of all available persons.")
-        .WithDescription("The names of all available persons are returned in JSON as an array of strings.")
-        .Produces(StatusCodes.Status200OK, typeof(string[]))
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithOpenApi();
+        app.MapGet("persons/names",
+
+        [SwaggerOperation(Summary = "Gets the list of all available persons.", Description = "The names of all available persons are returned in JSON as an array of strings.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        () => persons.Select(p => p.Name));
+
 
 
 
@@ -31,14 +34,12 @@ internal static class PersonsEndpoints
         // GET which responds with an array of PersonDetail objects for all persons
         // ------------------------------------------------------------------------
 
-        app.MapGet("persons/details", () => persons)
-        .WithTags("Persons")
-        .WithName("persons_details_all")
-        .WithSummary("Gets the details of all available persons.")
-        .WithDescription("The details of all available persons are returned in JSON as an array of PersonDetails object.")
-        .Produces(StatusCodes.Status200OK, typeof(PersonDetails[]))
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithOpenApi();
+        app.MapGet("persons/details",
+
+        [SwaggerOperation(Summary = "Gets the details of all available persons.", Description = "The details of all available persons are returned in JSON as an array of PersonDetails objects.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        () => persons);
+
 
 
 
@@ -46,36 +47,31 @@ internal static class PersonsEndpoints
         // GET which responds with a PersonDetail object for a specified person (name parameter)
         // -------------------------------------------------------------------------------------
 
-        app.MapGet("persons/{name}/details", (   // --- here comes a delegate which produces the response
-
-            // --- a single parameter as we know it... but with attributes
-            [DefaultValue("Akua"),                                          // Default value for Swagger UIs "try it out"
-            SwaggerParameter("The name of the person.", Required = true)]   // Description of the parameter
+        app.MapGet("persons/{name}/details",
+        [SwaggerOperation(Summary = "Gets the details of a person.", Description = "The details of a specified person are returned in JSON as a single PersonDetails object.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
+        (
+            [DefaultValue("Akua"), // ("Wonder of nature!")
+            SwaggerParameter("The name of the person.", Required = true)]
             string name) =>
-
-        {
-            if(string.IsNullOrWhiteSpace(name))
             {
-                return Results.BadRequest();
+                if(string.IsNullOrWhiteSpace(name))
+                {
+                    return Results.BadRequest("Invalid or no name specified.");
+                }
+
+                var person = persons.GetPerson(name);
+
+                if (person is null)
+                {
+                    return Results.NotFound("The specified name does not exist.");
+                }
+
+                return Results.Ok(person);
             }
+        );
 
-            var person = persons.GetPerson(name);
-
-            if (person is null)
-            {
-                return Results.NotFound();
-            }
-
-            return Results.Ok(person);
-        })
-        .WithTags("Persons")                                                                                            // Groups all endpoints in the Swagger UI under the same name
-        .WithName("persons_details_one")                                                                                // Unique name of that endpoint
-        .WithSummary("Gets the details of a person.")                                                                   // Short summary of the endpoint
-        .WithDescription("The details of a specified person are returned in JSON as a single PersonDetails object.")    // Describes the endpoint with more details
-        .Produces(StatusCodes.Status200OK, typeof(PersonDetails))                                                       // Lists the possible responses in good cases
-        .ProducesProblem(StatusCodes.Status400BadRequest)                                                               // Lists the possible responses in bad cases
-        .ProducesProblem(StatusCodes.Status404NotFound)                                                                 // Lists the possible responses in bad cases
-        .WithOpenApi();                                                                                                 // Emits the documentation as OpenAPI data
 
 
 
@@ -83,84 +79,92 @@ internal static class PersonsEndpoints
         // GET which responds with the lucky number of a specified person (name parameter) using an anonymous type
         // -------------------------------------------------------------------------------------------------------
 
-        app.MapGet("persons/{name}/luckynumber", (
-            [DefaultValue("Megumin"), // best character in that show!
+        app.MapGet("persons/{name}/luckynumber",
+        [SwaggerOperation(Summary = "Gets the lucky number of a person.", Description = "The lucky number of a specified person is returned in JSON with a name and a luckynumber value.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
+        (
+            [DefaultValue("Megumin"), // (best character in that show because she's probably the most crazy one)
             SwaggerParameter("The name of the person.", Required = true)]
             string name) =>
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return Results.BadRequest();
-            }
-
-            var person = persons.GetPerson(name);
-
-            if (person is null)
-            {
-                return Results.NotFound();
-            }
-
-            return Results.Ok(new
-            {
-                Name = name,
-                LuckyNumber = Random.Shared.Next(100),
-            });
-        })
-        .WithTags("Persons")
-        .WithName("persons_luckynumber_one")
-        .WithSummary("Gets the lucky number of a person.")
-        .WithDescription("The lucky number of a specified person are returned in JSON with a name and a luckynumber value.")
-        .Produces(StatusCodes.Status200OK, typeof(PersonDetails[]))
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithOpenApi();
-
-
-
-        // -------------------------------------------------------------------------------------------
-        // POST which adds an additional to do to a specified person, taken from the request JSON body
-        // -------------------------------------------------------------------------------------------
-
-        app.MapPost("persons/{name}/addtodo",
-            ([DefaultValue("Kazuma"),
-            SwaggerParameter("The name of the person.", Required = true)]
-            string name,
-            [DefaultValue("{\"task\": \"123\", \"priority\": \"99\"}"),
-            SwaggerParameter("The data of the new TODO to add.", Required = true)]
-            Todo todo) =>
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    return Results.BadRequest();
+                    return Results.BadRequest("Invalid or no name specified.");
                 }
 
                 var person = persons.GetPerson(name);
 
                 if (person is null)
                 {
-                    return Results.NotFound();
+                    return Results.NotFound("The specified name does not exist.");
                 }
 
-                var todoList = person.Todos ?? new List<Todo>();
-                todoList.Add(todo);
+                return Results.Ok(new
+                {
+                    Name = name,
+                    LuckyNumber = Random.Shared.Next(100),
+                });
+            }
+        );
+
+
+
+
+        // --------------------------------------------------------------------------------------
+        // POST which adds an additional to do to a specified person, taken from the request body
+        // --------------------------------------------------------------------------------------
+
+        app.MapPost("persons/{name}/addtodo",
+        [SwaggerOperation(Summary = "Adds a new TODO to a person.", Description = "The TODO must be provided as JSON body using a Todo object.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "The provided body is invalid or cannot be parsed as a Todo object.")]
+        (
+            [Required]
+            [DefaultValue("Dakunesu"), // she also has some... interesting... features... (?)
+            SwaggerParameter("The name of the person.", Required = true)]
+            string name,
+            [Required]
+            [SwaggerParameter("The data of the new TODO to add.", Required = true)]
+            Todo? todo) =>
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    return Results.BadRequest("Invalid or no name specified.");
+                }
+
+                if(todo is null || string.IsNullOrWhiteSpace(todo.Task) || (todo.Priority < 0))
+                {
+                    return Results.BadRequest("Invalid or no JSON body.");
+                }
+
+                var person = persons.GetPerson(name);
+
+                if (person is null)
+                {
+                    return Results.NotFound("The specified name does not exist.");
+                }
+
+                var todoList = new List<Todo>(person.Todos ?? []);
+                todoList.Add(todo!);
 
                 var updatedPerson = person with { Todos = todoList };
                 persons.Add(updatedPerson);
                 persons.Remove(person); // Order isn't preserved
 
                 return Results.Ok(updatedPerson);
-            })
-        .WithTags("Persons")
-        .WithName("persons_todo_add")
-        .WithSummary("Adds a new TODO to a person.")
-        .WithDescription("The TODO must be provided as JSON body using an Todo object.")
-        .Produces(StatusCodes.Status200OK, typeof(PersonDetails[]))
-        .ProducesProblem(StatusCodes.Status400BadRequest)
-        .ProducesProblem(StatusCodes.Status404NotFound)
-        .WithOpenApi();
+            }
+        );
+
+
+
 
         return app;
     }
+
+
+
 
     private static PersonDetails? GetPerson(this IEnumerable<PersonDetails> persons, string name)
     {

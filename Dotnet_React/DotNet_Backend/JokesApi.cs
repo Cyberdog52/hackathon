@@ -1,7 +1,7 @@
 
 namespace HackathonDotnetServer;
 
-internal sealed class Jokes
+internal static class Jokes
 {
     public static Joke GetRandomJoke()
     {

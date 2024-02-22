@@ -1,7 +1,8 @@
 ﻿
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.OpenApi.Models;
+
+
 
 namespace HackathonDotnetServer;
 
@@ -16,20 +17,6 @@ internal static class Extensions
         return builder;
     }
 
-    public static WebApplicationBuilder AddDefaultCorsServicesAndAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
-    {
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy(name: "MyAllowedOrigins", policy =>
-            {
-                policy.AllowAnyOrigin();
-                policy.AllowAnyMethod();
-            });
-        });
-
-        return builder;
-    }
-
     public static WebApplicationBuilder AddLoggingServices(this WebApplicationBuilder builder)
     {
         builder.Logging.AddSimpleConsole(config =>
@@ -41,7 +28,7 @@ internal static class Extensions
         
         return builder;
     }
-    
+
     public static WebApplicationBuilder AddSwaggerServices(this WebApplicationBuilder builder, string title, string description, string version = "v1")
     {
         builder.Services.AddEndpointsApiExplorer();
@@ -56,29 +43,33 @@ internal static class Extensions
                 Version = version,
             });
         });
-        
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder ConfigureExceptionHandling(this WebApplicationBuilder builder)
+    {
+        builder.Services.Configure<RouteHandlerOptions>(o => o.ThrowOnBadRequest = false);
+        return builder;
+    }
+
+    public static WebApplicationBuilder ConfigureDefaultCorsToAllowAllOrigins(this WebApplicationBuilder builder, string profileName = "cors-allow-all")
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(profileName, policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+            });
+        });
+
         return builder;
     }
 
     public static WebApplication UseDefaultCors(this WebApplication app, string profileName = "cors-allow-all")
     {
-        app.UseCors();
-        return app;
-    }
-
-    public static WebApplication UseExceptionHandler(this WebApplication app, string prodEnvErrorMessage = "Error!")
-    {
-        app.UseExceptionHandler(config => config.Run(async context =>
-        {
-            await context.Response.WriteAsJsonAsync(new
-            {
-                Request = context.Request.Path.Value,
-                Error = app.Environment.IsDevelopment() ?
-                    context.Features.Get<IExceptionHandlerPathFeature>()?.Error.Message ?? prodEnvErrorMessage :
-                    prodEnvErrorMessage,
-            });
-        }));
-        
+        app.UseCors(profileName);
         return app;
     }
     

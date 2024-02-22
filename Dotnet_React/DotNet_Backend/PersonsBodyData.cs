@@ -1,7 +1,13 @@
 ﻿
+using Swashbuckle.AspNetCore.Annotations;
+
+
+
 namespace HackathonDotnetServer;
 
-internal sealed class Persons
+
+
+internal static class Persons
 {
     public static List<PersonDetails> CreateDemoData()
     {
@@ -15,6 +21,55 @@ internal sealed class Persons
     }
 }
 
-internal sealed record PersonDetails (string Name, int Age, string Role, string ImageUrl, string BioUrl, List<Todo>? Todos = null);
 
-internal sealed record Todo (string Task, int Priority);
+
+[SwaggerSchema("Details about a person.")]
+internal sealed record PersonDetails
+{
+    public PersonDetails(string name, int age, string role, string imageUrl, string bioUrl)
+    {
+        Name = name;
+        Age = age;
+        Role = role;
+        ImageUrl = imageUrl;
+        BioUrl = bioUrl;
+
+        Todos = new List<Todo>();
+    }
+
+    [SwaggerSchema(description: "The persons name.")]
+    public string Name { get; init; }
+
+    [SwaggerSchema(description: "The persons age.")]
+    public int Age { get; init; }
+
+    [SwaggerSchema(description: "The persons role in the mission of defeating the demon king.")]
+    public string Role { get; init; }
+
+    [SwaggerSchema(description: "The URL to the persons profile picture.")]
+    public string ImageUrl { get; init; }
+
+    [SwaggerSchema(description: "The URL to the persons biography.")]
+    public string BioUrl { get; init; }
+
+    [SwaggerSchema(description: "A list of menial tasks this person has to do.")]
+    public List<Todo>? Todos { get; set; }
+}
+
+
+
+[SwaggerSchema("A single TODO item.")]
+internal sealed record Todo
+{
+    public Todo(string task, int priority)
+    {
+        Task = task;
+        Priority = priority;
+    }
+
+    [SwaggerSchema(description: "Description of the task.")]
+    public string Task { get; init; }
+
+    [SwaggerSchema(description: "Priority of the task.")]
+    public int Priority { get; init; }
+}

@@ -13,8 +13,8 @@ internal static class GraphEndpoints
         return app;
     }
 
-    private static GraphData? GetGraph(this IEnumerable<PersonDetails> persons, string name)
+    private static GraphData? GetGraph(this IEnumerable<GraphData> graphs, string name)
     {
-        return null;
+        return graphs.FirstOrDefault(p => string.Equals(name, p.Name, StringComparison.InvariantCultureIgnoreCase));
     }
 }

@@ -3,8 +3,10 @@ using HackathonDotnetServer;
 
 
 
+
 const string appName = "Hackathon .NET demo and template";
-const string appDescription = "This is the backend of the combined .NET / React template\n\nSee Readme.md for more details";
+const string appDescription = "This is the backend of the combined .NET / React demo and template.\n\nSee Readme.md for more details.";
+
 
 
 
@@ -15,9 +17,12 @@ const string appDescription = "This is the backend of the combined .NET / React 
 var builder = WebApplication.CreateBuilder();
 
 builder.AddKestrel();
-builder.AddDefaultCorsServicesAndAllowAllOrigins();
 builder.AddLoggingServices();
 builder.AddSwaggerServices(appName, appDescription);
+
+builder.ConfigureExceptionHandling();
+builder.ConfigureDefaultCorsToAllowAllOrigins();
+
 
 
 
@@ -28,10 +33,10 @@ builder.AddSwaggerServices(appName, appDescription);
 var app = builder.Build();
 
 app.UseDefaultCors();
-app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSwaggerUi();
+
 
 
 
@@ -44,6 +49,7 @@ var graphs = Graphs.CreateDemoData();
 
 
 
+
 //--------------------------
 // Define the REST endpoints
 //--------------------------
@@ -51,6 +57,7 @@ var graphs = Graphs.CreateDemoData();
 app.DefinePersonsEndpoints(persons);
 app.DefineGraphsEndpoints(graphs);
 app.DefineJokesEndpoints();
+
 
 
 
