@@ -23,7 +23,7 @@ internal static class PersonsEndpoints
 
         app.MapGet("persons/names",
 
-        [SwaggerOperation(Summary = "Gets the list of all available persons.", Description = "The names of all available persons are returned in JSON as an array of strings.", Tags = ["Persons"])]
+        [SwaggerOperation(Summary = "Gets the list of all available persons", Description = "The names of all available persons are returned in JSON as an array of strings.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
         () => persons.Select(p => p.Name));
 
@@ -36,7 +36,7 @@ internal static class PersonsEndpoints
 
         app.MapGet("persons/details",
 
-        [SwaggerOperation(Summary = "Gets the details of all available persons.", Description = "The details of all available persons are returned in JSON as an array of PersonDetails objects.", Tags = ["Persons"])]
+        [SwaggerOperation(Summary = "Gets the details of all available persons", Description = $"The details of all available persons are returned in JSON as an array of {nameof(PersonDetails)} objects.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
         () => persons);
 
@@ -48,29 +48,28 @@ internal static class PersonsEndpoints
         // -------------------------------------------------------------------------------------
 
         app.MapGet("persons/{name}/details",
-        [SwaggerOperation(Summary = "Gets the details of a person.", Description = "The details of a specified person are returned in JSON as a single PersonDetails object.", Tags = ["Persons"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerOperation(Summary = "Gets the details of a person", Description = $"The details of a specified person are returned in JSON as a single {nameof(PersonDetails)} object.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
         (
             [DefaultValue("Akua"), // ("Wonder of nature!")
-            SwaggerParameter("The name of the person.", Required = true)]
+            SwaggerParameter("The name of the person", Required = true)]
             string name) =>
             {
                 if(string.IsNullOrWhiteSpace(name))
                 {
-                    return Results.BadRequest("Invalid or no name specified.");
+                    return Results.BadRequest("Invalid or no name specified");
                 }
 
                 var person = persons.GetPerson(name);
 
                 if (person is null)
                 {
-                    return Results.NotFound("The specified name does not exist.");
+                    return Results.NotFound("The specified name does not exist");
                 }
 
                 return Results.Ok(person);
-            }
-        );
+            });
 
 
 
@@ -80,7 +79,7 @@ internal static class PersonsEndpoints
         // -------------------------------------------------------------------------------------------------------
 
         app.MapGet("persons/{name}/luckynumber",
-        [SwaggerOperation(Summary = "Gets the lucky number of a person.", Description = "The lucky number of a specified person is returned in JSON with a name and a luckynumber value.", Tags = ["Persons"])]
+        [SwaggerOperation(Summary = "Gets the lucky number of a person", Description = $"The lucky number of a specified person is returned in JSON with a name and a luckynumber value.<br/><br/>IMPORTANT: There is no Swagger/OpenAPI schema available because we use an anonymous type.<br/>The actual JSON data of the WebAPI contains the proper names.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
         (
@@ -90,14 +89,14 @@ internal static class PersonsEndpoints
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    return Results.BadRequest("Invalid or no name specified.");
+                    return Results.BadRequest("Invalid or no name specified");
                 }
 
                 var person = persons.GetPerson(name);
 
                 if (person is null)
                 {
-                    return Results.NotFound("The specified name does not exist.");
+                    return Results.NotFound("The specified name does not exist");
                 }
 
                 return Results.Ok(new
@@ -116,37 +115,37 @@ internal static class PersonsEndpoints
         // --------------------------------------------------------------------------------------
 
         app.MapPost("persons/{name}/addtodo",
-        [SwaggerOperation(Summary = "Adds a new TODO to a person.", Description = "The TODO must be provided as JSON body using a Todo object.", Tags = ["Persons"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerOperation(Summary = "Adds a new TODO to a person", Description = $"The TODO must be provided as JSON body using a {nameof(PersonTodo)} object.", Tags = ["Persons"])]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "The provided body is invalid or cannot be parsed as a Todo object.")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, $"The provided body is invalid or cannot be parsed as a {nameof(PersonTodo)} object")]
         (
             [Required]
             [DefaultValue("Dakunesu"), // she also has some... interesting... features... (?)
             SwaggerParameter("The name of the person.", Required = true)]
             string name,
             [Required]
-            [SwaggerParameter("The data of the new TODO to add.", Required = true)]
-            Todo? todo) =>
+            [SwaggerParameter("The data of the new TODO to add", Required = true)]
+            PersonTodo? todo) =>
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    return Results.BadRequest("Invalid or no name specified.");
+                    return Results.BadRequest("Invalid or no name specified");
                 }
 
                 if(todo is null || string.IsNullOrWhiteSpace(todo.Task) || (todo.Priority < 0))
                 {
-                    return Results.BadRequest("Invalid or no JSON body.");
+                    return Results.BadRequest("Invalid or no JSON body");
                 }
 
                 var person = persons.GetPerson(name);
 
                 if (person is null)
                 {
-                    return Results.NotFound("The specified name does not exist.");
+                    return Results.NotFound("The specified name does not exist");
                 }
 
-                var todoList = new List<Todo>(person.Todos ?? []);
+                var todoList = new List<PersonTodo>(person.Todos ?? []);
                 todoList.Add(todo!);
 
                 var updatedPerson = person with { Todos = todoList };

@@ -23,7 +23,7 @@ internal static class Persons
 
 
 
-[SwaggerSchema("Details about a person.")]
+[SwaggerSchema("Details about a person")]
 internal sealed record PersonDetails
 {
     public PersonDetails(string name, int age, string role, string imageUrl, string bioUrl)
@@ -34,42 +34,42 @@ internal sealed record PersonDetails
         ImageUrl = imageUrl;
         BioUrl = bioUrl;
 
-        Todos = new List<Todo>();
+        Todos = new List<PersonTodo>();
     }
 
-    [SwaggerSchema(description: "The persons name.")]
+    [SwaggerSchema(description: "The persons name")]
     public string Name { get; init; }
 
-    [SwaggerSchema(description: "The persons age.")]
+    [SwaggerSchema(description: "The persons age")]
     public int Age { get; init; }
 
-    [SwaggerSchema(description: "The persons role in the mission of defeating the demon king.")]
+    [SwaggerSchema(description: "The persons role in the mission of defeating the demon king")]
     public string Role { get; init; }
 
-    [SwaggerSchema(description: "The URL to the persons profile picture.")]
+    [SwaggerSchema(description: "The relative URL to the persons profile picture")]
     public string ImageUrl { get; init; }
 
-    [SwaggerSchema(description: "The URL to the persons biography.")]
+    [SwaggerSchema(description: "The absolute URL to the persons biography")]
     public string BioUrl { get; init; }
 
-    [SwaggerSchema(description: "A list of menial tasks this person has to do.")]
-    public List<Todo>? Todos { get; set; }
+    [SwaggerSchema(description: "A list of menial tasks this person has to do")]
+    public List<PersonTodo>? Todos { get; set; }
 }
 
 
 
-[SwaggerSchema("A single TODO item.")]
-internal sealed record Todo
+[SwaggerSchema("A single TODO item")]
+internal sealed record PersonTodo
 {
-    public Todo(string task, int priority)
+    public PersonTodo(string task, int priority)
     {
         Task = task;
         Priority = priority;
     }
 
-    [SwaggerSchema(description: "Description of the task.")]
+    [SwaggerSchema(description: "Description of the task")]
     public string Task { get; init; }
 
-    [SwaggerSchema(description: "Priority of the task.")]
+    [SwaggerSchema(description: "Priority of the task")]
     public int Priority { get; init; }
 }

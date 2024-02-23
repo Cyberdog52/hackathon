@@ -5,7 +5,7 @@ using HackathonDotnetServer;
 
 
 const string appName = "Hackathon .NET demo and template";
-const string appDescription = "This is the backend of the combined .NET / React demo and template.\n\nSee Readme.md for more details.";
+const string appDescription = "This is the backend of the combined .NET / React demo and template.<br/><br/>See Readme.md for more details.";
 
 
 
@@ -45,7 +45,7 @@ app.UseSwaggerUi();
 //----------------------
 
 var persons = Persons.CreateDemoData();
-var graphs = Graphs.CreateDemoData();
+var diagrams = Diagrams.CreateDemoData();
 
 
 
@@ -55,7 +55,7 @@ var graphs = Graphs.CreateDemoData();
 //--------------------------
 
 app.DefinePersonsEndpoints(persons);
-app.DefineGraphsEndpoints(graphs);
+app.DefineDiagramEndpoints(diagrams);
 app.DefineJokesEndpoints();
 
 
