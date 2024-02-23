@@ -23,6 +23,7 @@ internal static class Persons
 
 
 
+
 [SwaggerSchema("Details about a person")]
 internal sealed record PersonDetails
 {
@@ -55,6 +56,7 @@ internal sealed record PersonDetails
     [SwaggerSchema(description: "A list of menial tasks this person has to do")]
     public List<PersonTodo>? Todos { get; set; }
 }
+
 
 
 

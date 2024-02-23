@@ -29,6 +29,14 @@ internal static class Extensions
         return builder;
     }
 
+    public static WebApplicationBuilder AddJokeProvider(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddHttpClient();
+        builder.Services.AddTransient<JokeProvider>();
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddSwaggerServices(this WebApplicationBuilder builder, string title, string description, string version = "v1")
     {
         builder.Services.AddEndpointsApiExplorer();

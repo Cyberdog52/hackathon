@@ -18,6 +18,7 @@ var builder = WebApplication.CreateBuilder();
 
 builder.AddKestrel();
 builder.AddLoggingServices();
+builder.AddJokeProvider();
 builder.AddSwaggerServices(appName, appDescription);
 
 builder.ConfigureExceptionHandling();
