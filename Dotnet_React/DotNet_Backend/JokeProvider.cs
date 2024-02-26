@@ -1,6 +1,7 @@
 
-using System.Net.Http.Json;
-using System.Text.Json.Nodes;
+using System.Runtime.Serialization;
+using System.Text.Json;
+using Microsoft.Extensions.ObjectPool;
 using Swashbuckle.AspNetCore.Annotations;
 
 
@@ -14,20 +15,48 @@ namespace HackathonDotnetServer;
 internal sealed class JokeProvider
 {
     private readonly IHttpClientFactory factory;
+    private readonly ILogger<JokeProvider> logger;
 
-    public JokeProvider(IHttpClientFactory factory)
+    private readonly string jokeApiUrl = "https://official-joke-api.appspot.com/jokes/random";
+
+    public JokeProvider(IHttpClientFactory factory, ILogger<JokeProvider> logger)
     {
         this.factory = factory;
+        this.logger = logger;
     }
 
-    public async Task<Joke> GetRandomJoke()
+    public async Task<Joke?> GetRandomJoke(CancellationToken ct)
     {
         var client = factory.CreateClient();
-        var response = await client.GetAsync("https://official-joke-api.appspot.com/jokes/random");
-        var content = await response.Content.ReadAsStringAsync();
-        dynamic data = JsonValue.Parse();
-        //var data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(content);
-        return new Joke(data!.setup, data!.punchline);
+        Stream contentStream;
+
+        try
+        {
+            var response = await client.GetAsync(jokeApiUrl, HttpCompletionOption.ResponseHeadersRead, ct);
+            response.EnsureSuccessStatusCode();
+            contentStream = response.Content.ReadAsStream(ct);
+        }
+        catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
+        {
+            logger.LogError(ex, $"Fetching random joke from {jokeApiUrl} failed.");
+            return null;
+        }
+
+        try
+        {
+            var joke = await DeserializeJokeAsync(contentStream, new { setup = "", punchline = "" }, ct);
+            return new Joke(joke!.setup, joke.punchline);
+        }
+        catch(Exception ex) when (ex is JsonException || ex is NotSupportedException)
+        {
+            logger.LogError(ex, "Failed to deserialize JSON body.");
+            return null;
+        }
+    }
+
+    private ValueTask<TObject?> DeserializeJokeAsync<TObject>(Stream responseStream, TObject type, CancellationToken ct)
+    {
+        return JsonSerializer.DeserializeAsync<TObject>(responseStream, cancellationToken: ct);
     }
 }
 

@@ -21,7 +21,7 @@ internal static class JokesEndpoints
 
         [SwaggerOperation(Summary = "Gets a random joke", Description = $"The random joke as a {nameof(Joke)} object.", Tags = ["Jokes"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
-        () => app.Services.GetRequiredService<JokeProvider>().GetRandomJoke());
+        (CancellationToken ct) => app.Services.GetRequiredService<JokeProvider>().GetRandomJoke(ct));
 
         return app;
     }

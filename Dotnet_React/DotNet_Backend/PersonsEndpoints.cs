@@ -123,7 +123,7 @@ internal static class PersonsEndpoints
         [SwaggerResponse(StatusCodes.Status400BadRequest, $"The provided body is invalid or cannot be parsed as a {nameof(PersonTodo)} object")]
         (
             [Required]
-            [DefaultValue("Dakunesu"), // she also has some... interesting... features... (?)
+            [DefaultValue("Dakunesu"), // (she also has some... interesting... features...)
             SwaggerParameter("The name of the person.", Required = true)]
             string name,
             [Required]

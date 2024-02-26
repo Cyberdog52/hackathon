@@ -29,7 +29,7 @@ Frontend and backend are not only a boilerplate template but also a demo which c
 >
 > The demo could be overwhelming for beginners.
 >
-> See [Setup the template](#setup-the-template) how to use the template instead of the demo.
+> See [Setup the template](#setup-the-template) how to use the template instead of the demo. The demo can always be us
 > The template creates a simple boilerplate project which has the bare minimum but can still be run immediately.
 
 
@@ -109,6 +109,12 @@ Frontend and backend are not only a boilerplate template but also a demo which c
 
 
 
+## Demo files and code structure
+
+
+
+[TBD]
+
 
 
 ## Setup the template
@@ -142,8 +148,6 @@ Documentation of the language can be found [here](https://learn.microsoft.com/do
 
 Both demo and template provide a Swagger documentation of the WebAPI.
 It's accessible using the relative path `/swagger/index.html`.
-
-
 
 
 
@@ -289,12 +293,27 @@ It's accessible using the relative path `/swagger/index.html`.
 
 
 
-| Name                                  | Purpose                                                     | Comment                                                      |
-| ------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------ |
-| [Typora](https://typora.io/)          | Markdown editor for easily create and modify Markdown files | This document was created with it.<br />Costs money after the trial period! |
-| [draw.io](https://draw.io/)           | Diagrams by hand                                            | Try to track changes which easily show modifications, I dare you...!<br />[Online playground](https://app.diagrams.net/) |
-| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup ("Code")                                 | Better than PlantUML (why? because!).<br />[Online playground](https://mermaid.live/) |
-| [PlantUML](https://www.plantuml.com/) | Diagrams by markup ("Code")                                 | [Online playground](https://www.plantuml.com/plantuml/uml/)  |
+| Name                                  | Purpose                                                     | License | Costs | Comments                                                     |
+| ------------------------------------- | ----------------------------------------------------------- | ------- | ----- | ------------------------------------------------------------ |
+| [Typora](https://typora.io/)          | Markdown editor for easily create and modify Markdown files |         |       | This document was created with it.<br />Costs money after the trial period! |
+| [draw.io](https://draw.io/)           | Diagrams by hand                                            |         | *no*  | XML based, thus no usable change tracking<br />[Online playground](https://app.diagrams.net/) |
+| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup                                          |         | *no*  | [Online playground](https://mermaid.live/)                   |
+| [PlantUML](https://www.plantuml.com/) | Diagrams by markup                                          |         | *no*  | [Online playground](https://www.plantuml.com/plantuml/uml/)  |
+
+
+
+### Visual Studio Code extensions
+
+
+
+| Name | Purpose | License | Comments |
+| ---- | ------- | ------- | -------- |
+|      |         |         |          |
+|      |         |         |          |
+|      |         |         |          |
+|      |         |         |          |
+|      |         |         |          |
+|      |         |         |          |
 
 
 

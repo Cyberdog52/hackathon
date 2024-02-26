@@ -19,7 +19,7 @@ internal static class Diagrams
             var path = x.Replace('\\', '/'); // WINDOWS!!! >:(
             var renderer = GetRendererFromFileExtension(Path.GetExtension(path));
 
-            if(renderer is null)
+            if(renderer is DiagramRenderer.Unspecified)
             {
                 return null;
             }
@@ -27,23 +27,23 @@ internal static class Diagrams
             var fileName = Path.GetFileNameWithoutExtension(path);
             var name = fileName.ToUpper()[0] + fileName.Substring(1);
             var script = File.ReadAllText(path, Encoding.UTF8);
-            return new DiagramData(name, renderer.Value, script);
+            return new DiagramData(name, renderer, script);
         })
         .Where(y => y != null)
         .Select(z => z!)
         .ToList();
 
-        private static DiagramRenderer? GetRendererFromFileExtension(string? extension)
+        private static DiagramRenderer GetRendererFromFileExtension(string? extension)
         {
             if(string.IsNullOrWhiteSpace(extension))
             {
-                return null;
+                return DiagramRenderer.Unspecified;
             }
 
             return extension switch
             {
-                ".mms" => DiagramRenderer.Mermaid,
-                _ => null,
+                ".mmd" => DiagramRenderer.Mermaid,
+                _ => DiagramRenderer.Unspecified,
             };
         }
 }
@@ -68,7 +68,7 @@ internal sealed record DiagramData
     public DiagramData(string name, DiagramRenderer renderer, string script)
     {
         Name = name;
-        Type = renderer;
+        Renderer = renderer;
         Script = script;
     }
 
@@ -76,7 +76,7 @@ internal sealed record DiagramData
     public string Name { get; init; }
 
     [SwaggerSchema(description: "The renderer to use for the diagram script")]
-    public DiagramRenderer Type { get; init; }
+    public DiagramRenderer Renderer { get; init; }
 
     [SwaggerSchema(description: "The diagram script")]
     public string Script { get; init; }

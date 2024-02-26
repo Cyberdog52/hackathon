@@ -1,0 +1,17 @@
+---
+config:
+  theme: default
+  themeVariables:
+    edgeLabelBackground: "#ffffff"
+---
+
+%% syntax description, including formatting control:
+%% https://mermaid.js.org/syntax/flowchart.html
+
+flowchart LR
+    A[Cinema] o--o B
+    B[Here we go...] <--> C
+    C x--x D
+    A --> |Yes, please| D{Really?!}
+    D --> |Haha, no!| X[:sadface:]
+    D --> |Why not...| Y[:smile:]
