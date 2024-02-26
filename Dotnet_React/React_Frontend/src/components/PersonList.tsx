@@ -28,7 +28,7 @@ export default function PersonList({
   return (
     <div className={usedClassName}>
       <ul className="list-group">
-        {names.map((item, index) => (
+        {names.map((item, index) =>(
           <li
             className={
               selectedIndex === index

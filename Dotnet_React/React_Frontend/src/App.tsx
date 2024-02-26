@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Tab, initMDB } from "mdb-ui-kit";
 import { fetchPersonNames, fetchPersonDetails } from "./components/PersonApi";
+import { fetchDiagramNames, fetchDiagram } from "./components/DiagramApi";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
+import DiagramView from "./components/DiagramView";
 
 function App() {
   const [personNames, setPersonNames] = useState<string[]>([]);
@@ -10,6 +12,7 @@ function App() {
     string | undefined
   >(undefined);
   const [selectedPersonDetails, setSelectedPersonDetails] = useState<any>();
+  const [diagramNames, setDiagramNames] = useState<string[]>([]);
 
   const apiUrl = "https://localhost:7017";
 
@@ -21,15 +24,19 @@ function App() {
 
   useEffect(() => {
     if (selectedPersonName == undefined) {
-      console.log("Selected name: undefined");
+      console.log("Selected person name: undefined");
       setSelectedPersonDetails(undefined);
       return;
     }
     fetchPersonDetails(apiUrl, selectedPersonName!, (x) => {
-      console.log("Selected name: ", x);
+      console.log("Selected person name: ", x);
       setSelectedPersonDetails(x);
     });
   }, [selectedPersonName]);
+
+  useEffect(() => {
+    fetchDiagramNames(apiUrl, (x) => setDiagramNames(x));
+  }, []);
 
   return (
     <>
@@ -58,7 +65,7 @@ function App() {
             aria-controls="tab_graph_content"
             aria-selected="false"
           >
-            <button className="btn">Graph</button>
+            <button className="btn">Diagrams</button>
           </a>
         </li>
         <li className="nav-item" role="presentation">
@@ -71,7 +78,7 @@ function App() {
             aria-controls="tab_departure_content"
             aria-selected="false"
           >
-            <button className="btn">Departures</button>
+            <button className="btn">Jokes</button>
           </a>
         </li>
       </ul>
@@ -105,7 +112,15 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_graph_content"
         >
-          Graph
+          <DiagramView
+            names={diagramNames}
+            onDiagramSelect={(name) =>
+              fetchDiagram(apiUrl, name, (x) => {
+                console.log("Selected diagram name: ", x);
+                return x;
+              })
+            }
+          />
         </div>
         <div
           className="tab-pane fade"
@@ -113,7 +128,7 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_departure_content"
         >
-          Departures
+          Jokes
         </div>
       </div>
     </>
