@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Tab, initMDB } from "mdb-ui-kit";
 import { fetchPersonNames, fetchPersonDetails } from "./components/PersonApi";
-import { fetchDiagramNames, fetchDiagram } from "./components/DiagramApi";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 import DiagramView from "./components/DiagramView";
@@ -33,10 +32,6 @@ function App() {
       setSelectedPersonDetails(x);
     });
   }, [selectedPersonName]);
-
-  useEffect(() => {
-    fetchDiagramNames(apiUrl, (x) => setDiagramNames(x));
-  }, []);
 
   return (
     <>
@@ -112,15 +107,7 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_graph_content"
         >
-          <DiagramView
-            names={diagramNames}
-            onDiagramSelect={(name) =>
-              fetchDiagram(apiUrl, name, (x) => {
-                console.log("Selected diagram name: ", x);
-                return x;
-              })
-            }
-          />
+          <DiagramView apiUrl={apiUrl} />
         </div>
         <div
           className="tab-pane fade"
