@@ -4,6 +4,7 @@ import { fetchPersonNames, fetchPersonDetails } from "./components/PersonApi";
 import PersonList from "./components/PersonList";
 import PersonDetails from "./components/PersonDetails";
 import DiagramView from "./components/DiagramView";
+import JokeView from "./components/JokeView";
 
 function App() {
   const [personNames, setPersonNames] = useState<string[]>([]);
@@ -13,12 +14,12 @@ function App() {
   const [selectedPersonDetails, setSelectedPersonDetails] = useState<any>();
   const [diagramNames, setDiagramNames] = useState<string[]>([]);
 
-  const apiUrl = "https://localhost:7017";
+  const apiBaseUrl = "https://localhost:7017";
 
   initMDB({ Tab });
 
   useEffect(() => {
-    fetchPersonNames(apiUrl, (x) => setPersonNames(x));
+    fetchPersonNames(apiBaseUrl, (x) => setPersonNames(x));
   }, []);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
       setSelectedPersonDetails(undefined);
       return;
     }
-    fetchPersonDetails(apiUrl, selectedPersonName!, (x) => {
+    fetchPersonDetails(apiBaseUrl, selectedPersonName!, (x) => {
       console.log("Selected person name: ", x);
       setSelectedPersonDetails(x);
     });
@@ -54,10 +55,10 @@ function App() {
           <a
             data-mdb-tab-init
             className="nav-link"
-            id="tab_graph_nav"
-            href="#tab_graph_content"
+            id="tab_diagram_nav"
+            href="#tab_diagram_content"
             role="tab"
-            aria-controls="tab_graph_content"
+            aria-controls="tab_diagram_content"
             aria-selected="false"
           >
             <button className="btn">Diagrams</button>
@@ -67,10 +68,10 @@ function App() {
           <a
             data-mdb-tab-init
             className="nav-link"
-            id="tab_departure_nav"
-            href="#tab_departure_content"
+            id="tab_jokes_nav"
+            href="#tab_jokes_content"
             role="tab"
-            aria-controls="tab_departure_content"
+            aria-controls="tab_jokes_content"
             aria-selected="false"
           >
             <button className="btn">Jokes</button>
@@ -103,19 +104,19 @@ function App() {
         </div>
         <div
           className="tab-pane fade"
-          id="tab_graph_content"
+          id="tab_diagram_content"
           role="tabpanel"
-          aria-labelledby="tab_graph_content"
+          aria-labelledby="tab_diagram_content"
         >
-          <DiagramView apiUrl={apiUrl} />
+          <DiagramView apiUrl={apiBaseUrl} imageWidth={300} imageHeight={300} />
         </div>
         <div
           className="tab-pane fade"
-          id="tab_departure_content"
+          id="tab_jokes_content"
           role="tabpanel"
-          aria-labelledby="tab_departure_content"
+          aria-labelledby="tab_jokes_content"
         >
-          Jokes
+          <JokeView apiUrl={apiBaseUrl} viewMargin={30} contentPadding={10}/>
         </div>
       </div>
     </>
