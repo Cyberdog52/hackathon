@@ -1,68 +1,65 @@
 interface PersonDetailsProps {
   details: any;
-  className?: string;
-  imageSize: number;
+  imageWidth?: number;
+  imageHeight?: number;
+  contentPadding?: number;
 }
 
 export default function PersonDetails({
   details,
-  className,
-  imageSize,
+  imageWidth,
+  imageHeight,
+  contentPadding,
 }: PersonDetailsProps) {
-  if (details == undefined) {
-    return (
-      <div className={className}>
-        <p>Please select person</p>
-      </div>
-    );
-  }
-
-  const usedClassName =
-    "grid" +
-    (className == undefined || className.length === 0 ? "" : " " + className);
+  const hideDetails = details.name == undefined;
 
   return (
-    <div className={usedClassName}>
+    <div
+      className="grid"
+      style={hideDetails ? { display: "none" } : { marginLeft: contentPadding }}
+    >
       <div className="row">
-        <div className="col-2">
+        <div className="col-4">
           <img
             src={details.imageUrl}
-            width={imageSize}
+            style={{ maxWidth: imageWidth, maxHeight: imageHeight }}
             alt={"Image of " + details.name}
             title={"Image of " + details.name}
           ></img>
         </div>
-        <div className="col-6">
+        <div
+          className="col-8"
+        >
           <div className="grid">
             <div className="row">
-              <div className="col-2">
+              <div className="col-3">
                 <span>Name:</span>
               </div>
-              <div className="col">
+              <div className="col-6">
                 <strong>{details.name}</strong>
               </div>
             </div>
             <div className="row">
-              <div className="col-2">
+              <div className="col-3">
                 <span>Role:</span>
               </div>
-              <div className="col">
+              <div className="col-8">
                 <strong>{details.role}</strong>
               </div>
             </div>
             <div className="row">
-              <div className="col-2">
+              <div className="col-3">
                 <span>Age:</span>
               </div>
-              <div className="col">
+              <div className="col-6">
                 <strong>{getAgeToDisplay(details.age)}</strong>
               </div>
             </div>
             <div className="row">
-              <div className="col-2">
+              <div className="col-3">
                 <span>Bio:</span>
               </div>
-              <div className="col">
+              <div className="col-6">
                 <strong>
                   <a
                     href={details.bioUrl}

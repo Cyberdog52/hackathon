@@ -21,6 +21,7 @@ export async function fetchDiagram(
     return undefined;
   }
 
+  // DON'T DO THAT (concatenating strings coming from the UI; I have to fix this :-| )
   const url = apiUrl + "/diagrams/" + name + "/data/";
   const { data } = await Axios.get(url);
   const details = data;

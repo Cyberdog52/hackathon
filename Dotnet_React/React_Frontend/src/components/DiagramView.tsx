@@ -4,19 +4,23 @@ import { fetchDiagramNames, fetchDiagram } from "./DiagramApi";
 
 interface DiagramViewProps {
   apiUrl: string;
-  imageWidth?: number;
-  imageHeight?: number;
+  viewWidth?: number;
+  viewHeight?: number;
+  viewMargin?: number;
+  contentPadding?: number;
 }
 
 export default function DiagramView({
   apiUrl,
-  imageWidth,
-  imageHeight
+  viewWidth,
+  viewHeight,
+  viewMargin,
+  contentPadding,
 }: DiagramViewProps) {
   const [diagramNames, setDiagramNames] = useState<string[]>([]);
-  const [selectedName, setSelectedName] = useState<string>("");
-  const [selectedDiagram, setSelectedDiagram] = useState<any>([]);
-  const [diagramSvg, setDiagramSvg] = useState<string>("");
+  const [selectedDiagramName, setSelectedDiagramName] = useState<string>("");
+  const [selectedDiagramData, setSelectedDiagramData] = useState<any>([]);
+  const [renderedDiagram, setRenderedDiagram] = useState<string>("");
 
   useEffect(() => {
     fetchDiagramNames(apiUrl, (x) => {
@@ -26,51 +30,62 @@ export default function DiagramView({
   }, []);
 
   useEffect(() => {
-    fetchDiagram(apiUrl, selectedName, (x) => {
+    fetchDiagram(apiUrl, selectedDiagramName, (x) => {
       console.log("Selected diagram data: ", x);
-      setSelectedDiagram(x);
+      setSelectedDiagramData(x);
     });
-  }, [selectedName]);
+  }, [selectedDiagramName]);
 
   useEffect(() => {
-    mermaid.render("mermaid", selectedDiagram.script).then((x) => {
+    mermaid.render("mermaid", selectedDiagramData.script).then((x) => {
       console.log("Rendered diagram: ", x);
-      setDiagramSvg(btoa(x.svg));
+      setRenderedDiagram(btoa(x.svg));
     });
-  }, [selectedDiagram]);
+  }, [selectedDiagramData]);
 
-  const svgData = "data:image/svg+xml;base64," + diagramSvg;
-  const imgWidth = diagramSvg.length === 0 ? 0 : imageWidth;
-  const imgHeight = diagramSvg.length === 0 ? 0 : imageHeight;
+  const hideDiagram = renderedDiagram.length === 0;
+  const svgData = "data:image/svg+xml;base64," + renderedDiagram;
 
   return (
-    <div>
-      <div className="btn-group-vertical" role="group">
-        {diagramNames.map((item) => (
-          <>
-            <input
-              type="radio"
-              className="btn-check"
-              name="vbtn-radio"
-              id={item}
-            />
-            <label
-              className="btn btn-outline-secondary"
-              htmlFor={item}
-              id={item}
-              onClick={() => {
-                console.log("Selected diagram name:", item);
-                setSelectedName(item);
-              }}
-            >
-              {item}
-            </label>
-          </>
-        ))}
+    <div className="grid" style={{ margin: viewMargin }}>
+      <div className="row">
+        <div className="col-5 btn-group" role="group">
+          {diagramNames.map((item) => (
+            <>
+              <input
+                type="radio"
+                className="btn-check"
+                name="vbtn-radio"
+                id={item}
+              />
+              <label
+                className="btn btn-outline-secondary"
+                htmlFor={item}
+                id={item}
+                onClick={() => {
+                  console.log("Selected diagram name:", item);
+                  setSelectedDiagramName(item);
+                }}
+              >
+                {item}
+              </label>
+            </>
+          ))}
+        </div>
       </div>
-      <a href={svgData}>
-        <img src={svgData} height={imgHeight} width={imgWidth} />
-      </a>
+      <div
+        className="row"
+        style={
+          hideDiagram ? { display: "none" } : { marginTop: contentPadding }
+        }
+      >
+        <a href={svgData}>
+          <img
+            src={svgData}
+            style={{ maxWidth: viewWidth, maxHeight: viewHeight }}
+          />
+        </a>
+      </div>
       <div id="mermaid" />
     </div>
   );

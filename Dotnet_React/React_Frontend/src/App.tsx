@@ -1,38 +1,12 @@
-import { useEffect, useState } from "react";
 import { Tab, initMDB } from "mdb-ui-kit";
-import { fetchPersonNames, fetchPersonDetails } from "./components/PersonApi";
-import PersonList from "./components/PersonList";
-import PersonDetails from "./components/PersonDetails";
+import PersonView from "./components/PersonView";
 import DiagramView from "./components/DiagramView";
 import JokeView from "./components/JokeView";
 
 function App() {
-  const [personNames, setPersonNames] = useState<string[]>([]);
-  const [selectedPersonName, setSelectedPersonName] = useState<
-    string | undefined
-  >(undefined);
-  const [selectedPersonDetails, setSelectedPersonDetails] = useState<any>();
-  const [diagramNames, setDiagramNames] = useState<string[]>([]);
-
   const apiBaseUrl = "https://localhost:7017";
 
   initMDB({ Tab });
-
-  useEffect(() => {
-    fetchPersonNames(apiBaseUrl, (x) => setPersonNames(x));
-  }, []);
-
-  useEffect(() => {
-    if (selectedPersonName == undefined) {
-      console.log("Selected person name: undefined");
-      setSelectedPersonDetails(undefined);
-      return;
-    }
-    fetchPersonDetails(apiBaseUrl, selectedPersonName!, (x) => {
-      console.log("Selected person name: ", x);
-      setSelectedPersonDetails(x);
-    });
-  }, [selectedPersonName]);
 
   return (
     <>
@@ -85,22 +59,16 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_persons_content"
         >
-          <div className="grid p-0 mx-3">
-            <div className="row">
-              <div className="col-2 p-0">
-                <PersonList
-                  names={personNames}
-                  onNameSelected={setSelectedPersonName}
-                />
-              </div>
-              <div className="col p-3 ms-3 border rounded">
-                <PersonDetails
-                  details={selectedPersonDetails}
-                  imageSize={100}
-                />
-              </div>
-            </div>
-          </div>
+          <p style={{ marginLeft: 20 }}>
+            <i>xxx</i>
+          </p>
+          <PersonView
+            apiUrl={apiBaseUrl}
+            viewWidth={200}
+            viewHeight={200}
+            viewMargin={50}
+            contentPadding={50}
+          />
         </div>
         <div
           className="tab-pane fade"
@@ -108,7 +76,16 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_diagram_content"
         >
-          <DiagramView apiUrl={apiBaseUrl} imageWidth={300} imageHeight={300} />
+          <p style={{ marginLeft: 20 }}>
+            <i>xxx</i>
+          </p>
+          <DiagramView
+            apiUrl={apiBaseUrl}
+            viewWidth={1000}
+            viewHeight={500}
+            viewMargin={50}
+            contentPadding={50}
+          />
         </div>
         <div
           className="tab-pane fade"
@@ -116,7 +93,10 @@ function App() {
           role="tabpanel"
           aria-labelledby="tab_jokes_content"
         >
-          <JokeView apiUrl={apiBaseUrl} viewMargin={30} contentPadding={10}/>
+          <p style={{ marginLeft: 20 }}>
+            <i>xxx</i>
+          </p>
+          <JokeView apiUrl={apiBaseUrl} viewMargin={50} contentPadding={20} />
         </div>
       </div>
     </>

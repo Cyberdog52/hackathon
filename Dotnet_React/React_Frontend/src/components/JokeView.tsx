@@ -3,8 +3,8 @@ import { fetchRandomJoke } from "./JokeApi";
 
 interface JokeViewProps {
   apiUrl: string;
-  viewMargin: number;
-  contentPadding: number;
+  viewMargin?: number;
+  contentPadding?: number;
 }
 
 export default function JokeView({
@@ -45,7 +45,6 @@ export default function JokeView({
           <div
             className="spinner-grow spinner-grow-sm"
             role="status"
-            style={{}}
           ></div>
         ) : null}
       </button>
