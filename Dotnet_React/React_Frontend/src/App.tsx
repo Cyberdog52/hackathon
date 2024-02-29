@@ -1,104 +1,103 @@
-import { Tab, initMDB } from "mdb-ui-kit";
 import PersonView from "./components/PersonView";
 import DiagramView from "./components/DiagramView";
 import JokeView from "./components/JokeView";
 
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+
 function App() {
   const apiBaseUrl = "https://localhost:7017";
-
-  initMDB({ Tab });
 
   return (
     <>
       <h1 className="m-3">Hackathon .NET / React demo and template</h1>
-      <ul className="nav nav-tabs mb-3" id="t_nav" role="tablist">
-        <li className="nav-item" role="presentation">
-          <a
-            data-mdb-tab-init
-            className="nav-link active"
-            id="tab_persons_nav"
-            href="#tab_persons_content"
-            role="tab"
-            aria-controls="tab_persons_content"
-            aria-selected="true"
-          >
-            <button className="btn">Persons</button>
-          </a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a
-            data-mdb-tab-init
-            className="nav-link"
-            id="tab_diagram_nav"
-            href="#tab_diagram_content"
-            role="tab"
-            aria-controls="tab_diagram_content"
-            aria-selected="false"
-          >
-            <button className="btn">Diagrams</button>
-          </a>
-        </li>
-        <li className="nav-item" role="presentation">
-          <a
-            data-mdb-tab-init
-            className="nav-link"
-            id="tab_jokes_nav"
-            href="#tab_jokes_content"
-            role="tab"
-            aria-controls="tab_jokes_content"
-            aria-selected="false"
-          >
-            <button className="btn">Jokes</button>
-          </a>
-        </li>
-      </ul>
-      <div className="tab-content" id="t_content">
-        <div
-          className="tab-pane fade show active"
-          id="tab_persons_content"
-          role="tabpanel"
-          aria-labelledby="tab_persons_content"
+      <p className="m-3">
+        This is the frontend of the combined .NET / React demo and template.
+        <br />
+        See{" "}
+        <a
+          href="https://github.com/Cyberdog52/hackathon/blob/dotnet_react/Dotnet_React/DotNet_Backend/Readme.md"
+          target="_blank"
         >
+          Readme
+        </a>{" "}
+        for more details.
+      </p>
+      <hr />
+      <Tabs>
+        <TabList>
+          <Tab>Persons</Tab>
+          <Tab>Diagrams</Tab>
+          <Tab>jokes</Tab>
+        </TabList>
+        <TabPanel>
           <p style={{ marginLeft: 20 }}>
-            <i>xxx</i>
+            <i>
+              Gets a list of names from the backend and requests additional
+              details based on the selected name.
+              <br />
+              The data is fetched from the backend using GET requests (names,
+              details) and static files (images).
+            </i>
           </p>
+          <hr />
           <PersonView
             apiUrl={apiBaseUrl}
             viewWidth={200}
             viewHeight={200}
             viewMargin={50}
-            contentPadding={50}
+            contentPadding={20}
           />
-        </div>
-        <div
-          className="tab-pane fade"
-          id="tab_diagram_content"
-          role="tabpanel"
-          aria-labelledby="tab_diagram_content"
-        >
+        </TabPanel>
+        <TabPanel>
           <p style={{ marginLeft: 20 }}>
-            <i>xxx</i>
+            <i>
+              Gets a list of diagrams from the backend and requests a rendering
+              script based on the selected diagram.
+              <br />
+              The diagrams are rendered client-side using a human-readable
+              script (
+              <a
+                href="https://mermaid.js.org/"
+                target="_blank"
+                title="Mermaid: diagramming and charting tool"
+              >
+                mermaid.js
+              </a>
+              ).
+            </i>
           </p>
+          <hr />
           <DiagramView
             apiUrl={apiBaseUrl}
-            viewWidth={1000}
+            viewWidth={500}
             viewHeight={500}
             viewMargin={50}
-            contentPadding={50}
+            contentPadding={20}
           />
-        </div>
-        <div
-          className="tab-pane fade"
-          id="tab_jokes_content"
-          role="tabpanel"
-          aria-labelledby="tab_jokes_content"
-        >
+        </TabPanel>
+        <TabPanel>
           <p style={{ marginLeft: 20 }}>
-            <i>xxx</i>
+            <i>
+              Gets random jokes from the backend and displays them.
+              <br />
+              The jokes itself are fetched by the backend from another
+              third-party API (
+              <a
+                href="https://github.com/15Dkatz/official_joke_api"
+                target="_blank"
+              >
+                official_joke_api
+              </a>
+              ).
+              <br />
+              (there are general, programming, knock-knock, and a few dad jokes)
+            </i>
           </p>
+          <hr />
           <JokeView apiUrl={apiBaseUrl} viewMargin={50} contentPadding={20} />
-        </div>
-      </div>
+        </TabPanel>
+      </Tabs>
     </>
   );
 }

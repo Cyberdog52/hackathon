@@ -47,7 +47,7 @@ export default function PersonView({
               <input
                 type="radio"
                 className="btn-check"
-                name="vbtn-radio"
+                name="person_selection"
                 id={item}
               />
               <label

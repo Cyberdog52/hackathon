@@ -44,7 +44,8 @@ export default function DiagramView({
   }, [selectedDiagramData]);
 
   const hideDiagram = renderedDiagram.length === 0;
-  const svgData = "data:image/svg+xml;base64," + renderedDiagram;
+  const imageData = "data:image/svg+xml;base64," + renderedDiagram;
+  const scriptText = "data:text/plain," + selectedDiagramData.script;
 
   return (
     <div className="grid" style={{ margin: viewMargin }}>
@@ -55,7 +56,7 @@ export default function DiagramView({
               <input
                 type="radio"
                 className="btn-check"
-                name="vbtn-radio"
+                name="diagram_selection"
                 id={item}
               />
               <label
@@ -79,12 +80,44 @@ export default function DiagramView({
           hideDiagram ? { display: "none" } : { marginTop: contentPadding }
         }
       >
-        <a href={svgData}>
+        <div className="col">
+          <hr />
+          <p>
+            <u>
+              <b>Client-side rendered diagram</b>
+            </u>
+          </p>
+          <p>
+            <a href={imageData} download={selectedDiagramData.name + ".svg"}>
+              download
+            </a>
+          </p>
           <img
-            src={svgData}
+            src={imageData}
             style={{ maxWidth: viewWidth, maxHeight: viewHeight }}
           />
-        </a>
+        </div>
+      </div>
+      <div
+        className="row"
+        style={
+          hideDiagram ? { display: "none" } : { marginTop: contentPadding }
+        }
+      >
+        <div className="col">
+          <hr />
+          <p>
+            <u>
+              <b>Script from the backend</b>
+            </u>
+          </p>
+          <p>
+            <a href={scriptText} download={selectedDiagramData.name + ".txt"}>
+              download
+            </a>
+          </p>
+          <pre>{selectedDiagramData.script}</pre>
+        </div>
       </div>
       <div id="mermaid" />
     </div>
