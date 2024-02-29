@@ -13,20 +13,24 @@ export default function JokeView({
   contentPadding,
 }: JokeViewProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasFirstLoaded, setHsFirstLoaded] = useState<boolean>(false);
   const [joke, setJoke] = useState<any>([]);
-
-  useEffect(() => {
-    getNewJoke();
-  }, []);
 
   function getNewJoke() {
     setIsLoading(true);
+    if(isLoading)
+    {
+      return;
+    }
     fetchRandomJoke(apiUrl, (x) => {
       console.log("New joke: ", x);
       setJoke(x);
       setIsLoading(false);
+      setHsFirstLoaded(true);
     });
   }
+
+  const buttonText = hasFirstLoaded ? "Get another joke" : "Get a joke";
 
   return (
     <div style={{ margin: viewMargin }}>
@@ -40,12 +44,9 @@ export default function JokeView({
         style={{ marginTop: contentPadding }}
         onClick={getNewJoke}
       >
-        <span>Get another joke&nbsp;&nbsp;&nbsp;</span>
+        <span>{buttonText}&nbsp;&nbsp;&nbsp;</span>
         {isLoading ? (
-          <div
-            className="spinner-grow spinner-grow-sm"
-            role="status"
-          ></div>
+          <div className="spinner-grow spinner-grow-sm" role="status"></div>
         ) : null}
       </button>
     </div>

@@ -28,7 +28,7 @@ function App() {
         <TabList>
           <Tab>Persons</Tab>
           <Tab>Diagrams</Tab>
-          <Tab>jokes</Tab>
+          <Tab>Jokes</Tab>
         </TabList>
         <TabPanel>
           <p style={{ marginLeft: 20 }}>
@@ -38,6 +38,8 @@ function App() {
               <br />
               The data is fetched from the backend using GET requests (names,
               details) and static files (images).
+              <br/>
+              Of course they are anime characters...
             </i>
           </p>
           <hr />
@@ -65,13 +67,16 @@ function App() {
                 mermaid.js
               </a>
               ).
+              <br />
+              There is also an{" "}
+              <a href="https://mermaid.live/" target="_blank">online playground</a>.
             </i>
           </p>
           <hr />
           <DiagramView
             apiUrl={apiBaseUrl}
-            viewWidth={500}
-            viewHeight={500}
+            viewWidth={800}
+            viewHeight={800}
             viewMargin={50}
             contentPadding={20}
           />
@@ -91,7 +96,7 @@ function App() {
               </a>
               ).
               <br />
-              (there are general, programming, knock-knock, and a few dad jokes)
+              There are general, programming, knock-knock, and a few dad jokes.
             </i>
           </p>
           <hr />
