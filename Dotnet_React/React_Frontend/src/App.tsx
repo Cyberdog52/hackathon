@@ -86,7 +86,7 @@ function App() {
             <i>
               Gets random jokes from the backend and displays them.
               <br />
-              The jokes itself are fetched by the backend from another
+              The jokes itself are fetched by the backend from an other
               third-party API (
               <a
                 href="https://github.com/15Dkatz/official_joke_api"
@@ -96,7 +96,7 @@ function App() {
               </a>
               ).
               <br />
-              There are general, programming, knock-knock, and a few dad jokes.
+              There are general, programming, knock-knock, and a few dad jokes (there's no guarantee that all of them are funny...)
             </i>
           </p>
           <hr />
