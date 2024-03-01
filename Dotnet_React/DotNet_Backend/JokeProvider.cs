@@ -25,16 +25,19 @@ internal sealed class JokeProvider
         this.logger = logger;
     }
 
-    public async Task<Joke?> GetRandomJoke(CancellationToken ct)
+    public async Task<Joke?> GetRandomJoke()
     {
         var client = factory.CreateClient();
         Stream contentStream;
 
+        // let's simulate requests that take a longer time to respond to
+        await Task.Delay(Random.Shared.Next(3000));
+
         try
         {
-            var response = await client.GetAsync(jokeApiUrl, HttpCompletionOption.ResponseHeadersRead, ct);
+            var response = await client.GetAsync(jokeApiUrl, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
-            contentStream = response.Content.ReadAsStream(ct);
+            contentStream = await response.Content.ReadAsStreamAsync();
         }
         catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)
         {
@@ -44,7 +47,7 @@ internal sealed class JokeProvider
 
         try
         {
-            var joke = await DeserializeJokeAsync(contentStream, new { setup = "", punchline = "" }, ct);
+            var joke = await DeserializeJokeAsync(contentStream, new { setup = "", punchline = "" }, CancellationToken.None);
             return new Joke(joke!.setup, joke.punchline);
         }
         catch(Exception ex) when (ex is JsonException || ex is NotSupportedException)

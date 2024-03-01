@@ -19,7 +19,7 @@ internal static class DiagramEndpoints
         app.MapGet("diagrams/names",
 
         [SwaggerOperation(Summary = "Gets the list of all available diagrams", Description = "The names of all available diagrams are returned in JSON as an array of strings.", Tags = ["Diagrams"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(string[]))]
         () => diagrams.Select(p => p.Name));
 
 
@@ -30,20 +30,23 @@ internal static class DiagramEndpoints
         //-------------------------------------------------------------------------
 
         app.MapGet("diagrams/all",
+
         [SwaggerOperation(Summary = "Gets all available diagrams", Description = $"All diagrams are returned in JSON as an array of {nameof(DiagramData)} objects.", Tags = ["Diagrams"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(DiagramData[]))]
         () => diagrams);
 
 
 
 
         // -------------------------------------------------------------------------------------
-        // GET which responds with a PersonDetail object for a specified person (name parameter)
+        // GET which responds with a DiagramData object for a specified diagram (name parameter)
         // -------------------------------------------------------------------------------------
 
         app.MapGet("diagrams/{name}/data",
+
         [SwaggerOperation(Summary = "Gets a specified diagram based on its name", Description = $"The data of a specified diagram are returned in JSON as a single {nameof(DiagramData)} object.", Tags = ["Diagrams"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails))]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(DiagramData))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid or no name specified")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
         (
             [DefaultValue("Flowchart"),

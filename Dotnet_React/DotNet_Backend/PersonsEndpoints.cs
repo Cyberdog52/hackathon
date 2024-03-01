@@ -26,7 +26,7 @@ internal static class PersonsEndpoints
         app.MapGet("persons/names",
 
         [SwaggerOperation(Summary = "Gets the list of all available persons", Description = "The names of all available persons are returned in JSON as an array of strings.", Tags = ["Persons"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(string[]))]
         () => persons.Select(p => p.Name));
 
 
@@ -39,7 +39,7 @@ internal static class PersonsEndpoints
         app.MapGet("persons/details",
 
         [SwaggerOperation(Summary = "Gets the details of all available persons", Description = $"The details of all available persons are returned in JSON as an array of {nameof(PersonDetails)} objects.", Tags = ["Persons"])]
-        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails[]))]
         () => persons);
 
 
@@ -50,8 +50,10 @@ internal static class PersonsEndpoints
         // -------------------------------------------------------------------------------------
 
         app.MapGet("persons/{name}/details",
+
         [SwaggerOperation(Summary = "Gets the details of a person", Description = $"The details of a specified person are returned in JSON as a single {nameof(PersonDetails)} object.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid or no name specified")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
         (
             [DefaultValue("Akua"), // ("Wonder of nature!")
@@ -81,8 +83,10 @@ internal static class PersonsEndpoints
         // -------------------------------------------------------------------------------------------------------
 
         app.MapGet("persons/{name}/luckynumber",
-        [SwaggerOperation(Summary = "Gets the lucky number of a person", Description = $"The lucky number of a specified person is returned in JSON with a name and a luckynumber value.<br/><br/>IMPORTANT: There is no Swagger/OpenAPI schema available because we use an anonymous type.<br/>The actual JSON data of the WebAPI contains the proper names.", Tags = ["Persons"])]
+
+        [SwaggerOperation(Summary = "Gets the lucky number of a person", Description = $"The lucky number of a specified person is returned in JSON with a name and a luckynumber value.<br/><br/>IMPORTANT: There is no Swagger/OpenAPI schema available because we use an anonymous type.<br/>The actual JSON data provided by the WebAPI contains the proper names.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid or no name specified")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
         (
             [DefaultValue("Megumin"), // (best character in that show because she's probably the most crazy one)
@@ -117,10 +121,11 @@ internal static class PersonsEndpoints
         // --------------------------------------------------------------------------------------
 
         app.MapPost("persons/{name}/addtodo",
+
         [SwaggerOperation(Summary = "Adds a new TODO to a person", Description = $"The TODO must be provided as JSON body using a {nameof(PersonTodo)} object.", Tags = ["Persons"])]
         [SwaggerResponse(StatusCodes.Status200OK, "Everything went well", typeof(PersonDetails))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, $"Invalid or no name specified -or- Invalid or no JSON body")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "The specified name does not exist")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, $"The provided body is invalid or cannot be parsed as a {nameof(PersonTodo)} object")]
         (
             [Required]
             [DefaultValue("Dakunesu"), // (she also has some... interesting... features...)
