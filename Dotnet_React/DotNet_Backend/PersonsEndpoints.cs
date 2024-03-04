@@ -1,11 +1,4 @@
 ﻿
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Swashbuckle.AspNetCore.Annotations;
-
-
-
-
 namespace HackathonDotnetServer;
 
 

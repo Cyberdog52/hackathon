@@ -1,7 +1,4 @@
 
-using System.ComponentModel;
-using Swashbuckle.AspNetCore.Annotations;
-
 namespace HackathonDotnetServer;
 
 internal static class DiagramEndpoints

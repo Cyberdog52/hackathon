@@ -1,9 +1,4 @@
 ﻿
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.OpenApi.Models;
-
-
-
 namespace HackathonDotnetServer;
 
 
