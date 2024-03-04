@@ -10,18 +10,9 @@ function App() {
 
   return (
     <>
-      <h1 className="m-3">Hackathon .NET / React demo and template</h1>
+      <h1 className="m-3">Hackathon React Demo and Template</h1>
       <p className="m-3">
-        This is the frontend of the combined .NET / React demo and template.
-        <br />
-        See{" "}
-        <a
-          href="https://github.com/Cyberdog52/hackathon/blob/dotnet_react/Dotnet_React/DotNet_Backend/Readme.md"
-          target="_blank"
-        >
-          Readme
-        </a>{" "}
-        for more details.
+        See README.md for more details.
       </p>
       <hr />
       <Tabs>
