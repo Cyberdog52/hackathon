@@ -163,7 +163,8 @@ It's accessible using the relative path `/swagger/index.html`.
 
 
 
-- **Multiple project/solution files:** If there are multiple `*.csproj` and/or `*.sln` files, `dotnet restore/clean/build/run` can't automatically determine the project/solution it has to use. In that case, you have to specify the project to use, e.g. `dotnet clean HackathonDotnetServer.csproj`.
+- **Multiple project/solution files:** If there are multiple `*.csproj` and/or `*.sln` files which differ in names, `dotnet restore/clean/build/run` can't automatically determine the project/solution it has to use. In that case, you have to specify the project to use,
+  e.g. `dotnet clean HackathonDotnetServer.csproj`.
 
 
 
@@ -177,7 +178,7 @@ It's accessible using the relative path `/swagger/index.html`.
 
 
 
-Only tools, Visual Studio Code extensions, and NuGet packages which are cross-platform (Windows, Linux) have been considered.
+Only tools, Visual Studio Code extensions, and NuGet packages which are cross-platform (Windows, Linux, maybe macOS?) have been considered.
 
 However, it can't be guaranteed that it really works (as we need it) on both of those platforms.
 
@@ -193,6 +194,8 @@ There are a few custom and proprietary licenses. Some of them are based on well-
 Check if those licenses allow usage in your context.
 
 [A list of well-known open source licenses can be found here](https://opensource.org/licenses/)
+
+[A guide to choose an open source license can be found here](https://choosealicense.com/)
 
 
 
@@ -273,9 +276,9 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | Name                                  | Purpose                                             | License                                                      | Costs                  | Comments                                                     |
 | ------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
 | [Typora](https://typora.io/)          | Markdown editor to create and modify Markdown files | [*proprietary*](https://support.typora.io/License-Agreement/) | CHF 15.-<br />one-time | This document was created with it.<br />Costs money after the trial period (15 days)! |
-| [draw.io](https://draw.io/)           | Diagrams by hand                                    | Apache 2.0                                                   | no                     | XML based, thus no usable change tracking.<br />[Online playground](https://app.diagrams.net/) |
-| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup                                  | MIT                                                          | no                     | It's used in the frontend.<br />Human-readable scripts.<br />[Online playground](https://mermaid.live/) |
-| [PlantUML](https://www.plantuml.com/) | Diagrams by markup                                  | GPL                                                          | no                     | Human-readable scripts.<br />[Online playground](https://www.plantuml.com/plantuml/uml/) |
+| [draw.io](https://draw.io/)           | Diagrams by hand                                    | Apache 2.0                                                   | *none*                 | XML based, thus no usable change tracking.<br />[Online playground](https://app.diagrams.net/) |
+| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup                                  | MIT                                                          | *none*                 | It's used in the frontend.<br />Human-readable scripts.<br />[Online playground](https://mermaid.live/) |
+| [PlantUML](https://www.plantuml.com/) | Diagrams by markup                                  | GPL                                                          | *none*                 | Human-readable scripts.<br />[Online playground](https://www.plantuml.com/plantuml/uml/) |
 
 
 
@@ -318,7 +321,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 > [!TIP]
 >
-> An excessive list of third-party .NET libraries can be found:
+> An excessive list of third-party .NET libraries can be found at:
 >
 > [quozd/awesome-dotnet: A collection of awesome .NET libraries, tools, frameworks and software (github.com)](https://github.com/quozd/awesome-dotnet)
 
@@ -326,7 +329,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 | Name              | Purpose                                                      | NuGet package(s)                                             | Links                                                        | License                                                      |
 | ----------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Polly             | Resilience and transient-fault handling                      | Polly<br />Polly.Extensions<br />Polly.Extensions.Http<br /><br />Microsoft.Extensions.Http.Polly | Polly.\*<br />[Project page](https://github.com/App-vNext/Polly)<br /><br />[Resilience strategies](https://www.pollydocs.org/strategies/) | Polly.\*<br />BSD 3<br /><br />Microsoft.\*<br />MIT         |
+| Polly             | Resilience and transient-fault handling                      | Polly<br />Polly.Extensions<br />Polly.Extensions.Http<br /><br />Microsoft.Extensions.Http.Polly | Polly.\*<br />[Project page](https://github.com/App-vNext/Polly)<br />[Documentation](https://www.pollydocs.org/)<br /><br />[Resilience strategies](https://www.pollydocs.org/strategies/) | Polly.\*<br />BSD 3<br /><br />Microsoft.\*<br />MIT         |
 | FluentValidation  | Data/Model validation using strongly-typed rules             | FluentValidation<br />FluentValidation.DependencyInjectionExtensions<br />FluentValidation.AspNetCore<br />FluentValidation.WebAPI<br />FluentValidation.ValidatorAttribute | [Project page](https://github.com/FluentValidation)          | Apache 2.0                                                   |
 | AutoMapper        | Convention-based object-to-object mapper                     | AutoMapper<br />AutoMapper.Collection<br />AutoMapper.Data<br />AutoMapper.Extensions.ExpressionMapping<br />AutoMapper.Extensions.Microsoft.DependencyInjection | [Project page](https://github.com/AutoMapper/AutoMapper)<br />[Documentation](http://automapper.org/) | MIT                                                          |
 | Dapper            | Simple and fast ORM for ADO.NET                              | Dapper                                                       | [Project page](https://github.com/DapperLib/Dapper)          | Apache 2.0                                                   |
@@ -356,6 +359,67 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | Html Agility Pack | Web page parser                                              | HtmlAgilityPack                                              | [Project page](https://github.com/zzzprojects/html-agility-pack)<br />[Documentation](https://html-agility-pack.net/) | MIT                                                          |
 | AngleSharp        | Web page parser                                              | AngleSharp<br />AngleSharp.Css<br />AngleSharp.Xml<br />AngleSharp.Js<br />AngleSharp.Wasm<br />AngleSharp.Io<br />AngleSharp.Scripting.JavaScript | [Project page](https://github.com/AngleSharp/AngleSharp)<br />[Documentation](https://anglesharp.github.io/) | MIT                                                          |
 | MemoryCache       | In-memory cache                                              | Microsoft.Extensions.Caching.Memory                          | [Documentation](https://learn.microsoft.com/aspnet/core/performance/caching/memory?view=aspnetcore-8.0) | MIT                                                          |
+
+
+
+
+
+# Online references and learning resources
+
+
+
+**C#**
+
+* [C# documentation](https://learn.microsoft.com/dotnet/csharp/)
+
+**.NET**
+
+* [.NET documentation](https://learn.microsoft.com/dotnet/)
+
+**ASP.NET Core**
+
+* [ASP.NET documentation](https://learn.microsoft.com/aspnet/core/)
+
+**Swashbuckle**
+
+* [Getting started with Swashbuckle and ASP.NET Core](https://learn.microsoft.com/aspnet/core/tutorials/getting-started-with-swashbuckle)
+
+**OpenAPI**
+
+* [How to use OpenAPI in Minimal API apps](https://learn.microsoft.com/aspnet/core/fundamentals/minimal-apis/openapi)
+
+**HTTPS**
+
+* [Enforce HTTPS in ASP.NET Core](https://learn.microsoft.com/aspnet/core/security/enforcing-ssl)
+* [Generate self-signed certificates with the .NET CLI](https://learn.microsoft.com/dotnet/core/additional-tools/self-signed-certificates-guide)
+
+
+
+**Power Shell**
+
+* [Power Shell documentation](https://learn.microsoft.com/powershell/scripting/overview)
+
+**Git**
+
+* [Git documentation](https://git-scm.com/doc)
+
+**Visual Studio Code**
+
+* [Visual Studio Code documentation](https://code.visualstudio.com/)
+
+**NuGet**
+
+* [NuGet documentation](https://www.nuget.org/)
+
+
+
+[Web Skills](https://andreasbm.github.io/web-skills/)
+
+[Falsehoods programmers believe in](https://github.com/kdeldycke/awesome-falsehood)
+
+[Well-known open source licenses](https://opensource.org/licenses/)
+
+[Choose an open source license](https://choosealicense.com/)
 
 
 

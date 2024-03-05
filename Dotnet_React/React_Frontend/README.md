@@ -59,24 +59,21 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 
 
 
-### NPM packages
+### NPM frontend packages
 
 
 
-| Name                                                | Purpose                             | Package              | Version | License |
-| --------------------------------------------------- | ----------------------------------- | -------------------- | ------- | ------- |
-| ***runtime***                                       |                                     |                      |         |         |
-| [React](https://react.dev/)                         | The actual React framework          | react                | 18.2    | MIT     |
-| [React DOM](https://react.dev/reference/react-dom)  | DOM part of the React framework     | react-dom            | 18.2    | MIT     |
-| [React Tabs](https://github.com/reactjs/react-tabs) | Adds support for page tabs          | react-tabs           | 6.0     | MIT     |
-| [Bootstrap](https://getbootstrap.com/)              | UI styling                          | bootstrap            | 5.3     | MIT     |
-| [mermaid.js](https://mermaid.js.org/)               | Diagram rendering from markup       | mermaid              | 10.8    | MIT     |
-| ***development***                                   |                                     |                      |         |         |
-| [Vite](https://vitejs.dev/)                         | Development environment and tooling | vite                 | 5.1     | MIT     |
-| [Vite React plugin](https://vitejs.dev/)            | Vite React plugin                   | @vitejs/plugin-react | 4.2     | MIT     |
-|                                                     |                                     |                      |         |         |
-|                                                     |                                     |                      |         |         |
-|                                                     |                                     |                      |         |         |
+| Name                                                | Purpose                                   | Package              | Version | License |
+| --------------------------------------------------- | ----------------------------------------- | -------------------- | ------- | ------- |
+| ***runtime***                                       |                                           |                      |         |         |
+| [React](https://react.dev/)                         | The actual React framework                | react                | 18.2    | MIT     |
+| [React DOM](https://react.dev/reference/react-dom)  | DOM part of the React framework           | react-dom            | 18.2    | MIT     |
+| [React Tabs](https://github.com/reactjs/react-tabs) | Adds support for page tabs                | react-tabs           | 6.0     | MIT     |
+| [Bootstrap](https://getbootstrap.com/)              | UI styling                                | bootstrap            | 5.3     | MIT     |
+| [mermaid.js](https://mermaid.js.org/)               | Client-side diagram rendering from markup | mermaid              | 10.8    | MIT     |
+| ***development***                                   |                                           |                      |         |         |
+| [Vite](https://vitejs.dev/)                         | Development environment and tooling       | vite                 | 5.1     | MIT     |
+| [Vite React plugin](https://vitejs.dev/)            | Vite React plugin                         | @vitejs/plugin-react | 4.2     | MIT     |
 
 
 
@@ -108,7 +105,7 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 4. install the required packages by executing:
    - `npm install vite`
    - `npm install create-vite`
-5. execute `npm create vite MyAppName-- --template react-ts` (creates the template folders and files)
+5. execute `npm create vite MyAppName -- --template react-ts` (creates the template folders and files)
 6. go to the application directory (Vite crates a subdirectory `MyAppName` where the actual project is scaffolded)
 7. install additional packages by executing
    - `npm install react-tabs`
@@ -127,7 +124,7 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 
 1. open Power Shell console and go to the project directory
 2. execute `code .` to open the Vite project in Visual Studio Code
-3. execute `execute npm run dev` to run the local Vite development server, including hot reload
+3. execute `npm run dev` to run the local Vite development server, including hot reload
    *and/or*
    use Visual Studio Code to debug and run the application
 
@@ -172,7 +169,7 @@ The frontend can be accessed by a browser using the local URL as shown by the Vi
 
 
 
-Only tools and Visual Studio Code extensions which are cross-platform (Windows, Linux) have been considered.
+Only tools and Visual Studio Code extensions which are cross-platform (Windows, Linux, maybe macOS?) have been considered.
 
 However, it can't be guaranteed that it really works (as we need it) on both of those platforms.
 
@@ -188,6 +185,8 @@ There are a few custom and proprietary licenses. Some of them are based on well-
 Check if those licenses allow usage in your context.
 
 [A list of well-known open source licenses can be found here](https://opensource.org/licenses/)
+
+[A guide to choose an open source license can be found here](https://choosealicense.com/)
 
 
 
@@ -232,9 +231,9 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | Name                                  | Purpose                                             | License                                                      | Costs                  | Comments                                                     |
 | ------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------ | ---------------------- | ------------------------------------------------------------ |
 | [Typora](https://typora.io/)          | Markdown editor to create and modify Markdown files | [*proprietary*](https://support.typora.io/License-Agreement/) | CHF 15.-<br />one-time | This document was created with it.<br />Costs money after the trial period (15 days)! |
-| [draw.io](https://draw.io/)           | Diagrams by hand                                    | Apache 2.0                                                   | no                     | XML based, thus no usable change tracking.<br />[Online playground](https://app.diagrams.net/) |
-| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup                                  | MIT                                                          | no                     | It's used in the frontend.<br />Human-readable scripts.<br />[Online playground](https://mermaid.live/) |
-| [PlantUML](https://www.plantuml.com/) | Diagrams by markup                                  | GPL                                                          | no                     | Human-readable scripts.<br />[Online playground](https://www.plantuml.com/plantuml/uml/) |
+| [draw.io](https://draw.io/)           | Diagrams by hand                                    | Apache 2.0                                                   | *none*                 | XML based, thus no usable change tracking.<br />[Online playground](https://app.diagrams.net/) |
+| [Mermaid](https://mermaid.js.org/)    | Diagrams by markup                                  | MIT                                                          | *none*                 | It's used in the frontend.<br />Human-readable scripts.<br />[Online playground](https://mermaid.live/) |
+| [PlantUML](https://www.plantuml.com/) | Diagrams by markup                                  | GPL                                                          | *none*                 | Human-readable scripts.<br />[Online playground](https://www.plantuml.com/plantuml/uml/) |
 
 
 
@@ -269,61 +268,115 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | [VSCode React Refactor](https://marketplace.visualstudio.com/items?itemName=planbcoding.vscode-react-refactor) | JSX refactoring                                              | planbcoding.vscode-react-refactor     | *[custom](https://marketplace.visualstudio.com/items/planbcoding.vscode-react-refactor/license)* |
 | [Simple React Snippets](https://marketplace.visualstudio.com/items?itemName=burkeholland.simple-react-snippets) | Dead simple React snippets                                   | burkeholland.simple-react-snippets    | *none specified*                                             |
 | [React Hooks Snippets](https://marketplace.visualstudio.com/items?itemName=AlDuncanson.react-hooks-snippets) | Dead simple React hooks snippets                             | AlDuncanson.react-hooks-snippets      | [*custom*](https://marketplace.visualstudio.com/items/AlDuncanson.react-hooks-snippets/license) |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
-|                                                              |                                                              |                                       |                                                              |
 
 
 
-### NuGet packages
+### NPM frontend packages
 
 
 
 > [!TIP]
 >
-> An excessive list of third-party .NET libraries can be found:
+> Some lists of third-party libraries can be found at:
 >
-> [quozd/awesome-dotnet: A collection of awesome .NET libraries, tools, frameworks and software (github.com)](https://github.com/quozd/awesome-dotnet)
+> https://github.com/iDoRecall/comparisons/blob/master/JavaScript-WYSIWYG-editors.md
+>
+> 
 
 
 
-| Name | Purpose | NPM package(s) | Links | License |
-| ---- | ------- | -------------- | ----- | ------- |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
-|      |         |                |       |         |
+| Name      | Purpose                           | NPM package(s) | Links                                                        | License |
+| --------- | --------------------------------- | -------------- | ------------------------------------------------------------ | ------- |
+| Trumbowyg | WYSIWYG editor UI                 | trumbowyg      | [Project page](https://github.com/Alex-D/Trumbowyg)<br />[Documentation](https://alex-d.github.io/Trumbowyg/) | MIT     |
+| Quill     | WYSIWYG editor UI                 | quill          | [Project page](https://github.com/quilljs/quill)<br />[Documentation](https://quilljs.com) | BSD-3   |
+| nomnoml   | Client-side UML diagram rendering | nomnoml        | [Project page](https://github.com/skanaar/nomnoml)<br />[Documentation](https://www.nomnoml.com/) | MIT     |
+|           |                                   |                |                                                              |         |
+|           | QR Code generation                |                | [Project page](https://github.com/locandy/qrcodejs)          | MIT     |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+|           |                                   |                |                                                              |         |
+
+
+
+
+
+# Online references and learning resources
+
+
+
+**Typescript**
+
+* xxx
+
+**React**
+
+* xxx
+
+**Bootstrap**
+
+* xxx
+
+**Mermaid**
+
+* xxx
+* xxx
+
+
+
+**Power Shell**
+
+* [Power Shell documentation](https://learn.microsoft.com/powershell/scripting/overview)
+
+**Git**
+
+* [Git documentation](https://git-scm.com/doc)
+
+**Visual Studio Code**
+
+* [Visual Studio Code documentation](https://code.visualstudio.com/)
+
+**NPM**
+
+* [NPM documentation](https://docs.npmjs.com/)
+* xxx
+
+**node.js**
+
+* xxx
+
+
+
+[Web Skills](https://andreasbm.github.io/web-skills/)
+
+[Falsehoods programmers believe in](https://github.com/kdeldycke/awesome-falsehood)
+
+[Well-known open source licenses](https://opensource.org/licenses/)
+
+[Choose an open source license](https://choosealicense.com/)
 
 
 
