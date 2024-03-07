@@ -300,18 +300,29 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 | Name                                                         | Purpose                                                      | ID                                      | License                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------ |
+|                                                              |                                                              |                                         |                                                              |
 | ***general***                                                |                                                              |                                         |                                                              |
-| [Commands](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-commands) | Allows placing commands on the statusbar                     | fabiospampinato.vscode-commands         | MIT                                                          |
 | [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) | Markdown editor                                              | yzhang.markdown-all-in-one              | MIT                                                          |
 | [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced) | Rendered preview of markdown files                           | shd101wyy.markdown-preview-enhanced     | [*custom*](https://shd101wyy.gallerycdn.vsassets.io/extensions/shd101wyy/markdown-preview-enhanced/0.8.11/1702203517797/Microsoft.VisualStudio.Services.Content.License) |
 | [Json](https://marketplace.visualstudio.com/items?itemName=ZainChen.json) | Additional JSON editing features                             | zainchen.json                           | MIT                                                          |
 | [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) | YAML language support                                        | redhat.vscode-yaml                      | MIT                                                          |
+| [Edit CSV](https://marketplace.visualstudio.com/items?itemName=janisdd.vscode-edit-csv) |                                                              |                                         |                                                              |
 | [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) | Code formatter for many programming/scripting/markup languages | esbenp.prettier-vscode                  | MIT                                                          |
+| [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) | Visualize code authorship                                    | eamodio.gitlens                         | MIT                                                          |
+| [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) |                                                              |                                         |                                                              |
+| [Code Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) |                                                              |                                         |                                                              |
+| [Docker for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) |                                                              |                                         |                                                              |
+| [Commands](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-commands) | Allows placing commands on the statusbar                     | fabiospampinato.vscode-commands         | MIT                                                          |
+|                                                              |                                                              |                                         |                                                              |
 | ***.NET / C# specific***                                     |                                                              |                                         |                                                              |
 | [IntelliCode for C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.vscodeintellicode-csharp) | AI-based coding assistance                                   | ms-dotnettools.vscodeintellicode-csharp | *[proprietary](https://ms-dotnettools.gallerycdn.vsassets.io/extensions/ms-dotnettools/vscodeintellicode-csharp/0.1.26/1688582152985/Microsoft.VisualStudio.Services.Content.License)* |
 | [.NET Core EditorConfig Generator](https://marketplace.visualstudio.com/items?itemName=doggy8088.netcore-editorconfiggenerator) | Creates `.editorconfig` files                                | doggy8088.netcore-editorconfiggenerator | MIT                                                          |
 | [NuGet Gallery](https://marketplace.visualstudio.com/items?itemName=patcx.vscode-nuget-gallery) | NuGet package browser                                        | patcx.vscode-nuget-gallery              | MIT                                                          |
 | [NuGet Package Manager GUI](https://marketplace.visualstudio.com/items?itemName=aliasadidev.nugetpackagemanagergui) | UI for the NuGet package manager                             | aliasadidev.nugetpackagemanagergui      | MIT                                                          |
+| [.NET Core Extension Pack](https://marketplace.visualstudio.com/items?itemName=doggy8088.netcore-extension-pack) |                                                              |                                         |                                                              |
+| [.NET Core Tools](https://marketplace.visualstudio.com/items?itemName=formulahendry.dotnet) |                                                              |                                         |                                                              |
+| [.NET Core User Secrets](https://marketplace.visualstudio.com/items?itemName=adrianwilczynski.user-secrets) |                                                              |                                         |                                                              |
+| [C# Extensions](https://marketplace.visualstudio.com/items?itemName=kreativ-software.csharpextensions) |                                                              |                                         |                                                              |
 
 
 
@@ -321,9 +332,11 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 > [!TIP]
 >
-> An excessive list of third-party .NET libraries can be found at:
+> Some lists of third-party libraries can be found at:
 >
-> [quozd/awesome-dotnet: A collection of awesome .NET libraries, tools, frameworks and software (github.com)](https://github.com/quozd/awesome-dotnet)
+> [A collection of awesome .NET libraries, tools, frameworks and software](https://github.com/quozd/awesome-dotnet)
+>
+> [Open Source .NET libraries that make your life easier](https://github.com/tallesl/net-libraries-that-make-your-life-easier)
 
 
 

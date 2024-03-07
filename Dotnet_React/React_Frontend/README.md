@@ -43,7 +43,8 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 | [Git (Linux)](https://git-scm.com/download/linux)<br />[Git (Windows)](https://gitforwindows.org/) | Repository                                          | 2.43    | `git --version`             | GPL 2.0                                                      |
 | [Visual Studio Code](https://code.visualstudio.com/)         | Code editing                                        | 1.86    | `code --version`            | MIT                                                          |
 | [Power Shell (Linux)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux?view=powershell-7.4)<br />[Power Shell (Windows)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4) | CLI for using/managing tools, frameworks, libraries | 7.4     | `$PSVersionTable.PSVersion` | MIT                                                          |
-| [node.js](https://nodejs.org/)                               | Package management                                  | 20.11   | `node --version`            | [*custom*](https://github.com/nodejs/node?tab=License-1-ov-file#readme) |
+| [node.js](https://nodejs.org/)                               |                                                     | 20.11   | `node --version`            | [*custom*](https://github.com/nodejs/node?tab=License-1-ov-file#readme) |
+| [NPM](https://docs.npmjs.com/)                               | Package management                                  | 10.2    | `npm --version`             | CC-BY-4.0<br />MIT                                           |
 
 
 
@@ -65,12 +66,14 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 
 | Name                                                | Purpose                                   | Package              | Version | License |
 | --------------------------------------------------- | ----------------------------------------- | -------------------- | ------- | ------- |
+|                                                     |                                           |                      |         |         |
 | ***runtime***                                       |                                           |                      |         |         |
 | [React](https://react.dev/)                         | The actual React framework                | react                | 18.2    | MIT     |
 | [React DOM](https://react.dev/reference/react-dom)  | DOM part of the React framework           | react-dom            | 18.2    | MIT     |
 | [React Tabs](https://github.com/reactjs/react-tabs) | Adds support for page tabs                | react-tabs           | 6.0     | MIT     |
 | [Bootstrap](https://getbootstrap.com/)              | UI styling                                | bootstrap            | 5.3     | MIT     |
 | [mermaid.js](https://mermaid.js.org/)               | Client-side diagram rendering from markup | mermaid              | 10.8    | MIT     |
+|                                                     |                                           |                      |         |         |
 | ***development***                                   |                                           |                      |         |         |
 | [Vite](https://vitejs.dev/)                         | Development environment and tooling       | vite                 | 5.1     | MIT     |
 | [Vite React plugin](https://vitejs.dev/)            | Vite React plugin                         | @vitejs/plugin-react | 4.2     | MIT     |
@@ -220,7 +223,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 >
 > The listed things in this section are **not** part of the demo or template and therefore not covered by this documentation.
 >
-> Of course you don't have to use all NuGet packages for the corresponding library.
+> Of course you don't have to use all NPM packages for the corresponding library.
 
 
 
@@ -255,13 +258,15 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 | Name                                                         | Purpose                                                      | ID                                    | License                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------- | ------------------------------------------------------------ |
+|                                                              |                                                              |                                       |                                                              |
 | ***general***                                                |                                                              |                                       |                                                              |
-| [Commands](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-commands) | Allows placing commands on the statusbar                     | fabiospampinato.vscode-commands       | MIT                                                          |
 | [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one) | Markdown editor                                              | yzhang.markdown-all-in-one            | MIT                                                          |
 | [Markdown Preview Enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced) | Rendered preview of markdown files                           | shd101wyy.markdown-preview-enhanced   | [*custom*](https://shd101wyy.gallerycdn.vsassets.io/extensions/shd101wyy/markdown-preview-enhanced/0.8.11/1702203517797/Microsoft.VisualStudio.Services.Content.License) |
 | [Json](https://marketplace.visualstudio.com/items?itemName=ZainChen.json) | Additional JSON editing features                             | zainchen.json                         | MIT                                                          |
 | [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml) | YAML language support                                        | redhat.vscode-yaml                    | MIT                                                          |
 | [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) | Code formatter for many programming/scripting/markup languages | esbenp.prettier-vscode                | MIT                                                          |
+| [Commands](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-commands) | Allows placing commands on the statusbar                     | fabiospampinato.vscode-commands       | MIT                                                          |
+|                                                              |                                                              |                                       |                                                              |
 | ***TypeScript / React specific***                            |                                                              |                                       |                                                              |
 | [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug) | Web application debugging                                    | firefox-devtools.vscode-firefox-debug | MIT                                                          |
 | [Microsoft Edge Tools for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-edgedevtools.vscode-edge-devtools) | Web application debugging                                    | ms-edgedevtools.vscode-edge-devtools  | MIT                                                          |
@@ -279,7 +284,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 >
 > Some lists of third-party libraries can be found at:
 >
-> https://github.com/iDoRecall/comparisons/blob/master/JavaScript-WYSIWYG-editors.md
+> [Comparison of JavaScript WYSIWYG editors](https://github.com/iDoRecall/comparisons/blob/master/JavaScript-WYSIWYG-editors.md)
 >
 > 
 
@@ -334,7 +339,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 **React**
 
-* xxx
+* [React Quick Start](https://react.dev/learn)
 
 **Bootstrap**
 
@@ -342,8 +347,8 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 **Mermaid**
 
-* xxx
-* xxx
+* [Mermaid Introduction](https://mermaid.js.org/intro/)
+* [Playground](https://mermaid.live/)
 
 
 
@@ -368,6 +373,10 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 * xxx
 
+**eslint**
+
+* [ESLint](https://docs.npmjs.com/)
+
 
 
 [Web Skills](https://andreasbm.github.io/web-skills/)
@@ -377,6 +386,8 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 [Well-known open source licenses](https://opensource.org/licenses/)
 
 [Choose an open source license](https://choosealicense.com/)
+
+[Bonus: Blockly](https://developers.google.com/blockly/)
 
 
 
