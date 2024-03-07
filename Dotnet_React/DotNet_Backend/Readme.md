@@ -2,9 +2,7 @@
 
 Author: Zühlke, Franziska Roten ([franziska.roten@zühlke.com](mailto:franziska.roten@zühlke.com))
 
-
-
-
+[TOC]
 
 ## Introduction
 
@@ -143,6 +141,13 @@ It's accessible using the relative path `/swagger/index.html`.
 
 
 - **File changes:** Files in Visual Studio Code must be saved before the compiler "sees" the modifications. It doesn't automatically save on debug/run as the ancient Visual Studio does.
+
+  
+
+- **Export/Import used extensions:** The list of the IDs of the used extensions can be written to a file:
+  `code --list-extensions > extensions.list`
+  It then can be imported or used to install all the extensions respectively:
+  `cat extensions.list |% { code --install-extension $_}`
 
 
 
@@ -347,8 +352,8 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | AutoMapper        | Convention-based object-to-object mapper                     | AutoMapper<br />AutoMapper.Collection<br />AutoMapper.Data<br />AutoMapper.Extensions.ExpressionMapping<br />AutoMapper.Extensions.Microsoft.DependencyInjection | [Project page](https://github.com/AutoMapper/AutoMapper)<br />[Documentation](http://automapper.org/) | MIT                                                          |
 | Dapper            | Simple and fast ORM for ADO.NET                              | Dapper                                                       | [Project page](https://github.com/DapperLib/Dapper)          | Apache 2.0                                                   |
 | SQLite            | Serverless, zero-configuration, transactional, file-based database | SQLite                                                       | [Documentation](https://www.sqlite.org/)                     | *Public Domain*                                              |
-| RestSharp         | REST API client                                              | RestSharp                                                    | [Project page](https://restsharp.dev/)                       | Apache 2.0                                                   |
-| HttpClient        | REST API client                                              | System.Net.Http<br />System.Net.Http.Json                    | [Documentation](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient?view=net-8.0) | MIT<br />Apache 2.0<br />                                    |
+| RestSharp         | HTTP client                                                  | RestSharp                                                    | [Project page](https://restsharp.dev/)                       | Apache 2.0                                                   |
+| HttpClient        | HTTP client                                                  | System.Net.Http<br />System.Net.Http.Json                    | [Documentation](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient?view=net-8.0) | MIT<br />Apache 2.0<br />                                    |
 | Serilog           | Structured logging                                           | Serilog<br />Serilog.Sinks.File<br />Serilog.Sinks.RollingFile<br />Serilog.Sinks.Console<br />Serilog.Sinks.Debug<br />Serilog.Enrichers.Environment<br />Serilog.Enrichers.Thread<br />Serilog.Enrichers.Process<br />Serilog.Formatting.Compact<br />Serilog.Extensions.Hosting<br />Serilog.Extensions.Logging<br />Serilog.Extensions.Logging.File<br />Serilog.Settings.Configuration<br />Serilog.Settings.AppSetings<br />Serilog.AspNetCore<br /><br />Serilog.Exceptions | Serilog.\*<br />[Project page](https://github.com/serilog/serilog)<br />[Documentation](https://serilog.net/)<br /><br />Serilog.Exceptions<br />[Project page<br />](https://github.com/RehanSaeed/Serilog.Exceptions) | Serilog.\*<br />Apache 2.0<br /><br />Serilog.Exceptions<br />MIT |
 | Coravel           | Job and task scheduling                                      | Coravel                                                      | [Project page](https://github.com/jamesmh/coravel)<br />[Documentation](https://docs.coravel.net/Installation/) | MIT                                                          |
 | HangFire          | Job and task scheduling                                      | Hangfire<br />Hangfire.AspNetCore<br /><br />Hangfire.Storage.SQLite | Hangfire.\*<br />[Project page](https://github.com/HangfireIO/Hangfire)<br />[Documentation](https://www.hangfire.io/)<br /><br />Hangfire.Storage.SQLite<br />[Project page](https://github.com/raisedapp/Hangfire.Storage.SQLite) | HangFire.\*<br />LGPLv3<br /><br />Hangfire.Storage.SQLite MIT |
@@ -378,7 +383,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 
 
 
-# Online references and learning resources
+## Online references and learning resources
 
 
 

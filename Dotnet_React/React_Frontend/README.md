@@ -38,13 +38,14 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 
 
 
-| Name                                                         | Purpose                                             | Version | Version command             | License                                                      |
-| ------------------------------------------------------------ | --------------------------------------------------- | ------- | --------------------------- | ------------------------------------------------------------ |
-| [Git (Linux)](https://git-scm.com/download/linux)<br />[Git (Windows)](https://gitforwindows.org/) | Repository                                          | 2.43    | `git --version`             | GPL 2.0                                                      |
-| [Visual Studio Code](https://code.visualstudio.com/)         | Code editing                                        | 1.86    | `code --version`            | MIT                                                          |
-| [Power Shell (Linux)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux?view=powershell-7.4)<br />[Power Shell (Windows)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4) | CLI for using/managing tools, frameworks, libraries | 7.4     | `$PSVersionTable.PSVersion` | MIT                                                          |
-| [node.js](https://nodejs.org/)                               |                                                     | 20.11   | `node --version`            | [*custom*](https://github.com/nodejs/node?tab=License-1-ov-file#readme) |
-| [NPM](https://docs.npmjs.com/)                               | Package management                                  | 10.2    | `npm --version`             | CC-BY-4.0<br />MIT                                           |
+| Name                                                         | Purpose                                                      | Version | Version command             | License                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------- | --------------------------- | ------------------------------------------------------------ |
+| [Git (Linux)](https://git-scm.com/download/linux)<br />[Git (Windows)](https://gitforwindows.org/) | Repository                                                   | 2.43    | `git --version`             | GPL 2.0                                                      |
+| [Visual Studio Code](https://code.visualstudio.com/)         | Code editing                                                 | 1.86    | `code --version`            | MIT                                                          |
+| [Power Shell (Linux)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-linux?view=powershell-7.4)<br />[Power Shell (Windows)](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4) | CLI for using/managing tools, frameworks, libraries          | 7.4     | `$PSVersionTable.PSVersion` | MIT                                                          |
+| [node.js](https://nodejs.org/)                               |                                                              | 20.11   | `node --version`            | [*custom*](https://github.com/nodejs/node?tab=License-1-ov-file#readme) |
+| [NPM](https://docs.npmjs.com/)                               | Package management                                           | 10.2    | `npm --version`             | CC-BY-4.0<br />MIT                                           |
+| [React Developer Tools](https://react.dev/learn/react-developer-tools) | Debugger browser extensions<br />[Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/), [Edge](https://microsoftedge.microsoft.com/addons/detail/react-developer-tools/gpphkfbcpidddadnkolkpfckpihlkkil) | *n/a*   | *n/a*                       | *?*                                                          |
 
 
 
@@ -55,8 +56,6 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 | Name                                                         | Purpose                       | ID                              | Version | License |
 | ------------------------------------------------------------ | ----------------------------- | ------------------------------- | ------- | ------- |
 | [ES7+ React/Redux/React-Native snippets](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets) | Snippets and syntax for JS/TS | dsznajder.es7-react-js-snippets | 4.4     | MIT     |
-|                                                              |                               |                                 |         |         |
-|                                                              |                               |                                 |         |         |
 
 
 
@@ -109,7 +108,7 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
    - `npm install vite`
    - `npm install create-vite`
 5. execute `npm create vite MyAppName -- --template react-ts` (creates the template folders and files)
-6. go to the application directory (Vite crates a subdirectory `MyAppName` where the actual project is scaffolded)
+6. go to the application directory (Vite creates a subdirectory (e.g. `MyAppName`) where the actual project is scaffolded)
 7. install additional packages by executing
    - `npm install react-tabs`
    - `npm install bootstrap`
@@ -127,7 +126,7 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 
 1. open Power Shell console and go to the project directory
 2. execute `code .` to open the Vite project in Visual Studio Code
-3. execute `npm run dev` to run the local Vite development server, including hot reload
+3. execute `npm run dev` to run the local Vite development server, including hot reloading
    *and/or*
    use Visual Studio Code to debug and run the application
 
@@ -136,7 +135,7 @@ It was created using React (and [Typescript](https://www.typescriptlang.org/), [
 Typescript 5.2 and JSX is used in the demo and template.
 Documentation of the language can be found [here](https://www.typescriptlang.org/).
 
-The frontend can be accessed by a browser using the local URL as shown by the Vite development server.
+The frontend can be accessed by a browser using the local URL as shown by the [Vite](https://vitejs.dev/) development server.
 
 
 
@@ -159,6 +158,13 @@ The frontend can be accessed by a browser using the local URL as shown by the Vi
 
 
 - **File changes:** Files in Visual Studio Code must be saved before the compiler "sees" the modifications. It doesn't automatically save on debug/run as the ancient Visual Studio does.
+
+
+
+- **Export/Import used extensions:** The list of the IDs of the used extensions can be written to a file:
+  `code --list-extensions > extensions.list`
+  It then can be imported or used to install all the extensions respectively:
+  `cat extensions.list |% { code --install-extension $_}`
 
 
 
@@ -267,7 +273,7 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 | [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) | Code formatter for many programming/scripting/markup languages | esbenp.prettier-vscode                | MIT                                                          |
 | [Commands](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-commands) | Allows placing commands on the statusbar                     | fabiospampinato.vscode-commands       | MIT                                                          |
 |                                                              |                                                              |                                       |                                                              |
-| ***TypeScript / React specific***                            |                                                              |                                       |                                                              |
+| ***React / TypeScript specific***                            |                                                              |                                       |                                                              |
 | [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=firefox-devtools.vscode-firefox-debug) | Web application debugging                                    | firefox-devtools.vscode-firefox-debug | MIT                                                          |
 | [Microsoft Edge Tools for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-edgedevtools.vscode-edge-devtools) | Web application debugging                                    | ms-edgedevtools.vscode-edge-devtools  | MIT                                                          |
 | [VSCode React Refactor](https://marketplace.visualstudio.com/items?itemName=planbcoding.vscode-react-refactor) | JSX refactoring                                              | planbcoding.vscode-react-refactor     | *[custom](https://marketplace.visualstudio.com/items/planbcoding.vscode-react-refactor/license)* |
@@ -284,46 +290,45 @@ Of course you can choose your own IDE, use the tools you like and are familiar w
 >
 > Some lists of third-party libraries can be found at:
 >
+> [The 40 best JavaScript libraries and frameworks](https://kinsta.com/blog/javascript-libraries/)
+>
+> [JavaScript Libraries and Frameworks](https://www.geeksforgeeks.org/javascript-libraries-and-frameworks/)
+>
 > [Comparison of JavaScript WYSIWYG editors](https://github.com/iDoRecall/comparisons/blob/master/JavaScript-WYSIWYG-editors.md)
 >
-> 
+> [Front-end JavaScript frameworks](https://github.com/collections/front-end-javascript-frameworks)
 
 
 
-| Name      | Purpose                           | NPM package(s) | Links                                                        | License |
-| --------- | --------------------------------- | -------------- | ------------------------------------------------------------ | ------- |
-| Trumbowyg | WYSIWYG editor UI                 | trumbowyg      | [Project page](https://github.com/Alex-D/Trumbowyg)<br />[Documentation](https://alex-d.github.io/Trumbowyg/) | MIT     |
-| Quill     | WYSIWYG editor UI                 | quill          | [Project page](https://github.com/quilljs/quill)<br />[Documentation](https://quilljs.com) | BSD-3   |
-| nomnoml   | Client-side UML diagram rendering | nomnoml        | [Project page](https://github.com/skanaar/nomnoml)<br />[Documentation](https://www.nomnoml.com/) | MIT     |
-|           |                                   |                |                                                              |         |
-|           | QR Code generation                |                | [Project page](https://github.com/locandy/qrcodejs)          | MIT     |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
-|           |                                   |                |                                                              |         |
+| Name              | Purpose                                     | NPM package(s)                           | Links                                                        | License                                                      |
+| ----------------- | ------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Trumbowyg         | WYSIWYG editor UI                           | trumbowyg                                | [Project page](https://github.com/Alex-D/Trumbowyg)<br />[Documentation](https://alex-d.github.io/Trumbowyg/) | MIT                                                          |
+| Quill             | WYSIWYG editor UI                           | quill                                    | [Project page](https://github.com/quilljs/quill)<br />[Documentation](https://quilljs.com) | BSD-3                                                        |
+| nomnoml           | Client-side UML diagram rendering           | nomnoml                                  | [Project page](https://github.com/skanaar/nomnoml)<br />[Documentation](https://www.nomnoml.com/) | MIT                                                          |
+| backbone.js       | Model/View                                  | backbone                                 | [Project page](https://github.com/jashkenas/backbone/)<br />[Documentation](https://backbonejs.org/) | MIT                                                          |
+| Floating UI       | Handles floating elements                   | @floating-ui/dom<br />@floating-ui/react | [Project page](https://github.com/floating-ui/floating-ui)<br />[Documentation](https://floating-ui.com/) | MIT                                                          |
+| Parsley           | Form validation                             | *none*                                   | [Project page](https://github.com/guillaumepotier/Parsley.js/)<br />[Documentation](https://parsleyjs.org/) | MIT                                                          |
+| Masonry           | Cascading grid layout                       | masonry-layout                           | [Project page](https://github.com/desandro/masonry)<br />[Documentation](https://masonry.desandro.com/) | MIT                                                          |
+| Moment.js         | Date and time handling                      | moment                                   | [Project page](https://github.com/moment/moment/)<br />[Documentation](https://momentjs.com/) | MIT                                                          |
+| cleave-zen        | Form formatting while typing                | cleave-zen                               | [Project page](https://github.com/nosir/cleave-zen)<br />[Documentation](https://nosir.github.io/cleave-zen/) | Apache 2.0                                                   |
+| Chart.js          | Charting library                            | chart.js                                 | [Project page](https://github.com/chartjs/Chart.js)<br />[Documentation](https://www.chartjs.org/) | MIT                                                          |
+| Underscore.js     | Functional programming helpers              | underscore                               | [Project page](https://github.com/jashkenas/underscore)<br />[Documentation](https://underscorejs.org/) | MIT                                                          |
+| Leaflet           | Interactive maps                            | leaflet                                  | [Project page](https://github.com/Leaflet/Leaflet)<br />[Documentation](https://leafletjs.com/) | BSD-2                                                        |
+| And Design        | UI styling                                  | antd                                     | [Project page](https://github.com/ant-design/ant-design)<br />[Documentation](https://ant.design/) | MIT                                                          |
+| collect.js        | Wrapper for working with arrays and objects | collect.js                               | [Project page](https://github.com/ecrmnn/collect.js)<br />[Documentation](https://collect.js.org/) | MIT                                                          |
+| qrcode            | QR code generator                           | qrcodejs                                 | [Project page](https://github.com/davidshimjs/qrcodejs)<br />[Documentation](https://davidshimjs.github.io/qrcodejs/) | MIT                                                          |
+| JsBarcode         | Barcode generator                           | jsbarcode                                | [Project page](https://github.com/lindell/JsBarcode)<br />[Documentation](https://lindell.me/JsBarcode/) | MIT                                                          |
+| Axios             | HTTP client                                 | axios                                    | [Project page](https://github.com/axios/axios)<br />[Documentation](https://axios-http.com/) | MIT                                                          |
+| log4javascript    | Frontend logging                            | log4javascript                           | [Project page](https://github.com/Ritzlgrmft/log4javascript)<br />[Documentation](https://log4javascript.org/) | Apache 2.0                                                   |
+| Redux             | State container                             | @reduxjs/toolkit                         | [Project page](https://github.com/reduxjs/redux)<br />[Documentation](https://redux.js.org/) | MIT                                                          |
+| generate-password | What could it be...                         | generate-password-browser                | [Project page](https://github.com/oliver-la/generate-password-browser) | MIT                                                          |
+| SimpleCrypto      | Cryptographic algorithms                    | simple-crypto-js                         | [Project page](https://github.com/danang-id/simple-crypto-js)<br />[Documentation](https://simplecrypto.js.org/) | MIT                                                          |
+| linq.js           | Adaption of the .NET LINQ functionality     | linq                                     | [Project page](https://github.com/mihaifm/linq)              | MIT                                                          |
+| Marked            | Markdown renderer                           | marked                                   | [Project page](https://github.com/markedjs/marked)<br />[Documentation](https://marked.js.org/) | *[custom](https://github.com/markedjs/marked?tab=License-1-ov-file#readme)* |
+| jszip             | ZIP files                                   | jszip                                    | [Project page](https://github.com/Stuk/jszip)<br />[Documentation](https://stuk.github.io/jszip/) | MIT                                                          |
+| image-js          | Image processing                            | image-js                                 | [Project page](https://github.com/image-js/image-js)<br />[Documentation](https://image-js.github.io/image-js/) | MIT                                                          |
+| Snap.svg          | SVG graphics                                | snapsvg                                  | [Project page](https://github.com/adobe-webplatform/Snap.svg) | Apache 2.0                                                   |
+| VF.js             | SVG graphics                                | @svgdotjs/svg.js                         | Project page<br />[Documentation](https://svgjs.dev/)        | MIT                                                          |
 
 
 
