@@ -40,7 +40,7 @@ private repository.
 1. Start the java backend either by
     1. By selecting the `Java Backend` run configuration and running it
        ![runconfig-springboot.png](doc/runconfig-springboot.png)
-    2. Or by executing `./gradlew bootRun`
+    2. Or by executing `./gradlew java-backend:bootRun`
 
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
 ![swagger.png](doc/swagger.png)
