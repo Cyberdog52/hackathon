@@ -16,13 +16,13 @@ You will decide with your team which technologies to use.
 
 If your setup already has some of the required tools installed, please adjust accordingly.
 
-1. Both frontends need Node to run. Install newest Node from here https://nodejs.org/en/ (currently 18.15.0 LTS)
-2. Run `npm install -g npm@9.6.1`
-3. Run `npm install -g @angular/cli@15.2.2`
+1. Both frontends need Node to run. Install newest Node from here https://nodejs.org/en/ (currently 20.11.1 LTS)
+2. Run `npm install -g npm@10.5.0`
+3. Run `npm install -g @angular/cli@17.2.3`
 4. Verify your versions with `ng version`:  
-   Angular CLI: **15.2.2** \
-   Node: **18.15.0** \
-   Package Manager: npm **9.6.1**
+   Angular CLI: **17.2.3** \
+   Node: **20.11.1** \
+   Package Manager: npm **10.5.0**
 4. Install a new version of IntelliJ or VSCode
 5. Clone the master branch with `git clone https://github.com/Cyberdog52/hackathon.git`
 6. Open the project with IntelliJ and let gradle build the project
@@ -40,7 +40,7 @@ private repository.
 1. Start the java backend either by
     1. By selecting the `Java Backend` run configuration and running it
        ![runconfig-springboot.png](doc/runconfig-springboot.png)
-    2. Or by executing `./gradlew bootRun`
+    2. Or by executing `./gradlew java-backend:bootRun`
 
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
 ![swagger.png](doc/swagger.png)
