@@ -1,4 +1,0 @@
-rootProject.name = 'Hackathon'
-include 'backend'
-include 'frontend'
-

@@ -1,0 +1,5 @@
+rootProject.name = 'Hackathon'
+include 'java-backend'
+include 'angular-frontend'
+include 'react-frontend'
+
