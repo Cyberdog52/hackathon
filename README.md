@@ -45,6 +45,22 @@ private repository.
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
 ![swagger.png](doc/swagger.png)
 
+### Start dotnet backend
+You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger/index.html`.
+
+1. make sure that you have all the prerequisites installed
+2. Start the dotnet backend either by
+   1. Clicking on the green play button `HackathonWebApi`
+
+      ![runconfig-dotnet.png](/doc/runconfig-dotnet.png)
+   2. Or by using dotnet commands
+   ```powershell
+      > cd hackathon\dotnet-backend\HackathonWebApi
+      > dotnet restore
+      > dotnet clean
+      > dotnet run
+   ```
+
 ### Start Angular frontend
 
 1. By selecting the `Angular Frontend` and running it
@@ -66,4 +82,3 @@ You should now be able to open `http://localhost:5137` to access the frontend.
 
 Now you should see the following screen:
 ![setup-complete-with-example-component.png](doc/react-setup-complete.png)
-
