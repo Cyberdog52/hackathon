@@ -1,0 +1,6 @@
+@HackathonWebApi_HostAddress = http://localhost:8080
+
+GET {{HackathonWebApi_HostAddress}}/api/example
+Accept: application/json
+
+###
