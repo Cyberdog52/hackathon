@@ -65,5 +65,5 @@ Now you should see the following screen:
 You should now be able to open `http://localhost:5137` to access the frontend.
 
 Now you should see the following screen:
-![setup-complete-with-example-component.png](doc/angular-setup-complete.png)
+![setup-complete-with-example-component.png](doc/react-setup-complete.png)
 
