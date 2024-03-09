@@ -9,6 +9,10 @@
     <h3>Setup complete</h3>
     <h4>{{ exampleDto?.name }}</h4>
     <h4>{{ exampleDto?.value }}</h4>
+
+    <h3>Message of the day</h3>
+    <p>{{ motdDto?.content }}</p>
+    <img [src]="motdDto?.imageBase64" alt="A cat engineering software." />
   </div>
 </div>
 

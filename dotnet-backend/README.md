@@ -17,7 +17,20 @@ It was created using [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspn
 
 In Visual Studio Installer, make sure to include the `ASP.NET and web development` workload.
 
+## OpenAI API keys
+
+Sign up and create a new secret key here: [Open AI](https://platform.openai.com/api-keys). Then add your secret key in appsettings.json.
+```json
+{
+  ...,
+  "OpenAi": {
+    "ApiKey": "sk-************************************************"
+  }
+}
+```
+
 ## Start dotnet backend
+
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger/index.html`.
 
 1. make sure that you have all the prerequisites installed

@@ -1,5 +1,6 @@
 
 using HackathonWebApi.Example;
+using OpenAI.Net;
 
 namespace HackathonWebApi
 {
@@ -9,11 +10,18 @@ namespace HackathonWebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Logging.AddConsole();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpClient();
 
-            builder.Services.AddScoped<ExampleService>();
+            builder.Services.AddOpenAIServices(options => {
+                options.ApiKey = builder.Configuration?["OpenAi:ApiKey"] ?? string.Empty;
+            });
+
+            builder.Services.AddSingleton<ExampleService>();
 
             var app = builder.Build();
 

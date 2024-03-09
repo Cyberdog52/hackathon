@@ -48,6 +48,17 @@ You should be able to open the Swagger endpoint documentation at `http://localho
 ### Start dotnet backend
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger/index.html`.
 
+#### OpenAI API keys
+Sign up and create a new secret key here: [Open AI](https://platform.openai.com/api-keys). Then add your secret key in appsettings.json.
+```json
+{
+  ...,
+  "OpenAi": {
+    "ApiKey": "sk-************************************************"
+  }
+}
+```
+
 1. make sure that you have all the prerequisites installed
 2. Start the dotnet backend either by
    1. Clicking on the green play button `HackathonWebApi`

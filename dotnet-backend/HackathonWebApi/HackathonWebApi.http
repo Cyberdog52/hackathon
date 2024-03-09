@@ -4,3 +4,8 @@ GET {{HackathonWebApi_HostAddress}}/api/example
 Accept: application/json
 
 ###
+
+GET {{HackathonWebApi_HostAddress}}/api/example/motd
+Accept: application/json
+
+###
