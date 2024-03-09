@@ -17,4 +17,9 @@ export class ExampleService {
     const url = `${this.backendUrl}`;
     return this.httpClient.get<ExampleDto>(url);
   }
+
+  public getMotd(): Observable<MotdDto>  {
+    const url = `${this.backendUrl}/motd`;
+    return this.httpClient.get<MotdDto>(url);
+  }
 }

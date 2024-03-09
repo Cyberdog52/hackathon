@@ -15,12 +15,13 @@ namespace HackathonWebApi
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpClient();
 
             builder.Services.AddOpenAIServices(options => {
                 options.ApiKey = builder.Configuration?["OpenAi:ApiKey"] ?? string.Empty;
             });
 
-            builder.Services.AddScoped<ExampleService>();
+            builder.Services.AddSingleton<ExampleService>();
 
             var app = builder.Build();
 

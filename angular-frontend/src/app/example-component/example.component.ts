@@ -40,6 +40,8 @@ export class ExampleComponent implements OnInit {
           this.error = error;
         }
       });
+
+    
   }
 
 }
