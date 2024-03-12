@@ -45,7 +45,21 @@ private repository.
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger-ui/index.html`.
 ![swagger.png](doc/swagger.png)
 
-### Start dotnet backend
+### Dotnet backend
+
+#### Prerequisites
+
+##### Tools
+
+| Name                                                         | Purpose                                             | Version | Version command             | License              |
+| ------------------------------------------------------------ | --------------------------------------------------- | ------- | --------------------------- | -------------------- |
+| [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)         | IDE                                        | 17.9.2    |             | MIT                  |
+| [.NET SDK](https://dotnet.microsoft.com/en-us/download)      | .NET runtime and development tools                  | 8.0     | `dotnet --version`          | MIT,<br />Apache 2.0 |
+
+In Visual Studio Installer, make sure to include the `ASP.NET and web development` workload.
+
+#### Run dotnet backend
+
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger/index.html`.
 
 1. make sure that you have all the prerequisites installed
