@@ -59,6 +59,7 @@ You should be able to open the Swagger endpoint documentation at `http://localho
 In Visual Studio Installer, make sure to include the `ASP.NET and web development` workload.
 
 #### Run dotnet backend
+
 You should be able to open the Swagger endpoint documentation at `http://localhost:8080/swagger/index.html`.
 
 1. make sure that you have all the prerequisites installed
