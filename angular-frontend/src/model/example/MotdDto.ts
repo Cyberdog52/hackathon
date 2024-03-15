@@ -1,4 +1,4 @@
 export interface MotdDto {
-    content: string;
-    imageBase64: string | null;
+  content: string;
+  imageUrl: string | null;
 }

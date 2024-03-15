@@ -22,6 +22,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
+    implementation 'com.theokanning.openai-gpt3-java:service:0.18.2'
+
     // Test packages
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
