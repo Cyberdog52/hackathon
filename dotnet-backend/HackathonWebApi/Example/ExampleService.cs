@@ -11,18 +11,11 @@ namespace HackathonWebApi.Example
         private static readonly string[] possibleValues = [ "Example", "Beispiel", "Exemple", "Ejemplar" ];
         private static readonly Random random = new Random(DateTime.Now.Millisecond);
 
-        private readonly HttpClient httpClient;
         private readonly Task<OpenAIHttpOperationResult<ChatCompletionResponse, ErrorResponse>> chatRequest;
         private readonly Task<OpenAIHttpOperationResult<ImageGenerationResponse, ErrorResponse>> imageRequest;
 
-        private Task<string>? motdImageBase64;
-
-        public ExampleService(
-            IOpenAIService openAIService,
-            IHttpClientFactory httpClientFactory)
+        public ExampleService(IOpenAIService openAIService)
         {
-            httpClient = httpClientFactory.CreateClient();
-
             chatRequest = openAIService.Chat.Get(Message.Create(ChatRoleType.User, "Write a message of the day for a software engineer."), options => {
                 options.MaxTokens = 100;
             });
@@ -45,20 +38,9 @@ namespace HackathonWebApi.Example
             return chatRequest;
         }
 
-        public Task<OpenAIHttpOperationResult<ImageGenerationResponse, ErrorResponse>> GetMotdUrl()
+        public Task<OpenAIHttpOperationResult<ImageGenerationResponse, ErrorResponse>> GetMotdImageUrl()
         {
             return imageRequest;
-        }
-
-        public async Task<string> DownloadMotdImageBase64(string motdUrl)
-        {
-            if (motdImageBase64 is null)
-            {
-                var motdImageBytes = await httpClient.GetByteArrayAsync(motdUrl);
-                motdImageBase64 = Task.FromResult("data:image/png;base64," + Convert.ToBase64String(motdImageBytes));
-            }
-
-            return motdImageBase64.Result;
         }
     }
 }

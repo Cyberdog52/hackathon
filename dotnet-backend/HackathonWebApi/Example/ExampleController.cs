@@ -29,7 +29,7 @@ namespace HackathonWebApi.Controllers
         public async Task<ActionResult<MotdDto>> GetMessageOfTheDay()
         {
             var chatResponseRequest = exampleService.GetMotdContent();
-            var imageResponseRequest = exampleService.GetMotdUrl();
+            var imageResponseRequest = exampleService.GetMotdImageUrl();
 
             await Task.WhenAll(chatResponseRequest, imageResponseRequest);
 
@@ -47,17 +47,17 @@ namespace HackathonWebApi.Controllers
                 logger.LogError(chatResponse.Exception, "Could not get message of the day.");
             }
 
-            string? motdImageBase64String = null;
+            string? imageUrl = null;
             if (imageResponse.IsSuccess && imageResponse.Result is not null)
             {
-                motdImageBase64String = await exampleService.DownloadMotdImageBase64(imageResponse.Result.Data.First().Url);
+                imageUrl = imageResponse.Result.Data.First().Url;
             }
             else
             {
                 logger.LogError(imageResponse.Exception, "Could not get message of the day.");
             }
 
-            return new MotdDto(motdContent, motdImageBase64String);
+            return new MotdDto(motdContent, imageUrl);
         }
     }
 }
