@@ -1,20 +1,24 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { ExampleComponent } from "./example-component/example.component";
-import { HttpClientModule } from "@angular/common/http";
+import { ExampleModule } from "./example/example.module";
+import { MenuBarComponent } from "./shared/layout/menu-bar/menu-bar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ExampleComponent
+    MenuBarComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    ExampleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
