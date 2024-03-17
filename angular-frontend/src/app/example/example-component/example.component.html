@@ -1,12 +1,9 @@
 <section>
-  @defer (when isLoading) {
-    @if (exampleDto) {
-      <styled-title>{{exampleDto.name}} {{exampleDto.value}}</styled-title>
-    }
-    @else {
-      <styled-title>Is the backend running?</styled-title>
-    }
+  @if (!isLoading) {
+    <h1>{{exampleDto?.name}} {{exampleDto?.value}}</h1>
+    <styled-button (click)="loadExample()">Refresh</styled-button>
   }
-
-  <styled-button (click)="loadExample()">Refresh</styled-button>
+  @else {
+    <loading-page></loading-page>
+  }
 </section>

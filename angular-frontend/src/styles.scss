@@ -25,11 +25,20 @@ h5 {
 
 h1 {
   color: var(--secondary);
+  font-size: 4rem;
+  margin-bottom: 0;
+  padding-bottom: 3rem;
+}
+
+h2 {
+  font-size: 3rem;
+  margin-bottom: 0;
+  color: var(--tertiary);
+  padding-bottom: 2rem;
 }
 
 a:hover {
   color: var(--secondary);
-  ;
 }
 
 @font-face {
