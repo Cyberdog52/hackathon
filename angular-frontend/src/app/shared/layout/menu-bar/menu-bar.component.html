@@ -1,0 +1,30 @@
+<header>
+    <img src="assets/zuhlke-logo-rgb.png" alt="Zühlke logo">
+    <h1>Zühlke Hackathon 2024</h1>
+    <div>
+        @if (!isOpen()) {
+            <i class="material-icons" (click)="isOpen.set(true)">menu</i>
+        }
+        @else {
+            <i class="material-icons" (click)="isOpen.set(false)">close</i>
+        }
+    </div>
+</header>
+
+@if (isOpen()) {
+    <div class="overlay">
+        <section class="side-menu">
+            <nav>
+                <a routerLink="/" (click)="isOpen.set(false)">
+                    Home
+                </a>
+                <a routerLink="/other" (click)="isOpen.set(false)">
+                    Other Page
+                </a>
+                <a href="https://github.com/Cyberdog52/hackathon" target="_blank">
+                    GitHub
+                </a>
+            </nav>
+        </section>
+    </div>
+}
