@@ -1,7 +1,9 @@
 <section>
   @if (!isLoading) {
     <h1>{{exampleDto?.name}} {{exampleDto?.value}}</h1>
-    <styled-button (click)="loadExample()">Refresh</styled-button>
+    <h2>Message of the day: {{ motdDto?.content }}</h2>
+    <img [src]="motdDto?.imageUrl" alt="A cat engineering software."/>
+    <styled-button (click)="loadExamples()">Refresh</styled-button>
   }
   @else {
     <loading-page></loading-page>

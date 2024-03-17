@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { RemoteService } from "../../shared/remote-service/remote.service";
 import { ExampleDto } from "../model/example-dto.model";
+import { MotdDto } from "../model/MotdDto";
+import { firstValueFrom, forkJoin } from "rxjs";
 
 @Component({
   selector: "example-component",
@@ -9,21 +11,32 @@ import { ExampleDto } from "../model/example-dto.model";
 })
 export class ExampleComponent implements OnInit {
   public exampleDto?: ExampleDto;
+  public motdDto?: MotdDto;
   public isLoading = true;
 
   constructor(private remoteService: RemoteService) {
   }
 
   public ngOnInit(): void {
-    this.loadExample();
+    this.loadExamples();
   }
 
-  public async loadExample(): Promise<void> {
+  public async loadExamples(): Promise<void> {
     this.isLoading = true;
-    const exampleDto = await this.remoteService.get<ExampleDto>("");
-    if (exampleDto) {
-      this.exampleDto = exampleDto;
+    
+    const data = await firstValueFrom(forkJoin({
+      exampleDto: this.remoteService.get<ExampleDto>(""),
+      motdDto: this.remoteService.get<MotdDto>("motd")
+    }));
+
+    if (data.exampleDto) {
+      this.exampleDto = data.exampleDto;
     }
+
+    if (data.motdDto) {
+      this.motdDto = data.motdDto;
+    }
+
     this.isLoading = false;
   }
 }
