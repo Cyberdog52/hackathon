@@ -22,7 +22,7 @@ public class ExampleController {
             description = "This can be used to enrich swagger documentation")
     @ApiResponse(responseCode = "200", description = "Successfully returned example")
     @ApiResponse(responseCode = "500", description = "Something failed internally")
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<ExampleDto> getExample() {
         ExampleDto result;
         try {
