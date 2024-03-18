@@ -41,7 +41,7 @@ export default function MainPage() {
 
     function loadExample() {
         setExample(undefined);
-        remoteService.get<ExampleDto>('/example').then((response: ExampleDto) => {
+        remoteService.get<ExampleDto>('/example/').then((response: ExampleDto) => {
             console.log(response);
             setExample(response);
         });
