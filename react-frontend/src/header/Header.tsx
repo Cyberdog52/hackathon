@@ -112,14 +112,14 @@ export default function Header() {
                 <NavLink to="/other" onClick={closeSideBar}>
                     Other Page
                 </NavLink>
-                <NavLink to="https://github.com/Cyberdog52/hackathon">Github</NavLink>
+                <NavLink to="https://github.com/mattek96/hackathon">Github</NavLink>
             </Menu>
             <HeaderSection>
                 <Link to="/">
                     <Logo src={logo} alt="Logo"/>
                 </Link>
                 <NavLink to="/">
-                    <Title>Zühlke Hackathon 2024</Title>
+                    <Title>Ai Excercise Planner</Title>
                 </NavLink>
                 <HamburgerMenuPlaceholder></HamburgerMenuPlaceholder>
             </HeaderSection>
