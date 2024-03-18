@@ -26,7 +26,7 @@ public class AiService {
         List<ChatMessage> messages = List.of(message);
         ChatCompletionRequest chatRequest = ChatCompletionRequest.builder()
                 .messages(messages)
-                .model("gpt-3.5-turbo")
+                .model("gpt-4-0125-preview")
                 .maxTokens(100)
                 .n(1)
                 .build();
