@@ -1,4 +1,4 @@
-rootProject.name = 'Hackathon'
+rootProject.name = 'hackathon'
 include 'java-backend'
 include 'angular-frontend'
 include 'react-frontend'
