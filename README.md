@@ -1,4 +1,4 @@
-# Java Fullstack Hackathon 2024
+# .NET Fullstack Hackathon 2024
 
 ---
 

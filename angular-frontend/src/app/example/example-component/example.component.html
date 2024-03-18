@@ -1,9 +1,0 @@
-<section>
-  @if (!isLoading) {
-    <h1>{{exampleDto?.name}} {{exampleDto?.value}}</h1>
-    <styled-button (click)="loadExample()">Refresh</styled-button>
-  }
-  @else {
-    <loading-page></loading-page>
-  }
-</section>
